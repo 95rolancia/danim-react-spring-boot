@@ -2,7 +2,7 @@ package com.pd.danim.Dto;
 
 import javax.persistence.*;
 
-@Entity(name = "user")
+@Entity(name = "oauthid")
 public class oauthid {
 
 	@Id
