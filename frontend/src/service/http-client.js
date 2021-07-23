@@ -4,8 +4,12 @@ export class HttpClient {
   }
 
   async signIn(user) {
-    const res = await this.instance.post('/signin', user);
-    return res;
+    try {
+      const res = await this.instance.post('/signin', user);
+      return res;
+    } catch (error) {
+      throw new Error(`sign in error ${error}`);
+    }
   }
 
   async signUp(user) {
