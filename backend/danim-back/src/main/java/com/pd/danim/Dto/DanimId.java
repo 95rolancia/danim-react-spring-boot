@@ -13,8 +13,7 @@ public class DanimId {
 	
 	@Id
 	@Column(name = "id")
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private long id;
+	private String id;
 	
 	@OneToOne
 	@JoinColumn(name = "user_no")
