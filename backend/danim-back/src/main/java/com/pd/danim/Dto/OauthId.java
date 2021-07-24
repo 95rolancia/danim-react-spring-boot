@@ -3,7 +3,7 @@ package com.pd.danim.Dto;
 import javax.persistence.*;
 
 @Entity(name = "oauthid")
-public class oauthid {
+public class OauthId {
 
 	@Id
 	@Column(name = "id")
@@ -13,7 +13,5 @@ public class oauthid {
 	@OneToOne
 	@JoinColumn(name = "user_no")
 	private User user;
-	
-	@Column(name = "type")
-	private String type;
+
 }
