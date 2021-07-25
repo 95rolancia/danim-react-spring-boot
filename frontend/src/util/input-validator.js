@@ -1,6 +1,6 @@
 export class InputValidator {
   checkPassword = (pwd) => {
-    const regExp = /^[a-zA-Z0-9]{8,12}$/;
+    const regExp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,12}$/;
     if (regExp.test(pwd)) {
       return true;
     }
