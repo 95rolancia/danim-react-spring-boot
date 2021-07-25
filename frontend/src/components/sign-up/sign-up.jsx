@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
   },
   signUpBtn: {
     background:
-      'linear-gradient(90deg, rgba(145,197,255,0.9867297260701156) 30%, rgba(255,202,159,1) 100%)',
+      'linear-gradient(90deg, rgba(145,197,255,0.98) 30%, rgba(255,202,159,1) 100%)',
     border: 0,
     borderRadius: 50,
     boxShadow: '0 3px 5px 2px rgba(255,105,135, .3)',
@@ -72,11 +72,11 @@ function Alert(props) {
 const SignUp = () => {
   const classes = useStyles();
 
-  const [Email, setEmail] = useState('');
+  const [email, setEmail] = useState('');
   const [confirmEmail, setconfirmEmail] = useState(false);
-  const [Nickname, setNickname] = useState('');
+  const [nickname, setNickname] = useState('');
   const [confirmNickname, setConfirmNickname] = useState(false);
-  const [Password, setPassword] = useState('');
+  const [password, setPassword] = useState('');
   const [confirmPassword, setconfirmPassword] = useState(false);
   const [gender, setGender] = useState('');
   const [age, setAge] = useState(0);
@@ -84,14 +84,13 @@ const SignUp = () => {
   const [errorTextNickname, setErrorTextNickname] = useState('');
   const [errorTextPassword, setErrorTextPassword] = useState('');
   const [errorTextConfirm, setErrorTextConfirm] = useState('');
-  const [open, setOpen] = useState(false);
-  const [display, setDisplay] = useState('none');
-  const [code, setCode] = useState(0);
+  const [openError, setOpenError] = useState(false);
+  const [displayEmailAuth, setDisplayEmailAuth] = useState('none');
+  const [emailAuthCode, setEmailAuthCode] = useState(0);
   const [confirmCode, setConfirmCode] = useState(false);
-  const [disabled, setDisabled] = useState(false);
-  const handleGender = (e) => {
-    setGender(e.target.value);
-  };
+  const [disabledEmailInput, setDisabledEmailInput] = useState(false);
+
+  //========================Handle Start
 
   const handleEmail = (e) => {
     const email = e.target.value;
@@ -124,12 +123,16 @@ const SignUp = () => {
 
   const handleConfirm = (e) => {
     const confirm = e.target.value;
-    if (Password === confirm) {
+    if (password === confirm) {
       setconfirmPassword(true);
       setErrorTextConfirm('');
     } else {
       setErrorTextConfirm('비밀번호 불일치');
     }
+  };
+
+  const handleGender = (e) => {
+    setGender(e.target.value);
   };
 
   const handleAge = (e) => {
@@ -142,23 +145,26 @@ const SignUp = () => {
       return;
     }
 
-    setOpen(false);
+    setOpenError(false);
   };
 
   const handleDisplay = () => {
-    setDisplay('none');
-    setDisabled(false);
+    setDisplayEmailAuth('none');
+    setDisabledEmailInput(false);
   };
 
   const handleAuth = (e) => {
     const code = e.target.value;
-    setCode(code);
+    setEmailAuthCode(code);
   };
 
+  //========================Handle End
+  //========================Send Start
+
   const sendEmail = () => {
-    if (Email) {
+    if (email) {
       //백엔드 통신
-      setDisplay('block');
+      setDisplayEmailAuth('block');
       setconfirmEmail(true);
     } else {
       setconfirmEmail(false);
@@ -166,7 +172,7 @@ const SignUp = () => {
   };
 
   const sendNickname = () => {
-    if (InputValidator.checkNickname(Nickname)) {
+    if (InputValidator.checkNickname(nickname)) {
       setErrorTextNickname('');
       //백엔드 통신? 사용 가능하면 true로.
       setConfirmNickname(true);
@@ -176,14 +182,16 @@ const SignUp = () => {
     }
   };
 
-  const checkCode = () => {
-    alert(code);
-    setDisabled(true);
+  //========================Send end
+
+  const checkEmailAuthCode = () => {
+    alert(emailAuthCode);
+    setDisabledEmailInput(true);
     //백엔드 통신 후 바꿔주기
     setConfirmCode(true);
   };
 
-  const submit = async (e) => {
+  const submitForm = async (e) => {
     e.preventDefault();
     if (
       !confirmEmail ||
@@ -193,10 +201,10 @@ const SignUp = () => {
       gender === '' ||
       age === 0
     ) {
-      setOpen(true);
+      setOpenError(true);
     } else {
       const res = HttpClient.signUp(
-        new SignUpDto(Email, Password, Nickname, gender, age),
+        new SignUpDto(email, password, nickname, gender, age),
       );
       console.log(res);
     }
@@ -216,7 +224,7 @@ const SignUp = () => {
             error={errorTextEmail !== '' ? true : false}
             onChange={handleEmail}
             helperText={errorTextEmail}
-            disabled={disabled}
+            disabled={disabledEmailInput}
           />
           <Button
             variant="outlined"
@@ -228,12 +236,12 @@ const SignUp = () => {
             <SendIcon className={classes.icons} />
           </Button>
         </div>
-        <Box display={display}>
+        <Box display={displayEmailAuth}>
           <Typography variant="h6" gutterBottom>
             이메일 인증
           </Typography>
           <Typography variant="caption" display="block">
-            {Email}으로 <br />
+            {email}으로 <br />
             전송된 인증번호를 입력해주세요.
           </Typography>
 
@@ -259,7 +267,7 @@ const SignUp = () => {
               variant="outlined"
               color="primary"
               size="large"
-              onClick={checkCode}
+              onClick={checkEmailAuthCode}
               aria-label="Close box"
             >
               확인
@@ -310,7 +318,7 @@ const SignUp = () => {
             helperText={errorTextConfirm}
           />
         </div>
-        <Divider primary="Spam" />
+        <Divider light />
         <div className={classes.section}></div>
         <div>
           <FormControl component="fieldset">
@@ -347,14 +355,23 @@ const SignUp = () => {
           }}
         />
         <div className={classes.divider}></div>
-        <Button className={classes.signUpBtn} onClick={submit}>
+        <Button className={classes.signUpBtn} onClick={submitForm}>
           가입하기
         </Button>
-        <Snackbar open={open} autoHideDuration={700} onClose={handleClose}>
+        <Snackbar open={openError} autoHideDuration={700} onClose={handleClose}>
           <Alert onClose={handleClose} severity="error">
             올바른 정보를 기입해주세요.
           </Alert>
         </Snackbar>
+        {/*remove Start*/}
+        <div>
+          <h1>테스트용 value</h1>
+          <h3>dudwnsh85@naver.com</h3>
+          <h3>영구</h3>
+          <h3>asdf12345</h3>
+          <h3>asdf12345</h3>
+        </div>
+        {/*remove End*/}
       </form>
     </Container>
   );
