@@ -12,52 +12,52 @@ import {
   Snackbar,
   Divider,
   Box,
-} from "@material-ui/core";
-import SendIcon from "@material-ui/icons/Send";
-import CheckIcon from "@material-ui/icons/Check";
-import MuiAlert from "@material-ui/lab/Alert";
-import React from "react";
-import { useState } from "react";
-import { InputValidator } from "../../util/input-validator";
+} from '@material-ui/core';
+import SendIcon from '@material-ui/icons/Send';
+import CheckIcon from '@material-ui/icons/Check';
+import MuiAlert from '@material-ui/lab/Alert';
+import React from 'react';
+import { useState } from 'react';
+import { InputValidator } from '../../util/input-validator';
 const validator = new InputValidator();
 const useStyles = makeStyles((theme) => ({
   root: {
-    "& .MuiTextField-root": {
+    '& .MuiTextField-root': {
       margin: theme.spacing(1),
-      width: "100%",
+      width: '100%',
     },
   },
   input: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    width: "20rem",
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '20rem',
   },
   inputfill: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    width: "20rem",
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '20rem',
   },
   icons: {
-    color: "#0091ea",
+    color: '#0091ea',
   },
   signUpBtn: {
     background:
-      "linear-gradient(90deg, rgba(145,197,255,0.9867297260701156) 30%, rgba(255,202,159,1) 100%)",
+      'linear-gradient(90deg, rgba(145,197,255,0.9867297260701156) 30%, rgba(255,202,159,1) 100%)',
     border: 0,
     borderRadius: 50,
-    boxShadow: "0 3px 5px 2px rgba(255,105,135, .3)",
-    color: "white",
-    height: "3em",
-    width: "10em",
+    boxShadow: '0 3px 5px 2px rgba(255,105,135, .3)',
+    color: 'white',
+    height: '3em',
+    width: '10em',
     margin: theme.spacing(2),
   },
   containerWrap: {
-    textAlign: "center",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+    textAlign: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   section: {
     margin: theme.spacing(3),
@@ -70,20 +70,20 @@ function Alert(props) {
 const SignUp = () => {
   const classes = useStyles();
 
-  const [Email, setEmail] = useState("");
+  const [Email, setEmail] = useState('');
   const [confirmEmail, setconfirmEmail] = useState(false);
-  const [Nickname, setNickname] = useState("");
+  const [Nickname, setNickname] = useState('');
   const [confirmNickname, setConfirmNickname] = useState(false);
-  const [Password, setPassword] = useState("");
+  const [Password, setPassword] = useState('');
   const [confirmPassword, setconfirmPassword] = useState(false);
-  const [gender, setGender] = useState("");
+  const [gender, setGender] = useState('');
   const [age, setAge] = useState(0);
-  const [errorTextEmail, setErrorTextEmail] = useState("");
-  const [errorTextNickname, setErrorTextNickname] = useState("");
-  const [errorTextPassword, setErrorTextPassword] = useState("");
-  const [errorTextConfirm, setErrorTextConfirm] = useState("");
+  const [errorTextEmail, setErrorTextEmail] = useState('');
+  const [errorTextNickname, setErrorTextNickname] = useState('');
+  const [errorTextPassword, setErrorTextPassword] = useState('');
+  const [errorTextConfirm, setErrorTextConfirm] = useState('');
   const [open, setOpen] = useState(false);
-  const [display, setDisplay] = useState("none");
+  const [display, setDisplay] = useState('none');
   const [code, setCode] = useState(0);
   const [confirmCode, setConfirmCode] = useState(false);
   const [disabled, setDisabled] = useState(false);
@@ -95,10 +95,10 @@ const SignUp = () => {
     const email = e.target.value;
     if (validator.checkEmail(email)) {
       setEmail(email);
-      setErrorTextEmail("");
+      setErrorTextEmail('');
     } else {
-      setEmail("");
-      setErrorTextEmail("올바른 이메일을 입력해주세요.");
+      setEmail('');
+      setErrorTextEmail('올바른 이메일을 입력해주세요.');
     }
     setconfirmEmail(false);
   };
@@ -112,10 +112,10 @@ const SignUp = () => {
     const password = e.target.value;
     if (validator.checkPassword(password)) {
       setPassword(password);
-      setErrorTextPassword("");
+      setErrorTextPassword('');
     } else {
-      setPassword("");
-      setErrorTextPassword("비밀번호는 영문,숫자 포함 8~12글자입니다.");
+      setPassword('');
+      setErrorTextPassword('비밀번호는 영문,숫자 포함 8~12글자입니다.');
     }
     setconfirmPassword(false);
   };
@@ -124,9 +124,9 @@ const SignUp = () => {
     const confirm = e.target.value;
     if (Password === confirm) {
       setconfirmPassword(true);
-      setErrorTextConfirm("");
+      setErrorTextConfirm('');
     } else {
-      setErrorTextConfirm("비밀번호 불일치");
+      setErrorTextConfirm('비밀번호 불일치');
     }
   };
 
@@ -136,7 +136,7 @@ const SignUp = () => {
   };
 
   const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
+    if (reason === 'clickaway') {
       return;
     }
 
@@ -144,7 +144,7 @@ const SignUp = () => {
   };
 
   const handleDisplay = () => {
-    setDisplay("none");
+    setDisplay('none');
     setDisabled(false);
   };
 
@@ -156,7 +156,7 @@ const SignUp = () => {
   const sendEmail = () => {
     if (Email) {
       //백엔드 통신
-      setDisplay("block");
+      setDisplay('block');
       setconfirmEmail(true);
     } else {
       setconfirmEmail(false);
@@ -165,11 +165,11 @@ const SignUp = () => {
 
   const sendNickname = () => {
     if (validator.checkNickname(Nickname)) {
-      setErrorTextNickname("");
+      setErrorTextNickname('');
       //백엔드 통신? 사용 가능하면 true로.
       setConfirmNickname(true);
     } else {
-      setErrorTextNickname("닉네임은 한글, 영문포함 2~12글자만 가능합니다.");
+      setErrorTextNickname('닉네임은 한글, 영문포함 2~12글자만 가능합니다.');
       setConfirmNickname(false);
     }
   };
@@ -187,7 +187,7 @@ const SignUp = () => {
       !confirmPassword ||
       !confirmNickname ||
       !confirmCode ||
-      gender === "" ||
+      gender === '' ||
       age === 0
     ) {
       setOpen(true);
@@ -213,7 +213,7 @@ const SignUp = () => {
             id="outlined-required"
             label="이메일 아이디"
             variant="outlined"
-            error={errorTextEmail !== "" ? true : false}
+            error={errorTextEmail !== '' ? true : false}
             onChange={handleEmail}
             helperText={errorTextEmail}
             disabled={disabled}
@@ -240,13 +240,13 @@ const SignUp = () => {
           <TextField
             id="standard-password-input"
             type="password"
-            style={{ width: "10em" }}
+            style={{ width: '10em' }}
             onChange={handleAuth}
           ></TextField>
 
           <div>
             <Button
-              style={{ marginRight: "0.5em" }}
+              style={{ marginRight: '0.5em' }}
               variant="outlined"
               color="secondary"
               size="large"
@@ -273,7 +273,7 @@ const SignUp = () => {
             label="닉네임"
             variant="outlined"
             onChange={handleNickname}
-            error={errorTextNickname !== "" ? true : false}
+            error={errorTextNickname !== '' ? true : false}
             helperText={errorTextNickname}
           />
           <Button
@@ -294,7 +294,7 @@ const SignUp = () => {
             type="password"
             variant="outlined"
             onChange={handlePassword}
-            error={errorTextPassword !== "" ? true : false}
+            error={errorTextPassword !== '' ? true : false}
             helperText={errorTextPassword}
           />
         </div>
@@ -306,7 +306,7 @@ const SignUp = () => {
             type="password"
             variant="outlined"
             onChange={handleConfirm}
-            error={errorTextConfirm !== "" ? true : false}
+            error={errorTextConfirm !== '' ? true : false}
             helperText={errorTextConfirm}
           />
         </div>
@@ -315,9 +315,22 @@ const SignUp = () => {
         <div>
           <FormControl component="fieldset">
             <FormLabel component="legend">성별</FormLabel>
-            <RadioGroup row aria-label="gender" name="genderValue" onChange={handleGender}>
-              <FormControlLabel value="F" control={<Radio color="primary" />} label="여자" />
-              <FormControlLabel value="M" control={<Radio color="primary" />} label="남자" />
+            <RadioGroup
+              row
+              aria-label="gender"
+              name="genderValue"
+              onChange={handleGender}
+            >
+              <FormControlLabel
+                value="F"
+                control={<Radio color="primary" />}
+                label="여자"
+              />
+              <FormControlLabel
+                value="M"
+                control={<Radio color="primary" />}
+                label="남자"
+              />
             </RadioGroup>
           </FormControl>
         </div>
@@ -328,7 +341,7 @@ const SignUp = () => {
           label="나이"
           type="number"
           onChange={handleAge}
-          style={{ width: "10em" }}
+          style={{ width: '10em' }}
           InputProps={{
             inputProps: { min: 15, max: 100 },
           }}
