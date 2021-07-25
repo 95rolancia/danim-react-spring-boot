@@ -1,3 +1,5 @@
+
+
 use danim;
 
 # 확인하고 지울 것
@@ -9,10 +11,9 @@ use danim;
 CREATE TABLE `User` (
   `user_no` bigint(20) NOT NULL AUTO_INCREMENT,
   `nickname` varchar(15) NOT NULL,
-  `role_id` int(3) DEFAULT NULL,
   `gender` varchar(1) default null,
   `age` int,  
-  `role` varchar(20) default 'member', 
+  `role` ENUM('BANNED', 'MEMBER', 'ADMIN', 'DELETED') default 'member', 
   `created_date` datetime,
   PRIMARY KEY (`user_no`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
@@ -34,5 +35,8 @@ create table `danimid`(
 	 FOREIGN KEY (`user_no`) REFERENCES `user`(`user_no`)
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
+use danim;
+select * from user;
+select * from danimid;
 
 
