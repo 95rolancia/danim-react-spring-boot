@@ -18,8 +18,8 @@ import CheckIcon from '@material-ui/icons/Check';
 import MuiAlert from '@material-ui/lab/Alert';
 import React from 'react';
 import { useState } from 'react';
-import { InputValidator } from '../../util/input-validator';
-const validator = new InputValidator();
+import InputValidator from '../../util/input-validator';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
@@ -93,7 +93,7 @@ const SignUp = () => {
 
   const handleEmail = (e) => {
     const email = e.target.value;
-    if (validator.checkEmail(email)) {
+    if (InputValidator.checkEmail(email)) {
       setEmail(email);
       setErrorTextEmail('');
     } else {
@@ -110,7 +110,7 @@ const SignUp = () => {
 
   const handlePassword = (e) => {
     const password = e.target.value;
-    if (validator.checkPassword(password)) {
+    if (InputValidator.checkPassword(password)) {
       setPassword(password);
       setErrorTextPassword('');
     } else {
@@ -164,7 +164,7 @@ const SignUp = () => {
   };
 
   const sendNickname = () => {
-    if (validator.checkNickname(Nickname)) {
+    if (InputValidator.checkNickname(Nickname)) {
       setErrorTextNickname('');
       //백엔드 통신? 사용 가능하면 true로.
       setConfirmNickname(true);
