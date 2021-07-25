@@ -19,6 +19,8 @@ import MuiAlert from '@material-ui/lab/Alert';
 import React from 'react';
 import { useState } from 'react';
 import InputValidator from '../../util/input-validator';
+import { SignUpDto } from '../../model/sign-up-dto';
+import HttpClient from '../../service/http-client';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -181,7 +183,8 @@ const SignUp = () => {
     setConfirmCode(true);
   };
 
-  const submit = () => {
+  const submit = async (e) => {
+    e.preventDefault();
     if (
       !confirmEmail ||
       !confirmPassword ||
@@ -192,13 +195,10 @@ const SignUp = () => {
     ) {
       setOpen(true);
     } else {
-      console.log({
-        Email,
-        Password,
-        Nickname,
-        gender,
-        age,
-      });
+      const res = HttpClient.signUp(
+        new SignUpDto(Email, Password, Nickname, gender, age),
+      );
+      console.log(res);
     }
   };
   return (
