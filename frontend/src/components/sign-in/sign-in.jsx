@@ -10,8 +10,9 @@ import { Typography } from '@material-ui/core';
 import { TextField } from '@material-ui/core';
 import { FormControlLabel } from '@material-ui/core';
 import { Grid } from '@material-ui/core';
-import { Link } from '@material-ui/core'
-
+import { Link } from '@material-ui/core';
+import HttpClient from '../../service/http-client';
+import { SignInDto } from '../../model/sign-in-dto';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -21,32 +22,32 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
   form: {
-    width:'100%',
+    width: '100%',
     marginTop: theme.spacing(1),
   },
   submit_button: {
     marginTop: theme.spacing(2),
     padding: theme.spacing(2),
-    borderRadius: ""
+    borderRadius: '',
   },
   grid_items: {
-    padding : theme.spacing(0.5),
-    textAlign: "center",
+    padding: theme.spacing(0.5),
+    textAlign: 'center',
   },
   grid_items_bar: {
-    padding : theme.spacing(0.5),
-    textAlign: "center",
-    borderRight: "solid 0.1em",
-  }
+    padding: theme.spacing(0.5),
+    textAlign: 'center',
+    borderRight: 'solid 0.1em',
+  },
 }));
 
 // https://www.bezkoder.com/react-hooks-jwt-auth/ 참고
 const SignIn = () => {
   // material ui 쓰려고 만든 것
   const classes = useStyles();
-  
-  const [email, setEmail] = useState("");
-  const [pwd, setPwd] = useState("");
+
+  const [email, setEmail] = useState('');
+  const [pwd, setPwd] = useState('');
   // 아이디 저장은 또 어떻게 구현하지... 일단 다음에 생각
   // const [checkbox, setCheckbox] = useState(false);
 
@@ -60,7 +61,7 @@ const SignIn = () => {
     const email = e.target.value;
     setEmail(email);
     // if (email === "") {
-    //   // 이메일칸이 공란이면 helper text를 비워둔다 
+    //   // 이메일칸이 공란이면 helper text를 비워둔다
     //   setEmailHelperText("")
     // } else if (!checkEmail(email)) {
     //   // 이메일 체크가 false인 경우, helper text 출력
@@ -72,7 +73,7 @@ const SignIn = () => {
     const pwd = e.target.value;
     setPwd(pwd);
     // if (pwd === "") {
-    //   // 이메일칸이 공란이면 helper text를 비워둔다 
+    //   // 이메일칸이 공란이면 helper text를 비워둔다
     //   setPwdHelperText("")
     // } else if (!checkEmail(pwd)) {
     //   // 이메일 체크가 false인 경우, helper text 출력
@@ -80,16 +81,23 @@ const SignIn = () => {
     // }
   };
 
-  const handleSubmit = (e) => {
-    console.log(pwd, email)
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const res = await HttpClient.signIn(new SignInDto(email, pwd));
+    // res 처리
+    console.log(res);
   };
 
-  return(
+  return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline/>
+      <CssBaseline />
       <div className={classes.paper}>
-        <Typography component="h1" variant="h3" align="center">다님</Typography>
-        <Typography component="h1" variant="h5" align="center">DANIM</Typography>
+        <Typography component="h1" variant="h3" align="center">
+          다님
+        </Typography>
+        <Typography component="h1" variant="h5" align="center">
+          DANIM
+        </Typography>
         <form className={classes.form}>
           <TextField
             variant="outlined"
@@ -118,18 +126,24 @@ const SignIn = () => {
             onChange={onChangePwd}
           />
           <FormControlLabel
-            control={<Checkbox value="remember" color="primary"/>}
+            control={<Checkbox value="remember" color="primary" />}
             label="아이디 저장"
           />
           <Grid container>
             <Grid item xs={4} className={classes.grid_items_bar}>
-              <Link href="#" color="inherit">아이디 찾기</Link>
+              <Link href="#" color="inherit">
+                아이디 찾기
+              </Link>
             </Grid>
             <Grid item xs={4} className={classes.grid_items_bar}>
-              <Link href="#" color="inherit">비밀번호 찾기</Link>
+              <Link href="#" color="inherit">
+                비밀번호 찾기
+              </Link>
             </Grid>
             <Grid item xs={4} className={classes.grid_items}>
-              <Link href="#" color="inherit">회원가입</Link>
+              <Link href="#" color="inherit">
+                회원가입
+              </Link>
             </Grid>
           </Grid>
           <Button

@@ -1,4 +1,6 @@
-export class HttpClient {
+import { instance } from './http-instance';
+
+class HttpClient {
   constructor(instance) {
     this.instance = instance;
   }
@@ -21,3 +23,5 @@ export class HttpClient {
     }
   }
 }
+
+export default new HttpClient(instance);
