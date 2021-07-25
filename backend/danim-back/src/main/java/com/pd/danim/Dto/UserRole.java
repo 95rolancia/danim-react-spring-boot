@@ -6,5 +6,5 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum UserRole {
-	BANNED, USER, ADMIN, SECESSSION;
+	BANNED, MEMBER, ADMIN, DELETED;
 }
