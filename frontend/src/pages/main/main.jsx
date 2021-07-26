@@ -1,18 +1,16 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Search from './pages/search/search'
-import Trip from './pages/trip/trip'
-import Bookmark from './pages/bookmark/bookmark'
-import Profile from './pages/profile/profile'
-import Navbar from './components/navbar/navbar';
+import Search from '../search/search';
+import Trip from '../trip/trip';
+import Bookmark from '../bookmark/bookmark';
+import Profile from '../profile/profile';
+import Navbar from '../../components/navbar/navbar';
 
-const Main = (props) => {
+const Main = () => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/" exact>
-        
-        </Route>
+        <Route path="/" exact></Route>
         <Route path="/search" exact>
           <Search />
         </Route>
@@ -29,6 +27,6 @@ const Main = (props) => {
       <Navbar />
     </BrowserRouter>
   );
-}
+};
 
 export default Main;
