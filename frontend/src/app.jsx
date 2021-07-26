@@ -16,7 +16,7 @@ function App() {
         <Link to="/search">Search</Link>
         <Link to="/trip">Trip</Link>
         <Link to="/bookmark">Bookmark</Link>
-        <Link to="/my">My</Link>
+        <Link to="/profile">Profile</Link>
       </nav>
       <Switch>
         <Route path={['/', '/signin']} exact>
