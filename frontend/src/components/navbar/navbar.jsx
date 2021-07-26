@@ -6,37 +6,42 @@ const Navbar = (props) => {
   return (
     <nav>
       <button
-      onClick={() => {
-        history.push('/main');
-      }}>
+        onClick={() => {
+          history.push('/');
+        }}
+      >
         Main
       </button>
       <button
-      onClick={() => {
-        history.push('/search');
-      }}>
+        onClick={() => {
+          history.push('/search');
+        }}
+      >
         Search
       </button>
       <button
-      onClick={() => {
-        history.push('/trip');
-      }}>
+        onClick={() => {
+          history.push('/trip');
+        }}
+      >
         Trip
       </button>
       <button
-      onClick={() => {
-        history.push('/bookmark');
-      }}>
+        onClick={() => {
+          history.push('/bookmark');
+        }}
+      >
         Bookmark
       </button>
       <button
-      onClick={() => {
-        history.push('/profile');
-      }}>
+        onClick={() => {
+          history.push('/profile');
+        }}
+      >
         Profile
       </button>
     </nav>
   );
-}
+};
 
 export default Navbar;
