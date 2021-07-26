@@ -1,9 +1,9 @@
 export class SignUpDto {
-  constructor(userId, userPwd, userNickname, userGender, userAge) {
+  constructor(userId, password, nickname, gender, age) {
     this.userId = userId;
-    this.userPwd = userPwd;
-    this.userNickname = userNickname;
-    this.userGender = userGender;
-    this.userAge = userAge;
+    this.password = password;
+    this.nickname = nickname;
+    this.gender = gender;
+    this.age = age;
   }
 }
