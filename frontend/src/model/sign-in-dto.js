@@ -1,6 +1,6 @@
 export class SignInDto {
-  constructor(userId, userPwd) {
+  constructor(userId, password) {
     this.userId = userId;
-    this.userPwd = userPwd;
+    this.password = password;
   }
 }
