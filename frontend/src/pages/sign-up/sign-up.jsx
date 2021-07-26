@@ -90,8 +90,6 @@ const SignUp = () => {
   const [confirmCode, setConfirmCode] = useState(false);
   const [disabledEmailInput, setDisabledEmailInput] = useState(false);
 
-  //========================Handle Start
-
   const handleEmail = (e) => {
     const email = e.target.value;
     if (InputValidator.checkEmail(email)) {
@@ -158,12 +156,9 @@ const SignUp = () => {
     setEmailAuthCode(code);
   };
 
-  //========================Handle End
-  //========================Send Start
-
   const sendEmail = () => {
     if (email) {
-      //백엔드 통신
+      //백엔드 통신 -> 코드 보내기
       setDisplayEmailAuth('block');
       setconfirmEmail(true);
     } else {
@@ -174,7 +169,7 @@ const SignUp = () => {
   const sendNickname = () => {
     if (InputValidator.checkNickname(nickname)) {
       setErrorTextNickname('');
-      //백엔드 통신? 사용 가능하면 true로.
+      //백엔드 통신-> 사용가능하다면 true로
       setConfirmNickname(true);
     } else {
       setErrorTextNickname('닉네임은 한글, 영문포함 2~12글자만 가능합니다.');
@@ -182,12 +177,10 @@ const SignUp = () => {
     }
   };
 
-  //========================Send end
-
   const checkEmailAuthCode = () => {
     alert(emailAuthCode);
     setDisabledEmailInput(true);
-    //백엔드 통신 후 바꿔주기
+    //백엔드 통신-> code가 일치한다면 true로
     setConfirmCode(true);
   };
 
@@ -363,15 +356,6 @@ const SignUp = () => {
             올바른 정보를 기입해주세요.
           </Alert>
         </Snackbar>
-        {/*remove Start*/}
-        <div>
-          <h1>테스트용 value</h1>
-          <h3>dudwnsh85@naver.com</h3>
-          <h3>영구</h3>
-          <h3>asdf12345</h3>
-          <h3>asdf12345</h3>
-        </div>
-        {/*remove End*/}
       </form>
     </Container>
   );
