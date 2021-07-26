@@ -12,13 +12,6 @@ import Navbar from './components/navbar/navbar';
 function App() {
   return (
     <BrowserRouter>
-      {/* <nav>
-        <Link to="/main">Main</Link>
-        <Link to="/search">Search</Link>
-        <Link to="/trip">Trip</Link>
-        <Link to="/bookmark">Bookmark</Link>
-        <Link to="/profile">Profile</Link>
-      </nav> */}
       <Switch>
         <Route path={['/', '/signin']} exact>
           <SignIn />
