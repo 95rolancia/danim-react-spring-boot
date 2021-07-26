@@ -7,7 +7,7 @@ class HttpClient {
 
   async signIn(user) {
     try {
-      const res = await this.instance.post('/signin', user);
+      const res = await this.instance.post('/auth/signin', user);
       return res;
     } catch (error) {
       throw new Error(`sign in error ${error}`);
