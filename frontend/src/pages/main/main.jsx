@@ -5,10 +5,12 @@ import Trip from '../trip/trip';
 import Bookmark from '../bookmark/bookmark';
 import Profile from '../profile/profile';
 import Navbar from '../../components/navbar/navbar';
+import Header from '../../components/header/header';
 
 const Main = () => {
   return (
     <BrowserRouter>
+      <Header />
       <Switch>
         <Route path="/" exact></Route>
         <Route path="/search" exact>
