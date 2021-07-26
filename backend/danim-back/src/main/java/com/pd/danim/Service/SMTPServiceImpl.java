@@ -1,5 +1,6 @@
 package com.pd.danim.Service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
@@ -13,16 +14,16 @@ import lombok.RequiredArgsConstructor;
 public class SMTPServiceImpl implements SMTPService {
 	
 	
-	
+	@Autowired
 	private JavaMailSender emailSender;
 	
 	
 	@Async
 	@Override
 	public void sendMail(String to, String sub, String text) {
-		SimpleMailMessage message = new SimpleMailMessage();
-		message.setTo(to);
-		message.setSubject(sub);
+		SimpleMailMessage message = new SimpleMailMessage();		
+		message.setTo(to);		
+		message.setSubject(sub);		
 		message.setText(text);
 		emailSender.send(message);
 		
