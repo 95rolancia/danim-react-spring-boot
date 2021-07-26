@@ -8,7 +8,9 @@ import javassist.NotFoundException;
 
 public interface SignUpService {
 	boolean signUpUser(SignUpForm userForm);
-
-	void sendVerificationMail(DanimId danimId) throws NotFoundException;
-	
+	public boolean checkNickname(String nickname);
+	boolean checkDuplicateEmail(String userId);
+	boolean checkValidityEmail(String userId);
+	boolean sendVerificationMail(String userId);
+	boolean verifyEmail(String key, String userId);
 }

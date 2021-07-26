@@ -11,6 +11,13 @@ public class SignUpForm {
 	private String nickname;
 	private int age;	
 	private String gender;
+	private String key;
+	public String getKey() {
+		return key;
+	}
+	public void setKey(String key) {
+		this.key = key;
+	}
 	public String getUserId() {
 		return userId;
 	}
