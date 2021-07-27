@@ -204,7 +204,7 @@ const SignUp = observer(({ authStore }) => {
     ) {
       setOpenError(true);
     } else {
-      const res = HttpClient.signUp(
+      const res = await HttpClient.signUp(
         new SignUpDto(email, password, nickname, gender, age),
       );
       console.log(res);
