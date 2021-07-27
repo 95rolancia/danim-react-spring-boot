@@ -13,6 +13,7 @@ import { Grid } from '@material-ui/core';
 import { Link } from '@material-ui/core';
 import HttpClient from '../../service/http-client';
 import { SignInDto } from '../../model/sign-in-dto';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -45,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
 const SignIn = () => {
   // material ui 쓰려고 만든 것
   const classes = useStyles();
+  const history = useHistory();
 
   const [email, setEmail] = useState('');
   const [pwd, setPwd] = useState('');
@@ -141,7 +143,7 @@ const SignIn = () => {
               </Link>
             </Grid>
             <Grid item xs={4} className={classes.grid_items}>
-              <Link href="#" color="inherit">
+              <Link onClick={() => history.push('/signup')} color="inherit">
                 회원가입
               </Link>
             </Grid>
