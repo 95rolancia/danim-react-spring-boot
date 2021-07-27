@@ -21,6 +21,7 @@ import { useState } from 'react';
 import InputValidator from '../../util/input-validator';
 import { SignUpDto } from '../../model/sign-up-dto';
 import HttpClient from '../../service/http-client';
+import { observer } from 'mobx-react-lite';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -69,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
-const SignUp = () => {
+const SignUp = observer(({ authStore }) => {
   const classes = useStyles();
 
   const [email, setEmail] = useState('');
@@ -160,6 +161,9 @@ const SignUp = () => {
     if (email) {
       //백엔드 통신 -> 코드 보내기
       setDisplayEmailAuth('block');
+      authStore.duplicateCheckEmail({
+        userId: email,
+      });
       setconfirmEmail(true);
     } else {
       setconfirmEmail(false);
@@ -179,6 +183,10 @@ const SignUp = () => {
 
   const checkEmailAuthCode = () => {
     alert(emailAuthCode);
+    authStore.authEmailCode({
+      userId: email,
+      key: emailAuthCode,
+    });
     setDisabledEmailInput(true);
     //백엔드 통신-> code가 일치한다면 true로
     setConfirmCode(true);
@@ -196,7 +204,7 @@ const SignUp = () => {
     ) {
       setOpenError(true);
     } else {
-      const res = HttpClient.signUp(
+      const res = await HttpClient.signUp(
         new SignUpDto(email, password, nickname, gender, age),
       );
       console.log(res);
@@ -359,6 +367,6 @@ const SignUp = () => {
       </form>
     </Container>
   );
-};
+});
 
 export default SignUp;
