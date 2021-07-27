@@ -18,9 +18,9 @@ import CheckIcon from '@material-ui/icons/Check';
 import MuiAlert from '@material-ui/lab/Alert';
 import React from 'react';
 import { useState } from 'react';
-import InputValidator from '../../util/input-validator';
-import { SignUpDto } from '../../model/sign-up-dto';
-import HttpClient from '../../service/http-client';
+import InputValidator from '../../../util/input-validator';
+import { SignUpDto } from '../../../model/sign-up-dto';
+import HttpClient from '../../../service/http-client';
 import { observer } from 'mobx-react-lite';
 
 const useStyles = makeStyles((theme) => ({
@@ -86,7 +86,6 @@ const SignUp = observer(({ authStore }) => {
   const [openError, setOpenError] = useState(false);
   const [displayEmailAuth, setDisplayEmailAuth] = useState('none');
   const [emailAuthCode, setEmailAuthCode] = useState(0);
-  const [confirmCode, setConfirmCode] = useState(false);
   const [disabledEmailInput, setDisabledEmailInput] = useState(false);
 
   const handleEmail = (e) => {
@@ -175,15 +174,12 @@ const SignUp = observer(({ authStore }) => {
     }
   };
 
-  const checkEmailAuthCode = () => {
-    alert(emailAuthCode);
-    authStore.authEmailCode({
+  const checkEmailAuthCode = async () => {
+    await authStore.authEmailCode({
       userId: email,
       key: emailAuthCode,
     });
     setDisabledEmailInput(true);
-    //백엔드 통신-> code가 일치한다면 true로
-    setConfirmCode(true);
   };
 
   const submitForm = async (e) => {
@@ -192,7 +188,7 @@ const SignUp = observer(({ authStore }) => {
       !authStore.isEmailDuplicated ||
       !confirmPassword ||
       !authStore.isNickNameDuplicated ||
-      !confirmCode ||
+      !authStore.isEmailCodeAuthroized ||
       gender === '' ||
       age === 0
     ) {

@@ -4,6 +4,7 @@ class AuthStore {
   isLoggedIn = false;
   isEmailDuplicated = false;
   isNickNameDuplicated = false;
+  isEmailCodeAuthroized = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -18,15 +19,16 @@ class AuthStore {
 
   async duplicateCheckEmail(email) {
     const res = await HttpClient.duplicateCheckEmail(email);
-    if (res.status === 409 && res.data === 'duplicate') {
+    if (res.status === 403 && res.data === 'duplicate') {
       this.isEmailDuplicated = true;
     }
   }
 
   async authEmailCode(emailAndCode) {
     const res = await HttpClient.authEmailCode(emailAndCode);
-    console.log(res);
-    return res;
+    if (res.status === 409 && res.data === 'not authorized') {
+      this.isEmailCodeAuthroized = true;
+    }
   }
 
   async duplicateCheckNickname(nickname) {
