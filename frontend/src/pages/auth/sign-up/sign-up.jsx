@@ -18,9 +18,9 @@ import CheckIcon from '@material-ui/icons/Check';
 import MuiAlert from '@material-ui/lab/Alert';
 import React from 'react';
 import { useState } from 'react';
-import InputValidator from '../../util/input-validator';
-import { SignUpDto } from '../../model/sign-up-dto';
-import HttpClient from '../../service/http-client';
+import InputValidator from '../../../util/input-validator';
+import { SignUpDto } from '../../../model/sign-up-dto';
+import HttpClient from '../../../service/http-client';
 import { observer } from 'mobx-react-lite';
 
 const useStyles = makeStyles((theme) => ({
@@ -74,9 +74,7 @@ const SignUp = observer(({ authStore }) => {
   const classes = useStyles();
 
   const [email, setEmail] = useState('');
-  const [confirmEmail, setconfirmEmail] = useState(false);
   const [nickname, setNickname] = useState('');
-  const [confirmNickname, setConfirmNickname] = useState(false);
   const [password, setPassword] = useState('');
   const [confirmPassword, setconfirmPassword] = useState(false);
   const [gender, setGender] = useState('');
@@ -88,7 +86,6 @@ const SignUp = observer(({ authStore }) => {
   const [openError, setOpenError] = useState(false);
   const [displayEmailAuth, setDisplayEmailAuth] = useState('none');
   const [emailAuthCode, setEmailAuthCode] = useState(0);
-  const [confirmCode, setConfirmCode] = useState(false);
   const [disabledEmailInput, setDisabledEmailInput] = useState(false);
 
   const handleEmail = (e) => {
@@ -100,12 +97,10 @@ const SignUp = observer(({ authStore }) => {
       setEmail('');
       setErrorTextEmail('올바른 이메일을 입력해주세요.');
     }
-    setconfirmEmail(false);
   };
 
   const handleNickname = (e) => {
     setNickname(e.target.value);
-    setConfirmNickname(false);
   };
 
   const handlePassword = (e) => {
@@ -157,56 +152,43 @@ const SignUp = observer(({ authStore }) => {
     setEmailAuthCode(code);
   };
 
-  const sendEmail = () => {
-    if (email) {
-      //백엔드 통신 -> 코드 보내기
-      setDisplayEmailAuth('block');
-      authStore.duplicateCheckEmail({
-        userId: email,
-      });
-      setconfirmEmail(true);
-    } else {
-      setconfirmEmail(false);
-    }
+  const sendEmail = async () => {
+    setDisplayEmailAuth('block');
+    await authStore.duplicateCheckEmail({
+      userId: email,
+    });
   };
 
   const sendNickname = async () => {
     if (InputValidator.checkNickname(nickname)) {
       setErrorTextNickname('');
-      //백엔드 통신-> 사용가능하다면 true로
-      if (
-        authStore.duplicateCheckNickname({
-          nickname: nickname,
-        })
-      ) {
+      await authStore.duplicateCheckNickname({
+        nickname: nickname,
+      });
+      if (authStore.isNickNameDuplicated) {
         alert('중복된 닉네임 입니다.');
-      } else {
-        setConfirmNickname(true);
+        return;
       }
     } else {
       setErrorTextNickname('닉네임은 한글, 영문포함 2~12글자만 가능합니다.');
-      setConfirmNickname(false);
     }
   };
 
-  const checkEmailAuthCode = () => {
-    alert(emailAuthCode);
-    authStore.authEmailCode({
+  const checkEmailAuthCode = async () => {
+    await authStore.authEmailCode({
       userId: email,
       key: emailAuthCode,
     });
     setDisabledEmailInput(true);
-    //백엔드 통신-> code가 일치한다면 true로
-    setConfirmCode(true);
   };
 
   const submitForm = async (e) => {
     e.preventDefault();
     if (
-      !confirmEmail ||
+      !authStore.isEmailDuplicated ||
       !confirmPassword ||
-      !confirmNickname ||
-      !confirmCode ||
+      !authStore.isNickNameDuplicated ||
+      !authStore.isEmailCodeAuthroized ||
       gender === '' ||
       age === 0
     ) {
