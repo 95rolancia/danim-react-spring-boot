@@ -132,10 +132,7 @@ public class UserController {
 			e.printStackTrace();
 			return new ResponseEntity<String>("error", HttpStatus.BAD_REQUEST);
 		}
-		
-		
-		System.out.println(result);
-		
+						
 		return new ResponseEntity<String>("signup-success", HttpStatus.OK);
 	}
 
