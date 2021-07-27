@@ -170,11 +170,19 @@ const SignUp = observer(({ authStore }) => {
     }
   };
 
-  const sendNickname = () => {
+  const sendNickname = async () => {
     if (InputValidator.checkNickname(nickname)) {
       setErrorTextNickname('');
       //백엔드 통신-> 사용가능하다면 true로
-      setConfirmNickname(true);
+      if (
+        authStore.duplicateCheckNickname({
+          nickname: nickname,
+        })
+      ) {
+        alert('중복된 닉네임 입니다.');
+      } else {
+        setConfirmNickname(true);
+      }
     } else {
       setErrorTextNickname('닉네임은 한글, 영문포함 2~12글자만 가능합니다.');
       setConfirmNickname(false);

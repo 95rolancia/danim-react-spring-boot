@@ -42,6 +42,19 @@ class HttpClient {
       throw new Error(`auth email error ${error}`);
     }
   }
+
+  async duplicateCheckNickname(nickname) {
+    try {
+      const res = await this.instance.post(`/duplicate/nickname`, nickname);
+      return res;
+    } catch (error) {
+      const res = error.response;
+      if (res.data === 'duplicate' && res.status === 409) {
+        return res;
+      }
+      throw new Error(`auth email error ${error}`);
+    }
+  }
 }
 
 export default new HttpClient(instance);

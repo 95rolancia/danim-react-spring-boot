@@ -25,6 +25,15 @@ class AuthStore {
     console.log(res);
     return res;
   }
+
+  async duplicateCheckNickname(nickname) {
+    const res = await HttpClient.duplicateCheckNickname(nickname);
+    console.log(res);
+    if (res.status === 409 && res.data === 'duplicate') {
+      return true;
+    }
+    return false;
+  }
 }
 
 export default new AuthStore();
