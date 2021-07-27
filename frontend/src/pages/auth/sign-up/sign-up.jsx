@@ -74,7 +74,7 @@ const SignUp = observer(({ authStore }) => {
   const classes = useStyles();
 
   const [email, setEmail] = useState('');
-  const [confirmEmail, setconfirmEmail] = useState(false);
+
   const [nickname, setNickname] = useState('');
   const [confirmNickname, setConfirmNickname] = useState(false);
   const [password, setPassword] = useState('');
@@ -100,7 +100,6 @@ const SignUp = observer(({ authStore }) => {
       setEmail('');
       setErrorTextEmail('올바른 이메일을 입력해주세요.');
     }
-    setconfirmEmail(false);
   };
 
   const handleNickname = (e) => {
@@ -157,17 +156,11 @@ const SignUp = observer(({ authStore }) => {
     setEmailAuthCode(code);
   };
 
-  const sendEmail = () => {
-    if (email) {
-      //백엔드 통신 -> 코드 보내기
-      setDisplayEmailAuth('block');
-      authStore.duplicateCheckEmail({
-        userId: email,
-      });
-      setconfirmEmail(true);
-    } else {
-      setconfirmEmail(false);
-    }
+  const sendEmail = async () => {
+    setDisplayEmailAuth('block');
+    await authStore.duplicateCheckEmail({
+      userId: email,
+    });
   };
 
   const sendNickname = async () => {
@@ -203,7 +196,7 @@ const SignUp = observer(({ authStore }) => {
   const submitForm = async (e) => {
     e.preventDefault();
     if (
-      !confirmEmail ||
+      !authStore.isEmailDuplicated ||
       !confirmPassword ||
       !confirmNickname ||
       !confirmCode ||

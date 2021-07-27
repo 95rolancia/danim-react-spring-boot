@@ -2,6 +2,9 @@ import { makeAutoObservable } from 'mobx';
 import HttpClient from '../service/http-client';
 class AuthStore {
   isLoggedIn = false;
+  isEmailDuplicated = false;
+  isNickNameDuplicated = false;
+  isEmailCodeAuthorized = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -16,8 +19,9 @@ class AuthStore {
 
   async duplicateCheckEmail(email) {
     const res = await HttpClient.duplicateCheckEmail(email);
-    console.log(res);
-    return res;
+    if (res.status === 409 && res.data === 'duplicate') {
+      this.isEmailDuplicated = true;
+    }
   }
 
   async authEmailCode(emailAndCode) {
@@ -30,7 +34,7 @@ class AuthStore {
     const res = await HttpClient.duplicateCheckNickname(nickname);
     console.log(res);
     if (res.status === 409 && res.data === 'duplicate') {
-      return true;
+      this.isNickNameDuplicated = true;
     }
     return false;
   }
