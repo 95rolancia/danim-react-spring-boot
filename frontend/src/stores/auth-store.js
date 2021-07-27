@@ -4,7 +4,6 @@ class AuthStore {
   isLoggedIn = false;
   isEmailDuplicated = false;
   isNickNameDuplicated = false;
-  isEmailCodeAuthorized = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -36,7 +35,6 @@ class AuthStore {
     if (res.status === 409 && res.data === 'duplicate') {
       this.isNickNameDuplicated = true;
     }
-    return false;
   }
 }
 

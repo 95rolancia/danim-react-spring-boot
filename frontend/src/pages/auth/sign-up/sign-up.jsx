@@ -74,9 +74,7 @@ const SignUp = observer(({ authStore }) => {
   const classes = useStyles();
 
   const [email, setEmail] = useState('');
-
   const [nickname, setNickname] = useState('');
-  const [confirmNickname, setConfirmNickname] = useState(false);
   const [password, setPassword] = useState('');
   const [confirmPassword, setconfirmPassword] = useState(false);
   const [gender, setGender] = useState('');
@@ -104,7 +102,6 @@ const SignUp = observer(({ authStore }) => {
 
   const handleNickname = (e) => {
     setNickname(e.target.value);
-    setConfirmNickname(false);
   };
 
   const handlePassword = (e) => {
@@ -166,19 +163,15 @@ const SignUp = observer(({ authStore }) => {
   const sendNickname = async () => {
     if (InputValidator.checkNickname(nickname)) {
       setErrorTextNickname('');
-      //백엔드 통신-> 사용가능하다면 true로
-      if (
-        authStore.duplicateCheckNickname({
-          nickname: nickname,
-        })
-      ) {
+      await authStore.duplicateCheckNickname({
+        nickname: nickname,
+      });
+      if (authStore.isNickNameDuplicated) {
         alert('중복된 닉네임 입니다.');
-      } else {
-        setConfirmNickname(true);
+        return;
       }
     } else {
       setErrorTextNickname('닉네임은 한글, 영문포함 2~12글자만 가능합니다.');
-      setConfirmNickname(false);
     }
   };
 
@@ -198,7 +191,7 @@ const SignUp = observer(({ authStore }) => {
     if (
       !authStore.isEmailDuplicated ||
       !confirmPassword ||
-      !confirmNickname ||
+      !authStore.isNickNameDuplicated ||
       !confirmCode ||
       gender === '' ||
       age === 0
