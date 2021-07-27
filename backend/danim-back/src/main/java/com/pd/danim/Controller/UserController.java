@@ -1,8 +1,6 @@
 package com.pd.danim.Controller;
 
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +19,7 @@ import com.pd.danim.Dto.SignInResponse;
 import com.pd.danim.Dto.SignUpForm;
 import com.pd.danim.Dto.emailDTO;
 import com.pd.danim.Dto.nicknameDTO;
+import com.pd.danim.Service.DanimPasswordService;
 import com.pd.danim.Service.LoginService;
 import com.pd.danim.Service.SignUpService;
 import com.pd.danim.Util.CookieUtil;
@@ -41,6 +39,9 @@ public class UserController {
 
 	@Autowired
 	private LoginService loginService;
+	
+	@Autowired
+	private DanimPasswordService danimPasswordService;
 
 	@Autowired
 	private JwtUtil jwtUtil;
@@ -57,9 +58,7 @@ public class UserController {
 	@PostMapping("/duplicate/email")
 	public ResponseEntity<String> checkEmail(@RequestBody emailDTO email) {
 		
-		String userId = email.getUserId();
-		System.out.println(userId);
-		
+		String userId = email.getUserId();		
 		
 		// 유효성 검사
 		if (!signUpService.checkValidityEmail(userId)) {
@@ -85,9 +84,9 @@ public class UserController {
 	public ResponseEntity<String> checkNickname(@RequestBody nicknameDTO input) {
 		String nickname = input.getNickname();
 		
-//		if(!signUpService.checkValidityNickname(nickname)){
-//			return new ResponseEntity<String>("invalid", HttpStatus.BAD_REQUEST);
-//		}
+		if(!signUpService.checkValidityNickname(nickname)){
+			return new ResponseEntity<String>("invalid", HttpStatus.BAD_REQUEST);
+		}
 		
 		if (!signUpService.checkNickname(nickname)) {
 			return new ResponseEntity<String>("duplicate", HttpStatus.CONFLICT);
@@ -111,13 +110,32 @@ public class UserController {
 	@ApiOperation(tags ="인증", value="회원 가입", notes="회원 가입을 진행합니다")
 	@PostMapping("/signup")
 	public ResponseEntity<String> signUp(@RequestBody SignUpForm signUpForm) {
+		int result=400;
 		try {
-			signUpService.signUpUser(signUpForm);
+			result = signUpService.signUpUser(signUpForm);			
+			
+			if(result==200) {
+				return new ResponseEntity<String>("success", HttpStatus.OK);
+			}
+			
+			else if(result==400) {
+				return new ResponseEntity<String>("invalid", HttpStatus.BAD_REQUEST);
+			}else if(result==403) {
+				return new ResponseEntity<String>("not authorized", HttpStatus.FORBIDDEN);
+			}else if(result==409) {
+				return new ResponseEntity<String>("duplicate", HttpStatus.CONFLICT);
+			}
+						
+			
 		} catch (Exception e) {
 			System.out.println("회원 가입 에러 발생");
 			e.printStackTrace();
 			return new ResponseEntity<String>("error", HttpStatus.BAD_REQUEST);
 		}
+		
+		
+		System.out.println(result);
+		
 		return new ResponseEntity<String>("signup-success", HttpStatus.OK);
 	}
 
@@ -127,8 +145,7 @@ public class UserController {
 	@PostMapping("/auth/signin")
 	public ResponseEntity<SignInResponse> signIn(@RequestBody SignInForm signInForm, HttpServletRequest req,
 			HttpServletResponse res) {
-		SignInResponse response = new SignInResponse();
-		System.out.println(signInForm.getUserId()+ " "+signInForm.getPassword());
+		SignInResponse response = new SignInResponse();		
 
 		try {
 			DanimId danim = loginService.loginUser(signInForm.getUserId(), signInForm.getPassword());
@@ -159,4 +176,26 @@ public class UserController {
 		String id = principal.getName();
 		return new ResponseEntity<String>("signout-success", HttpStatus.OK);
 	}
+	
+	
+	@ApiOperation(tags="인증", value="비밀번호 찾기(초기화)", notes="아이디(이메일주소)를 입력하면 입력하신 이메일로 임시 비밀번호를 전송해 줌")
+	@PostMapping("/auth/reset")
+	public ResponseEntity<String> resetPasswrod(@RequestBody emailDTO input){
+		
+		String userId = input.getUserId();
+		
+		if(!signUpService.checkValidityEmail(userId)) {
+			return new ResponseEntity<String>("invalid", HttpStatus.BAD_REQUEST);
+		}
+		
+		if(signUpService.checkDuplicateEmail(userId)) {
+			return new ResponseEntity<String>("not authorized", HttpStatus.FORBIDDEN);
+		}
+		
+		danimPasswordService.resetPassword(userId);
+	
+		
+		return new ResponseEntity<String>("success", HttpStatus.OK);
+	}
+	
 }
