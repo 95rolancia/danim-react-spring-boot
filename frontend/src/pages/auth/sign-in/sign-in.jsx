@@ -7,10 +7,10 @@ import {
   TextField,
   Grid,
 } from '@material-ui/core';
-import HttpClient from '../../service/http-client';
-import { SignInDto } from '../../model/sign-in-dto';
-import { useHistory } from "react-router-dom";
-import InputValidator from '../../util/input-validator';
+import HttpClient from '../../../service/http-client';
+import { SignInDto } from '../../../model/sign-in-dto';
+import { useHistory } from 'react-router-dom';
+import InputValidator from '../../../util/input-validator';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -117,23 +117,16 @@ const SignIn = () => {
           >
             로그인
           </Button>
-          <Grid
-            container
-            justifyContent="space-between"  
-          >
-            <Button
-              onClick={() => {
-            }}>
-              비밀번호 찾기
-            </Button>
+          <Grid container justifyContent="space-between">
+            <Button onClick={() => {}}>비밀번호 찾기</Button>
             <Button
               color="primary"
               onClick={() => {
-                history.push('/signup')
-            }}>
+                history.push('/signup');
+              }}
+            >
               회원가입
             </Button>
-
           </Grid>
         </form>
       </div>
