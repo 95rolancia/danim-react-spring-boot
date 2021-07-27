@@ -1,7 +1,8 @@
 package com.pd.danim.Controller;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.security.Principal;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pd.danim.Dto.DanimId;
 import com.pd.danim.Dto.SignInForm;
+import com.pd.danim.Dto.SignInResponse;
 import com.pd.danim.Dto.SignUpForm;
 import com.pd.danim.Dto.emailDTO;
 import com.pd.danim.Dto.nicknameDTO;
@@ -83,9 +85,9 @@ public class UserController {
 	public ResponseEntity<String> checkNickname(@RequestBody nicknameDTO input) {
 		String nickname = input.getNickname();
 		
-		if(!signUpService.checkValidityNickname(nickname)){
-			return new ResponseEntity<String>("invalid", HttpStatus.BAD_REQUEST);
-		}
+//		if(!signUpService.checkValidityNickname(nickname)){
+//			return new ResponseEntity<String>("invalid", HttpStatus.BAD_REQUEST);
+//		}
 		
 		if (!signUpService.checkNickname(nickname)) {
 			return new ResponseEntity<String>("duplicate", HttpStatus.CONFLICT);
@@ -123,8 +125,10 @@ public class UserController {
 	
 	@ApiOperation(tags ="인증", value="로그인", notes="아이디와 비밀번호로 로그인을 합니다")
 	@PostMapping("/auth/signin")
-	public ResponseEntity<String> signIn(@RequestBody SignInForm signInForm, HttpServletRequest req,
+	public ResponseEntity<SignInResponse> signIn(@RequestBody SignInForm signInForm, HttpServletRequest req,
 			HttpServletResponse res) {
+		SignInResponse response = new SignInResponse();
+		System.out.println(signInForm.getUserId()+ " "+signInForm.getPassword());
 
 		try {
 			DanimId danim = loginService.loginUser(signInForm.getUserId(), signInForm.getPassword());
@@ -133,22 +137,26 @@ public class UserController {
 			final String refreshJwt = jwtUtil.generateRefreshToken(danim);
 			Cookie accessToken = cookieUtil.createCookie(JwtUtil.ACCESS_TOKEN_NAME, token);
 			Cookie refreshToken = cookieUtil.createCookie(JwtUtil.REFRESH_TOKEN_NAME, refreshJwt);
-			redisUtil.setDataExpire(refreshJwt, danim.getId(), JwtUtil.REFRESH_TOKEN_VALIDATION_SECOND);
+			redisUtil.setDataExpire(danim.getId()+"jwt", refreshJwt, JwtUtil.REFRESH_TOKEN_VALIDATION_SECOND);
 			res.addCookie(accessToken);
 			res.addCookie(refreshToken);
+			response.setAccessToken(accessToken.getValue());
+			response.setRefreshToken(refreshToken.getValue());
+
 
 		} catch (Exception e) {
 //			e.printStackTrace();
-			return new ResponseEntity<String>("로그인 실패", HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<SignInResponse>(response, HttpStatus.UNAUTHORIZED);
 		}
 
-		return new ResponseEntity<String>("로그인 성공", HttpStatus.OK);
+		return new ResponseEntity<SignInResponse>(response, HttpStatus.OK);
 
 	}
 
 	@ApiOperation(tags ="인증", value="로그아웃", notes="로그아웃을 진행하며 refresh Token을 제거합니다")
-	@GetMapping("/auth/signout")
-	public ResponseEntity<String> logout() {
+	@PostMapping("/auth/signout")
+	public ResponseEntity<String> logout(Principal principal) {
+		String id = principal.getName();
 		return new ResponseEntity<String>("signout-success", HttpStatus.OK);
 	}
 }
