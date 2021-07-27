@@ -27,7 +27,6 @@ public class LoginServiceImpl implements LoginService {
 		
 		PasswordEncoder encoder = new BCryptPasswordEncoder();
 		if (!encoder.matches(password, danim.getPassword())) {
-			System.out.println("비밀번호 틀렸어");
 			throw new Exception("회원이  아니거나 비밀번호가 틀렸습니다.");
 		}
 		return danim;

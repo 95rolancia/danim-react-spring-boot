@@ -81,7 +81,6 @@ public class SignUpServiceImpl implements SignUpService {
 		danim.setId(userForm.getUserId());
 		danim.setUser(user);
 		danimRepo.save(danim);
-		System.out.println("안녕");
 		redisUtil.deleteData(userForm.getUserId() + "mailVerify");
 		
 		return 200;
@@ -171,8 +170,6 @@ public class SignUpServiceImpl implements SignUpService {
 	@Override
 	public boolean checkValidityPassword(String password) {
 		String regex = "^(?=.*\\d)(?=.*[a-zA-Z]).{8,12}$";
-
-		System.out.println(password);
 
 		if (!password.matches(regex))
 			return false;
