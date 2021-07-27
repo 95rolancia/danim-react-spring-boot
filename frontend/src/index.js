@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './index.module.css';
 import App from './app';
 import authStore from './stores/auth-store';
 
