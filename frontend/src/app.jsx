@@ -1,14 +1,23 @@
-import { observer } from 'mobx-react-lite';
 import styles from './app.module.css';
-import Main from './pages/main/main';
-import Start from './pages/start/start';
+import { useState, useEffect } from 'react';
+import StartLoading from './components/start-loading';
+import AuthMainRouter from './routers/auth-main-router';
+import authStore from './stores/auth-store';
 
-const App = observer(({ authStore }) => {
+const App = () => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 5000);
+  });
+
   return (
     <div className={styles.app}>
-      {authStore.isLoggedIn ? <Main /> : <Start />}
+      {loading ? <StartLoading /> : <AuthMainRouter authStore={authStore} />}
     </div>
   );
-});
+};
 
 export default App;

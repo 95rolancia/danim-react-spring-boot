@@ -2,11 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.module.css';
 import App from './app';
-import authStore from './stores/auth-store';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App authStore={authStore} />
+    <App />
   </React.StrictMode>,
   document.getElementById('root'),
 );

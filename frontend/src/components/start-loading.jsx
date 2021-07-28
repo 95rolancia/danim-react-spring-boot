@@ -1,38 +1,22 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
-import Auth from '../auth/auth';
+import { makeStyles } from '@material-ui/core/styles';
 
-const Start = (props) => {
-  const [loading, setLoading] = useState(true);
+const StartLoading = (props) => {
   const classes = useStyles();
-
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 4000);
-  });
-
   return (
-    <>
-      {loading ? (
-        <div className={classes.main}>
-          <img
-            className={classes.background}
-            width="100%"
-            height="100%"
-            src="https://media.giphy.com/media/iqz3Oc8ZgHuKNv1Rhg/giphy.gif"
-            alt=""
-          />
-          <Typography className={classes.title} variant="h2" component="h2">
-            DANIM
-          </Typography>
-        </div>
-      ) : (
-        <Auth />
-      )}
-    </>
+    <div className={classes.main}>
+      <img
+        className={classes.background}
+        width="100%"
+        height="100%"
+        src="https://media.giphy.com/media/iqz3Oc8ZgHuKNv1Rhg/giphy.gif"
+        alt=""
+      />
+      <Typography className={classes.title} variant="h2" component="h2">
+        DANIM
+      </Typography>
+    </div>
   );
 };
 
@@ -71,4 +55,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default Start;
+export default StartLoading;

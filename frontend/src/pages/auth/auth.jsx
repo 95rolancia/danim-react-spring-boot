@@ -14,7 +14,6 @@ const Auth = (props) => {
         <Route path="/signup" exact>
           <SignUp authStore={authStore} />
         </Route>
-        <Route path="/interest" exact></Route>
       </Switch>
     </BrowserRouter>
   );
