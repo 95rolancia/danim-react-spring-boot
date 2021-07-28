@@ -1,6 +1,7 @@
 package com.pd.danim.Controller;
 
 import java.security.Principal;
+import java.util.Iterator;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +23,7 @@ import com.pd.danim.Dto.emailDTO;
 import com.pd.danim.Dto.nicknameDTO;
 import com.pd.danim.Service.DanimPasswordService;
 import com.pd.danim.Service.LoginService;
+import com.pd.danim.Service.SignOutService;
 import com.pd.danim.Service.SignUpService;
 import com.pd.danim.Util.CookieUtil;
 import com.pd.danim.Util.JwtUtil;
@@ -42,6 +45,9 @@ public class UserController {
 	
 	@Autowired
 	private DanimPasswordService danimPasswordService;
+	
+	@Autowired
+	private SignOutService signOutService;
 
 	@Autowired
 	private JwtUtil jwtUtil;
@@ -169,8 +175,12 @@ public class UserController {
 
 	@ApiOperation(tags ="인증", value="로그아웃", notes="로그아웃을 진행하며 refresh Token을 제거합니다")
 	@PostMapping("/auth/signout")
-	public ResponseEntity<String> logout(Principal principal) {
-		String id = principal.getName();
+	public ResponseEntity<String> logout(HttpServletRequest httpServletRequest) {
+//		String id = principal.getName();
+//		System.out.println(id);
+		signOutService.signOut(httpServletRequest);
+		
+
 		return new ResponseEntity<String>("signout-success", HttpStatus.OK);
 	}
 	
@@ -194,5 +204,6 @@ public class UserController {
 		
 		return new ResponseEntity<String>("success", HttpStatus.OK);
 	}
+	
 	
 }
