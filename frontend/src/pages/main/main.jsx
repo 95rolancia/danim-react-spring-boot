@@ -7,11 +7,13 @@ import Profile from '../profile/profile';
 import Navbar from '../../components/navbar/navbar';
 import Header from '../../components/header/header';
 import { makeStyles } from '@material-ui/styles';
-const useStyles = makeStyles((theme) => ({
+
+const useStyles = makeStyles(() => ({
   toolbar: {
     height: '4em',
   },
 }));
+
 const Main = () => {
   const classes = useStyles();
   return (
