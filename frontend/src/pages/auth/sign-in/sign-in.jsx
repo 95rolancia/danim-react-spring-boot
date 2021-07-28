@@ -11,6 +11,7 @@ import HttpClient from '../../../service/http-client';
 import { SignInDto } from '../../../model/sign-in-dto';
 import { useHistory } from 'react-router-dom';
 import InputValidator from '../../../util/input-validator';
+import { observer } from 'mobx-react-lite';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -34,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SignIn = () => {
+const SignIn = observer(({ authStore }) => {
   const classes = useStyles();
   const history = useHistory();
 
@@ -65,8 +66,13 @@ const SignIn = () => {
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-    const res = await HttpClient.signIn(new SignInDto(email, password));
-    console.log(res);
+    await authStore.signIn(new SignInDto(email, password));
+    if (authStore.isLoggedIn) {
+      alert('로그인에 성공했습니다.');
+      history.push('/interest');
+      return;
+    }
+    alert('로그인에 실패했습니다.');
   };
 
   return (
@@ -132,6 +138,6 @@ const SignIn = () => {
       </div>
     </Container>
   );
-};
+});
 
 export default SignIn;

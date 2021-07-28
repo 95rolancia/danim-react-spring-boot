@@ -12,6 +12,9 @@ class AuthStore {
 
   async signIn(signInDto) {
     const res = await HttpClient.signIn(signInDto);
+    if (res.status === 401) {
+      return;
+    }
     console.log(res);
     this.isLoggedIn = true;
     return res;

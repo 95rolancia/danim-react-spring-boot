@@ -8,15 +8,21 @@ class HttpClient {
   async signIn(user) {
     try {
       const res = await this.instance.post('/auth/signin', user);
+      console.log(res);
       return res;
     } catch (error) {
-      throw new Error(`sign in error ${error}`);
+      const res = error.response;
+      if (res.status === 401) {
+        return res;
+      }
+      throw new Error(`auth email error ${error}`);
     }
   }
 
   async signUp(user) {
     try {
       const res = await this.instance.post('/signup', user);
+      console.log(res);
       return res;
     } catch (error) {
       throw new Error(`sign up error ${error}`);
