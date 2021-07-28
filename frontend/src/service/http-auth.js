@@ -1,6 +1,6 @@
 import { instance } from './http-instance';
 
-class HttpClient {
+class HttpAuth {
   constructor(instance) {
     this.instance = instance;
   }
@@ -8,7 +8,8 @@ class HttpClient {
   async signIn(user) {
     try {
       const res = await this.instance.post('/auth/signin', user);
-      console.log(res);
+      this.instance.defaults.headers.common['Authorization'] =
+        res.data.accessToken;
       return res;
     } catch (error) {
       const res = error.response;
@@ -63,4 +64,4 @@ class HttpClient {
   }
 }
 
-export default new HttpClient(instance);
+export default new HttpAuth(instance);
