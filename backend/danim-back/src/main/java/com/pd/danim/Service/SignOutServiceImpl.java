@@ -25,20 +25,11 @@ public class SignOutServiceImpl implements SignOutService {
 //		String username = principal.getName();
 //		String data = username.concat("jwt");
 		final String requestTokenHeader = httpServletRequest.getHeader("Authorization");
-		System.out.println(requestTokenHeader);
 		String username = jwtUtil.getUsername(requestTokenHeader);
-		System.out.println(username);
 		String data = username.concat("jwt");
 		redisUtil.deleteData(data);
+		//getHeader authorization으로 못가져오면 cookie로 가져오기
 		
-		
-		
-//		final Cookie[] cookies = httpServletRequest.getCookies();
-//		for(Cookie cookie : cookies) {
-//			String username = jwtUtil.getUsername(cookie.getValue());
-//			String data = username.concat("jwt");
-//			redisUtil.deleteData(data);
-//		}
 		
 	}
 
