@@ -1,8 +1,10 @@
 import styles from './app.module.css';
 import { useState, useEffect } from 'react';
-import StartLoading from './components/start-loading';
-import AuthMainRouter from './routers/auth-main-router';
 import authStore from './stores/auth-store';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { SignUp, SignIn, Main } from './pages/index.js';
+import StartLoading from './components/start-loading';
+import PrivateRoute from './routers/private-route';
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -10,12 +12,28 @@ const App = () => {
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 5000);
+    }, 2000);
   });
 
   return (
     <div className={styles.app}>
-      {loading ? <StartLoading /> : <AuthMainRouter authStore={authStore} />}
+      {loading ? (
+        <StartLoading />
+      ) : (
+        <BrowserRouter>
+          <Switch>
+            <PrivateRoute path="/" authStore={authStore} exact>
+              <Main />
+            </PrivateRoute>
+            <Route path="/signin">
+              <SignIn authStore={authStore} />
+            </Route>
+            <Route path="/signup">
+              <SignUp authStore={authStore} />
+            </Route>
+          </Switch>
+        </BrowserRouter>
+      )}
     </div>
   );
 };
