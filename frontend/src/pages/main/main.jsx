@@ -6,22 +6,14 @@ import Bookmark from '../bookmark/bookmark';
 import Profile from '../profile/profile';
 import Navbar from '../../components/navbar/navbar';
 import Header from '../../components/header/header';
-import { makeStyles } from '@material-ui/styles';
-
-const useStyles = makeStyles(() => ({
-  toolbar: {
-    height: '4em',
-  },
-}));
+import Home from '../home/home';
 
 const Main = () => {
-  const classes = useStyles();
   return (
     <BrowserRouter>
       <Header />
-      <div className={classes.toolbar}></div>
       <Switch>
-        <Route path="/" exact></Route>
+        <Route path="/" exact component={Home} />
         <Route path="/search" exact>
           <Search />
         </Route>
