@@ -2,7 +2,7 @@ import styles from './app.module.css';
 import { useState, useEffect } from 'react';
 import authStore from './stores/auth-store';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { SignUp, SignIn, Main } from './pages/index.js';
+import { SignUp, SignIn, Main, NotFound } from './pages/index.js';
 import StartLoading from './components/start-loading';
 import PrivateRoute from './routers/private-route';
 
@@ -30,6 +30,9 @@ const App = () => {
             </Route>
             <Route path="/signup">
               <SignUp authStore={authStore} />
+            </Route>
+            <Route path="*">
+              <NotFound />
             </Route>
           </Switch>
         </BrowserRouter>
