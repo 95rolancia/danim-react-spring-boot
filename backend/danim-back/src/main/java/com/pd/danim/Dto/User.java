@@ -2,15 +2,19 @@ package com.pd.danim.Dto;
 
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -18,6 +22,8 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.DynamicInsert;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 
@@ -45,9 +51,21 @@ public class User {
 	@Column(name = "role")
 	private UserRole role;
 	
+	@OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+	private DanimId danim;
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	@CreatedDate
 	private Date created_date;
+	
+	
+	@Column(name ="profile")
+	private String profile;
+	
+
+	@OneToMany(mappedBy = "user")
+	private List<Interest> interests;
+	
 
 	public long getUserno() {
 		return userno;
@@ -97,7 +115,31 @@ public class User {
 		this.created_date = created_date;
 	}
 
+//	public DanimId getDanim() {
+//		return danim;
+//	}
+//
+//	public void setDanim(DanimId danim) {
+//		this.danim = danim;
+//	}
 
+	public String getProfile() {
+		return profile;
+	}
+
+	public void setProfile(String profile) {
+		this.profile = profile;
+	}
+
+	public List<Interest> getInterests() {
+		return interests;
+	}
+
+	public void setInterest(List<Interest> interests) {
+		this.interests = interests;
+	}
+
+	
 	
 	
 	

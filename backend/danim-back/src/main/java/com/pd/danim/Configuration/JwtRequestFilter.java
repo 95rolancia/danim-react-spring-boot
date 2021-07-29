@@ -1,8 +1,13 @@
 package com.pd.danim.Configuration;
 
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwt;
-import lombok.extern.slf4j.Slf4j;
+import java.io.IOException;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,15 +22,10 @@ import com.pd.danim.Util.CookieUtil;
 import com.pd.danim.Util.JwtUtil;
 import com.pd.danim.Util.RedisUtil;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import io.jsonwebtoken.ExpiredJwtException;
 
-import org.springframework.web.filter.OncePerRequestFilter;
 
+@Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
 	@Autowired

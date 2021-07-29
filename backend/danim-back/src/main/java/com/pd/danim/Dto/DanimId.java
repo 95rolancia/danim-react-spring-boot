@@ -2,10 +2,13 @@ package com.pd.danim.Dto;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity(name = "danimid")
 public class DanimId {
@@ -15,7 +18,8 @@ public class DanimId {
 	@Email
 	private String id;
 	
-	@OneToOne
+	@JsonIgnore
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_no")
 	private User user;
 	
