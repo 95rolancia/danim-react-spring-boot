@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import { observer } from 'mobx-react-lite';
+import { useHistory } from 'react-router-dom';
+import { SignInDto } from '../../model/sign-in-dto';
+import InputValidator from '../../util/input-validator';
 import {
   makeStyles,
   Button,
@@ -6,12 +10,9 @@ import {
   Typography,
   TextField,
   Grid,
+  Snackbar,
 } from '@material-ui/core';
-
-import { SignInDto } from '../../model/sign-in-dto';
-import { useHistory } from 'react-router-dom';
-import InputValidator from '../../util/input-validator';
-import { observer } from 'mobx-react-lite';
+import MuiAlert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -27,13 +28,13 @@ const useStyles = makeStyles((theme) => ({
   submit_button: {
     marginTop: theme.spacing(1),
     padding: theme.spacing(2),
-    borderRadius: '',
-  },
-  grid_items: {
-    padding: theme.spacing(0.5),
-    textAlign: 'center',
+    fontSize: '1rem',
   },
 }));
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const SignIn = observer(({ authStore }) => {
   const classes = useStyles();
@@ -43,8 +44,11 @@ const SignIn = observer(({ authStore }) => {
   const [password, setPassword] = useState('');
   const [errorTextEmail, setErrorTextEmail] = useState('');
   const [errorTextPassword, setErrorTextPassword] = useState('');
+  const [infoState, setInfoState] = useState('');
+  const [showInfo, setShowInfo] = useState(false);
+  const [infoMsg, setInfoMsg] = useState('');
 
-  const handleEmail = (e) => {
+  const checkEmail = (e) => {
     const email = e.target.value;
     setEmail(email);
     if (InputValidator.checkEmail(email)) {
@@ -54,7 +58,7 @@ const SignIn = observer(({ authStore }) => {
     }
   };
 
-  const handlePassword = (e) => {
+  const checkPassword = (e) => {
     const password = e.target.value;
     setPassword(password);
     if (InputValidator.checkPassword(password)) {
@@ -64,15 +68,47 @@ const SignIn = observer(({ authStore }) => {
     }
   };
 
+  const signInFormCheck = () => {
+    if (errorTextEmail === '' && errorTextPassword === '') {
+      return true;
+    }
+    return false;
+  };
+
   const handleSignIn = async (e) => {
     e.preventDefault();
+    if (!signInFormCheck()) {
+      setInfoState('error');
+      setInfoMsg('올바른 정보를 기입해주세요');
+      setShowInfo(true);
+      return;
+    }
     await authStore.signIn(new SignInDto(email, password));
     if (authStore.isLoggedIn) {
-      alert('로그인에 성공했습니다.');
+      setInfoState('success');
+      setInfoMsg('로그인 성공!');
+      setShowInfo(true);
       history.push('/interest');
       return;
     }
-    alert('로그인에 실패했습니다.');
+    setInfoState('error');
+    setInfoMsg('로그인에 실패했습니다.');
+    setShowInfo(true);
+  };
+
+  const handleClose = (_, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setShowInfo(false);
+  };
+
+  const goToFindPassword = () => {
+    history.push('/findPassword');
+  };
+
+  const goToSignUp = () => {
+    history.push('/signup');
   };
 
   return (
@@ -86,55 +122,56 @@ const SignIn = observer(({ authStore }) => {
         </Typography>
         <form className={classes.form}>
           <TextField
+            required
+            id="email"
+            fullWidth
+            type="email"
             variant="outlined"
             margin="normal"
-            required
-            type="email"
-            fullWidth
-            id="email"
             label="Email ID"
-            name="email"
             autoComplete="email"
             autoFocus
-            onChange={handleEmail}
+            onChange={checkEmail}
             error={errorTextEmail !== '' ? true : false}
             helperText={errorTextEmail}
           />
           <TextField
+            required
+            id="password"
+            fullWidth
+            type="password"
             variant="outlined"
             margin="normal"
-            required
-            fullWidth
-            id="password"
             label="Password"
-            name="password"
-            autoComplete="password"
-            type="password"
-            onChange={handlePassword}
+            autoComplete="current-password"
+            onChange={checkPassword}
             error={errorTextPassword !== '' ? true : false}
             helperText={errorTextPassword}
           />
           <Button
+            className={classes.submit_button}
+            onClick={handleSignIn}
             fullWidth
             variant="contained"
             color="primary"
-            className={classes.submit_button}
-            onClick={handleSignIn}
           >
             로그인
           </Button>
           <Grid container justifyContent="space-between">
-            <Button onClick={() => {}}>비밀번호 찾기</Button>
-            <Button
-              color="primary"
-              onClick={() => {
-                console.log('click sign up');
-                history.push('/signup');
-              }}
-            >
+            <Button onClick={goToFindPassword}>비밀번호 찾기</Button>
+            <Button color="primary" onClick={goToSignUp}>
               회원가입
             </Button>
           </Grid>
+          <Snackbar
+            open={showInfo}
+            autoHideDuration={700}
+            onClose={handleClose}
+          >
+            <Alert onClose={handleClose} severity={infoState}>
+              {infoMsg}
+            </Alert>
+          </Snackbar>
         </form>
       </div>
     </Container>
