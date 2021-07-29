@@ -8,9 +8,9 @@ import {
   Grid,
 } from '@material-ui/core';
 
-import { SignInDto } from '../../../model/sign-in-dto';
+import { SignInDto } from '../../model/sign-in-dto';
 import { useHistory } from 'react-router-dom';
-import InputValidator from '../../../util/input-validator';
+import InputValidator from '../../util/input-validator';
 import { observer } from 'mobx-react-lite';
 
 const useStyles = makeStyles((theme) => ({
@@ -128,6 +128,7 @@ const SignIn = observer(({ authStore }) => {
             <Button
               color="primary"
               onClick={() => {
+                console.log('click sign up');
                 history.push('/signup');
               }}
             >
