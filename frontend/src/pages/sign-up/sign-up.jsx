@@ -1,3 +1,5 @@
+import React from 'react';
+import { useState } from 'react';
 import {
   Button,
   Container,
@@ -16,12 +18,11 @@ import {
 import SendIcon from '@material-ui/icons/Send';
 import CheckIcon from '@material-ui/icons/Check';
 import MuiAlert from '@material-ui/lab/Alert';
-import React from 'react';
-import { useState } from 'react';
 import InputValidator from '../../util/input-validator';
 import { SignUpDto } from '../../model/sign-up-dto';
 import HttpClient from '../../service/http-auth';
 import { observer } from 'mobx-react-lite';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -72,6 +73,7 @@ function Alert(props) {
 }
 const SignUp = observer(({ authStore }) => {
   const classes = useStyles();
+  const history = useHistory();
 
   const [email, setEmail] = useState('');
   const [nickname, setNickname] = useState('');
@@ -100,7 +102,14 @@ const SignUp = observer(({ authStore }) => {
   };
 
   const handleNickname = (e) => {
-    setNickname(e.target.value);
+    const nickname = e.target.value;
+    if (InputValidator.checkNickname(nickname)) {
+      setNickname(nickname);
+      setErrorTextNickname('');
+    } else {
+      setNickname('');
+      setErrorTextNickname('닉네임은 한글, 영문포함 2~12글자만 가능합니다.');
+    }
   };
 
   const handlePassword = (e) => {
@@ -126,7 +135,8 @@ const SignUp = observer(({ authStore }) => {
   };
 
   const handleGender = (e) => {
-    setGender(e.target.value);
+    const gender = e.target.value;
+    setGender(gender);
   };
 
   const handleAge = (e) => {
@@ -134,7 +144,7 @@ const SignUp = observer(({ authStore }) => {
     setAge(age);
   };
 
-  const handleClose = (event, reason) => {
+  const handleClose = (_, reason) => {
     if (reason === 'clickaway') {
       return;
     }
@@ -153,37 +163,57 @@ const SignUp = observer(({ authStore }) => {
   };
 
   const sendEmail = async () => {
-    setDisplayEmailAuth('block');
+    if (errorTextEmail !== '' || email === '') {
+      alert('올바른 이메일을 입력해주세요.');
+      return;
+    }
     await authStore.duplicateCheckEmail({
       userId: email,
     });
+
+    if (!authStore.isEmailDuplicated) {
+      alert('이미 가입된 이메일 입니다.');
+      setErrorTextEmail('다른 이메일을 입력해주세요.');
+    } else {
+      setDisplayEmailAuth('block');
+      setDisabledEmailInput(true);
+    }
   };
 
   const sendNickname = async () => {
-    if (InputValidator.checkNickname(nickname)) {
-      setErrorTextNickname('');
-      await authStore.duplicateCheckNickname({
-        nickname: nickname,
-      });
-      if (authStore.isNickNameDuplicated) {
-        alert('중복된 닉네임 입니다.');
-        return;
-      }
+    if (errorTextNickname !== '' || nickname === '') {
+      alert('올바른 닉네임 형식을 지켜주세요.');
+      return;
+    }
+    await authStore.duplicateCheckNickname({
+      nickname: nickname,
+    });
+    if (!authStore.isNickNameDuplicated) {
+      alert('중복된 닉네임 입니다.');
+      setErrorTextNickname('중복된 닉네임은 불가능합니다');
     } else {
-      setErrorTextNickname('닉네임은 한글, 영문포함 2~12글자만 가능합니다.');
+      alert('사용가능한 닉네임 입니다.');
     }
   };
 
   const checkEmailAuthCode = async () => {
+    if (emailAuthCode.length !== 6) {
+      alert('인증번호는 6자리입니다.');
+      return;
+    }
     await authStore.authEmailCode({
       userId: email,
       key: emailAuthCode,
     });
-    setDisabledEmailInput(true);
+    if (!authStore.isEmailCodeAuthroized) {
+      alert('코드가 잘못되었습니다.');
+    } else {
+      alert('이메일 인증이 완료되었습니다.');
+      setDisplayEmailAuth('none');
+    }
   };
 
-  const submitForm = async (e) => {
-    e.preventDefault();
+  const checkForm = () => {
     if (
       !authStore.isEmailDuplicated ||
       !confirmPassword ||
@@ -192,11 +222,28 @@ const SignUp = observer(({ authStore }) => {
       gender === '' ||
       age === 0
     ) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  const submitForm = async (e) => {
+    e.preventDefault();
+    console.log(checkForm);
+    if (!checkForm) {
       setOpenError(true);
     } else {
       const res = await HttpClient.signUp(
-        new SignUpDto(email, password, nickname, gender, age),
+        new SignUpDto(email, password, nickname, gender, age, emailAuthCode),
       );
+      if (res.status !== 200) {
+        alert('회원가입에 실패했습니다.');
+        return;
+      } else if (res.data === 'success') {
+        alert('회원가입이 완료되었습니다!');
+        history.push('/');
+      }
       console.log(res);
     }
   };
@@ -209,7 +256,7 @@ const SignUp = observer(({ authStore }) => {
         <div className={classes.input}>
           <TextField
             required
-            id="outlined-required"
+            id="outlined-required-email"
             label="이메일 아이디"
             variant="outlined"
             error={errorTextEmail !== '' ? true : false}
@@ -222,7 +269,6 @@ const SignUp = observer(({ authStore }) => {
             color="primary"
             size="large"
             onClick={sendEmail}
-            aria-label="Send verification code by email"
           >
             <SendIcon className={classes.icons} />
           </Button>
@@ -237,7 +283,7 @@ const SignUp = observer(({ authStore }) => {
           </Typography>
 
           <TextField
-            id="standard-password-input"
+            id="standard-password-input-email-code"
             type="password"
             style={{ width: '10em' }}
             onChange={handleAuth}
@@ -250,7 +296,6 @@ const SignUp = observer(({ authStore }) => {
               color="secondary"
               size="large"
               onClick={handleDisplay}
-              aria-label="Close box"
             >
               취소
             </Button>
@@ -259,7 +304,6 @@ const SignUp = observer(({ authStore }) => {
               color="primary"
               size="large"
               onClick={checkEmailAuthCode}
-              aria-label="Close box"
             >
               확인
             </Button>
@@ -268,7 +312,7 @@ const SignUp = observer(({ authStore }) => {
         <div className={classes.input}>
           <TextField
             required
-            id="outlined-required"
+            id="outlined-required-nickname"
             label="닉네임"
             variant="outlined"
             onChange={handleNickname}
@@ -280,7 +324,6 @@ const SignUp = observer(({ authStore }) => {
             color="primary"
             size="large"
             onClick={sendNickname}
-            aria-label="Check if a nickname is available"
           >
             <CheckIcon className={classes.icons} />
           </Button>
@@ -300,7 +343,7 @@ const SignUp = observer(({ authStore }) => {
         <div className={classes.inputfill}>
           <TextField
             required
-            id="outlined-password-input"
+            id="outlined-password-input-confirm"
             label="비밀번호 확인"
             type="password"
             variant="outlined"

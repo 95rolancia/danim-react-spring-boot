@@ -24,23 +24,29 @@ class AuthStore {
 
   async duplicateCheckEmail(email) {
     const res = await HttpAuth.duplicateCheckEmail(email);
-    if (res.status === 403 && res.data === 'duplicate') {
+    if (res.status === 200) {
       this.isEmailDuplicated = true;
+    } else {
+      this.isEmailDuplicated = false;
     }
   }
 
   async authEmailCode(emailAndCode) {
     const res = await HttpAuth.authEmailCode(emailAndCode);
-    if (res.status === 409 && res.data === 'not authorized') {
+    if (res.status === 200) {
       this.isEmailCodeAuthroized = true;
+    } else {
+      this.isEmailCodeAuthroized = false;
     }
   }
 
   async duplicateCheckNickname(nickname) {
     const res = await HttpAuth.duplicateCheckNickname(nickname);
     console.log(res);
-    if (res.status === 409 && res.data === 'duplicate') {
+    if (res.status === 200) {
       this.isNickNameDuplicated = true;
+    } else {
+      this.isNickNameDuplicated = false;
     }
   }
 }
