@@ -6,13 +6,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.pd.danim.Dto.DanimId;
+import com.pd.danim.Dto.User;
 import com.pd.danim.Repository.DanimRepository;
+import com.pd.danim.Repository.UserRepository;
 
 @Service
 public class LoginServiceImpl implements LoginService {
 
 	@Autowired
 	private DanimRepository danimRepository;
+	
+	@Autowired
+	private UserRepository userRepo;
 
 	@Override
 	public DanimId loginUser(String id, String password) throws Exception {
@@ -30,6 +35,24 @@ public class LoginServiceImpl implements LoginService {
 			throw new Exception("회원이  아니거나 비밀번호가 틀렸습니다.");
 		}
 		return danim;
+	}
+	
+	
+	@Override
+	public User getUserInfo(String id) {
+		
+		
+		DanimId danim = danimRepository.findById(id);
+		
+		User user = userRepo.findByUserno(danim.getUserno());
+		
+		if(user!=null) {
+			danim.setPassword(null);
+			return user;
+		}
+		
+		
+		return null;
 	}
 
 }

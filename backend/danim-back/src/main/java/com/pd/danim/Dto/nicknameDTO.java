@@ -1,7 +1,7 @@
 package com.pd.danim.Dto;
 
 public class nicknameDTO {
-	String nickname;
+	private String nickname;
 
 	public String getNickname() {
 		return nickname;
