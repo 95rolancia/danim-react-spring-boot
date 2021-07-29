@@ -1,8 +1,5 @@
 package com.pd.danim.Controller;
 
-import java.security.Principal;
-import java.util.Iterator;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,12 +13,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pd.danim.Dto.DanimId;
+import com.pd.danim.Dto.InterestForm;
 import com.pd.danim.Dto.SignInForm;
 import com.pd.danim.Dto.SignInResponse;
 import com.pd.danim.Dto.SignUpForm;
+import com.pd.danim.Dto.User;
 import com.pd.danim.Dto.emailDTO;
 import com.pd.danim.Dto.nicknameDTO;
 import com.pd.danim.Service.DanimPasswordService;
+import com.pd.danim.Service.InterestService;
 import com.pd.danim.Service.LoginService;
 import com.pd.danim.Service.SignOutService;
 import com.pd.danim.Service.SignUpService;
@@ -48,7 +48,10 @@ public class UserController {
 	
 	@Autowired
 	private SignOutService signOutService;
-
+	
+	@Autowired
+	private InterestService interestService;
+	
 	@Autowired
 	private JwtUtil jwtUtil;
 
@@ -204,6 +207,46 @@ public class UserController {
 		
 		return new ResponseEntity<String>("success", HttpStatus.OK);
 	}
+	
+	@ApiOperation(tags="인증", value="사용자 정보 반환", notes="사용자의 정보를 반환합니다")
+	@GetMapping("/auth/me")
+	public ResponseEntity<User> getMyInfo(HttpServletRequest httpServletRequest){
+		
+		final String requestTokenHeader = httpServletRequest.getHeader("Authorization");
+		String id = jwtUtil.getUsername(requestTokenHeader);
+//		String id = "shining8543@naver.com";
+		System.out.println("헬로");
+		final User user = loginService.getUserInfo(id);
+		if(user == null) {
+			return new ResponseEntity<User>(user, HttpStatus.BAD_REQUEST);
+		}
+		
+		System.out.println(user.getAge());
+		
+		return new ResponseEntity<User>(user, HttpStatus.OK);
+	}
+	
+	
+	@ApiOperation(tags="관심지역", value="관심지역 설정", notes="사용자의 관심지역을 설정해 줌")
+	@PostMapping("/interest")
+	public ResponseEntity<String> setInterest(HttpServletRequest httpServletRequest, @RequestBody InterestForm input){
+		
+		final String requestTokenHeader = httpServletRequest.getHeader("Authorization");
+		String id = jwtUtil.getUsername(requestTokenHeader);
+		System.out.println(id);
+		if(input.getAreas().length <= 0) {
+			return new ResponseEntity<String>("underflow", HttpStatus.BAD_REQUEST);
+		}
+		
+		else if(input.getAreas().length > 3)
+			return new ResponseEntity<String>("overflow", HttpStatus.BAD_REQUEST);
+		
+		
+		interestService.setInterest(input);		
+		
+		return new ResponseEntity<String>("success", HttpStatus.OK);
+	}
+	
 	
 	
 }

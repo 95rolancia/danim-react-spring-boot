@@ -1,7 +1,7 @@
 package com.pd.danim.Dto;
 
 public class emailDTO {
-	String userId;
+	private String userId;
 
 	public String getUserId() {
 		return userId;
