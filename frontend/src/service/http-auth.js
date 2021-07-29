@@ -26,6 +26,10 @@ class HttpAuth {
       console.log(res);
       return res;
     } catch (error) {
+      const res = error.response;
+      if (res.status === 400) {
+        return res;
+      }
       throw new Error(`sign up error ${error}`);
     }
   }
@@ -36,6 +40,10 @@ class HttpAuth {
       console.log(res);
       return res;
     } catch (error) {
+      const res = error.response;
+      if (res.status === 409 && res.data === 'duplicate') {
+        return res;
+      }
       throw new Error(`auth email error ${error}`);
     }
   }
@@ -46,6 +54,13 @@ class HttpAuth {
       console.log(res);
       return res;
     } catch (error) {
+      const res = error.response;
+      if (res.status === 409 && res.data === 'not authorized') {
+        return res;
+      }
+      if (res.status === 403) {
+        return res;
+      }
       throw new Error(`auth email error ${error}`);
     }
   }
