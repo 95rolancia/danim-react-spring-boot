@@ -18,9 +18,9 @@ import CheckIcon from '@material-ui/icons/Check';
 import MuiAlert from '@material-ui/lab/Alert';
 import React from 'react';
 import { useState } from 'react';
-import InputValidator from '../../../util/input-validator';
-import { SignUpDto } from '../../../model/sign-up-dto';
-import HttpClient from '../../../service/http-auth';
+import InputValidator from '../../util/input-validator';
+import { SignUpDto } from '../../model/sign-up-dto';
+import HttpClient from '../../service/http-auth';
 import { observer } from 'mobx-react-lite';
 
 const useStyles = makeStyles((theme) => ({
