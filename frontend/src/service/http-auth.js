@@ -27,7 +27,7 @@ class HttpAuth {
       return res;
     } catch (error) {
       const res = error.response;
-      if (res.status === 400) {
+      if (res.status !== 200) {
         return res;
       }
       throw new Error(`sign up error ${error}`);
