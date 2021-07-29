@@ -27,7 +27,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 
-@Entity(name = "User")
+@Entity(name = "user")
 @DynamicInsert
 @EntityListeners(AuditingEntityListener.class)
 public class User {
