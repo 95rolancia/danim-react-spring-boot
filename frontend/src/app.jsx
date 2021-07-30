@@ -1,6 +1,5 @@
 import styles from './app.module.css';
 import { useState, useEffect } from 'react';
-import authStore from './stores/auth-store';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { SignUp, SignIn, Main, NotFound } from './pages/index.js';
 import StartLoading from './components/start-loading';
@@ -22,14 +21,14 @@ const App = () => {
       ) : (
         <BrowserRouter>
           <Switch>
-            <PrivateRoute path="/" authStore={authStore} exact>
+            <PrivateRoute path="/" exact>
               <Main />
             </PrivateRoute>
             <Route path="/signin">
-              <SignIn authStore={authStore} />
+              <SignIn />
             </Route>
             <Route path="/signup">
-              <SignUp authStore={authStore} />
+              <SignUp />
             </Route>
             <Route path="*">
               <NotFound />
