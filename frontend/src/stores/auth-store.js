@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
 import HttpAuth from '../service/http-auth';
 
 class AuthStore {
@@ -17,9 +17,28 @@ class AuthStore {
     if (res.status === 401) {
       return;
     }
-    console.log(res);
+
     this.isLoggedIn = true;
+
     return res;
+  }
+
+  async slientRefresh() {
+    const res = await HttpAuth.slientRefresh();
+    if (res.status !== 200) {
+      return;
+    }
+    this.isLoggedIn = true;
+  }
+
+  async signOut() {
+    if (!this.isLoggedIn) {
+      return;
+    }
+    await HttpAuth.signOut();
+    runInAction(() => {
+      this.isLoggedIn = false;
+    });
   }
 
   async duplicateCheckEmail(email) {
