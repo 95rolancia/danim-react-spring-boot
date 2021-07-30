@@ -8,8 +8,7 @@ class HttpAuth {
   async signIn(user) {
     try {
       const res = await this.instance.post('/auth/signin', user);
-      this.instance.defaults.headers.common['Authorization'] =
-        res.data.accessToken;
+      this.signInSuccess(res);
       return res;
     } catch (error) {
       const res = error.response;
@@ -17,6 +16,34 @@ class HttpAuth {
         return res;
       }
       throw new Error(`auth email error ${error}`);
+    }
+  }
+
+  async slientRefresh() {
+    try {
+      const res = await this.instance.post('/slient-refresh');
+      this.signInSuccess(res);
+      return res;
+    } catch (error) {
+      const res = error.response;
+      if (res.status === 401) {
+        return res;
+      }
+      throw new Error(`auth email error ${error}`);
+    }
+  }
+
+  signInSuccess(res) {
+    const { accessToken } = res.data;
+    this.instance.defaults.headers.common['Authorization'] = accessToken;
+  }
+
+  async signOut() {
+    try {
+      const res = await this.instance.post('/auth/signout');
+      return res;
+    } catch (error) {
+      throw new Error(`sign out error ${error}`);
     }
   }
 
