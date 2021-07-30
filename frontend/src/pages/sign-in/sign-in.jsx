@@ -13,6 +13,7 @@ import {
   Snackbar,
 } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
+import useAuth from '../../hooks/useAuth';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -36,9 +37,10 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-const SignIn = observer(({ authStore }) => {
+const SignIn = observer(() => {
   const classes = useStyles();
   const history = useHistory();
+  const authStore = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

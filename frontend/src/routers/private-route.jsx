@@ -1,15 +1,17 @@
 import React from 'react';
+import { observer } from 'mobx-react-lite';
 import { Redirect, Route } from 'react-router';
+import useAuth from '../hooks/useAuth';
 
-const PrivateRoute = ({ children, authStore, ...rest }) => {
+const PrivateRoute = observer(({ children, ...rest }) => {
+  const auth = useAuth();
   return (
     <Route
       {...rest}
-      render={() => {
-        return authStore.isLoggedIn ? children : <Redirect to="/signin" />;
-      }}
+      isLoggedIn={auth.isLoggedIn}
+      render={() => (auth.isLoggedIn ? children : <Redirect to="/signin" />)}
     />
   );
-};
+});
 
 export default PrivateRoute;
