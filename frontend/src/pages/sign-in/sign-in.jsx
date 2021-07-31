@@ -46,9 +46,11 @@ const SignIn = observer(() => {
   const [password, setPassword] = useState('');
   const [errorTextEmail, setErrorTextEmail] = useState('');
   const [errorTextPassword, setErrorTextPassword] = useState('');
-  const [infoState, setInfoState] = useState('');
-  const [showInfo, setShowInfo] = useState(false);
-  const [infoMsg, setInfoMsg] = useState('');
+  const [snackbarInfo, setSnackbarInfo] = useState({
+    isShow: false,
+    msg: '',
+    state: '',
+  });
 
   const checkEmail = (e) => {
     const email = e.target.value;
@@ -71,7 +73,12 @@ const SignIn = observer(() => {
   };
 
   const signInFormCheck = () => {
-    if (errorTextEmail === '' && errorTextPassword === '') {
+    if (
+      errorTextEmail === '' &&
+      errorTextPassword === '' &&
+      email &&
+      password
+    ) {
       return true;
     }
     return false;
@@ -80,29 +87,39 @@ const SignIn = observer(() => {
   const handleSignIn = async (e) => {
     e.preventDefault();
     if (!signInFormCheck()) {
-      setInfoState('error');
-      setInfoMsg('올바른 정보를 기입해주세요');
-      setShowInfo(true);
+      console.log('empty input');
+      setSnackbarInfo({
+        isShow: true,
+        msg: '올바른 정보를 기입해주세요.',
+        state: 'error',
+      });
       return;
     }
     await authStore.signIn(new SignInDto(email, password));
     if (authStore.isLoggedIn) {
-      setInfoState('success');
-      setInfoMsg('로그인 성공!');
-      setShowInfo(true);
-      history.push('/interest');
+      setSnackbarInfo({
+        isShow: true,
+        msg: '로그인 성공',
+        state: 'success',
+      });
+      history.push('/');
       return;
     }
-    setInfoState('error');
-    setInfoMsg('로그인에 실패했습니다.');
-    setShowInfo(true);
+    setSnackbarInfo({
+      isShow: true,
+      msg: '아이디나 비밀번호가 틀렸습니다.',
+      state: 'error',
+    });
   };
 
   const handleClose = (_, reason) => {
     if (reason === 'clickaway') {
       return;
     }
-    setShowInfo(false);
+    setSnackbarInfo({
+      ...snackbarInfo,
+      isShow: false,
+    });
   };
 
   const goToFindPassword = () => {
@@ -150,6 +167,7 @@ const SignIn = observer(() => {
             error={errorTextPassword !== '' ? true : false}
             helperText={errorTextPassword}
           />
+
           <Button
             className={classes.submit_button}
             onClick={handleSignIn}
@@ -166,12 +184,12 @@ const SignIn = observer(() => {
             </Button>
           </Grid>
           <Snackbar
-            open={showInfo}
+            open={snackbarInfo.isShow}
             autoHideDuration={700}
             onClose={handleClose}
           >
-            <Alert onClose={handleClose} severity={infoState}>
-              {infoMsg}
+            <Alert onClose={handleClose} severity={snackbarInfo.state}>
+              {snackbarInfo.msg}
             </Alert>
           </Snackbar>
         </form>
