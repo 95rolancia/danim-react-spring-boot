@@ -23,6 +23,7 @@ import { SignUpDto } from '../../model/sign-up-dto';
 import HttpClient from '../../service/http-auth';
 import { observer } from 'mobx-react-lite';
 import { useHistory } from 'react-router-dom';
+import useAuth from '../../hooks/useAuth';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -71,9 +72,10 @@ const useStyles = makeStyles((theme) => ({
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
-const SignUp = observer(({ authStore }) => {
+const SignUp = observer(() => {
   const classes = useStyles();
   const history = useHistory();
+  const authStore = useAuth();
 
   const [email, setEmail] = useState('');
   const [nickname, setNickname] = useState('');
