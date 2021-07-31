@@ -33,7 +33,12 @@ const Header = observer(() => {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton edge="start" color="inherit" aria-label="logo">
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="logo"
+            onClick={moveHome}
+          >
             <ExploreIcon />
           </IconButton>
           <Typography variant="button" className={classes.title}>
