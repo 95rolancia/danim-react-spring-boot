@@ -1,17 +1,20 @@
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   AppBar,
   BottomNavigation,
   BottomNavigationAction,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import HomeIcon from '@material-ui/icons/Home';
-import SearchIcon from '@material-ui/icons/Search';
-import CardTravelIcon from '@material-ui/icons/CardTravel';
-import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
-import PersonOutlineOutlinedIcon from '@material-ui/icons/PersonOutlineOutlined';
-import React from 'react';
-import { useHistory } from 'react-router-dom';
-import { useState } from 'react';
+import {
+  Home,
+  Search,
+  CardTravel,
+  BookmarkBorder,
+  PersonOutlineOutlined,
+  Create,
+} from '@material-ui/icons';
+
 const useStyles = makeStyles({
   root: {
     width: '100%',
@@ -33,33 +36,39 @@ const Navbar = (props) => {
         }}
       >
         <BottomNavigationAction
-          icon={<HomeIcon />}
+          icon={<Home />}
           onClick={() => {
-            history.push('/');
+            history.push('/main');
           }}
         />
         <BottomNavigationAction
-          icon={<SearchIcon />}
+          icon={<Search />}
           onClick={() => {
-            history.push('/search');
+            history.push('/main/search');
           }}
         />
         <BottomNavigationAction
-          icon={<CardTravelIcon />}
+          icon={<Create />}
           onClick={() => {
-            history.push('/trip');
+            history.push('/create');
           }}
         />
         <BottomNavigationAction
-          icon={<BookmarkBorderIcon />}
+          icon={<CardTravel />}
           onClick={() => {
-            history.push('/bookmark');
+            history.push('/main/trip');
           }}
         />
         <BottomNavigationAction
-          icon={<PersonOutlineOutlinedIcon />}
+          icon={<BookmarkBorder />}
           onClick={() => {
-            history.push('/profile');
+            history.push('/main/bookmark');
+          }}
+        />
+        <BottomNavigationAction
+          icon={<PersonOutlineOutlined />}
+          onClick={() => {
+            history.push('/main/profile');
           }}
         />
       </BottomNavigation>

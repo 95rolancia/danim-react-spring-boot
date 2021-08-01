@@ -1,11 +1,11 @@
 import styles from './app.module.css';
 import { useState, useEffect } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { SignUp, SignIn, Main, NotFound } from './pages/index.js';
-import StartLoading from './components/start-loading';
-import PrivateRoute from './routers/private-route';
 import { observer } from 'mobx-react-lite';
+import { SignUp, SignIn, Main, NotFound, BoardCreate } from './pages/index.js';
+import { StartLoading } from './components';
 import useAuth from './hooks/useAuth';
+import PrivateRoute from './routers/private-route';
 
 const App = observer(() => {
   const auth = useAuth();
@@ -28,15 +28,18 @@ const App = observer(() => {
       ) : (
         <BrowserRouter>
           <Switch>
-            <PrivateRoute path="/" exact>
-              <Main />
-            </PrivateRoute>
-            <Route path="/signin">
+            <Route path={['/', '/signin']} exact>
               <SignIn />
             </Route>
             <Route path="/signup">
               <SignUp />
             </Route>
+            <PrivateRoute path="/main">
+              <Main />
+            </PrivateRoute>
+            <PrivateRoute path="/create">
+              <BoardCreate />
+            </PrivateRoute>
             <Route path="*">
               <NotFound />
             </Route>

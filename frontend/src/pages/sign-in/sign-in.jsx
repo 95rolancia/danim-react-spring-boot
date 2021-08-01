@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useHistory } from 'react-router-dom';
 import { SignInDto } from '../../model/sign-in-dto';
@@ -40,7 +40,7 @@ function Alert(props) {
 const SignIn = observer(() => {
   const classes = useStyles();
   const history = useHistory();
-  const authStore = useAuth();
+  const auth = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -50,6 +50,12 @@ const SignIn = observer(() => {
     isShow: false,
     msg: '',
     state: '',
+  });
+
+  useEffect(() => {
+    if (auth.isLoggedIn) {
+      history.push('/main');
+    }
   });
 
   const checkEmail = (e) => {
@@ -95,14 +101,14 @@ const SignIn = observer(() => {
       });
       return;
     }
-    await authStore.signIn(new SignInDto(email, password));
-    if (authStore.isLoggedIn) {
+    await auth.signIn(new SignInDto(email, password));
+    if (auth.isLoggedIn) {
       setSnackbarInfo({
         isShow: true,
         msg: '로그인 성공',
         state: 'success',
       });
-      history.push('/');
+      history.push('/main');
       return;
     }
     setSnackbarInfo({
