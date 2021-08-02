@@ -4,7 +4,7 @@ export { default as NotFound } from './error/not-found';
 export { default as Home } from './home/home';
 export { default as Interest } from './interest/interest';
 export { default as Main } from './main/main';
-export { default as Profile } from './profile/profile';
+export { default as MyPage } from './my-page/my-page';
 export { default as Search } from './search/search';
 export { default as SignIn } from './sign-in/sign-in';
 export { default as SignUp } from './sign-up/sign-up';

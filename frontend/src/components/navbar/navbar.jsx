@@ -68,7 +68,7 @@ const Navbar = (props) => {
         <BottomNavigationAction
           icon={<PersonOutlineOutlined />}
           onClick={() => {
-            history.push('/main/profile');
+            history.push('/main/mypage');
           }}
         />
       </BottomNavigation>
