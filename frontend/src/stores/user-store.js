@@ -10,11 +10,13 @@ class UserStore {
 
   async getUser() {
     const res = await HttpUser.getUser();
-    console.log(res);
-    if (res.status === 401) {
-      return;
+    if (res.status !== 200) {
+      return false;
     }
-    this.user = { ...res.data };
+    runInAction(() => {
+      this.user = { ...res.data };
+    });
+    return true;
   }
 
   async setInterestArea(area) {
