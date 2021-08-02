@@ -14,7 +14,21 @@ class HttpUser {
       if (res.status === 401) {
         return res;
       }
-      throw new Error(`auth email error ${error}`);
+      throw new Error(`auth me error ${error}`);
+    }
+  }
+
+  async setInterestArea(area) {
+    try {
+      console.log(this.instance.defaults);
+      const res = await this.instance.post('/interest', area);
+      return res;
+    } catch (error) {
+      const res = error.response;
+      if (res.status === 401) {
+        return res;
+      }
+      throw new Error(`set interest area error ${error}`);
     }
   }
 }
