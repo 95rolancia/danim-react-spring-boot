@@ -43,7 +43,7 @@ const Header = observer(() => {
           </IconButton>
           <Typography variant="button" className={classes.title}>
             <Link to="/" style={{ color: 'white', textDecoration: 'none' }}>
-              DANIM
+              다님
             </Link>
           </Typography>
           <Button color="inherit" onClick={handleSignOut}>
