@@ -2,7 +2,14 @@ import styles from './app.module.css';
 import { useState, useEffect } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
-import { SignUp, SignIn, Main, NotFound, BoardCreate } from './pages/index.js';
+import {
+  SignUp,
+  SignIn,
+  Main,
+  NotFound,
+  BoardCreate,
+  Interest,
+} from './pages/index.js';
 import { StartLoading } from './components';
 import useAuth from './hooks/useAuth';
 import PrivateRoute from './routers/private-route';
@@ -36,6 +43,9 @@ const App = observer(() => {
             </Route>
             <PrivateRoute path="/main">
               <Main />
+            </PrivateRoute>
+            <PrivateRoute path="/interest">
+              <Interest />
             </PrivateRoute>
             <PrivateRoute path="/create">
               <BoardCreate />
