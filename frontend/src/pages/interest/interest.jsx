@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
+import { observer } from 'mobx-react-lite';
 import PlaceChip from './place-chip';
 import SelectedChip from './seleced-chip';
 import {
@@ -9,6 +10,8 @@ import {
   makeStyles,
   Typography,
 } from '@material-ui/core';
+import useUser from '../../hooks/useUser';
+import { toJS } from 'mobx';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,9 +50,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Interest = (props) => {
+const Interest = observer(() => {
   const classes = useStyles();
   const history = useHistory();
+  const user = useUser();
 
   const [chipData, setChipData] = useState([
     { key: 0, label: '서울', state: 'unselected' },
@@ -72,8 +76,23 @@ const Interest = (props) => {
   ]);
 
   const [selectedChipData, setSelecetedChipData] = useState([]);
-
   const [selectedBoxColor, setSelectedBoxrColor] = useState('default');
+  const [nickname, setNickname] = useState('danim');
+
+  useEffect(() => {
+    user.getUser().then((res) => {
+      if (!res) {
+        alert('사용자 정보 조회 실패!');
+        return;
+      }
+
+      if (toJS(user.user).interset) {
+        history.push('/main');
+      } else {
+        setNickname(toJS(user.user).nickname);
+      }
+    });
+  });
 
   const handleClick = (chip) => {
     if (chip.state === 'unselected') {
@@ -116,19 +135,26 @@ const Interest = (props) => {
   };
 
   const handleInterestSubmit = () => {
-    history.push('/main');
+    const selectedAreas = selectedChipData.map((item) => item.label);
+    const data = {
+      userno: toJS(user.user).userno,
+      areas: [...selectedAreas],
+    };
+    console.log(data);
+    user.setInterestArea(data).then((res) => {
+      if (res) {
+        history.push('/main');
+      } else {
+        alert('관심 지역 설정에 문제가 생겼습니다...! 헐');
+      }
+    });
   };
-
-  // useEffect(() => {
-  //   // 만약에 user정보 내에 선호하는 장소, selectedChipData가 있다면
-  //   // setSelecetedChipData(유저 정보 내에 선호하는 장소)
-  // });
 
   return (
     <Container>
       <div className={classes.root}>
         <Typography className={classes.intro} variant="h5">
-          안녕하세요, user님! <br />
+          안녕하세요, {nickname}!<br />
           어디를 소개해드릴까요?
         </Typography>
         <div className={classes.selected_box}>
@@ -173,6 +199,6 @@ const Interest = (props) => {
       </Button>
     </Container>
   );
-};
+});
 
 export default Interest;
