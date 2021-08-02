@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { observer } from 'mobx-react-lite';
 import PlaceChip from './place-chip';
-import SelectedChip from './seleced-chip';
+import SelectedChip from './selected-chip';
 import {
   Container,
   Button,

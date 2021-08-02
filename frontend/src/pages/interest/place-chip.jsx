@@ -1,14 +1,11 @@
 import React from 'react';
-import {
-  makeStyles,
-  Chip,
-} from '@material-ui/core'
+import { makeStyles, Chip } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   chip: {
     margin: theme.spacing(0.5),
   },
-}))
+}));
 
 const PlaceChip = ({ place, onClick }) => {
   const classes = useStyles();
@@ -22,11 +19,9 @@ const PlaceChip = ({ place, onClick }) => {
       label={place.label}
       onClick={handleClick}
       className={classes.chip}
-      color={
-        place.state === 'selected' ? 'primary' : 'default'
-      }
+      color={place.state === 'selected' ? 'primary' : 'default'}
     />
-    )
+  );
 };
 
 export default PlaceChip;
