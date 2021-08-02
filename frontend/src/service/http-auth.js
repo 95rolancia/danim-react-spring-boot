@@ -21,7 +21,7 @@ class HttpAuth {
 
   async slientRefresh() {
     try {
-      const res = await this.instance.post('/slient-refresh');
+      const res = await this.instance.post('/auth/slient-refresh');
       this.signInSuccess(res);
       return res;
     } catch (error) {

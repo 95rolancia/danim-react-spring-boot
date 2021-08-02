@@ -101,6 +101,7 @@ const SignIn = observer(() => {
       });
       return;
     }
+
     await auth.signIn(new SignInDto(email, password));
     if (auth.isLoggedIn) {
       setSnackbarInfo({
@@ -108,7 +109,7 @@ const SignIn = observer(() => {
         msg: '로그인 성공',
         state: 'success',
       });
-      history.push('/main');
+      history.push('/interest');
       return;
     }
     setSnackbarInfo({

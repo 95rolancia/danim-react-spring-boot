@@ -2,6 +2,7 @@ export { default as BoardCreate } from './board-create/board-create';
 export { default as Bookmark } from './bookmark/bookmark';
 export { default as NotFound } from './error/not-found';
 export { default as Home } from './home/home';
+export { default as Interest } from './interest/interest';
 export { default as Main } from './main/main';
 export { default as Profile } from './profile/profile';
 export { default as Search } from './search/search';
