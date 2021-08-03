@@ -9,6 +9,7 @@ import {
   NotFound,
   BoardCreate,
   Interest,
+  MyPage,
 } from './pages/index.js';
 import { StartLoading } from './components';
 import useAuth from './hooks/useAuth';
@@ -21,11 +22,13 @@ const App = observer(() => {
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 2000);
+    }, 100);
   });
 
   useEffect(() => {
-    // auth.slientRefresh();
+    if (localStorage.getItem('user')) {
+      auth.slientRefresh();
+    }
   });
 
   return (
@@ -33,6 +36,7 @@ const App = observer(() => {
       {loading ? (
         <StartLoading />
       ) : (
+        // <MyPage />
         <BrowserRouter>
           <Switch>
             <Route path={['/', '/signin']} exact>
