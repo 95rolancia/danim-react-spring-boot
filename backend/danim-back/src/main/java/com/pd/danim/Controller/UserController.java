@@ -171,7 +171,7 @@ public class UserController {
 			redisUtil.setDataExpire(danim.getId()+"jwt", refreshJwt, JwtUtil.REFRESH_TOKEN_VALIDATION_SECOND);
 //			res.addCookie(accessToken);
 			res.addCookie(refreshToken);
-			res.setHeader("Set-Cookie","Samesite=None; Secure;");
+			res.setHeader("Set-Cookie","SameSite=None; Secure;");
 			response.setAccessToken(accessToken.getValue());
 //			response.setRefreshToken(refreshToken.getValue());
 
