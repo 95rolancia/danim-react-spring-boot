@@ -110,8 +110,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 					danim.setId(refreshUname);
 					String newToken = jwtUtil.generateToken(danim);
 
-					Cookie newAccessToken = cookieUtil.createCookie(JwtUtil.ACCESS_TOKEN_NAME, newToken);
-					httpServletResponse.addCookie(newAccessToken);
+//					Cookie newAccessToken = cookieUtil.createCookie(JwtUtil.ACCESS_TOKEN_NAME, newToken);
+//					httpServletResponse.addCookie(newAccessToken);
 				}
 			}
 		} catch (ExpiredJwtException e) {
