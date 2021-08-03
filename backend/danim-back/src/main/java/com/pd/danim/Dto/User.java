@@ -1,6 +1,7 @@
 package com.pd.danim.Dto;
 
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,8 +23,6 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.DynamicInsert;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 
@@ -64,8 +63,33 @@ public class User {
 	
 
 	@OneToMany(mappedBy = "user")
-	private List<Interest> interests;
+	private List<Interest> interests = new ArrayList();
 	
+	@OneToMany(mappedBy = "user")
+	private List<Love> loves = new ArrayList();
+	
+	
+	
+
+	public DanimId getDanim() {
+		return danim;
+	}
+
+	public void setDanim(DanimId danim) {
+		this.danim = danim;
+	}
+
+	public List<Love> getLoves() {
+		return loves;
+	}
+
+	public void setLoves(List<Love> loves) {
+		this.loves = loves;
+	}
+
+	public void setInterests(List<Interest> interests) {
+		this.interests = interests;
+	}
 
 	public long getUserno() {
 		return userno;
@@ -139,6 +163,7 @@ public class User {
 		this.interests = interests;
 	}
 
+	
 	
 	
 	
