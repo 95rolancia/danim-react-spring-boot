@@ -1,6 +1,6 @@
 import styles from './app.module.css';
 import { useState, useEffect } from 'react';
-import { BrowserRouter, Switch, Route, useHistory } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import {
   SignUp,
@@ -17,7 +17,6 @@ import PrivateRoute from './routers/private-route';
 
 const App = observer(() => {
   const auth = useAuth();
-  const history = useHistory();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -28,11 +27,7 @@ const App = observer(() => {
 
   useEffect(() => {
     if (localStorage.getItem('user')) {
-      if (auth.slientRefresh()) {
-        history.push('/main');
-      } else {
-        history.push('/signin');
-      }
+      auth.slientRefresh();
     }
   });
 
