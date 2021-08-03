@@ -99,12 +99,13 @@ public class Story {
 		this.storydeleted = storydeleted;
 	}
 
-	public String getTitlephoto() {
-		return titlephoto;
+
+	public String getThumbnail() {
+		return thumbnail;
 	}
 
-	public void setTitlephoto(String titlephoto) {
-		this.titlephoto = titlephoto;
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
 	}
 
 	public StoryStatus getStatus() {
