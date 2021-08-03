@@ -45,17 +45,20 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 			FilterChain filterChain) throws ServletException, IOException {
 
 		final Cookie jwtToken = cookieUtil.getCookie(httpServletRequest, JwtUtil.ACCESS_TOKEN_NAME);
+		Cookie refreshToken = cookieUtil.getCookie(httpServletRequest, JwtUtil.REFRESH_TOKEN_NAME);
 		final String requestTokenHeader = httpServletRequest.getHeader("Authorization");
 		String username = null;
 		String jwt = null;
 		String refreshJwt = null;
 		String refreshUname = null;
 		
+		
+		
 		try {
-			if (jwtToken != null) {
+			if (requestTokenHeader != null) {
+//				jwt = jwtToken.getValue();
 				jwt = requestTokenHeader;
 				username = jwtUtil.getUsername(jwt);
-				System.out.println(username);
 			}
 			if (username != null) {
 				UserDetails userDetails = userDetailsService.loadUserByUsername(username);
@@ -69,19 +72,33 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 				}
 			}
 		} catch (ExpiredJwtException e) {
-			Cookie refreshToken = cookieUtil.getCookie(httpServletRequest, JwtUtil.REFRESH_TOKEN_NAME);
+			refreshToken = cookieUtil.getCookie(httpServletRequest, JwtUtil.REFRESH_TOKEN_NAME);
 			if (refreshToken != null) {
 				refreshJwt = refreshToken.getValue();
 			}
 		} catch (Exception e) {
 
 		}
-
+		
+		
+		//추가된 로직 : 위의 expiredJwtexception 내에서 refreshToken을 못잡아온다.
+		if (refreshToken != null) {
+			refreshJwt = refreshToken.getValue();
+		}
+		
+		//to check  redisData matches with refreshJwtToken
+		String redisData = null;
+		
 		try {
 			if (refreshJwt != null) {
-				refreshUname = redisUtil.getData(refreshJwt);
+				
+				refreshUname = jwtUtil.getUsername(refreshJwt);
+				
+				redisData = redisUtil.getData(refreshUname+"jwt");
 
-				if (refreshUname.equals(jwtUtil.getUsername(refreshJwt))) {
+				//이 부분의 바뀐 이유 : 원래는 토큰가지고 유저 정보를 얻지만 우리의 경우는 유저정보를 통해 token을 얻는다.
+//				if (refreshUname.equals(jwtUtil.getUsername(refreshJwt))) {
+				if (refreshJwt.equals(redisData)) {
 					UserDetails userDetails = userDetailsService.loadUserByUsername(refreshUname);
 					UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
 							userDetails, null, userDetails.getAuthorities());

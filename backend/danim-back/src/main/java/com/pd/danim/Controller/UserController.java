@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +24,7 @@ import com.pd.danim.Dto.nicknameDTO;
 import com.pd.danim.Service.DanimPasswordService;
 import com.pd.danim.Service.InterestService;
 import com.pd.danim.Service.LoginService;
+import com.pd.danim.Service.RefreshJwtTokenService;
 import com.pd.danim.Service.SignOutService;
 import com.pd.danim.Service.SignUpService;
 import com.pd.danim.Util.CookieUtil;
@@ -33,6 +35,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 
+//@CrossOrigin(origins = "http://192.168.0.5:3000")
 @Api(tags ="ALL" , value="user controller")
 @RestController
 public class UserController {
@@ -53,6 +56,9 @@ public class UserController {
 	private InterestService interestService;
 	
 	@Autowired
+	private RefreshJwtTokenService refreshJwtTokenService;
+	
+	@Autowired
 	private JwtUtil jwtUtil;
 
 	@Autowired
@@ -61,6 +67,8 @@ public class UserController {
 	@Autowired
 	private RedisUtil redisUtil;
 
+	
+	
 	// 이메일 검사 및 메일 전송
 	@ApiOperation(tags ="중복 검사", value ="이메일 검사 및 메일 전송", notes = "이메일 유효성 검사 후 중복 검사 진행 뒤 인증 메일을 전송합니다.")
 	@ApiResponse(code = 200, message ="success")
@@ -161,10 +169,11 @@ public class UserController {
 			Cookie accessToken = cookieUtil.createCookie(JwtUtil.ACCESS_TOKEN_NAME, token);
 			Cookie refreshToken = cookieUtil.createCookie(JwtUtil.REFRESH_TOKEN_NAME, refreshJwt);
 			redisUtil.setDataExpire(danim.getId()+"jwt", refreshJwt, JwtUtil.REFRESH_TOKEN_VALIDATION_SECOND);
-			res.addCookie(accessToken);
+//			res.addCookie(accessToken);
 			res.addCookie(refreshToken);
+			res.setHeader("Set-Cookie","Samesite=None; Secure;");
 			response.setAccessToken(accessToken.getValue());
-			response.setRefreshToken(refreshToken.getValue());
+//			response.setRefreshToken(refreshToken.getValue());
 
 
 		} catch (Exception e) {
@@ -246,6 +255,16 @@ public class UserController {
 		
 		return new ResponseEntity<String>("success", HttpStatus.OK);
 	}
+	
+//	@CrossOrigin(withCredentials = "true") => 이 옵션이 먹지 않는다. 그래서 WebConfiguration 건드려야할 듯
+//	to follow next steps, see the WebConfiguration.java's comments
+	@PostMapping("/silent-refresh")
+	public ResponseEntity<SignInResponse> refreshJwt(HttpServletRequest request, HttpServletResponse response){
+		System.out.println("요청들어오니???");
+		SignInResponse signInRespose = refreshJwtTokenService.refreshJwt(request, response);
+		return new ResponseEntity<SignInResponse>(signInRespose,HttpStatus.OK);
+	}
+	
 	
 	
 	
