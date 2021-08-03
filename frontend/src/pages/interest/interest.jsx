@@ -86,7 +86,7 @@ const Interest = observer(() => {
         return;
       }
 
-      if (toJS(user.user).interset) {
+      if (toJS(user.user).interests) {
         history.push('/main');
       } else {
         setNickname(toJS(user.user).nickname);
