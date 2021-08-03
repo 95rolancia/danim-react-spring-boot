@@ -260,9 +260,19 @@ public class UserController {
 //	to follow next steps, see the WebConfiguration.java's comments
 	@PostMapping("/silent-refresh")
 	public ResponseEntity<SignInResponse> refreshJwt(HttpServletRequest request, HttpServletResponse response){
-		System.out.println("요청들어오니???");
+		
+		Cookie[] cookies = request.getCookies();
+		
 		SignInResponse signInRespose = refreshJwtTokenService.refreshJwt(request, response);
-		return new ResponseEntity<SignInResponse>(signInRespose,HttpStatus.OK);
+		
+		for (Cookie cookie : cookies) {
+			if(cookie.getName().equals("refreshToken")) {
+				return new ResponseEntity<SignInResponse>(signInRespose,HttpStatus.OK);
+			}
+		}
+		
+		return new ResponseEntity<SignInResponse>(signInRespose,HttpStatus.BAD_REQUEST);
+		
 	}
 	
 	
