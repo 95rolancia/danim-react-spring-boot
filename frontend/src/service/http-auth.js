@@ -21,7 +21,7 @@ class HttpAuth {
 
   async slientRefresh() {
     try {
-      const res = await this.instance.post('/auth/slient-refresh');
+      const res = await this.instance.post('/slient-refresh');
       this.signInSuccess(res);
       return res;
     } catch (error) {
@@ -36,11 +36,13 @@ class HttpAuth {
   signInSuccess(res) {
     const { accessToken } = res.data;
     this.instance.defaults.headers.common['Authorization'] = accessToken;
+    localStorage.setItem('user', 'user');
   }
 
   async signOut() {
     try {
       const res = await this.instance.post('/auth/signout');
+      localStorage.removeItem('user');
       return res;
     } catch (error) {
       throw new Error(`sign out error ${error}`);
