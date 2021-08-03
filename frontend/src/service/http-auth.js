@@ -20,9 +20,9 @@ class HttpAuth {
     }
   }
 
-  async slientRefresh() {
+  async silentRefresh() {
     try {
-      const res = await this.instance.post('/slient-refresh');
+      const res = await this.instance.post('/silent-refresh');
       console.log(res);
       this.signInSuccess(res);
       return res;

@@ -27,7 +27,7 @@ const App = observer(() => {
 
   useEffect(() => {
     if (localStorage.getItem('user')) {
-      auth.slientRefresh();
+      auth.silentRefresh();
     }
   });
 
