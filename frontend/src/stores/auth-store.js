@@ -23,8 +23,8 @@ class AuthStore {
     return res;
   }
 
-  async slientRefresh() {
-    const res = await HttpAuth.slientRefresh();
+  async silentRefresh() {
+    const res = await HttpAuth.silentRefresh();
     if (res.status !== 200) {
       return false;
     }
