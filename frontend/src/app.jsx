@@ -23,13 +23,15 @@ const App = observer(() => {
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 100);
+    }, 2000);
   });
 
   useEffect(() => {
     if (localStorage.getItem('user')) {
       if (auth.slientRefresh()) {
         history.push('/main');
+      } else {
+        history.push('/signin');
       }
     }
   });
