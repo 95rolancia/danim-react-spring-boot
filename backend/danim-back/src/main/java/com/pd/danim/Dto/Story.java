@@ -44,8 +44,8 @@ public class Story {
 	@Column(name="story_deleted")
 	private boolean storydeleted;
 	
-	@Column(name="title_photo")
-	private String titlephoto;
+	@Column(name="thumbnail")
+	private String thumbnail;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "role")
