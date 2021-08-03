@@ -26,9 +26,12 @@ class AuthStore {
   async slientRefresh() {
     const res = await HttpAuth.slientRefresh();
     if (res.status !== 200) {
-      return;
+      return false;
     }
-    this.isLoggedIn = true;
+    runInAction(() => {
+      this.isLoggedIn = true;
+      return true;
+    });
   }
 
   async signOut() {
