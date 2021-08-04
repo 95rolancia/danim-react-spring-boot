@@ -1,5 +1,6 @@
 package com.pd.danim.Service;
 
+import java.util.Collection;
 import java.util.Iterator;
 
 import javax.servlet.http.Cookie;
@@ -7,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
 import com.pd.danim.Dto.DanimId;
@@ -55,6 +57,15 @@ public class RefreshJwtTokenServiceImpl implements RefreshJwtTokenService{
 		signInResponse.setAccessToken(accessJwt);
 		
 		response.addCookie(refreshToken);
+		
+		
+		//local용도
+		Collection<String> headers = response.getHeaders(HttpHeaders.SET_COOKIE);
+		for (String header : headers) {
+			response.setHeader(HttpHeaders.SET_COOKIE, header+"; " + "SameSite=None; Secure;");
+		}
+
+		
 		
 		return signInResponse;
 	}
