@@ -8,7 +8,6 @@ class HttpUser {
   async getUser() {
     try {
       const res = await this.instance.get('/auth/me');
-      console.log(res);
       return res;
     } catch (error) {
       const res = error.response;
@@ -34,7 +33,6 @@ class HttpUser {
 
   async setInterestArea(area) {
     try {
-      console.log(this.instance.defaults);
       const res = await this.instance.post('/interest', area);
       return res;
     } catch (error) {
