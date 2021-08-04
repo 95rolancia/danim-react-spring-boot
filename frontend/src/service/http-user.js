@@ -8,6 +8,7 @@ class HttpUser {
   async getUser() {
     try {
       const res = await this.instance.get('/auth/me');
+      console.log(res);
       return res;
     } catch (error) {
       const res = error.response;
@@ -15,6 +16,19 @@ class HttpUser {
         return res;
       }
       throw new Error(`auth me error ${error}`);
+    }
+  }
+
+  async getUserInfo(nickname) {
+    try {
+      const res = await this.instance.get(`/users/${nickname}`);
+      return res;
+    } catch (error) {
+      const res = error.response;
+      if (res.status === 401) {
+        return res;
+      }
+      throw new Error(`getUserInfo ${error}`);
     }
   }
 

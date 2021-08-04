@@ -7,7 +7,6 @@ class HttpAuth {
 
   async signIn(user) {
     try {
-      console.log(this.instance.defaults);
       const res = await this.instance.post('/auth/signin', user);
       this.signInSuccess(res);
       return res;
@@ -23,7 +22,6 @@ class HttpAuth {
   async silentRefresh() {
     try {
       const res = await this.instance.post('/silent-refresh');
-      console.log(res);
       this.signInSuccess(res);
       return res;
     } catch (error) {
