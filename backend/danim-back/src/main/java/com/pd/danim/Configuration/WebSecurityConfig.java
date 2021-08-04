@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 
 @Configuration
@@ -68,8 +69,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 //
 //		// Add a filter to validate the tokens with every request
-		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
-		.addFilterBefore(cookieAttributeFilter, CookieAttributeFilter.class);
+		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+		
+//		.addFilterBefore(cookieAttributeFilter, BasicAuthenticationFilter.class);
 	}
 //	
 //	
