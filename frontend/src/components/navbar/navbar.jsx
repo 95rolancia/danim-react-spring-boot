@@ -5,15 +5,17 @@ import {
   BottomNavigation,
   BottomNavigationAction,
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
 import {
   Home,
   Search,
-  CardTravel,
   BookmarkBorder,
   PersonOutlineOutlined,
   Create,
 } from '@material-ui/icons';
+import { makeStyles } from '@material-ui/styles';
+import { observer } from 'mobx-react-lite';
+import { toJS } from 'mobx';
+import useUser from '../../hooks/useUser';
 
 const useStyles = makeStyles({
   root: {
@@ -22,10 +24,13 @@ const useStyles = makeStyles({
     position: 'fixed',
   },
 });
-const Navbar = (props) => {
+
+const Navbar = observer(() => {
   const classes = useStyles();
   const history = useHistory();
   const [value, setValue] = useState(0);
+  const user = useUser();
+
   return (
     <AppBar>
       <BottomNavigation
@@ -54,12 +59,6 @@ const Navbar = (props) => {
           }}
         />
         <BottomNavigationAction
-          icon={<CardTravel />}
-          onClick={() => {
-            history.push('/main/trip');
-          }}
-        />
-        <BottomNavigationAction
           icon={<BookmarkBorder />}
           onClick={() => {
             history.push('/main/bookmark');
@@ -68,12 +67,12 @@ const Navbar = (props) => {
         <BottomNavigationAction
           icon={<PersonOutlineOutlined />}
           onClick={() => {
-            history.push('/main/mypage');
+            history.push(`/main/${toJS(user.user).nickname}`);
           }}
         />
       </BottomNavigation>
     </AppBar>
   );
-};
+});
 
 export default Navbar;
