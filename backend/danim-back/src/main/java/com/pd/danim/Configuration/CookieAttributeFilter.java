@@ -11,8 +11,11 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.stereotype.Component;
+
 import com.google.common.net.HttpHeaders;
 
+@Component
 public class CookieAttributeFilter implements Filter {
 
 	@Override
