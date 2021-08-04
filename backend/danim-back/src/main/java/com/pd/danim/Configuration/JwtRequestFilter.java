@@ -72,6 +72,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 				}
 			}
 		} catch (ExpiredJwtException e) {
+			httpServletResponse.setStatus(403, "access token expired");
 			refreshToken = cookieUtil.getCookie(httpServletRequest, JwtUtil.REFRESH_TOKEN_NAME);
 			if (refreshToken != null) {
 				refreshJwt = refreshToken.getValue();
@@ -115,7 +116,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 				}
 			}
 		} catch (ExpiredJwtException e) {
-
+			httpServletResponse.setStatus(403, "refresh token expired");
 		}
 
 		filterChain.doFilter(httpServletRequest, httpServletResponse);
