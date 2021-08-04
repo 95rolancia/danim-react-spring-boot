@@ -1,10 +1,13 @@
 package com.pd.danim.Controller;
 
+import java.util.Collection;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -174,6 +177,11 @@ public class UserController {
 //			res.setHeader("Set-Cookie","SameSite=None; Secure;");
 			response.setAccessToken(accessToken.getValue());
 //			response.setRefreshToken(refreshToken.getValue());
+			
+			Collection<String> headers = res.getHeaders(HttpHeaders.SET_COOKIE);
+			for (String header : headers) {
+				res.setHeader(HttpHeaders.SET_COOKIE, header+"; " + "SameSite=None; Secure");
+			}
 
 
 		} catch (Exception e) {
