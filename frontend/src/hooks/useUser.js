@@ -1,8 +1,8 @@
 import { useContext } from 'react';
 import { UserContext } from '../stores';
 
-const useAuth = () => {
+const useUser = () => {
   return useContext(UserContext);
 };
 
-export default useAuth;
+export default useUser;
