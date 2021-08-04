@@ -68,8 +68,16 @@ public class User {
 	@OneToMany(mappedBy = "user")
 	private List<Love> loves = new ArrayList();
 	
-	
-	
+	@OneToMany(mappedBy = "user")
+	private List<Follow> follows = new ArrayList();
+
+	public List<Follow> getFollows() {
+		return follows;
+	}
+
+	public void setFollows(List<Follow> follows) {
+		this.follows = follows;
+	}
 
 	public DanimId getDanim() {
 		return danim;
