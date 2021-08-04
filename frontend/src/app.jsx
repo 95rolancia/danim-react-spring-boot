@@ -9,14 +9,15 @@ import {
   NotFound,
   BoardCreate,
   Interest,
-  MyPage,
 } from './pages/index.js';
 import { StartLoading } from './components';
 import useAuth from './hooks/useAuth';
 import PrivateRoute from './routers/private-route';
+import useUser from './hooks/useUser';
 
 const App = observer(() => {
   const auth = useAuth();
+  const user = useUser();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -27,7 +28,9 @@ const App = observer(() => {
 
   useEffect(() => {
     if (localStorage.getItem('user')) {
-      auth.silentRefresh();
+      auth.silentRefresh().then(() => {
+        user.getUser();
+      });
     }
   });
 
@@ -36,7 +39,6 @@ const App = observer(() => {
       {loading ? (
         <StartLoading />
       ) : (
-        // <MyPage />
         <BrowserRouter>
           <Switch>
             <Route path={['/', '/signin']} exact>
