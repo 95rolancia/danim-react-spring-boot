@@ -17,6 +17,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private JwtRequestFilter jwtRequestFilter;
+	
+	@Autowired
+	private CookieAttributeFilter cookieAttributeFilter;
 
 ////	@Autowired
 ////	private UserDetailsService jwtUserDetailsService;
@@ -65,7 +68,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 //
 //		// Add a filter to validate the tokens with every request
-		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+		.addFilterBefore(cookieAttributeFilter, CookieAttributeFilter.class);
 	}
 //	
 //	
