@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Interest = observer(() => {
+const Interest = observer(({ type }) => {
   const classes = useStyles();
   const history = useHistory();
   const user = useUser();
@@ -85,11 +85,12 @@ const Interest = observer(() => {
         alert('사용자 정보 조회 실패!');
         return;
       }
-
-      if (toJS(user.user).interests.length) {
-        history.push('/main');
-      } else {
-        setNickname(toJS(user.user).nickname);
+      if (type === 'initial') {
+        if (toJS(user.user).interests.length) {
+          history.push('/main');
+        } else {
+          setNickname(toJS(user.user).nickname);
+        }
       }
     });
   });
@@ -150,13 +151,35 @@ const Interest = observer(() => {
     });
   };
 
+  const handleInterestModify = () => {
+    const selectedAreas = selectedChipData.map((item) => item.label);
+    const data = {
+      userno: toJS(user.user).userno,
+      areas: [...selectedAreas],
+    };
+    console.log(data);
+    //백엔드 API확인
+    alert('수정합니다');
+    history.push('/main');
+  };
+
+  const goToMain = () => {
+    history.push('/main');
+  };
+
   return (
     <Container>
       <div className={classes.root}>
-        <Typography className={classes.intro} variant="h5">
-          안녕하세요, {nickname}!<br />
-          어디를 소개해드릴까요?
-        </Typography>
+        {type === 'initial' ? (
+          <Typography className={classes.intro} variant="h5">
+            안녕하세요, {nickname}!<br />
+            어디를 소개해드릴까요?
+          </Typography>
+        ) : (
+          <Typography className={classes.intro} variant="h5">
+            관심지역을 수정할까요?
+          </Typography>
+        )}
         <div className={classes.selected_box}>
           {selectedChipData.map((interestedPlace) => (
             <SelectedChip
@@ -188,15 +211,38 @@ const Interest = observer(() => {
           ))}
         </div>
       </div>
-      <Button
-        fullWidth
-        variant="contained"
-        color="primary"
-        className={classes.button}
-        onClick={handleInterestSubmit}
-      >
-        완료
-      </Button>
+      {type === 'initial' ? (
+        <Button
+          fullWidth
+          variant="contained"
+          color="primary"
+          className={classes.button}
+          onClick={handleInterestSubmit}
+        >
+          완료
+        </Button>
+      ) : (
+        <>
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            onClick={handleInterestModify}
+          >
+            수정
+          </Button>
+          <Button
+            fullWidth
+            variant="contained"
+            color="secondary"
+            className={classes.button}
+            onClick={goToMain}
+          >
+            취소
+          </Button>
+        </>
+      )}
     </Container>
   );
 });

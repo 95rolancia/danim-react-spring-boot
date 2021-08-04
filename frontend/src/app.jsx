@@ -51,7 +51,10 @@ const App = observer(() => {
               <Main />
             </PrivateRoute>
             <PrivateRoute path="/interest">
-              <Interest />
+              <Interest type="initial" />
+            </PrivateRoute>
+            <PrivateRoute path="/interest-modify">
+              <Interest type="modify" />
             </PrivateRoute>
             <PrivateRoute path="/create">
               <BoardCreate />
