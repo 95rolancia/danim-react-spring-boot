@@ -86,7 +86,7 @@ const Interest = observer(() => {
         return;
       }
 
-      if (toJS(user.user).interests) {
+      if (toJS(user.user).interests.length) {
         history.push('/main');
       } else {
         setNickname(toJS(user.user).nickname);
