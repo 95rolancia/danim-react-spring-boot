@@ -18,7 +18,6 @@ import com.pd.danim.Dto.PhotoForm;
 import com.pd.danim.Dto.Story;
 import com.pd.danim.Dto.StoryForm;
 import com.pd.danim.Dto.SubStory;
-import com.pd.danim.Dto.TestForm;
 import com.pd.danim.Dto.User;
 import com.pd.danim.Repository.PhotoRepository;
 import com.pd.danim.Repository.StoryRepository;
