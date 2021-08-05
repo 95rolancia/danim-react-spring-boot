@@ -48,10 +48,7 @@ public class User {
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "role")
-	private UserRole role;
-	
-	@OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
-	private DanimId danim;
+	private UserRole role;	
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@CreatedDate
@@ -77,14 +74,6 @@ public class User {
 
 	public void setFollows(List<Follow> follows) {
 		this.follows = follows;
-	}
-
-	public DanimId getDanim() {
-		return danim;
-	}
-
-	public void setDanim(DanimId danim) {
-		this.danim = danim;
 	}
 
 	public List<Love> getLoves() {

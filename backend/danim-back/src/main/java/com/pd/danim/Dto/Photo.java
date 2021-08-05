@@ -1,60 +1,78 @@
 package com.pd.danim.Dto;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.DynamicInsert;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
+@DynamicInsert
+@EntityListeners(AuditingEntityListener.class)
 public class Photo {
 	@Id
 	@Column(name = "photo_no")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	long photono;
+	long photoNo;
 	
 	
 	@ManyToOne
 	@JoinColumn(name="substory_no")
 	SubStory substory;
 	
-	
+	@ManyToOne
 	@JoinColumn(name = "story_no")
-	long storyno;
+	Story story;
 	
 	@JoinColumn(name = "user_no")
-	long userno;
+	long userNo;
 	
 	@Column(name = "latitude")
-	double latitude;
+	String latitude;
 	
-	@Column(name = "latitue")
-	double longitude ;
+	@Column(name = "longtitude")
+	String longtitude ;
 	
-	@Column(name="photo_name")
-	String name;
+	@Column(name="photo_filename")
+	String filename;
 	
-	@Column(name="photo_contnet")
+	@Column(name="photo_content")
 	String content;
+	
+	@Column(name="photo_date")
+	private LocalDateTime date;
 	
 	@Column(name="photo_deleted")
 	boolean deleted;
 	
+	@Enumerated(EnumType.STRING)
+	@Column(name = "tag")
+	private PhotoTag tag;
+	
 	@OneToMany(mappedBy = "photo")
 	private List<Love> loves = new ArrayList();
 
-	public long getPhotono() {
-		return photono;
+	public long getPhotoNo() {
+		return photoNo;
 	}
 
-	public void setPhotono(long photono) {
-		this.photono = photono;
+	public void setPhotoNo(long photoNo) {
+		this.photoNo = photoNo;
 	}
 
 	public SubStory getSubstory() {
@@ -64,45 +82,45 @@ public class Photo {
 	public void setSubstory(SubStory substory) {
 		this.substory = substory;
 	}
-
-	public long getStoryno() {
-		return storyno;
+	
+	public Story getStory() {
+		return story;
 	}
 
-	public void setStoryno(long storyno) {
-		this.storyno = storyno;
+	public void setStory(Story story) {
+		this.story = story;
 	}
 
-	public long getUserno() {
-		return userno;
+	public long getUserNo() {
+		return userNo;
 	}
 
-	public void setUserno(long userno) {
-		this.userno = userno;
+	public void setUserNo(long userNo) {
+		this.userNo = userNo;
 	}
 
-	public double getLatitude() {
+	public String getLatitude() {
 		return latitude;
 	}
 
-	public void setLatitude(double latitude) {
+	public void setLatitude(String latitude) {
 		this.latitude = latitude;
 	}
 
-	public double getLongitude() {
-		return longitude;
+	public String getLongtitude() {
+		return longtitude;
 	}
 
-	public void setLongitude(double longitude) {
-		this.longitude = longitude;
+	public void setLongtitude(String longtitude) {
+		this.longtitude = longtitude;
 	}
 
-	public String getName() {
-		return name;
+	public String getFilename() {
+		return filename;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setFilename(String filename) {
+		this.filename = filename;
 	}
 
 	public String getContent() {
@@ -113,6 +131,13 @@ public class Photo {
 		this.content = content;
 	}
 
+	public LocalDateTime getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDateTime date) {
+		this.date = date;
+	}
 
 	public boolean isDeleted() {
 		return deleted;
@@ -122,6 +147,14 @@ public class Photo {
 		this.deleted = deleted;
 	}
 
+	public PhotoTag getTag() {
+		return tag;
+	}
+
+	public void setTag(PhotoTag tag) {
+		this.tag = tag;
+	}
+
 	public List<Love> getLoves() {
 		return loves;
 	}
@@ -129,6 +162,8 @@ public class Photo {
 	public void setLoves(List<Love> loves) {
 		this.loves = loves;
 	}
+
+	
 	
 	
 }

@@ -2,6 +2,7 @@ package com.pd.danim.Dto;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -9,13 +10,18 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 @Entity
+@DynamicInsert
+@EntityListeners(AuditingEntityListener.class)
 @Table(name="substory")
 public class SubStory {
 	@Id
 	@Column(name = "substory_no")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	long substoryno;
+	long substoryNo;
 	
 	
 	@ManyToOne
@@ -23,23 +29,23 @@ public class SubStory {
 	Story story;
 	
 	@JoinColumn(name = "user_no")
-	long userno;
+	long userNo;
 	
 	@Column(name ="seq_no")
-	int seqno;
+	int seqNo;
 	
 	
 	@Column(name="substory_deleted")
 	private boolean deleted;
 
 
-	public long getSubstoryno() {
-		return substoryno;
+	public long getSubstoryNo() {
+		return substoryNo;
 	}
 
 
-	public void setSubstoryno(long substoryno) {
-		this.substoryno = substoryno;
+	public void setSubstoryNo(long substoryNo) {
+		this.substoryNo = substoryNo;
 	}
 
 
@@ -53,23 +59,23 @@ public class SubStory {
 	}
 
 
-	public long getUserno() {
-		return userno;
+	public long getUserNo() {
+		return userNo;
 	}
 
 
-	public void setUserno(long userno) {
-		this.userno = userno;
+	public void setUserNo(long userNo) {
+		this.userNo = userNo;
 	}
 
 
-	public int getSeqno() {
-		return seqno;
+	public int getSeqNo() {
+		return seqNo;
 	}
 
 
-	public void setSeqno(int seqno) {
-		this.seqno = seqno;
+	public void setSeqNo(int seqNo) {
+		this.seqNo = seqNo;
 	}
 
 
@@ -82,8 +88,6 @@ public class SubStory {
 		this.deleted = deleted;
 	}
 
-	
-	
-	
+
 	
 }

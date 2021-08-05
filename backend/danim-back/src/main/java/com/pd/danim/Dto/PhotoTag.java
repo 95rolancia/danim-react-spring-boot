@@ -5,6 +5,6 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum StoryStatus {
-	PUBLISHED, PRIVATED, TEMP, DELETED;
+public enum PhotoTag {
+	NONE, FOOD, SCENERY, PERSON;
 }
