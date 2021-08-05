@@ -12,6 +12,8 @@ import com.pd.danim.Dto.User;
 import com.pd.danim.Repository.DanimRepository;
 import com.pd.danim.Repository.UserRepository;
 
+import io.jsonwebtoken.ExpiredJwtException;
+
 @Service
 public class MyUserDetailService implements UserDetailsService{
 	
@@ -22,7 +24,7 @@ public class MyUserDetailService implements UserDetailsService{
 	private UserRepository userRepository;
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, ExpiredJwtException {
 		
 		DanimId danim = DanimRepository.findById(username);
 		
