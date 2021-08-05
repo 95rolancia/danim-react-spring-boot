@@ -1,7 +1,6 @@
 package com.pd.danim.Service;
 
 import com.pd.danim.Dto.StoryForm;
-import com.pd.danim.Dto.TestForm;
 import com.pd.danim.Dto.User;
 
 public interface StoryService {
