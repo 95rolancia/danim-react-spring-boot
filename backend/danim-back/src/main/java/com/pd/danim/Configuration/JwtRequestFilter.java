@@ -72,13 +72,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 				}
 			}
 		} catch (ExpiredJwtException e) {
-			httpServletResponse.setStatus(403, "access token expired");
+			httpServletResponse.setStatus(403,"access token expired");
 			refreshToken = cookieUtil.getCookie(httpServletRequest, JwtUtil.REFRESH_TOKEN_NAME);
 			if (refreshToken != null) {
 				refreshJwt = refreshToken.getValue();
 			}
 		} catch (Exception e) {
-			
+			System.out.println("access token 끝났어");
+			httpServletResponse.setStatus(403,"access token expired");
 		}
 		
 		
@@ -116,7 +117,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 				}
 			}
 		} catch (ExpiredJwtException e) {
-			httpServletResponse.setStatus(403, "refresh token expired");
+			httpServletResponse.setStatus(403,"refresh token expired");
 		}
 
 		filterChain.doFilter(httpServletRequest, httpServletResponse);
