@@ -1,8 +1,6 @@
 package com.pd.danim.Dto;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,8 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -26,17 +24,21 @@ public class Story {
 	@Id
 	@Column(name = "story_no")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	long storyno;
+	long storyNo;
 	
 	
 	@JoinColumn(name="user_no")
-	long userno;
+	long userNo;
 	
 	@Column(name="title")
 	String title;
 	
+	@CreationTimestamp
+	@Column(name="created_date")
+	private LocalDateTime createdDate;
+	
 	@Column(name="start_date")
-	private Date start_date;
+	private LocalDateTime startDate;
 	
 	@Column(name="duration")
 	private int duration;
@@ -51,20 +53,20 @@ public class Story {
 	@Column(name = "role")
 	private StoryStatus status;
 
-	public long getStoryno() {
-		return storyno;
+	public long getStoryNo() {
+		return storyNo;
 	}
 
-	public void setStoryno(long storyno) {
-		this.storyno = storyno;
+	public void setStoryNo(long storyNo) {
+		this.storyNo = storyNo;
 	}
 
-	public long getUserno() {
-		return userno;
+	public long getUserNo() {
+		return userNo;
 	}
 
-	public void setUserno(long userno) {
-		this.userno = userno;
+	public void setUserNo(long userNo) {
+		this.userNo = userNo;
 	}
 
 	public String getTitle() {
@@ -75,12 +77,20 @@ public class Story {
 		this.title = title;
 	}
 
-	public Date getStart_date() {
-		return start_date;
+	public LocalDateTime getCreatedDate() {
+		return createdDate;
 	}
 
-	public void setStart_date(Date start_date) {
-		this.start_date = start_date;
+	public void setCreatedDate(LocalDateTime createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public LocalDateTime getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(LocalDateTime startDate) {
+		this.startDate = startDate;
 	}
 
 	public int getDuration() {
@@ -99,7 +109,6 @@ public class Story {
 		this.storydeleted = storydeleted;
 	}
 
-
 	public String getThumbnail() {
 		return thumbnail;
 	}
@@ -115,6 +124,10 @@ public class Story {
 	public void setStatus(StoryStatus status) {
 		this.status = status;
 	}
+
+
+
+
 
 	
 	
