@@ -227,15 +227,15 @@ public class UserController {
 	
 	@ApiOperation(tags="인증", value="사용자 정보 반환", notes="사용자의 정보를 반환합니다")
 	@GetMapping("/auth/me")
-	public ResponseEntity<User> getMyInfo(HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse){
-		
-		int status = httpServletResponse.getStatus();
-		System.out.println("---------------------------------");
-		System.out.println("response의 status는 "+ status);
-		User testUser = new User();
-		if(status==403) {
-			return new ResponseEntity<User>(testUser,HttpStatus.UNAUTHORIZED);
-		}
+	public ResponseEntity<User> getMyInfo(HttpServletRequest httpServletRequest){
+//		,HttpServletResponse httpServletResponse
+//		int status = httpServletResponse.getStatus();
+//		System.out.println("---------------------------------");
+//		System.out.println("response의 status는 "+ status);
+//		User testUser = new User();
+//		if(status==403) {
+//			return new ResponseEntity<User>(testUser,HttpStatus.UNAUTHORIZED);
+//		}
 		
 		final String requestTokenHeader = httpServletRequest.getHeader("Authorization");
 		String id = jwtUtil.getUsername(requestTokenHeader);
