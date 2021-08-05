@@ -60,6 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/configuration/ui",
                         "/swagger-resources/**",
                         "/configuration/security",
+                        "/api/swagger-ui.html",
                         "/swagger-ui.html",
                         "/webjars/**","/duplicate/**","/auth/signin", "/signup").permitAll()
 				// options method allow
