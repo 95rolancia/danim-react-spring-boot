@@ -44,7 +44,7 @@ public class ExceptionHanlderFilter extends OncePerRequestFilter {
 		log.error(ex.getMessage());
 		response.setContentType("application/json");
 		response.setHeader("Access-Control-Allow-Credentials", "true");
-		response.setHeader("Access-Control-Allow-Origins", "https://localhost:3000");
+		response.setHeader("Access-Control-Allow-Origin", "https://localhost:3000");
 		response.setHeader("Access-Control-Expose-Headers","Content-Disposition, X-AUTH-TOKEN, Authorization, Access-Control-Allow-Origin, Access-Control-Allow-Credentials");
 //	        ErrorResponse errorResponse = new ErrorResponse(ErrorCode.INTER_SERVER_ERROR);
 //	        errorResponse.setMessage(ex.getMessage());
