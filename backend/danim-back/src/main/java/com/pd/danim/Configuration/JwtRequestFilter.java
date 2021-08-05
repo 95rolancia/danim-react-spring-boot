@@ -52,13 +52,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 		String refreshJwt = null;
 		String refreshUname = null;
 		
-		
+		System.out.println(requestTokenHeader);
 		
 		try {
 			if (requestTokenHeader != null) {
 //				jwt = jwtToken.getValue();
 				jwt = requestTokenHeader;
 				username = jwtUtil.getUsername(jwt);
+				System.out.println(username);
 			}
 			if (username != null) {
 				UserDetails userDetails = userDetailsService.loadUserByUsername(username);
@@ -72,6 +73,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 				}
 			}
 		} catch (ExpiredJwtException e) {
+			System.out.println("이곳에서 에러났어11111");
 			httpServletResponse.setStatus(403,"access token expired");
 			refreshToken = cookieUtil.getCookie(httpServletRequest, JwtUtil.REFRESH_TOKEN_NAME);
 			if (refreshToken != null) {
