@@ -15,12 +15,9 @@ instance.interceptors.response.use(
       config,
       response: { status },
     } = error;
-
-    if (status === 403) {
+    if (status === 403 && error.response.data === 'access token expired') {
       const originalRequest = config;
-      console.log('엑세스 토큰 만료', error);
       await instance.post(`/silent-refresh`);
-      // 401로 요청 실패했던 요청 새로운 accessToken으로 재요청
       return instance(originalRequest);
     }
     return Promise.reject(error);
