@@ -52,7 +52,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 		String refreshJwt = null;
 		String refreshUname = null;
 		
-		System.out.println(requestTokenHeader);
+//		System.out.println(requestTokenHeader);
 //		System.out.println("이 토큰의 주인은" + jwtUtil.getUsername(requestTokenHeader));
 		
 		try {
@@ -60,7 +60,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 //				jwt = jwtToken.getValue();
 				jwt = requestTokenHeader;
 				username = jwtUtil.getUsername(jwt);
-				System.out.println(username);
+//				System.out.println(username);
 			}
 			if (username != null) {
 				UserDetails userDetails = userDetailsService.loadUserByUsername(username);
@@ -83,7 +83,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 //			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("exception 발생 " + e.getMessage());
+//			System.out.println("exception 발생 " + e.getMessage());
 			httpServletResponse.setStatus(403,"access token expired");
 		}
 		
