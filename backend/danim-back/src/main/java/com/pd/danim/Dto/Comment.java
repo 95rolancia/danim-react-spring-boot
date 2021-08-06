@@ -15,7 +15,7 @@ public class Comment {
 	@Id
 	@Column(name = "comment_no")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long commentno;
+	private long commentNo;
 		
 	@ManyToOne
 	@JoinColumn(name="photo_no")
@@ -38,4 +38,63 @@ public class Comment {
 	
 	@Column(name = "comment_deleted")
 	private boolean deleted;
+
+	public long getCommentNo() {
+		return commentNo;
+	}
+
+	public void setCommentNo(long commentNo) {
+		this.commentNo = commentNo;
+	}
+
+	public Photo getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(Photo photo) {
+		this.photo = photo;
+	}
+
+	public Story getStory() {
+		return story;
+	}
+
+	public void setStory(Story story) {
+		this.story = story;
+	}
+
+	public SubStory getSubstory() {
+		return substory;
+	}
+
+	public void setSubstory(SubStory substory) {
+		this.substory = substory;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+	
+	
+	
 }

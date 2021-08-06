@@ -1,10 +1,11 @@
 package com.pd.danim.Dto;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiParam;
 import lombok.Data;
 
 @Data
+@ApiModel(value="회원 가입", description="아이디(이메일), 비밀번호, 닉네임, 나이, 성별, 키")
 public class SignUpForm {
 	
 	@ApiModelProperty(value = "사용자 아이디(이메일)", required=true, example="test@test.com")
@@ -17,7 +18,7 @@ public class SignUpForm {
 	private int age;
 	@ApiModelProperty(value = "성별", example="M")
 	private String gender;
-	@ApiModelProperty(value = "키", example="55064", notes="이메일 인증 키 값")
+	@ApiModelProperty(value = "키", example="55064")
 	private String key;
 	public String getKey() {
 		return key;
