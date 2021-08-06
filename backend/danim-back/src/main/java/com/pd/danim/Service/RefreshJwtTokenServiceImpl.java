@@ -43,9 +43,12 @@ public class RefreshJwtTokenServiceImpl implements RefreshJwtTokenService{
 		String id = jwtUtil.getUsername(token);
 		DanimId danim = new DanimId();
 		danim.setId(id);
-		final String accessJwt = jwtUtil.generateToken(danim);
-		final String refreshJwt = jwtUtil.generateRefreshToken(danim);
+		String accessJwt = jwtUtil.generateToken(danim);
+		String refreshJwt = jwtUtil.generateRefreshToken(danim);
 		
+		
+		System.out.println("access token은 " + accessJwt);
+				
 		boolean deleteCheck = redisUtil.deleteData(id+"jwt");
 //		System.out.println(deleteCheck);
 		
