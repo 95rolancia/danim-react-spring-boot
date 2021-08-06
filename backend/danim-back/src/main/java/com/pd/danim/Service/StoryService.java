@@ -10,7 +10,5 @@ public interface StoryService {
 	boolean getStory(long storyno);
 	boolean getStories(User user);
 	boolean deleteStory(long storyno);
-//	boolean test(TestForm test);
-	
 	
 }

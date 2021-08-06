@@ -22,7 +22,7 @@ public class PhotoForm {
 	@ApiModelProperty(value = "사진 태그", example="FOOD")
 	private PhotoTag tag;
 	@ApiModelProperty(value = "사진 파일", example="jpg, png")
-	MultipartFile file; //사진 파일
+	private MultipartFile file; //사진 파일
 	
 
 
