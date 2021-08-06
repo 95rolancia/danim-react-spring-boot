@@ -19,9 +19,12 @@ instance.interceptors.response.use(
     if (status === 403 && error.response.data === 'access token expired') {
       const originalRequest = config;
       instance.defaults.headers.common['Authorization'] = '';
-      await instance.post(`/silent-refresh`);
-      return instance(originalRequest);
+      const res = await instance.post(`/silent-refresh`);
+      instance.defaults.headers.common['Authorization'] = res.data.accessToken;
+      originalRequest.headers['Authorization'] = res.data.accessToken;
+      return axios(originalRequest);
     }
+
     return Promise.reject(error);
   },
 );
