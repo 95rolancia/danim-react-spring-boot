@@ -52,7 +52,7 @@ public class ExceptionHanlderFilter extends OncePerRequestFilter {
 		try {
 //	            String json = errorResponse.convertToJson();
 			response.getWriter().write(errorMsg);
-			System.out.println("exception filter에 걸리겠지??????");
+//			System.out.println("exception filter에 걸리겠지??????");
 //	            response.getWriter().write(json);
 		} catch (Exception e) {
 			e.printStackTrace();
