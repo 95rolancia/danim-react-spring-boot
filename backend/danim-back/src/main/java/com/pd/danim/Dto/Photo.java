@@ -28,37 +28,37 @@ public class Photo {
 	@Id
 	@Column(name = "photo_no")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	long photoNo;
+	private long photoNo;
 	
 	
 	@ManyToOne
 	@JoinColumn(name="substory_no")
-	SubStory substory;
+	private SubStory substory;
 	
 	@ManyToOne
 	@JoinColumn(name = "story_no")
-	Story story;
+	private Story story;
 	
 	@JoinColumn(name = "user_no")
-	long userNo;
+	private long userNo;
 	
 	@Column(name = "latitude")
-	String latitude;
+	private String latitude;
 	
 	@Column(name = "longtitude")
-	String longtitude ;
+	private String longtitude ;
 	
 	@Column(name="photo_filename")
-	String filename;
+	private String filename;
 	
 	@Column(name="photo_content")
-	String content;
+	private String content;
 	
 	@Column(name="photo_date")
 	private LocalDateTime date;
 	
 	@Column(name="photo_deleted")
-	boolean deleted;
+	private boolean deleted;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "tag")

@@ -21,18 +21,18 @@ public class SubStory {
 	@Id
 	@Column(name = "substory_no")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	long substoryNo;
+	private long substoryNo;
 	
 	
 	@ManyToOne
 	@JoinColumn(name="story_no")
-	Story story;
+	private Story story;
 	
 	@JoinColumn(name = "user_no")
-	long userNo;
+	private long userNo;
 	
 	@Column(name ="seq_no")
-	int seqNo;
+	private int seqNo;
 	
 	
 	@Column(name="substory_deleted")

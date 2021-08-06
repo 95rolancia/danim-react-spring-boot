@@ -29,7 +29,7 @@ public class SignUpServiceImpl implements SignUpService {
 	private RedisUtil redisUtil;
 
 	@Autowired
-	SMTPService SMTPService;
+	private SMTPService SMTPService;
 
 	// 회원가입
 	@Override

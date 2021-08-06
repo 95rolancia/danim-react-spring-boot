@@ -24,14 +24,14 @@ public class Story {
 	@Id
 	@Column(name = "story_no")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	long storyNo;
+	private long storyNo;
 	
 	
 	@JoinColumn(name="user_no")
-	long userNo;
+	private long userNo;
 	
 	@Column(name="title")
-	String title;
+	private String title;
 	
 	@CreationTimestamp
 	@Column(name="created_date")
