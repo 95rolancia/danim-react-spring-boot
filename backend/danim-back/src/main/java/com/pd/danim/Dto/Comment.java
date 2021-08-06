@@ -31,7 +31,7 @@ public class Comment {
 	
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="user_no")
-	User user;
+	private User user;
 	
 	@Column(name = "comment_content")
 	private String content;

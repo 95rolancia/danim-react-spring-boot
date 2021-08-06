@@ -28,95 +28,17 @@ import com.pd.danim.Repository.UserRepository;
 public class StoryServiceImpl implements StoryService {
 
 	@Autowired
-	UserRepository userRepo;
+	private UserRepository userRepo;
 	
 	@Autowired
-	PhotoRepository photoRepo;
+	private PhotoRepository photoRepo;
 	
 	@Autowired
-	SubStoryRepository subStoryRepo;
+	private SubStoryRepository subStoryRepo;
 	
 	@Autowired
-	StoryRepository storyRepo;
+	private StoryRepository storyRepo;
 	
-//	@Override
-//	public boolean test(TestForm test) {
-//		
-////		User user = userRepo.findByNickname("킹경원");		
-////		
-////		Story story = new Story();
-////		SubStory subStory = new SubStory();
-////		Photo photo = new Photo();
-////		
-////		story.setUserNo(user.getUserno());
-////		story.setTitle("테스트 스토리");
-////		story.setStartDate(LocalDateTime.now());
-////		
-////		System.out.println(LocalDateTime.now());
-////		
-////		subStory.setUserNo(1);
-////		subStory.setStory(story);
-////		subStory.setSeqNo(1);
-////		
-////		
-////		
-////		photo.setSubstory(subStory);
-////		photo.setUserNo(1);
-////		photo.setStory(story);
-////		photo.setDate(LocalDateTime.now());
-////		photo.setFilename("test");
-////		photo.setLatitude("23.123123");
-////		photo.setLongtitude("123.12323");
-////		
-////		storyRepo.save(story);
-////		subStoryRepo.save(subStory);		
-////		photoRepo.save(photo);
-////		
-////		int seq = (int)Duration.between(test.getDate(), LocalDateTime.now()).toDays();
-////		System.out.println(seq);
-//////		UUID uid = UUID.randomUUID();
-//////		String absolutePath = new File("").getAbsolutePath() + File.separator;
-//////		String path = "image" + File.separator + "test";
-//////		File nFile = new File(path);
-//////
-//////		System.out.println(file);
-//////		String originalFileExtension;
-//////		String contentType = file.getContentType();
-//////		System.out.println(contentType);
-//////		
-//////		if (!nFile.exists()) {
-//////			nFile.mkdirs();
-//////		}
-//////		
-//////		// 확장자가 없는 경우
-//////		if (ObjectUtils.isEmpty(contentType)) {
-//////			return false;
-//////		}
-//////
-//////		// 확장자 jpg, png 확인
-//////		if (contentType.contains("image/jpeg")) {
-//////			originalFileExtension = ".jpg";
-//////		} else if (contentType.contains("image/png")) {
-//////			originalFileExtension = ".png";
-//////		} else {
-//////			// 다른 확장자인 경우
-//////			return false;
-//////		}
-//////
-//////		System.out.println(contentType);
-//////		nFile = new File(absolutePath + path + File.separator + uid.toString()+ originalFileExtension);
-//////		System.out.println(absolutePath + path + File.separator + uid.toString() + originalFileExtension);
-//////		// 파일 권한 설정(쓰기, 읽기)
-//////		try {
-//////			file.transferTo(nFile);
-//////		} catch (Exception e) {
-//////
-//////		}
-//////		nFile.setWritable(true);
-//////		nFile.setReadable(true);
-//
-//		return true;
-//	}
 
 	@Override
 	public boolean writeStory(StoryForm input) {
@@ -134,7 +56,7 @@ public class StoryServiceImpl implements StoryService {
 			file.mkdirs();
 		}
 		
-		int cnt=1;
+		int thumnailNoCnt=1;
 		for (PhotoForm photoForm : input.getPhotos()) {
 			MultipartFile mfile = photoForm.getFile();
 			String originalFileExtension;
@@ -180,10 +102,10 @@ public class StoryServiceImpl implements StoryService {
 			}
 			
 			//대표 이미지 설정
-			if(cnt==input.getThumbnailNo()) {
+			if(thumnailNoCnt==input.getThumbnailNo()) {
 				story.setThumbnail(photo.getFilename());
 			}
-			cnt++;
+			thumnailNoCnt++;
 			
 		}
 		
@@ -217,9 +139,7 @@ public class StoryServiceImpl implements StoryService {
 			subStoryRepo.save(sub);
 		}
 		
-		
-		
-		
+
 		//포토 저장
 		for(Photo photo : photoList) {		
 			photoRepo.save(photo);

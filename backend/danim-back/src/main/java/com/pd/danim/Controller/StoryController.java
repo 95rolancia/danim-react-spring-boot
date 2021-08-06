@@ -24,7 +24,7 @@ public class StoryController {
 	
 	
 	@Autowired
-	StoryService storyService;
+	private StoryService storyService;
 	
 	@ApiOperation(tags ="스토리", value ="스토리 작성", notes = "스토리를 작성 혹은 임시 저장합니다")
 	@PostMapping
