@@ -141,7 +141,6 @@ const Interest = observer(({ type }) => {
       userno: toJS(user.user).userno,
       areas: [...selectedAreas],
     };
-    console.log(data);
     user.setInterestArea(data).then((res) => {
       if (res) {
         history.push('/main');
@@ -153,14 +152,19 @@ const Interest = observer(({ type }) => {
 
   const handleInterestModify = () => {
     const selectedAreas = selectedChipData.map((item) => item.label);
+    const userData = toJS(user.user).userno;
     const data = {
-      userno: toJS(user.user).userno,
+      userno: userData,
       areas: [...selectedAreas],
     };
-    console.log(data);
-    //백엔드 API확인
-    alert('수정합니다');
-    history.push('/main');
+    user.setInterestArea(data).then((res) => {
+      if (res) {
+        history.push('/main');
+        // window.location.replace('/main');
+      } else {
+        alert('관심 지역 수정에 문제가 발생했습니다.');
+      }
+    });
   };
 
   const goToMain = () => {
