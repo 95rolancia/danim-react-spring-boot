@@ -15,8 +15,10 @@ instance.interceptors.response.use(
       config,
       response: { status },
     } = error;
+
     if (status === 403 && error.response.data === 'access token expired') {
       const originalRequest = config;
+      instance.defaults.headers.common['Authorization'] = '';
       await instance.post(`/silent-refresh`);
       return instance(originalRequest);
     }
