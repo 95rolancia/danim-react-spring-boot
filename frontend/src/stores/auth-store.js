@@ -6,7 +6,6 @@ class AuthStore {
   isEmailDuplicated = false;
   isNickNameDuplicated = false;
   isEmailCodeAuthroized = false;
-  user = {};
 
   constructor() {
     makeAutoObservable(this);
@@ -15,12 +14,20 @@ class AuthStore {
   async signIn(signInDto) {
     const res = await HttpAuth.signIn(signInDto);
     if (res.status === 401) {
-      return;
+      return false;
     }
+    runInAction(() => {
+      this.isLoggedIn = true;
+      return true;
+    });
+  }
 
-    this.isLoggedIn = true;
-
-    return res;
+  async signUp(signUpDto) {
+    const res = await HttpAuth.signUp(signUpDto);
+    if (res.status === 400 || res.status === 403 || res.status === 409) {
+      return false;
+    }
+    return true;
   }
 
   async silentRefresh() {
@@ -36,39 +43,51 @@ class AuthStore {
 
   async signOut() {
     if (!this.isLoggedIn) {
-      return;
+      return false;
     }
     await HttpAuth.signOut();
     runInAction(() => {
       this.isLoggedIn = false;
+      return true;
     });
   }
 
   async duplicateCheckEmail(email) {
     const res = await HttpAuth.duplicateCheckEmail(email);
     if (res.status === 200) {
-      this.isEmailDuplicated = true;
+      runInAction(() => {
+        this.isEmailDuplicated = false;
+      });
     } else {
-      this.isEmailDuplicated = false;
+      runInAction(() => {
+        this.isEmailDuplicated = true;
+      });
     }
   }
 
   async authEmailCode(emailAndCode) {
     const res = await HttpAuth.authEmailCode(emailAndCode);
     if (res.status === 200) {
-      this.isEmailCodeAuthroized = true;
+      runInAction(() => {
+        this.isEmailCodeAuthroized = false;
+      });
     } else {
-      this.isEmailCodeAuthroized = false;
+      runInAction(() => {
+        this.isEmailCodeAuthroized = true;
+      });
     }
   }
 
   async duplicateCheckNickname(nickname) {
     const res = await HttpAuth.duplicateCheckNickname(nickname);
-    console.log(res);
     if (res.status === 200) {
-      this.isNickNameDuplicated = true;
+      runInAction(() => {
+        this.isNickNameDuplicated = false;
+      });
     } else {
-      this.isNickNameDuplicated = false;
+      runInAction(() => {
+        this.isNickNameDuplicated = true;
+      });
     }
   }
 }
