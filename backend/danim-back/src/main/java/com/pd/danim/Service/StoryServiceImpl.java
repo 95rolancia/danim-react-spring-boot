@@ -56,7 +56,7 @@ public class StoryServiceImpl implements StoryService {
 			file.mkdirs();
 		}
 		
-		int thumnail_no_cnt=1;
+		int thumnailNoCnt=1;
 		for (PhotoForm photoForm : input.getPhotos()) {
 			MultipartFile mfile = photoForm.getFile();
 			String originalFileExtension;
@@ -102,10 +102,10 @@ public class StoryServiceImpl implements StoryService {
 			}
 			
 			//대표 이미지 설정
-			if(thumnail_no_cnt==input.getThumbnailNo()) {
+			if(thumnailNoCnt==input.getThumbnailNo()) {
 				story.setThumbnail(photo.getFilename());
 			}
-			thumnail_no_cnt++;
+			thumnailNoCnt++;
 			
 		}
 		
@@ -139,9 +139,7 @@ public class StoryServiceImpl implements StoryService {
 			subStoryRepo.save(sub);
 		}
 		
-		
-		
-		
+
 		//포토 저장
 		for(Photo photo : photoList) {		
 			photoRepo.save(photo);
