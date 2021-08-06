@@ -53,6 +53,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 		String refreshUname = null;
 		
 		System.out.println(requestTokenHeader);
+		System.out.println("이 토큰의 주인은" + jwtUtil.getUsername(requestTokenHeader));
 		
 		try {
 			if (requestTokenHeader != null) {
@@ -127,3 +128,28 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
