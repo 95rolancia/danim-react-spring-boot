@@ -82,6 +82,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 //				refreshJwt = refreshToken.getValue();
 //			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println("exception 발생 " + e.getMessage());
 			httpServletResponse.setStatus(403,"access token expired");
 		}
