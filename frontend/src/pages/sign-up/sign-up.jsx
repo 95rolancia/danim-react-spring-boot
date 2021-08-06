@@ -1,5 +1,6 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
 import {
   Button,
   Container,
@@ -15,14 +16,10 @@ import {
   Divider,
   Box,
 } from '@material-ui/core';
-import SendIcon from '@material-ui/icons/Send';
-import CheckIcon from '@material-ui/icons/Check';
+import { Send, Check } from '@material-ui/icons';
 import MuiAlert from '@material-ui/lab/Alert';
 import InputValidator from '../../util/input-validator';
 import { SignUpDto } from '../../model/sign-up-dto';
-import HttpClient from '../../service/http-auth';
-import { observer } from 'mobx-react-lite';
-import { useHistory } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 
 const useStyles = makeStyles((theme) => ({
@@ -72,10 +69,11 @@ const useStyles = makeStyles((theme) => ({
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
+
 const SignUp = observer(() => {
   const classes = useStyles();
   const history = useHistory();
-  const authStore = useAuth();
+  const auth = useAuth();
 
   const [email, setEmail] = useState('');
   const [nickname, setNickname] = useState('');
@@ -169,11 +167,11 @@ const SignUp = observer(() => {
       alert('올바른 이메일을 입력해주세요.');
       return;
     }
-    await authStore.duplicateCheckEmail({
+    await auth.duplicateCheckEmail({
       userId: email,
     });
 
-    if (!authStore.isEmailDuplicated) {
+    if (auth.isEmailDuplicated) {
       alert('이미 가입된 이메일 입니다.');
       setErrorTextEmail('다른 이메일을 입력해주세요.');
     } else {
@@ -187,10 +185,10 @@ const SignUp = observer(() => {
       alert('올바른 닉네임 형식을 지켜주세요.');
       return;
     }
-    await authStore.duplicateCheckNickname({
+    await auth.duplicateCheckNickname({
       nickname: nickname,
     });
-    if (!authStore.isNickNameDuplicated) {
+    if (auth.isNickNameDuplicated) {
       alert('중복된 닉네임 입니다.');
       setErrorTextNickname('중복된 닉네임은 불가능합니다');
     } else {
@@ -203,11 +201,11 @@ const SignUp = observer(() => {
       alert('인증번호는 6자리입니다.');
       return;
     }
-    await authStore.authEmailCode({
+    await auth.authEmailCode({
       userId: email,
       key: emailAuthCode,
     });
-    if (!authStore.isEmailCodeAuthroized) {
+    if (auth.isEmailCodeAuthroized) {
       alert('코드가 잘못되었습니다.');
     } else {
       alert('이메일 인증이 완료되었습니다.');
@@ -217,10 +215,10 @@ const SignUp = observer(() => {
 
   const checkForm = () => {
     if (
-      !authStore.isEmailDuplicated ||
+      auth.isEmailDuplicated ||
       !confirmPassword ||
-      !authStore.isNickNameDuplicated ||
-      !authStore.isEmailCodeAuthroized ||
+      auth.isNickNameDuplicated ||
+      auth.isEmailCodeAuthroized ||
       gender === '' ||
       age === 0
     ) {
@@ -236,19 +234,18 @@ const SignUp = observer(() => {
     if (!checkForm) {
       setOpenError(true);
     } else {
-      const res = await HttpClient.signUp(
+      const res = await auth.signUp(
         new SignUpDto(email, password, nickname, gender, age, emailAuthCode),
       );
-      if (res.status !== 200) {
-        alert('회원가입에 실패했습니다.');
-        return;
-      } else if (res.data === 'success') {
+      if (res) {
         alert('회원가입이 완료되었습니다!');
         history.push('/');
+      } else {
+        alert('회원가입에 실패했습니다.');
       }
-      console.log(res);
     }
   };
+
   return (
     <Container maxWidth="sm" className={classes.containerWrap}>
       <Typography variant="h4" gutterBottom>
@@ -272,7 +269,7 @@ const SignUp = observer(() => {
             size="large"
             onClick={sendEmail}
           >
-            <SendIcon className={classes.icons} />
+            <Send className={classes.icons} />
           </Button>
         </div>
         <Box display={displayEmailAuth}>
@@ -327,7 +324,7 @@ const SignUp = observer(() => {
             size="large"
             onClick={sendNickname}
           >
-            <CheckIcon className={classes.icons} />
+            <Check className={classes.icons} />
           </Button>
         </div>
         <div className={classes.inputfill}>
