@@ -1,0 +1,1 @@
+export { default as Thumbnail } from './components/thumbnail'
