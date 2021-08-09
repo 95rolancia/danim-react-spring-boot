@@ -1,8 +1,6 @@
 package com.pd.danim.Service;
 
-import java.security.Principal;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,15 +20,10 @@ public class SignOutServiceImpl implements SignOutService {
 
 	@Override
 	public void signOut(HttpServletRequest httpServletRequest) {
-//		String username = principal.getName();
-//		String data = username.concat("jwt");
 		final String requestTokenHeader = httpServletRequest.getHeader("Authorization");
 		String username = jwtUtil.getUsername(requestTokenHeader);
 		String data = username.concat("jwt");
-		redisUtil.deleteData(data);
-		//getHeader authorization으로 못가져오면 cookie로 가져오기
-		
-		
+		boolean deleted = redisUtil.deleteData(data);
 	}
 
 }
