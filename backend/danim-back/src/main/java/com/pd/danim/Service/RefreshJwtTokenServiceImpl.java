@@ -46,11 +46,8 @@ public class RefreshJwtTokenServiceImpl implements RefreshJwtTokenService{
 		String accessJwt = jwtUtil.generateToken(danim);
 		String refreshJwt = jwtUtil.generateRefreshToken(danim);
 		
-		
-		System.out.println("access token은 " + accessJwt);
 				
 		boolean deleteCheck = redisUtil.deleteData(id+"jwt");
-//		System.out.println(deleteCheck);
 		
 		redisUtil.setData(id+"jwt", refreshJwt);
 		
@@ -61,14 +58,10 @@ public class RefreshJwtTokenServiceImpl implements RefreshJwtTokenService{
 		
 		response.addCookie(refreshToken);
 		
-		
-		//local용도
 		Collection<String> headers = response.getHeaders(HttpHeaders.SET_COOKIE);
 		for (String header : headers) {
 			response.setHeader(HttpHeaders.SET_COOKIE, header+"; " + "SameSite=None; Secure;");
 		}
-
-		
 		
 		return signInResponse;
 	}

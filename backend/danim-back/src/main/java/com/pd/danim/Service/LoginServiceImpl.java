@@ -1,23 +1,45 @@
 package com.pd.danim.Service;
 
+import java.util.Collection;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.pd.danim.DTO.DanimId;
 import com.pd.danim.DTO.User;
+import com.pd.danim.Form.Response.SignInResponse;
 import com.pd.danim.Repository.DanimRepository;
 import com.pd.danim.Repository.UserRepository;
+import com.pd.danim.Util.CookieUtil;
+import com.pd.danim.Util.JwtUtil;
+import com.pd.danim.Util.RedisUtil;
 
 @Service
 public class LoginServiceImpl implements LoginService {
+	
+	@Autowired
+	private JwtUtil jwtUtil;
+	
+	@Autowired
+	private CookieUtil cookieUtil;
+	
+	@Autowired
+	private RedisUtil redisUtil;
 
 	@Autowired
 	private DanimRepository danimRepository;
 	
 	@Autowired
 	private UserRepository userRepo;
+	
+	
 
 	@Override
 	public DanimId loginUser(String id, String password) throws Exception {
@@ -37,7 +59,10 @@ public class LoginServiceImpl implements LoginService {
 	
 	
 	@Override
-	public User getUserInfo(String id) {
+	public User getUserInfo(HttpServletRequest httpServletRequest) {
+		
+		final String requestTokenHeader = httpServletRequest.getHeader("Authorization");
+		String id = jwtUtil.getUsername(requestTokenHeader);
 		
 		DanimId danim = danimRepository.findById(id);
 		
@@ -49,6 +74,28 @@ public class LoginServiceImpl implements LoginService {
 		}else {
 			return user;
 		}
+		
+	}
+
+	@Override
+	public SignInResponse generateResponse(HttpServletResponse httpServletResponse, DanimId danim) {
+		
+		SignInResponse signInResponse = new SignInResponse();
+		
+		final String token = jwtUtil.generateToken(danim);
+		final String refreshJwt = jwtUtil.generateRefreshToken(danim);
+		Cookie accessToken = cookieUtil.createCookie(JwtUtil.ACCESS_TOKEN_NAME, token);
+		Cookie refreshToken = cookieUtil.createCookie(JwtUtil.REFRESH_TOKEN_NAME, refreshJwt);
+		redisUtil.setDataExpire(danim.getId()+"jwt", refreshJwt, JwtUtil.REFRESH_TOKEN_VALIDATION_SECOND);
+		httpServletResponse.addCookie(refreshToken);
+		signInResponse.setAccessToken(accessToken.getValue());
+		
+		Collection<String> headers = httpServletResponse.getHeaders(HttpHeaders.SET_COOKIE);
+		for (String header : headers) {
+			httpServletResponse.setHeader(HttpHeaders.SET_COOKIE, header+"; " + "SameSite=None; Secure");
+		}
+		
+		return signInResponse;
 		
 	}
 
