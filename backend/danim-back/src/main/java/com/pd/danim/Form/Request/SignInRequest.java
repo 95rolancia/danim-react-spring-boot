@@ -1,6 +1,6 @@
-package com.pd.danim.Dto;
+package com.pd.danim.Form.Request;
 
-public class SignInForm {
+public class SignInRequest {
 
 	private String userId;
 	private String password;

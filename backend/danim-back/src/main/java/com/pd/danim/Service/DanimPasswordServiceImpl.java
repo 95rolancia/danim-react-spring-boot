@@ -7,7 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.pd.danim.Dto.DanimId;
+import com.pd.danim.DTO.DanimId;
 import com.pd.danim.Repository.DanimRepository;
 
 

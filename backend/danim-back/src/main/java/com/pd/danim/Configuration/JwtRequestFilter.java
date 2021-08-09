@@ -16,7 +16,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.pd.danim.Dto.DanimId;
+import com.pd.danim.DTO.DanimId;
 import com.pd.danim.Service.MyUserDetailService;
 import com.pd.danim.Util.CookieUtil;
 import com.pd.danim.Util.JwtUtil;

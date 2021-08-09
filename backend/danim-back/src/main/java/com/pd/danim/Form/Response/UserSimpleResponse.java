@@ -1,6 +1,6 @@
-package com.pd.danim.Dto;
+package com.pd.danim.Form.Response;
 
-public class UserSimpleForm {
+public class UserSimpleResponse {
 	private String nickname;
 	private String profile;
 	

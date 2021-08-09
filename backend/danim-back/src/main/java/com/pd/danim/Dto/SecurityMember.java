@@ -1,4 +1,4 @@
-package com.pd.danim.Dto;
+package com.pd.danim.DTO;
 
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;

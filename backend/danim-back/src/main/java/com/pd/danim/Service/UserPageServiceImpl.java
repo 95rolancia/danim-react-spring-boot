@@ -6,12 +6,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.pd.danim.Dto.Follow;
-import com.pd.danim.Dto.MyPageForm;
-import com.pd.danim.Dto.Story;
-import com.pd.danim.Dto.StoryStatus;
-import com.pd.danim.Dto.User;
-import com.pd.danim.Dto.UserSimpleForm;
+import com.pd.danim.DTO.Follow;
+import com.pd.danim.DTO.Story;
+import com.pd.danim.DTO.StoryStatus;
+import com.pd.danim.DTO.User;
+import com.pd.danim.Form.Response.MyPageResponse;
+import com.pd.danim.Form.Response.UserSimpleResponse;
 import com.pd.danim.Repository.FollowRepository;
 import com.pd.danim.Repository.StoryRepository;
 import com.pd.danim.Repository.UserRepository;
@@ -29,7 +29,7 @@ public class UserPageServiceImpl implements UserPageService {
 	private FollowRepository followRepo;
 	
 	
-	public MyPageForm userPage(String nickname) {
+	public MyPageResponse userPage(String nickname) {
 		User user = userRepo.findByNickname(nickname);
 		long userno = user.getUserno();
 		
@@ -40,24 +40,24 @@ public class UserPageServiceImpl implements UserPageService {
 		List<Follow> tFollowList = followRepo.findAllByUser(user);
 		List<Follow> tFollowedList = followRepo.findAllByFollowNo(userno);
 		
-		List<UserSimpleForm> followingList = new ArrayList();
-		List<UserSimpleForm> followerList = new ArrayList();
+		List<UserSimpleResponse> followingList = new ArrayList();
+		List<UserSimpleResponse> followerList = new ArrayList();
 		
 		for(Follow follow : tFollowList) {
-			UserSimpleForm usf = new UserSimpleForm();
+			UserSimpleResponse usf = new UserSimpleResponse();
 			usf.setNickname(follow.getUser().getNickname());
 			usf.setProfile(follow.getUser().getProfile());
 			followingList.add(usf);
 		}
 		
 		for(Follow follow : tFollowedList) {
-			UserSimpleForm usf = new UserSimpleForm();
+			UserSimpleResponse usf = new UserSimpleResponse();
 			usf.setNickname(follow.getUser().getNickname());
 			usf.setProfile(follow.getUser().getProfile());
 			followerList.add(usf);
 		}
 		
-		MyPageForm mpf = new MyPageForm();
+		MyPageResponse mpf = new MyPageResponse();
 		
 		mpf.setFollowingList(followingList);		
 		mpf.setFollowerList(followerList);

@@ -1,6 +1,6 @@
-package com.pd.danim.Dto;
+package com.pd.danim.Form.Request;
 
-public class FollowRequestForm {
+public class FollowRequest {
 	
 	private String nickname;
 	private long userNo;

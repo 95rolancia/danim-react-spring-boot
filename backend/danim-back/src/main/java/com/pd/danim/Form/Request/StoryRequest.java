@@ -1,15 +1,17 @@
-package com.pd.danim.Dto;
+package com.pd.danim.Form.Request;
 
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+
+import com.pd.danim.DTO.StoryStatus;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 
 @ApiModel(value="스토리 폼", description="회원 번호, 스토리 제목, 여행 시작 날짜, 여행 기간, 게시글 상태, 사진들")
-public class StoryForm {
+public class StoryRequest {
 	
 	@ApiModelProperty(value = "회원 번호", example="486")
 	private long userno; //회원번호
@@ -25,7 +27,7 @@ public class StoryForm {
 	private int thumbnailNo;
 	
 	@ApiModelProperty(value = "사진들")
-	private List<PhotoForm> photos; //사진들
+	private List<PhotoRequest> photos; //사진들
 	public long getUserno() {
 		return userno;
 	}
@@ -57,10 +59,10 @@ public class StoryForm {
 	public void setStatus(StoryStatus status) {
 		this.status = status;
 	}
-	public List<PhotoForm> getPhotos() {
+	public List<PhotoRequest> getPhotos() {
 		return photos;
 	}
-	public void setPhotos(List<PhotoForm> photos) {
+	public void setPhotos(List<PhotoRequest> photos) {
 		this.photos = photos;
 	}
 	public int getThumbnailNo() {

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pd.danim.Dto.FollowRequestForm;
+import com.pd.danim.Form.Request.FollowRequest;
 import com.pd.danim.Service.FollowService;
 
 import io.swagger.annotations.Api;
@@ -22,7 +22,7 @@ public class FollowController {
 	private FollowService followService;
 	
 	@PostMapping("/follow")
-	public ResponseEntity<String> addFollow(@RequestBody FollowRequestForm followForm, HttpServletRequest httpServletRequest){
+	public ResponseEntity<String> addFollow(@RequestBody FollowRequest followForm, HttpServletRequest httpServletRequest){
 		boolean bl = followService.setFollow(followForm, httpServletRequest);
 		if(bl) {
 			return new ResponseEntity<String>("follow succuess",HttpStatus.OK);
