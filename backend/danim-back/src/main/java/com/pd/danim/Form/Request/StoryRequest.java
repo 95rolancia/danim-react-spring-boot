@@ -1,7 +1,6 @@
 package com.pd.danim.Form.Request;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 import com.pd.danim.DTO.StoryStatus;
@@ -26,7 +25,7 @@ public class StoryRequest {
 	@ApiModelProperty(value="썸네일 이미지 번호", example="3")
 	private int thumbnailNo;
 	
-	@ApiModelProperty(value = "사진들")
+	@ApiModelProperty(value = "사진들 상세 정보")
 	private List<PhotoRequest> photos; //사진들
 	public long getUserno() {
 		return userno;
