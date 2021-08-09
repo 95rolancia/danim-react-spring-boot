@@ -52,15 +52,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 		String refreshJwt = null;
 		String refreshUname = null;
 		
-//		System.out.println(requestTokenHeader);
-//		System.out.println("이 토큰의 주인은" + jwtUtil.getUsername(requestTokenHeader));
-		
 		try {
 			if (requestTokenHeader != null) {
-//				jwt = jwtToken.getValue();
 				jwt = requestTokenHeader;
 				username = jwtUtil.getUsername(jwt);
-//				System.out.println(username);
 			}
 			if (username != null) {
 				UserDetails userDetails = userDetailsService.loadUserByUsername(username);
@@ -74,26 +69,16 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 				}
 			}
 		} catch (ExpiredJwtException e) {
-			System.out.println("이곳에서 에러났어11111");
 			throw new ExpiredJwtException(null, null, "access token expired");
-//			httpServletResponse.setStatus(403,"access token expired");
-//			refreshToken = cookieUtil.getCookie(httpServletRequest, JwtUtil.REFRESH_TOKEN_NAME);
-//			if (refreshToken != null) {
-//				refreshJwt = refreshToken.getValue();
-//			}
 		} catch (Exception e) {
-			e.printStackTrace();
-//			System.out.println("exception 발생 " + e.getMessage());
-			httpServletResponse.setStatus(403,"access token expired");
+			
 		}
 		
 		
-		//추가된 로직 : 위의 expiredJwtexception 내에서 refreshToken을 못잡아온다.
 		if (refreshToken != null) {
 			refreshJwt = refreshToken.getValue();
 		}
 		
-		//to check  redisData matches with refreshJwtToken
 		String redisData = null;
 		
 		try {
@@ -103,8 +88,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 				
 				redisData = redisUtil.getData(refreshUname+"jwt");
 
-				//이 부분의 바뀐 이유 : 원래는 토큰가지고 유저 정보를 얻지만 우리의 경우는 유저정보를 통해 token을 얻는다.
-//				if (refreshUname.equals(jwtUtil.getUsername(refreshJwt))) {
 				if (refreshJwt.equals(redisData)) {
 					UserDetails userDetails = userDetailsService.loadUserByUsername(refreshUname);
 					UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
@@ -117,12 +100,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 					danim.setId(refreshUname);
 					String newToken = jwtUtil.generateToken(danim);
 
-//					Cookie newAccessToken = cookieUtil.createCookie(JwtUtil.ACCESS_TOKEN_NAME, newToken);
-//					httpServletResponse.addCookie(newAccessToken);
 				}
 			}
 		} catch (ExpiredJwtException e) {
-			httpServletResponse.setStatus(403,"refresh token expired");
+			throw new ExpiredJwtException(null, null, "refresh token expired");
 		}
 
 		filterChain.doFilter(httpServletRequest, httpServletResponse);
