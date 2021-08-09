@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     height: '40px',
   },
   divider: {
-    backgroundColor: 'blue',
+    backgroundColor: '#4F9EE8',
     height: '3px',
   },
   dividerRed: {
@@ -47,6 +47,8 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(3),
     padding: theme.spacing(2),
     borderRadius: '30px',
+    color: 'whitesmoke',
+    fontFamily: 'MingukBold',
   },
 }));
 

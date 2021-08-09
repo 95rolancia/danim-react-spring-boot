@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Box, Button, Menu, MenuItem, Typography } from '@material-ui/core';
+import {
+  Box,
+  Button,
+  Menu,
+  MenuItem,
+  Typography,
+  makeStyles,
+} from '@material-ui/core';
 import RoomIcon from '@material-ui/icons/Room';
 import HomeRoot from './components/home-root';
 import HomePic from './components/home-pic';
@@ -73,8 +80,13 @@ const datasPic = [
   },
 ];
 const options = ['여행루트', '여행사진'];
-
+const useStyles = makeStyles((theme) => ({
+  title: {
+    fontFamily: 'MingukBold',
+  },
+}));
 const Home = observer((props) => {
+  const classes = useStyles();
   const [interestRegions, setInterestRegions] = useState(null);
   const history = useHistory();
   const user = useUser();
@@ -124,7 +136,7 @@ const Home = observer((props) => {
           startIcon={<RoomIcon color="primary" />}
           onClick={goToInterestModify}
         >
-          <Typography variant="h5" component="span">
+          <Typography variant="h5" component="span" className={classes.title}>
             {interestRegions}
           </Typography>
         </Button>
@@ -135,7 +147,7 @@ const Home = observer((props) => {
           aria-haspopup="true"
           onClick={openMenu}
         >
-          <Typography variant="h5" component="span">
+          <Typography variant="h5" component="span" className={classes.title}>
             #{selectOptionValue}
           </Typography>
         </Button>

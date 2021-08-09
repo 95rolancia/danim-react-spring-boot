@@ -29,6 +29,12 @@ const useStyles = makeStyles((theme) => ({
       width: '100%',
     },
   },
+  paper: {
+    marginTop: theme.spacing(8),
+  },
+  title: {
+    fontFamily: 'MingukBold',
+  },
   input: {
     display: 'flex',
     flexDirection: 'row',
@@ -230,7 +236,6 @@ const SignUp = observer(() => {
 
   const submitForm = async (e) => {
     e.preventDefault();
-    console.log(checkForm);
     if (!checkForm) {
       setOpenError(true);
     } else {
@@ -248,155 +253,166 @@ const SignUp = observer(() => {
 
   return (
     <Container maxWidth="sm" className={classes.containerWrap}>
-      <Typography variant="h4" gutterBottom>
-        회원가입
-      </Typography>
-      <form className={classes.root} noValidate autoComplete="off">
-        <div className={classes.input}>
-          <TextField
-            required
-            id="outlined-required-email"
-            label="이메일 아이디"
-            variant="outlined"
-            error={errorTextEmail !== '' ? true : false}
-            onChange={handleEmail}
-            helperText={errorTextEmail}
-            disabled={disabledEmailInput}
-          />
-          <Button
-            variant="outlined"
-            color="primary"
-            size="large"
-            onClick={sendEmail}
-          >
-            <Send className={classes.icons} />
-          </Button>
-        </div>
-        <Box display={displayEmailAuth}>
-          <Typography variant="h6" gutterBottom>
-            이메일 인증
-          </Typography>
-          <Typography variant="caption" display="block">
-            {email}으로 <br />
-            전송된 인증번호를 입력해주세요.
-          </Typography>
-
-          <TextField
-            id="standard-password-input-email-code"
-            type="password"
-            style={{ width: '10em' }}
-            onChange={handleAuth}
-          ></TextField>
-
-          <div>
-            <Button
-              style={{ marginRight: '0.5em' }}
+      <div className={classes.paper}>
+        <Typography
+          color="primary"
+          className={classes.title}
+          variant="h4"
+          gutterBottom
+        >
+          회원가입
+        </Typography>
+        <form className={classes.root} noValidate autoComplete="off">
+          <div className={classes.input}>
+            <TextField
+              required
+              id="outlined-required-email"
+              label="이메일 아이디"
               variant="outlined"
-              color="secondary"
-              size="large"
-              onClick={handleDisplay}
-            >
-              취소
-            </Button>
+              error={errorTextEmail !== '' ? true : false}
+              onChange={handleEmail}
+              helperText={errorTextEmail}
+              disabled={disabledEmailInput}
+            />
             <Button
               variant="outlined"
               color="primary"
               size="large"
-              onClick={checkEmailAuthCode}
+              onClick={sendEmail}
             >
-              확인
+              <Send className={classes.icons} />
             </Button>
           </div>
-        </Box>
-        <div className={classes.input}>
-          <TextField
-            required
-            id="outlined-required-nickname"
-            label="닉네임"
-            variant="outlined"
-            onChange={handleNickname}
-            error={errorTextNickname !== '' ? true : false}
-            helperText={errorTextNickname}
-          />
-          <Button
-            variant="outlined"
-            color="primary"
-            size="large"
-            onClick={sendNickname}
-          >
-            <Check className={classes.icons} />
-          </Button>
-        </div>
-        <div className={classes.inputfill}>
-          <TextField
-            required
-            id="outlined-password-input"
-            label="비밀번호(영문,숫자 포함 8~12글자)"
-            type="password"
-            variant="outlined"
-            onChange={handlePassword}
-            error={errorTextPassword !== '' ? true : false}
-            helperText={errorTextPassword}
-          />
-        </div>
-        <div className={classes.inputfill}>
-          <TextField
-            required
-            id="outlined-password-input-confirm"
-            label="비밀번호 확인"
-            type="password"
-            variant="outlined"
-            onChange={handleConfirm}
-            error={errorTextConfirm !== '' ? true : false}
-            helperText={errorTextConfirm}
-          />
-        </div>
-        <Divider light />
-        <div className={classes.section}></div>
-        <div>
-          <FormControl component="fieldset">
-            <FormLabel component="legend">성별</FormLabel>
-            <RadioGroup
-              row
-              aria-label="gender"
-              name="genderValue"
-              onChange={handleGender}
-            >
-              <FormControlLabel
-                value="F"
-                control={<Radio color="primary" />}
-                label="여자"
-              />
-              <FormControlLabel
-                value="M"
-                control={<Radio color="primary" />}
-                label="남자"
-              />
-            </RadioGroup>
-          </FormControl>
-        </div>
+          <Box display={displayEmailAuth}>
+            <Typography variant="h6" gutterBottom>
+              이메일 인증
+            </Typography>
+            <Typography variant="caption" display="block">
+              {email}으로 <br />
+              전송된 인증번호를 입력해주세요.
+            </Typography>
 
-        <TextField
-          required
-          id="standard-number"
-          label="나이"
-          type="number"
-          onChange={handleAge}
-          style={{ width: '10em' }}
-          InputProps={{
-            inputProps: { min: 15, max: 100 },
-          }}
-        />
-        <div className={classes.divider}></div>
-        <Button className={classes.signUpBtn} onClick={submitForm}>
-          가입하기
-        </Button>
-        <Snackbar open={openError} autoHideDuration={700} onClose={handleClose}>
-          <Alert onClose={handleClose} severity="error">
-            올바른 정보를 기입해주세요.
-          </Alert>
-        </Snackbar>
-      </form>
+            <TextField
+              id="standard-password-input-email-code"
+              type="password"
+              style={{ width: '10em' }}
+              onChange={handleAuth}
+            ></TextField>
+
+            <div>
+              <Button
+                style={{ marginRight: '0.5em' }}
+                variant="outlined"
+                color="secondary"
+                size="large"
+                onClick={handleDisplay}
+              >
+                취소
+              </Button>
+              <Button
+                variant="outlined"
+                color="primary"
+                size="large"
+                onClick={checkEmailAuthCode}
+              >
+                확인
+              </Button>
+            </div>
+          </Box>
+          <div className={classes.input}>
+            <TextField
+              required
+              id="outlined-required-nickname"
+              label="닉네임"
+              variant="outlined"
+              onChange={handleNickname}
+              error={errorTextNickname !== '' ? true : false}
+              helperText={errorTextNickname}
+            />
+            <Button
+              variant="outlined"
+              color="primary"
+              size="large"
+              onClick={sendNickname}
+            >
+              <Check className={classes.icons} />
+            </Button>
+          </div>
+          <div className={classes.inputfill}>
+            <TextField
+              required
+              id="outlined-password-input"
+              label="비밀번호(영문,숫자 포함 8~12글자)"
+              type="password"
+              variant="outlined"
+              onChange={handlePassword}
+              error={errorTextPassword !== '' ? true : false}
+              helperText={errorTextPassword}
+            />
+          </div>
+          <div className={classes.inputfill}>
+            <TextField
+              required
+              id="outlined-password-input-confirm"
+              label="비밀번호 확인"
+              type="password"
+              variant="outlined"
+              onChange={handleConfirm}
+              error={errorTextConfirm !== '' ? true : false}
+              helperText={errorTextConfirm}
+            />
+          </div>
+          <Divider light />
+          <div className={classes.section}></div>
+          <div>
+            <FormControl component="fieldset">
+              <FormLabel component="legend">성별</FormLabel>
+              <RadioGroup
+                row
+                aria-label="gender"
+                name="genderValue"
+                onChange={handleGender}
+              >
+                <FormControlLabel
+                  value="F"
+                  control={<Radio color="primary" />}
+                  label="여자"
+                />
+                <FormControlLabel
+                  value="M"
+                  control={<Radio color="primary" />}
+                  label="남자"
+                />
+              </RadioGroup>
+            </FormControl>
+          </div>
+
+          <TextField
+            required
+            id="standard-number"
+            label="나이"
+            type="number"
+            onChange={handleAge}
+            style={{ width: '10em' }}
+            InputProps={{
+              inputProps: { min: 15, max: 100 },
+            }}
+          />
+          <div className={classes.divider}></div>
+          <Button className={classes.signUpBtn} onClick={submitForm}>
+            가입하기
+          </Button>
+          <Snackbar
+            open={openError}
+            autoHideDuration={700}
+            onClose={handleClose}
+          >
+            <Alert onClose={handleClose} severity="error">
+              올바른 정보를 기입해주세요.
+            </Alert>
+          </Snackbar>
+        </form>
+      </div>
     </Container>
   );
 });

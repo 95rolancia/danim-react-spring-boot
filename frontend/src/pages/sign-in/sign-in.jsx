@@ -11,6 +11,7 @@ import {
   TextField,
   Grid,
   Snackbar,
+  Box,
 } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
 import useAuth from '../../hooks/useAuth';
@@ -30,6 +31,14 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
     padding: theme.spacing(2),
     fontSize: '1rem',
+    fontFamily: 'MingukBold',
+    color: 'whitesmoke',
+  },
+  text: {
+    fontFamily: 'MingukBold',
+  },
+  image: {
+    width: '7em',
   },
 }));
 
@@ -140,10 +149,17 @@ const SignIn = observer(() => {
   return (
     <Container component="main" maxWidth="xs">
       <div className={classes.paper}>
-        <Typography component="h3" variant="h3" align="center">
+        <img className={classes.image} src="/images/danilogo.png" alt="" />
+        <Box component="span" m={1} />
+        <Typography
+          color="primary"
+          className={classes.text}
+          variant="h3"
+          align="center"
+        >
           다님
         </Typography>
-        <Typography component="h5" variant="h5" align="center">
+        <Typography color="secondary" variant="h5" align="center">
           DANIM
         </Typography>
         <form className={classes.form}>
@@ -186,7 +202,11 @@ const SignIn = observer(() => {
           </Button>
           <Grid container justifyContent="space-between">
             <Button onClick={goToFindPassword}>비밀번호 찾기</Button>
-            <Button color="primary" onClick={goToSignUp}>
+            <Button
+              className={classes.text}
+              color="secondary"
+              onClick={goToSignUp}
+            >
               회원가입
             </Button>
           </Grid>
