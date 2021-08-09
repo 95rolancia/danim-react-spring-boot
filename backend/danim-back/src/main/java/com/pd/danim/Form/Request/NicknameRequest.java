@@ -1,6 +1,6 @@
-package com.pd.danim.Dto;
+package com.pd.danim.Form.Request;
 
-public class nicknameDTO {
+public class NicknameRequest {
 	private String nickname;
 
 	public String getNickname() {

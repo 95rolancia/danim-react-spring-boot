@@ -1,4 +1,4 @@
-package com.pd.danim.Dto;
+package com.pd.danim.Form.Request;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @ApiModel(value="회원 가입", description="아이디(이메일), 비밀번호, 닉네임, 나이, 성별, 키")
-public class SignUpForm {
+public class SignUpRequest {
 	
 	@ApiModelProperty(value = "사용자 아이디(이메일)", required=true, example="test@test.com")
 	private String userId;

@@ -7,10 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.pd.danim.Dto.DanimId;
-import com.pd.danim.Dto.Follow;
-import com.pd.danim.Dto.FollowRequestForm;
-import com.pd.danim.Dto.User;
+import com.pd.danim.DTO.DanimId;
+import com.pd.danim.DTO.Follow;
+import com.pd.danim.DTO.User;
+import com.pd.danim.Form.Request.FollowRequest;
 import com.pd.danim.Repository.DanimRepository;
 import com.pd.danim.Repository.FollowRepository;
 import com.pd.danim.Repository.UserRepository;
@@ -32,7 +32,7 @@ public class FollowServiceImpl implements FollowService {
 	private JwtUtil jwtUtil;
 
 	@Override
-	public boolean setFollow(FollowRequestForm followRequestForm, HttpServletRequest httpServletRequest) {
+	public boolean setFollow(FollowRequest followRequestForm, HttpServletRequest httpServletRequest) {
 
 		try {
 			String nickname = followRequestForm.getNickname();

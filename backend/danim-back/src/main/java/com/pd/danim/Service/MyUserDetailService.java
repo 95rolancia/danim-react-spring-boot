@@ -6,9 +6,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.pd.danim.Dto.DanimId;
-import com.pd.danim.Dto.SecurityMember;
-import com.pd.danim.Dto.User;
+import com.pd.danim.DTO.DanimId;
+import com.pd.danim.DTO.SecurityMember;
+import com.pd.danim.DTO.User;
 import com.pd.danim.Repository.DanimRepository;
 import com.pd.danim.Repository.UserRepository;
 

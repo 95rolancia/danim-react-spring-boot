@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
-import com.pd.danim.Dto.DanimId;
-import com.pd.danim.Dto.SignInResponse;
+import com.pd.danim.DTO.DanimId;
+import com.pd.danim.Form.Response.SignInResponse;
 import com.pd.danim.Util.CookieUtil;
 import com.pd.danim.Util.JwtUtil;
 import com.pd.danim.Util.RedisUtil;

@@ -1,15 +1,17 @@
-package com.pd.danim.Dto;
+package com.pd.danim.Form.Request;
 
 import java.time.LocalDateTime;
 import java.util.Date;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.pd.danim.DTO.PhotoTag;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(value="사진 폼", description="위도,경도,내용, 사진 날짜, 사진 태그, 사진 파일")
-public class PhotoForm {
+public class PhotoRequest {
 	
 	@ApiModelProperty(value = "위도", example="12.5456688")
 	private String latitude; //위도
