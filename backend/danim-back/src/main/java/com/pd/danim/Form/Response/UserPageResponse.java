@@ -4,8 +4,9 @@ import java.util.List;
 
 import com.pd.danim.DTO.Story;
 
-public class MyPageResponse {
+public class UserPageResponse {
 	private String nickname;
+	private String profile;
 	private int followingCnt;
 	private int followerCnt;
 	private List<UserSimpleResponse> followingList;
@@ -50,6 +51,14 @@ public class MyPageResponse {
 	public void setStories(List<Story> stories) {
 		this.stories = stories;
 	}
+	public String getProfile() {
+		return profile;
+	}
+	public void setProfile(String profile) {
+		this.profile = profile;
+	}
+	
+	
 	
 	
 	
