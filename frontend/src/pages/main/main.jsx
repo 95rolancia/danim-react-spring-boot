@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import { Home, Search, Trip, Bookmark } from '../';
 import { Navbar } from '../../components';
 import AccountRoute from '../../routers/account-route';
+import MyPageRoute from '../../routers/my-page-route';
 
 const Main = () => {
   return (
@@ -23,6 +24,7 @@ const Main = () => {
         <Route path="/main/account">
           <AccountRoute />
         </Route>
+        <MyPageRoute path="/main/:nickname" />
       </Switch>
       <Navbar />
     </>
