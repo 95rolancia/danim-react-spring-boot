@@ -8,6 +8,6 @@ import com.pd.danim.DTO.Follow;
 import com.pd.danim.DTO.User;
 
 public interface FollowRepository extends JpaRepository<Follow, Long>  {
-	List<Follow> findAllByFollowNo(long userno);
+	List<Follow> findAllByFollowUserNo(long userno);
 	List<Follow> findAllByUser(User user);
 }

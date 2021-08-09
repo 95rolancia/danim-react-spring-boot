@@ -38,7 +38,7 @@ public class UserPageServiceImpl implements UserPageService {
 		List<Story> stories = storyRepo.findAllByUserNoAndStatus(userno,StoryStatus.TEMP);
 		
 		List<Follow> tFollowList = followRepo.findAllByUser(user);
-		List<Follow> tFollowedList = followRepo.findAllByFollowNo(userno);
+		List<Follow> tFollowedList = followRepo.findAllByFollowUserNo(userno);
 		
 		List<UserSimpleResponse> followingList = new ArrayList();
 		List<UserSimpleResponse> followerList = new ArrayList();
