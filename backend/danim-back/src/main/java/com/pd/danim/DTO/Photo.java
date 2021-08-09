@@ -64,6 +64,12 @@ public class Photo {
 	@Column(name = "tag")
 	private PhotoTag tag;
 	
+	@Column(name ="address")
+	private String address;
+	
+	@Column(name="space_name")
+	private String spaceName;
+	
 	@OneToMany(mappedBy = "photo")
 	private List<Love> loves = new ArrayList();
 
@@ -162,6 +168,16 @@ public class Photo {
 	public void setLoves(List<Love> loves) {
 		this.loves = loves;
 	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	
+	
 
 	
 	
