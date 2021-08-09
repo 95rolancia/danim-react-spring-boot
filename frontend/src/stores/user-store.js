@@ -19,6 +19,14 @@ class UserStore {
     return true;
   }
 
+  async getUserInfo(nickname) {
+    const res = await HttpUser.getUserInfo(nickname);
+    if (res.status !== 200) {
+      return false;
+    }
+    return res.data;
+  }
+
   async setInterestArea(area) {
     const res = await HttpUser.setInterestArea(area);
     if (res.status !== 200) {
