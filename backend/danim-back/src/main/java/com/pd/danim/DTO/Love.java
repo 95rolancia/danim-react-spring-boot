@@ -12,9 +12,9 @@ import javax.persistence.ManyToOne;
 public class Love {
 	
 	@Id
-	@Column(name = "like_no")
+	@Column(name = "love_no")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long like_no;
+	private long loveNo;
 	
 	@ManyToOne
 	@JoinColumn(name="user_no")
@@ -32,12 +32,12 @@ public class Love {
 	@JoinColumn(name="substory_no")
 	private SubStory substory;
 
-	public long getLike_no() {
-		return like_no;
+	public long getLoveNo() {
+		return loveNo;
 	}
 
-	public void setLike_no(long like_no) {
-		this.like_no = like_no;
+	public void setLoveNo(long loveNo) {
+		this.loveNo = loveNo;
 	}
 
 	public User getUser() {
