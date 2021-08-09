@@ -24,7 +24,7 @@ class HttpUser {
       return res;
     } catch (error) {
       const res = error.response;
-      if (res.status === 401) {
+      if (res.status === 404) {
         return res;
       }
       throw new Error(`getUserInfo ${error}`);
