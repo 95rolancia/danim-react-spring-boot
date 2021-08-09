@@ -30,10 +30,14 @@ public class UserPageServiceImpl implements UserPageService {
 	
 	
 	public UserPageResponse userPage(String nickname) {
+		
+		if(!userRepo.existsByNickname(nickname)) {
+			return null;
+		}
+		
 		User user = userRepo.findByNickname(nickname);
 		long userno = user.getUserno();
 		
-		if(userno == 0) return null;
 		
 		List<Story> stories = storyRepo.findAllByUserNoAndStatus(userno,StoryStatus.TEMP);
 		
