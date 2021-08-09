@@ -24,10 +24,8 @@ public class SwaggerConfig {
     @Bean
     public Docket allApi() {
         return new Docket(DocumentationType.SWAGGER_2)
-                //.groupName("signUpFrom")
                 .useDefaultResponseMessages(false)
                 .select()
-                //.apis(RequestHandlerSelectors.any())
                 .apis(RequestHandlerSelectors.basePackage("com.pd.danim.Controller"))
                 .paths(PathSelectors.any())
                 .build()

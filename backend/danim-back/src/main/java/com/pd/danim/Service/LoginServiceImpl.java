@@ -23,9 +23,7 @@ public class LoginServiceImpl implements LoginService {
 	public DanimId loginUser(String id, String password) throws Exception {
 
 		DanimId danim = danimRepository.findById(id);
-//		System.out.println("service의"+danim.getPassword());
 		
-		//왜 dead 코드인지 이해는 안감......
 		if (danim == null) {
 			throw new Exception("회원이  아니거나 비밀번호가 틀렸습니다.");
 		}
@@ -41,7 +39,6 @@ public class LoginServiceImpl implements LoginService {
 	@Override
 	public User getUserInfo(String id) {
 		
-		
 		DanimId danim = danimRepository.findById(id);
 		
 		User user = userRepo.findByUserno(danim.getUserno());
@@ -49,10 +46,10 @@ public class LoginServiceImpl implements LoginService {
 		if(user!=null) {
 			danim.setPassword(null);
 			return user;
+		}else {
+			return user;
 		}
 		
-		
-		return null;
 	}
 
 }
