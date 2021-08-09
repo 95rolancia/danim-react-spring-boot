@@ -1,6 +1,6 @@
-package com.pd.danim.Dto;
+package com.pd.danim.Form.Request;
 
-public class emailDTO {
+public class EmailRequest {
 	private String userId;
 
 	public String getUserId() {

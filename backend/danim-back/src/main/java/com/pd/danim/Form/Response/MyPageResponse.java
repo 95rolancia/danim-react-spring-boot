@@ -1,13 +1,15 @@
-package com.pd.danim.Dto;
+package com.pd.danim.Form.Response;
 
 import java.util.List;
 
-public class MyPageForm {
+import com.pd.danim.DTO.Story;
+
+public class MyPageResponse {
 	private String nickname;
 	private int followingCnt;
 	private int followerCnt;
-	private List<UserSimpleForm> followingList;
-	private List<UserSimpleForm> followerList;
+	private List<UserSimpleResponse> followingList;
+	private List<UserSimpleResponse> followerList;
 	private List<Story> stories;
 	
 	public String getNickname() {
@@ -28,17 +30,17 @@ public class MyPageForm {
 	public void setFollowerCnt(int followerCnt) {
 		this.followerCnt = followerCnt;
 	}
-	public List<UserSimpleForm> getFollowingList() {
+	public List<UserSimpleResponse> getFollowingList() {
 		return followingList;
 	}
-	public void setFollowingList(List<UserSimpleForm> followingList) {
+	public void setFollowingList(List<UserSimpleResponse> followingList) {
 		this.followingList = followingList;
 		this.followingCnt = followingList.size();
 	}
-	public List<UserSimpleForm> getFollowerList() {
+	public List<UserSimpleResponse> getFollowerList() {
 		return followerList;
 	}
-	public void setFollowerList(List<UserSimpleForm> followerList) {
+	public void setFollowerList(List<UserSimpleResponse> followerList) {
 		this.followerList = followerList;
 		this.followerCnt = followerList.size();
 	}

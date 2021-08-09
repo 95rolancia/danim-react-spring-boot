@@ -10,20 +10,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pd.danim.Dto.DanimId;
-import com.pd.danim.Dto.InterestForm;
-import com.pd.danim.Dto.SignInForm;
-import com.pd.danim.Dto.SignInResponse;
-import com.pd.danim.Dto.SignUpForm;
-import com.pd.danim.Dto.User;
-import com.pd.danim.Dto.emailDTO;
-import com.pd.danim.Dto.nicknameDTO;
+import com.pd.danim.DTO.DanimId;
+import com.pd.danim.DTO.User;
+import com.pd.danim.Form.Request.EmailRequest;
+import com.pd.danim.Form.Request.InterestRequest;
+import com.pd.danim.Form.Request.NicknameRequest;
+import com.pd.danim.Form.Request.SignInRequest;
+import com.pd.danim.Form.Request.SignUpRequest;
+import com.pd.danim.Form.Response.SignInResponse;
 import com.pd.danim.Service.DanimPasswordService;
 import com.pd.danim.Service.InterestService;
 import com.pd.danim.Service.LoginService;
@@ -76,7 +75,7 @@ public class UserController {
 	@ApiOperation(tags ="중복 검사", value ="이메일 검사 및 메일 전송", notes = "이메일 유효성 검사 후 중복 검사 진행 뒤 인증 메일을 전송합니다.")
 	@ApiResponse(code = 200, message ="success")
 	@PostMapping("/duplicate/email")
-	public ResponseEntity<String> checkEmail(@RequestBody emailDTO email) {
+	public ResponseEntity<String> checkEmail(@RequestBody EmailRequest email) {
 		
 		String userId = email.getUserId();		
 		
@@ -101,7 +100,7 @@ public class UserController {
 	// 닉네임 중복 검사
 	@ApiOperation(tags ="중복 검사", value = "닉네임 중복 검사", notes="닉네임 중복을 검사합니다")
 	@PostMapping("/duplicate/nickname")
-	public ResponseEntity<String> checkNickname(@RequestBody nicknameDTO input) {
+	public ResponseEntity<String> checkNickname(@RequestBody NicknameRequest input) {
 		String nickname = input.getNickname();
 		
 		if(!signUpService.checkValidityNickname(nickname)){
@@ -118,7 +117,7 @@ public class UserController {
 	// 이메일 인증
 	@ApiOperation(tags ="인증", value ="이메일 인증", notes="메일로 받은 key 값을 입력하여 이메일을 인증합니다")
 	@PostMapping("/auth/email")
-	public ResponseEntity<String> verifyEmail(@RequestBody SignUpForm info) {
+	public ResponseEntity<String> verifyEmail(@RequestBody SignUpRequest info) {
 
 		if (!signUpService.verifyEmail(info.getKey(), info.getUserId())) {
 			return new ResponseEntity<String>("fail", HttpStatus.FORBIDDEN);
@@ -129,7 +128,7 @@ public class UserController {
 	
 	@ApiOperation(tags ="인증", value="회원 가입", notes="회원 가입을 진행합니다")
 	@PostMapping("/signup")
-	public ResponseEntity<String> signUp(@RequestBody SignUpForm signUpForm) {
+	public ResponseEntity<String> signUp(@RequestBody SignUpRequest signUpForm) {
 		int result=400;
 		try {
 			result = signUpService.signUpUser(signUpForm);			
@@ -160,7 +159,7 @@ public class UserController {
 	
 	@ApiOperation(tags ="인증", value="로그인", notes="아이디와 비밀번호로 로그인을 합니다")
 	@PostMapping("/auth/signin")
-	public ResponseEntity<SignInResponse> signIn(@RequestBody SignInForm signInForm, HttpServletRequest req,
+	public ResponseEntity<SignInResponse> signIn(@RequestBody SignInRequest signInForm, HttpServletRequest req,
 			HttpServletResponse res) {
 		SignInResponse response = new SignInResponse();		
 
@@ -207,7 +206,7 @@ public class UserController {
 	
 	@ApiOperation(tags="인증", value="비밀번호 찾기(초기화)", notes="아이디(이메일주소)를 입력하면 입력하신 이메일로 임시 비밀번호를 전송해 줌")
 	@PostMapping("/auth/reset")
-	public ResponseEntity<String> resetPasswrod(@RequestBody emailDTO input){
+	public ResponseEntity<String> resetPasswrod(@RequestBody EmailRequest input){
 		
 		String userId = input.getUserId();
 		
@@ -239,8 +238,6 @@ public class UserController {
 		
 		final String requestTokenHeader = httpServletRequest.getHeader("Authorization");
 		String id = jwtUtil.getUsername(requestTokenHeader);
-//		String id = "shining8543@naver.com";
-		System.out.println("헬로");
 		final User user = loginService.getUserInfo(id);
 		if(user == null) {
 			return new ResponseEntity<User>(user, HttpStatus.BAD_REQUEST);
@@ -254,7 +251,7 @@ public class UserController {
 	
 	@ApiOperation(tags="관심지역", value="관심지역 설정", notes="사용자의 관심지역을 설정해 줌")
 	@PostMapping("/interest")
-	public ResponseEntity<String> setInterest(HttpServletRequest httpServletRequest, @RequestBody InterestForm input){
+	public ResponseEntity<String> setInterest(HttpServletRequest httpServletRequest, @RequestBody InterestRequest input){
 		
 		final String requestTokenHeader = httpServletRequest.getHeader("Authorization");
 		String id = jwtUtil.getUsername(requestTokenHeader);

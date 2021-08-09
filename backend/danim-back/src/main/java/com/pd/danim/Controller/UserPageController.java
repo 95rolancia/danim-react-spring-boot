@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pd.danim.Dto.MyPageForm;
+import com.pd.danim.Form.Response.MyPageResponse;
 import com.pd.danim.Service.UserPageService;
 
 import io.swagger.annotations.Api;
@@ -23,17 +23,17 @@ public class UserPageController {
 	@ApiOperation(tags ="회원 페이지", value ="회원 페이지 접근", notes = "닉네임으로 회원 페이지에 접근합니다")
 	@ApiResponse(code = 200, message ="success")
 	@GetMapping("/users/{nickname}")
-	public ResponseEntity<MyPageForm> checkEmail(@PathVariable("nickname") String nickname) {
+	public ResponseEntity<MyPageResponse> checkEmail(@PathVariable("nickname") String nickname) {
 		
 
-		MyPageForm response;
+		MyPageResponse response;
 		
 		response = userPageService.userPage(nickname);
 		
 		if(response == null)
-			return new ResponseEntity<MyPageForm>(response, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<MyPageResponse>(response, HttpStatus.NOT_FOUND);
 
-		return new ResponseEntity<MyPageForm>(response, HttpStatus.OK);
+		return new ResponseEntity<MyPageResponse>(response, HttpStatus.OK);
 	}
 	
 }

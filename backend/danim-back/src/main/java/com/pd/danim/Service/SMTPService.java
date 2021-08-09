@@ -2,7 +2,7 @@ package com.pd.danim.Service;
 
 import org.springframework.mail.SimpleMailMessage;
 
-import com.pd.danim.Dto.User;
+import com.pd.danim.DTO.User;
 
 import javassist.NotFoundException;
 

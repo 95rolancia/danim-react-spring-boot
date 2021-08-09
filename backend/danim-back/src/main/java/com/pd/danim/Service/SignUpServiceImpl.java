@@ -9,9 +9,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.pd.danim.Dto.DanimId;
-import com.pd.danim.Dto.SignUpForm;
-import com.pd.danim.Dto.User;
+import com.pd.danim.DTO.DanimId;
+import com.pd.danim.DTO.User;
+import com.pd.danim.Form.Request.SignUpRequest;
 import com.pd.danim.Repository.DanimRepository;
 import com.pd.danim.Repository.UserRepository;
 import com.pd.danim.Util.RedisUtil;
@@ -33,7 +33,7 @@ public class SignUpServiceImpl implements SignUpService {
 
 	// 회원가입
 	@Override
-	public int signUpUser(SignUpForm userForm) {
+	public int signUpUser(SignUpRequest userForm) {
 		
 		
 		//프론트에서 제대로 걸러지지 않아 잘못된 데이터가 넘어왔을 경우 대비

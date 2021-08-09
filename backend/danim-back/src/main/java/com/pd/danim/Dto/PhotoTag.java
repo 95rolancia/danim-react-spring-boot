@@ -1,4 +1,4 @@
-package com.pd.danim.Dto;
+package com.pd.danim.DTO;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

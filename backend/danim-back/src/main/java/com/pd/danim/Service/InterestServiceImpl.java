@@ -6,9 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.pd.danim.Dto.Interest;
-import com.pd.danim.Dto.InterestForm;
-import com.pd.danim.Dto.User;
+import com.pd.danim.DTO.Interest;
+import com.pd.danim.DTO.User;
+import com.pd.danim.Form.Request.InterestRequest;
 import com.pd.danim.Repository.InterestRepository;
 import com.pd.danim.Repository.UserRepository;
 
@@ -21,7 +21,7 @@ public class InterestServiceImpl implements InterestService {
 	@Autowired
 	private InterestRepository interestRepo;
 	
-	public boolean setInterest(InterestForm input) {
+	public boolean setInterest(InterestRequest input) {
 		
 		
 		String[] areas = input.getAreas();

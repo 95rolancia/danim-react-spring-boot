@@ -1,7 +1,7 @@
 package com.pd.danim.Service;
 
-import com.pd.danim.Dto.MyPageForm;
+import com.pd.danim.Form.Response.MyPageResponse;
 
 public interface UserPageService {
-	MyPageForm userPage(String nickname);
+	MyPageResponse userPage(String nickname);
 }

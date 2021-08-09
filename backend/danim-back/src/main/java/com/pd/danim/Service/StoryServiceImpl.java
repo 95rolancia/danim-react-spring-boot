@@ -13,12 +13,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.pd.danim.Dto.Photo;
-import com.pd.danim.Dto.PhotoForm;
-import com.pd.danim.Dto.Story;
-import com.pd.danim.Dto.StoryForm;
-import com.pd.danim.Dto.SubStory;
-import com.pd.danim.Dto.User;
+import com.pd.danim.DTO.Photo;
+import com.pd.danim.DTO.Story;
+import com.pd.danim.DTO.SubStory;
+import com.pd.danim.DTO.User;
+import com.pd.danim.Form.Request.PhotoRequest;
+import com.pd.danim.Form.Request.StoryRequest;
 import com.pd.danim.Repository.PhotoRepository;
 import com.pd.danim.Repository.StoryRepository;
 import com.pd.danim.Repository.SubStoryRepository;
@@ -41,7 +41,7 @@ public class StoryServiceImpl implements StoryService {
 	
 
 	@Override
-	public boolean writeStory(StoryForm input) {
+	public boolean writeStory(StoryRequest input) {
 
 		Story story = new Story();
 
@@ -57,7 +57,7 @@ public class StoryServiceImpl implements StoryService {
 		}
 		
 		int thumnailNoCnt=1;
-		for (PhotoForm photoForm : input.getPhotos()) {
+		for (PhotoRequest photoForm : input.getPhotos()) {
 			MultipartFile mfile = photoForm.getFile();
 			String originalFileExtension;
 			String contentType = mfile.getContentType();
@@ -150,7 +150,7 @@ public class StoryServiceImpl implements StoryService {
 	}
 
 	@Override
-	public boolean modifyStory(StoryForm input, long storyno, long userno) {
+	public boolean modifyStory(StoryRequest input, long storyno, long userno) {
 		// TODO Auto-generated method stub
 		return false;
 	}

@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.pd.danim.Dto.Follow;
-import com.pd.danim.Dto.User;
+import com.pd.danim.DTO.Follow;
+import com.pd.danim.DTO.User;
 
 public interface FollowRepository extends JpaRepository<Follow, Long>  {
 	List<Follow> findAllByFollowNo(long userno);

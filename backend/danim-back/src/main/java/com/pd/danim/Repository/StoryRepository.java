@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.pd.danim.Dto.Story;
-import com.pd.danim.Dto.StoryStatus;
+import com.pd.danim.DTO.Story;
+import com.pd.danim.DTO.StoryStatus;
 
 public interface StoryRepository extends CrudRepository<Story, Long> {
 	List<Story> findAllByUserNo(long userno);

@@ -1,13 +1,13 @@
 package com.pd.danim.Service;
 
-import com.pd.danim.Dto.DanimId;
-import com.pd.danim.Dto.SignUpForm;
-import com.pd.danim.Dto.User;
+import com.pd.danim.DTO.DanimId;
+import com.pd.danim.DTO.User;
+import com.pd.danim.Form.Request.SignUpRequest;
 
 import javassist.NotFoundException;
 
 public interface SignUpService {
-	int signUpUser(SignUpForm userForm);
+	int signUpUser(SignUpRequest userForm);
 	boolean checkNickname(String nickname);
 	boolean checkDuplicateEmail(String userId);
 	boolean checkValidityEmail(String userId);

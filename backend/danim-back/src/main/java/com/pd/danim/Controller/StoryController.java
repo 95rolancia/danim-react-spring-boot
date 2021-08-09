@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pd.danim.Dto.StoryForm;
+import com.pd.danim.Form.Request.StoryRequest;
 import com.pd.danim.Service.StoryService;
 
 import io.swagger.annotations.Api;
@@ -28,7 +28,7 @@ public class StoryController {
 	
 	@ApiOperation(tags ="스토리", value ="스토리 작성", notes = "스토리를 작성 혹은 임시 저장합니다")
 	@PostMapping
-	public ResponseEntity<String> postStory(@RequestBody StoryForm input) {
+	public ResponseEntity<String> postStory(@RequestBody StoryRequest input) {
 		
 		
 		
