@@ -1,7 +1,7 @@
-import { makeStyles } from '@material-ui/styles';
 import React from 'react';
-import SubHeader from '../../components/header/sub-header';
+import { makeStyles } from '@material-ui/styles';
 import { Box, Container, Typography } from '@material-ui/core';
+
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -16,11 +16,11 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: 'MingukBold',
   },
 }));
+
 const NotFound = () => {
   const classes = useStyles();
   return (
     <>
-      <SubHeader />
       <Container component="main" maxWidth="xs">
         <div className={classes.paper}>
           <img className={classes.image} src="/images/danierror.png" alt="" />
