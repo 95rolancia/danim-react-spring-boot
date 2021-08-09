@@ -44,7 +44,7 @@ public class FollowServiceImpl implements FollowService {
 			User user = danim.getUser();
 						
 			Follow follow = new Follow();
-			follow.setFollowNo(followUser.getUserno());
+			follow.setFollowUserNo(followUser.getUserno());
 			follow.setUser(user);
 
 			followRepository.save(follow);

@@ -20,7 +20,7 @@ public class Follow {
 	private long id;
 	
 	@Column(name = "follow_user_no")
-	private long followNo;
+	private long followUserNo;
 	
 	@JsonIgnore
 	@ManyToOne
@@ -35,12 +35,12 @@ public class Follow {
 		this.id = id;
 	}
 
-	public long getFollowNo() {
-		return followNo;
+	public long getFollowUserNo() {
+		return followUserNo;
 	}
 
-	public void setFollowNo(long followNo) {
-		this.followNo = followNo;
+	public void setFollowUserNo(long followUserNo) {
+		this.followUserNo = followUserNo;
 	}
 
 	public User getUser() {
