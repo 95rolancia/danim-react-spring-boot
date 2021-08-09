@@ -10,9 +10,12 @@ const StartLoading = (props) => {
         className={classes.background}
         width="100%"
         height="100%"
-        src="https://media.giphy.com/media/iqz3Oc8ZgHuKNv1Rhg/giphy.gif"
+        src="https://media.giphy.com/media/46hpy8xB3MiHfruixn/source.gif"
         alt=""
       />
+      <Typography className={classes.title} variant="button">
+        여행과 추억속으로 ,
+      </Typography>
       <Typography className={classes.title} variant="h2" component="h2">
         DANIM
       </Typography>
@@ -29,23 +32,14 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     width: '100%',
     height: '100vh',
-    // background: `url("https://media.giphy.com/media/iqz3Oc8ZgHuKNv1Rhg/giphy.gif") center/cover no-repeat`,
-    // [theme.breakpoints.down('sm')]: {
-    //   display: 'flex',
-    //   flexDirection: 'column',
-    //   alignItems: 'center',
-    //   justifyContent: '',
-    //   width: '100%',
-    //   height: '100vh',
-    //   background: `url(${url}) center/100% no-repeat`,
-    // },
   },
   title: {
     color: 'whitesmoke',
-    fontWeight: 'bold',
-    [theme.breakpoints.up('md')]: {
-      fontSize: '4rem',
-    },
+    // fontWeight: 'bold',
+    fontFamily: 'MingukBold',
+    // [theme.breakpoints.up('md')]: {
+    //   fontSize: '4rem',
+    // },
   },
   background: {
     position: 'absolute',
