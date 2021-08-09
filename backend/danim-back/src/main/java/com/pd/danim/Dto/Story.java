@@ -16,6 +16,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @DynamicInsert
 @EntityListeners(AuditingEntityListener.class)
@@ -43,14 +45,16 @@ public class Story {
 	@Column(name="duration")
 	private int duration;
 	
+	@JsonIgnore
 	@Column(name="story_deleted")
 	private boolean storydeleted;
 	
 	@Column(name="thumbnail")
 	private String thumbnail;
 	
+	@JsonIgnore
 	@Enumerated(EnumType.STRING)
-	@Column(name = "role")
+	@Column(name = "status")
 	private StoryStatus status;
 
 	public long getStoryNo() {
