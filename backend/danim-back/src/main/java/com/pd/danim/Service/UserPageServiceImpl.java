@@ -10,7 +10,7 @@ import com.pd.danim.DTO.Follow;
 import com.pd.danim.DTO.Story;
 import com.pd.danim.DTO.StoryStatus;
 import com.pd.danim.DTO.User;
-import com.pd.danim.Form.Response.MyPageResponse;
+import com.pd.danim.Form.Response.UserPageResponse;
 import com.pd.danim.Form.Response.UserSimpleResponse;
 import com.pd.danim.Repository.FollowRepository;
 import com.pd.danim.Repository.StoryRepository;
@@ -29,7 +29,7 @@ public class UserPageServiceImpl implements UserPageService {
 	private FollowRepository followRepo;
 	
 	
-	public MyPageResponse userPage(String nickname) {
+	public UserPageResponse userPage(String nickname) {
 		User user = userRepo.findByNickname(nickname);
 		long userno = user.getUserno();
 		
@@ -57,16 +57,16 @@ public class UserPageServiceImpl implements UserPageService {
 			followerList.add(usf);
 		}
 		
-		MyPageResponse mpf = new MyPageResponse();
+		UserPageResponse upf = new UserPageResponse();
 		
-		mpf.setFollowingList(followingList);		
-		mpf.setFollowerList(followerList);
-		mpf.setNickname(nickname);
-		mpf.setStories(stories);
+		upf.setFollowingList(followingList);		
+		upf.setFollowerList(followerList);
+		upf.setNickname(nickname);
+		upf.setStories(stories);
+		upf.setProfile(user.getProfile());
 		
 		
-		
-		return mpf;
+		return upf;
 		
 	}
 	
