@@ -52,7 +52,6 @@ class HttpAuth {
   async signUp(user) {
     try {
       const res = await this.instance.post('/signup', user);
-      console.log(res);
       return res;
     } catch (error) {
       const res = error.response;
@@ -66,7 +65,6 @@ class HttpAuth {
   async duplicateCheckEmail(email) {
     try {
       const res = await this.instance.post(`/duplicate/email`, email);
-      console.log(res);
       return res;
     } catch (error) {
       const res = error.response;
@@ -80,7 +78,6 @@ class HttpAuth {
   async authEmailCode(emailAndCode) {
     try {
       const res = await this.instance.post(`/auth/email`, emailAndCode);
-      console.log(res);
       return res;
     } catch (error) {
       const res = error.response;
