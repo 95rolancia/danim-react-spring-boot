@@ -21,3 +21,13 @@ code {
     margin: auto;
   }
 }
+
+@font-face {
+  font-family: 'MingukBold';
+  src: url('./fonts/YoonMingukB.ttf');
+}
+
+@font-face {
+  font-family: 'MingukRegular';
+  src: url('./fonts/YoonMingukR.ttf');
+}
