@@ -46,6 +46,9 @@ public class User {
 	@Column(name = "age")
 	private int age;
 	
+	@Column(name ="introduce")
+	private String introduce;
+	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "role")
 	private UserRole role;	
@@ -136,13 +139,13 @@ public class User {
 		this.created_date = created_date;
 	}
 
-//	public DanimId getDanim() {
-//		return danim;
-//	}
-//
-//	public void setDanim(DanimId danim) {
-//		this.danim = danim;
-//	}
+	public String getIntroduce() {
+		return introduce;
+	}
+
+	public void setIntroduce(String introduce) {
+		this.introduce = introduce;
+	}
 
 	public String getProfile() {
 		return profile;
