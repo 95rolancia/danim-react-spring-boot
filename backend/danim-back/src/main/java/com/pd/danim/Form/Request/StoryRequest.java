@@ -12,27 +12,20 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(value="스토리 폼", description="회원 번호, 스토리 제목, 여행 시작 날짜, 여행 기간, 게시글 상태, 사진들")
 public class StoryRequest {
 	
-	@ApiModelProperty(value = "회원 번호", example="486")
-	private long userno; //회원번호
 	@ApiModelProperty(value = "스토리 제목", required=true, example="바람이 불어오는 나의 제주도 여행기")
-	private String title; //스토리 제목
+	private String title; 
 	@ApiModelProperty(value = "여행 시작 날짜", required=true, example="2021-05-30")
-	private LocalDateTime startDate; //여행 시작 날짜 
+	private LocalDateTime startDate; 
 	@ApiModelProperty(value = "여행 기간", required=true, example="4")
-	private int duration; //여행 기간
+	private int duration; 
 	@ApiModelProperty(value = "게시글 상태", example="PUBLISHED")
-	private StoryStatus status; //게시글 상태
+	private StoryStatus status; 
 	@ApiModelProperty(value="썸네일 이미지 번호", example="3")
 	private int thumbnailNo;
 	
 	@ApiModelProperty(value = "사진들 상세 정보")
-	private List<PhotoRequest> photos; //사진들
-	public long getUserno() {
-		return userno;
-	}
-	public void setUserno(long userno) {
-		this.userno = userno;
-	}
+	private List<PhotoRequest> photos;
+
 	public String getTitle() {
 		return title;
 	}
