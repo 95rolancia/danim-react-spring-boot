@@ -6,6 +6,7 @@ import com.pd.danim.Form.Request.FollowRequest;
 
 public interface FollowService {
 	
-	public boolean setFollow(FollowRequest followRequestForm, HttpServletRequest httpServletRequest);
+	public String setFollow(FollowRequest followRequestForm, HttpServletRequest httpServletRequest);
+	public String deleteFollow(FollowRequest followRequestForm, HttpServletRequest httpServletRequest);
 
 }
