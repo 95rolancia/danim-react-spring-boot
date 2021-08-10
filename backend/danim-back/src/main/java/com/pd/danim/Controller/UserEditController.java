@@ -34,34 +34,36 @@ public class UserEditController {
 		PhotoResponse response = new PhotoResponse();
 
 		String filename = userEditService.uploadProfile(profileReq);
-		if (filename == null) {
-			return new ResponseEntity<String>("", HttpStatus.BAD_REQUEST);
-		}
-
-		return new ResponseEntity<String>(filename, HttpStatus.OK);
+		
+		if (filename == null) 
+			return new ResponseEntity<String>("", HttpStatus.BAD_REQUEST);		
+		
+		else
+			return new ResponseEntity<String>(filename, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "회원 정보 수정", notes = "회원 정보를 수정합니다")
 	@PutMapping("/info")
 	public ResponseEntity<String> information(@RequestBody UserEditRequest userEditReq) {
 
-		if(userEditService.setUserInfo(userEditReq)) {
-
+		if(userEditService.setUserInfo(userEditReq)) 
 			return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
-		}
-		return new ResponseEntity<String>("FAIL", HttpStatus.BAD_REQUEST);
+		
+		else			
+			return new ResponseEntity<String>("FAIL", HttpStatus.BAD_REQUEST);
 	}
 
 	@ApiOperation(value = "비밀번호 변경", notes = "비밀 번호를 변경합니다")
 	@PutMapping("/pwd")
 	public ResponseEntity<String> password(@RequestBody PasswordRequest pwdReq) {
 
-		if (userEditService.setPassword(pwdReq)) {
-
+		if (userEditService.setPassword(pwdReq)) 
 			return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
-		}
 		
-		return new ResponseEntity<String>("FAIL", HttpStatus.BAD_REQUEST);
+		
+		else 	
+			return new ResponseEntity<String>("FAIL", HttpStatus.BAD_REQUEST);
+		
 	}
 
 }

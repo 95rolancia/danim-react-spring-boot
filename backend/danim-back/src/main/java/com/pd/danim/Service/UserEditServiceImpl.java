@@ -24,10 +24,10 @@ public class UserEditServiceImpl implements UserEditService {
 	
 	
 	@Autowired
-	DanimRepository danimRepo;
+	private DanimRepository danimRepo;
 	
 	@Autowired
-	UserRepository userRepo;
+	private UserRepository userRepo;
 	
 				
 	public String uploadProfile(ProfileRequest profileReq) {
