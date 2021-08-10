@@ -15,16 +15,16 @@ public class PhotoUploadRequest {
 	private String userId;	
 	
 	@ApiModelProperty(value = "위도", example="12.5456688")
-	private String latitude; //위도
+	private String latitude;
 	
 	@ApiModelProperty(value = "경도", example="32.4520235")
-	private String longtitude; //경도
+	private String longtitude;
 	
 	@ApiModelProperty(value = "사진 날짜", example="2021-08-21 12:42:33")
-	private LocalDateTime date; //사진 날짜
+	private LocalDateTime date;
 	
 	@ApiModelProperty(value = "사진 파일", example="jpg, png")
-	private MultipartFile file; //사진 파일
+	private MultipartFile file;
 
 	public String getUserId() {
 		return userId;
