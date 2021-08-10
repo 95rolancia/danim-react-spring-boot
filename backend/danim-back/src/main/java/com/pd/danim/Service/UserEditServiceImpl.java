@@ -74,7 +74,7 @@ public class UserEditServiceImpl implements UserEditService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+		System.out.println(absolutePath + path + File.separator + filename);
 		return filename;		
 	}
 	
