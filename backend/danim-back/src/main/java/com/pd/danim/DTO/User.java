@@ -1,6 +1,7 @@
 package com.pd.danim.DTO;
 
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -10,12 +11,10 @@ import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -53,9 +52,8 @@ public class User {
 	@Column(name = "role")
 	private UserRole role;	
 	
-	@Temporal(TemporalType.TIMESTAMP)
 	@CreatedDate
-	private Date created_date;
+	private LocalDateTime created_date;
 	
 	
 	@Column(name ="profile")
@@ -131,11 +129,12 @@ public class User {
 		this.role = role;
 	}
 
-	public Date getCreated_date() {
+	
+	public LocalDateTime getCreated_date() {
 		return created_date;
 	}
 
-	public void setCreated_date(Date created_date) {
+	public void setCreated_date(LocalDateTime created_date) {
 		this.created_date = created_date;
 	}
 

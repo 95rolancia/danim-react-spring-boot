@@ -8,17 +8,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.pd.danim.DTO.DanimId;
 import com.pd.danim.DTO.Photo;
 import com.pd.danim.DTO.Story;
 import com.pd.danim.DTO.SubStory;
 import com.pd.danim.DTO.User;
 import com.pd.danim.Form.Request.PhotoRequest;
-import com.pd.danim.Form.Request.PhotoUploadRequest;
 import com.pd.danim.Form.Request.StoryRequest;
 import com.pd.danim.Form.Response.PhotoResponse;
 import com.pd.danim.Repository.DanimRepository;
@@ -27,6 +29,7 @@ import com.pd.danim.Repository.StoryRepository;
 import com.pd.danim.Repository.SubStoryRepository;
 import com.pd.danim.Repository.UserRepository;
 import com.pd.danim.Util.AddressUtil;
+import com.pd.danim.Util.JwtUtil;
 
 @Service
 public class StoryServiceImpl implements StoryService {
@@ -48,23 +51,31 @@ public class StoryServiceImpl implements StoryService {
 
 	@Autowired
 	private AddressUtil addressUtil;
+	 
+	@Autowired
+	JwtUtil jwtUtil;
 	
-	
-	public PhotoResponse uploadPhoto(PhotoUploadRequest photoReq, long userno) {		
+	public PhotoResponse uploadPhoto(MultipartFile mfile,String latitude, String longtitude, LocalDateTime date, HttpServletRequest httpServletReq) {
+		
+		final String requestTokenHeader = httpServletReq.getHeader("Authorization");
+		String userId = jwtUtil.getUsername(requestTokenHeader);
+		
+		DanimId danim = danimRepo.findById(userId);
+		if(danim==null) {
+			return null;			
+		}
+		
 		UUID uid = UUID.randomUUID();
 		String absolutePath = new File("").getAbsolutePath() + File.separator;
-		String path = "image" + File.separator + userno;
+		String path = "src" +  File.separator + "main" +  File.separator + "resources" +  File.separator + "danim-image" + File.separator + danim.getUserno();
 		File file = new File(path);
 
 		if (!file.exists()) {
 			file.mkdirs();
 		}
 
-		
-		MultipartFile mfile = photoReq.getFile();
 		String originalFileExtension;
 		String contentType = mfile.getContentType();
-		System.out.println(contentType);
 
 		// 확장자가 없는 경우
 		if (ObjectUtils.isEmpty(contentType)) {
@@ -82,7 +93,7 @@ public class StoryServiceImpl implements StoryService {
 		}
 		
 		
-		String address = addressUtil.ConvertAddress(photoReq.getLatitude(), photoReq.getLongtitude());
+		String address = addressUtil.ConvertAddress(latitude, longtitude);
 		
 		/*
 		 *  공공 데이터 테이블 생성 및 연결 
@@ -91,9 +102,9 @@ public class StoryServiceImpl implements StoryService {
 		String filename = uid.toString() + originalFileExtension;
 		Photo photo = new Photo();
 		photo.setFilename(filename);
-		photo.setLatitude(photoReq.getLatitude());
-		photo.setLongtitude(photoReq.getLongtitude());
-		photo.setDate(photoReq.getDate());
+		photo.setLatitude(latitude);
+		photo.setLongtitude(longtitude);
+		photo.setDate(date);
 		photo.setAddress(address);
 		
 		photoRepo.save(photo);
@@ -103,7 +114,7 @@ public class StoryServiceImpl implements StoryService {
 		file.setWritable(true);
 		file.setReadable(true);
 		try {
-			photoReq.getFile().transferTo(file);
+			mfile.transferTo(file);
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -115,7 +126,7 @@ public class StoryServiceImpl implements StoryService {
 		response.setFilename(filename);
 		response.setLatitude(photo.getLatitude());
 		response.setLongtitude(photo.getLongtitude());
-		response.setDate(photoReq.getDate());
+		response.setDate(date);
 //		response.setSpaceName(spaceName);
 //		response.setAddress(address);
 		response.setPhotoNo(photo.getPhotoNo());
@@ -126,8 +137,16 @@ public class StoryServiceImpl implements StoryService {
 	}
 
 	@Override
-	public boolean writeStory(StoryRequest input) {
+	public boolean writeStory(StoryRequest input, HttpServletRequest httpServletReq) {
 
+		final String requestTokenHeader = httpServletReq.getHeader("Authorization");
+		String userId = jwtUtil.getUsername(requestTokenHeader);
+		
+		DanimId danim = danimRepo.findById(userId);
+		if(danim==null) {
+			return false;			
+		}
+		long userno = danim.getUserno();
 		Story story = new Story();
 
 		List<PhotoRequest> photoReqList = input.getPhotos();
@@ -150,12 +169,12 @@ public class StoryServiceImpl implements StoryService {
 			}
 			
 			seqNo = (int) Duration.between(input.getStartDate(), photo.getDate()).toDays();
-			subStoryArr[seqNo].setUserNo(input.getUserno());
+			subStoryArr[seqNo].setUserNo(userno);
 			subStoryArr[seqNo].setSeqNo(seqNo);
 			subStoryArr[seqNo].setStory(story);
 			photo.setStory(story);
 			photo.setSubstory(subStoryArr[seqNo]);
-			photo.setUserNo(input.getUserno());
+			photo.setUserNo(userno);
 			
 			photoList.add(photo);
 		}
@@ -177,7 +196,7 @@ public class StoryServiceImpl implements StoryService {
 	}
 
 	@Override
-	public boolean modifyStory(StoryRequest input, long storyno, long userno) {
+	public boolean modifyStory(StoryRequest input, long storyno) {
 		// TODO Auto-generated method stub
 		return false;
 	}

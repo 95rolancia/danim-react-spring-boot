@@ -12,6 +12,7 @@ public class UserPageResponse {
 	private List<UserSimpleResponse> followingList;
 	private List<UserSimpleResponse> followerList;
 	private List<Story> stories;
+	private boolean isFollow;
 	
 	public String getNickname() {
 		return nickname;
@@ -56,6 +57,12 @@ public class UserPageResponse {
 	}
 	public void setProfile(String profile) {
 		this.profile = profile;
+	}
+	public boolean isFollow() {
+		return isFollow;
+	}
+	public void setFollow(boolean isFollow) {
+		this.isFollow = isFollow;
 	}
 	
 	
