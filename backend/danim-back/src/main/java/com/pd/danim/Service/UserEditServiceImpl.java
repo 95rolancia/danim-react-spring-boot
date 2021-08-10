@@ -35,7 +35,7 @@ public class UserEditServiceImpl implements UserEditService {
 		MultipartFile mpf = profileReq.getFile();
 		String absolutePath = new File("").getAbsolutePath() + File.separator;
 		User user = userRepo.findByNickname(profileReq.getNickname());
-		String path = "image" + File.separator + user.getUserno();
+		String path = "src" +  File.separator + "main" +  File.separator + "resources" +  File.separator + "danim-image" + File.separator + user.getUserno();
 		File file = new File(path);
 
 		if (!file.exists()) {
