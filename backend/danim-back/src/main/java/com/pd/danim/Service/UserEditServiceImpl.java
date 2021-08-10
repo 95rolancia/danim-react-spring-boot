@@ -74,7 +74,16 @@ public class UserEditServiceImpl implements UserEditService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		System.out.println(">>>>경로 출력<<<<");
 		System.out.println(absolutePath + path + File.separator + filename);
+		System.out.println(file.getPath());
+		System.out.println(file.getAbsolutePath());
+		try {
+			System.out.println(file.getCanonicalPath());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return filename;		
 	}
 	
