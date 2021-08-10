@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.pd.danim.Form.Request.PasswordRequest;
 import com.pd.danim.Form.Request.ProfileRequest;
@@ -30,9 +32,14 @@ public class UserEditController {
 
 	@ApiOperation(value = "프로필 사진 업로드", notes = "프로필 사진을 업로드합니다")
 	@PostMapping("/avatar")
-	public ResponseEntity<String> profile(@RequestBody ProfileRequest profileReq, HttpServletRequest httpServletReq) {
+	public ResponseEntity<String> profile(@RequestPart(value="file")MultipartFile file, @RequestPart(value="nickname")String nickname, HttpServletRequest httpServletReq) {
 		PhotoResponse response = new PhotoResponse();
-
+		
+		ProfileRequest profileReq = new ProfileRequest();
+		profileReq.setFile(file);
+		profileReq.setNickname(nickname);
+		
+		
 		String filename = userEditService.uploadProfile(profileReq);
 		
 		if (filename == null) 
