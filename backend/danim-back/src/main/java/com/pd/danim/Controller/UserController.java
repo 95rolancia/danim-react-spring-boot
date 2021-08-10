@@ -1,7 +1,5 @@
 package com.pd.danim.Controller;
 
-import java.util.Collection;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pd.danim.DTO.DanimId;
-import com.pd.danim.DTO.User;
 import com.pd.danim.Form.Request.EmailRequest;
 import com.pd.danim.Form.Request.InterestRequest;
 import com.pd.danim.Form.Request.SignInRequest;
+import com.pd.danim.Form.Response.MeResponse;
 import com.pd.danim.Form.Response.SignInResponse;
 import com.pd.danim.Service.DanimPasswordService;
 import com.pd.danim.Service.InterestService;
@@ -26,6 +24,7 @@ import com.pd.danim.Service.LoginService;
 import com.pd.danim.Service.RefreshJwtTokenService;
 import com.pd.danim.Service.SignOutService;
 import com.pd.danim.Service.SignUpService;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -97,19 +96,19 @@ public class UserController {
 	
 	@ApiOperation(tags="인증", value="사용자 정보 반환", notes="사용자의 정보를 반환합니다")
 	@GetMapping("/auth/me")
-	public ResponseEntity<User> getMyInfo(HttpServletRequest httpServletRequest){
+	public ResponseEntity<MeResponse> getMyInfo(HttpServletRequest httpServletRequest){
 		
-		final User user = loginService.getUserInfo(httpServletRequest);
-		if(user == null) {
-			return new ResponseEntity<User>(user, HttpStatus.BAD_REQUEST);
+		final MeResponse me = loginService.getUserInfo(httpServletRequest);
+		if(me == null) {
+			return new ResponseEntity<MeResponse>(me, HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<User>(user, HttpStatus.OK);
+		return new ResponseEntity<MeResponse>(me, HttpStatus.OK);
 	}
 	
 	
 	@ApiOperation(tags="관심지역", value="관심지역 설정", notes="사용자의 관심지역을 설정해 줌")
 	@PostMapping("/interest")
-	public ResponseEntity<String> setInterest(@RequestBody InterestRequest input){
+	public ResponseEntity<String> setInterest(@RequestBody InterestRequest input, HttpServletRequest httpServletReq){
 		
 		if(input.getAreas().length <= 0) {
 			return new ResponseEntity<String>("underflow", HttpStatus.BAD_REQUEST);
@@ -117,7 +116,7 @@ public class UserController {
 			return new ResponseEntity<String>("overflow", HttpStatus.BAD_REQUEST);
 		}
 		
-		interestService.setInterest(input);		
+		interestService.setInterest(input, httpServletReq);		
 		
 		return new ResponseEntity<String>("success", HttpStatus.OK);
 	}

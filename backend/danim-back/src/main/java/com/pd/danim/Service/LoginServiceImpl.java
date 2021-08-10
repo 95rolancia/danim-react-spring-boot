@@ -1,6 +1,8 @@
 package com.pd.danim.Service;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -13,9 +15,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.pd.danim.DTO.DanimId;
+import com.pd.danim.DTO.Interest;
+import com.pd.danim.DTO.Story;
 import com.pd.danim.DTO.User;
+import com.pd.danim.Form.Response.MeResponse;
 import com.pd.danim.Form.Response.SignInResponse;
+import com.pd.danim.Form.Response.StoryResponse;
 import com.pd.danim.Repository.DanimRepository;
+import com.pd.danim.Repository.StoryRepository;
 import com.pd.danim.Repository.UserRepository;
 import com.pd.danim.Util.CookieUtil;
 import com.pd.danim.Util.JwtUtil;
@@ -39,7 +46,8 @@ public class LoginServiceImpl implements LoginService {
 	@Autowired
 	private UserRepository userRepo;
 	
-	
+	@Autowired
+	private StoryRepository storyRepo;
 
 	@Override
 	public DanimId loginUser(String id, String password) throws Exception {
@@ -59,21 +67,47 @@ public class LoginServiceImpl implements LoginService {
 	
 	
 	@Override
-	public User getUserInfo(HttpServletRequest httpServletRequest) {
+	public MeResponse getUserInfo(HttpServletRequest httpServletRequest) {
 		
 		final String requestTokenHeader = httpServletRequest.getHeader("Authorization");
 		String id = jwtUtil.getUsername(requestTokenHeader);
 		
-		DanimId danim = danimRepository.findById(id);
+		DanimId danim = danimRepository.findById(id);		
+		User user = danim.getUser();		
+		MeResponse me =  new MeResponse();
 		
-		User user = userRepo.findByUserno(danim.getUserno());
+		List<StoryResponse> stories = new ArrayList();
+		List<Story>storyList = storyRepo.findAllByUserNo(user.getUserno());
 		
-		if(user!=null) {
-			danim.setPassword(null);
-			return user;
-		}else {
-			return user;
+		for(Story story : storyList) {
+			StoryResponse storyRes = new StoryResponse();
+			storyRes.setCreatedDate(story.getCreatedDate());
+			storyRes.setDuration(story.getDuration());
+			storyRes.setStartDate(story.getStartDate());
+			storyRes.setStoryNo(story.getStoryNo());
+			storyRes.setThumbnail(story.getThumbnail());
+			storyRes.setTitle(story.getTitle());
+			stories.add(storyRes);
 		}
+		
+		List<Interest>interests = user.getInterests();
+		String areas[] = new String[interests.size()];
+		
+		for(int i=0;i<areas.length;i++) {
+			areas[i] = interests.get(i).getArea();
+		}
+		
+		me.setUserId(danim.getId());
+		me.setNickname(user.getNickname());
+		me.setAge(user.getAge());
+		me.setGender(user.getGender());
+		me.setIntroduce(user.getIntroduce());
+		me.setProfile(user.getProfile());
+		me.setRole(user.getRole());
+		me.setStories(stories);
+		me.setAreas(areas);		
+		
+		return me;
 		
 	}
 

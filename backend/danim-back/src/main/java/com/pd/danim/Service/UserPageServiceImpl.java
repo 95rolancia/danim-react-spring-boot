@@ -41,6 +41,7 @@ public class UserPageServiceImpl implements UserPageService {
 		
 		List<Story> stories = storyRepo.findAllByUserNoAndStatus(userno,StoryStatus.TEMP);
 		
+		
 		List<Follow> tFollowList = followRepo.findAllByUser(user);
 		List<Follow> tFollowedList = followRepo.findAllByFollowUserNo(userno);
 		
@@ -68,7 +69,6 @@ public class UserPageServiceImpl implements UserPageService {
 		upf.setNickname(nickname);
 		upf.setStories(stories);
 		upf.setProfile(user.getProfile());
-		
 		
 		return upf;
 		

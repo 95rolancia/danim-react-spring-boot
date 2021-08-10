@@ -1,16 +1,20 @@
 package com.pd.danim.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.pd.danim.DTO.DanimId;
 import com.pd.danim.DTO.Interest;
 import com.pd.danim.DTO.User;
 import com.pd.danim.Form.Request.InterestRequest;
+import com.pd.danim.Repository.DanimRepository;
 import com.pd.danim.Repository.InterestRepository;
 import com.pd.danim.Repository.UserRepository;
+import com.pd.danim.Util.JwtUtil;
 
 @Service
 public class InterestServiceImpl implements InterestService {
@@ -21,11 +25,23 @@ public class InterestServiceImpl implements InterestService {
 	@Autowired
 	private InterestRepository interestRepo;
 	
-	public boolean setInterest(InterestRequest input) {
+	@Autowired
+	private DanimRepository danimRepo;
+	
+	@Autowired
+	JwtUtil jwtUtil;
+	
+	public boolean setInterest(InterestRequest input, HttpServletRequest httpServletReq) {
+		final String requestTokenHeader = httpServletReq.getHeader("Authorization");
+		String userId = jwtUtil.getUsername(requestTokenHeader);
 		
+		DanimId danim = danimRepo.findById(userId);
+		if(danim==null) {
+			return false;			
+		}
 		
 		String[] areas = input.getAreas();
-		User user = userRepo.findByUserno(input.getUserno());
+		User user = danim.getUser();
 		List<Interest> inter = user.getInterests();		
 		
 		//변화된 부분만 변경하는 방법
@@ -53,26 +69,6 @@ public class InterestServiceImpl implements InterestService {
 		}
 		
 		interestRepo.saveAll(inter);
-	
-		// 통째로 날리고 다시 넣는 방법
-		/*
-		for(int i=0;i<inter.size();i++) {
-			interestRepo.delete(inter.get(i));
-		}
-		
-		
-		
-		for(int i=0;i<areas.length;i++) {
-			Interest interest = new Interest();
-			interest.setArea(areas[i]);	
-			interest.setUser(user);
-			inter.add(interest);		
-		}
-		
-		interestRepo.saveAll(inter);
-		*/		
-
-
 		
 		return true;
 	}
