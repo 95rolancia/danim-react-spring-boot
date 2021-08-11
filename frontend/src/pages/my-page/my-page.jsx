@@ -28,7 +28,7 @@ const MyPage = ({ userInfo, isManager }) => {
         isManager={isManager}
         userInfo={userInfo}
       />
-      <Profile isManager={isManager} userInfo={userInfo} />
+      <Profile isManager={isManager} userInfo={userInfo} history={history} />
       <Introduce />
       <Stories stories={userInfo.stories} />
     </div>
