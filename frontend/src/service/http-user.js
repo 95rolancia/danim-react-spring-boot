@@ -43,6 +43,24 @@ class HttpUser {
       throw new Error(`set interest area error ${error}`);
     }
   }
+
+  async updateAvatar(newAvatar) {
+    try {
+      const res = await this.instance.post('/account/avatar', newAvatar);
+      return res;
+    } catch (error) {
+      throw new Error(`updateAvatar Error ${error.response}`);
+    }
+  }
+
+  async updateUserInfo(newUserInfo) {
+    try {
+      const res = await this.instance.put('/account/info', newUserInfo);
+      return res;
+    } catch (error) {
+      throw new Error(`updateUserInfo Error ${error.response}`);
+    }
+  }
 }
 
 export default new HttpUser(instance);

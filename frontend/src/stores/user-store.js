@@ -37,6 +37,23 @@ class UserStore {
       this.user = { ...this.user, areas: [...area.areas] };
     });
   }
+
+  async updateUserInfo(newUserInfo) {
+    const res = await HttpUser.updateUserInfo(newUserInfo);
+    if (res.status !== 200) {
+      return false;
+    }
+    await this.getUser();
+    return true;
+  }
+
+  async updateAvatar(newAvatar) {
+    const res = await HttpUser.updateAvatar(newAvatar);
+    if (res.status !== 200) {
+      return false;
+    }
+    return res.data;
+  }
 }
 
 export default new UserStore();
