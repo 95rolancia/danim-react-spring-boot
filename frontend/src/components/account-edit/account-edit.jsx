@@ -91,7 +91,12 @@ const AccountEdit = observer(() => {
     setIntroduce(userInfo.introduce || '자기소개를 적어주세요.');
     setAge(userInfo.age || 0);
     setGender(userInfo.gender || 'M');
-    setAvatar(userInfo.profile || '');
+    setAvatar(
+      process.env.REACT_APP_IMAGE_BASE_URL +
+        userInfo.nickname +
+        '/' +
+        userInfo.profile || '',
+    );
   }, [user.user]);
 
   const checkNickname = (e) => {
@@ -136,7 +141,9 @@ const AccountEdit = observer(() => {
 
         // Send the compressed image file to server with XMLHttpRequest.
         user.updateAvatar(formData).then((res) => {
-          setAvatar(process.env.REACT_APP_IMAGE_BASE_URL + nickname + res);
+          const imgURL =
+            process.env.REACT_APP_IMAGE_BASE_URL + nickname + '/' + res;
+          setAvatar(imgURL);
         });
       },
       error(err) {
@@ -152,7 +159,7 @@ const AccountEdit = observer(() => {
       gender: gender,
       introduce: introduce,
       nickname: nickname,
-      profile: avatar,
+      profile: avatar.split('/')[5],
     });
 
     if (res) {
