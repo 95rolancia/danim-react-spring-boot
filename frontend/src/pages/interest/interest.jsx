@@ -82,6 +82,7 @@ const Interest = observer(({ type }) => {
   const [nickname, setNickname] = useState('danim');
 
   useEffect(() => {
+    console.log(history.location);
     if (
       history.location.state.prevPath === '/signin' &&
       toJS(user.user).areas.length > 0
@@ -89,7 +90,7 @@ const Interest = observer(({ type }) => {
       history.push('/main');
     }
     setNickname(toJS(user.user).nickname);
-  }, [history, user.user]);
+  }, [history]);
 
   const handleClick = (chip) => {
     if (chip.state === 'unselected') {
