@@ -51,7 +51,7 @@ public class MeResponse {
 	public void setRole(UserRole role) {
 		this.role = role;
 	}
-	public String[] getArea() {
+	public String[] getAreas() {
 		return areas;
 	}
 	public void setAreas(String[] areas) {
