@@ -66,9 +66,6 @@ public class Photo implements Comparable<Photo> {
 	
 	@Column(name="space_name")
 	private String spaceName;
-	
-	@OneToMany(mappedBy = "photo")
-	private List<Love> loves = new ArrayList();
 
 	public long getPhotoNo() {
 		return photoNo;
@@ -158,13 +155,6 @@ public class Photo implements Comparable<Photo> {
 		this.tag = tag;
 	}
 
-	public List<Love> getLoves() {
-		return loves;
-	}
-
-	public void setLoves(List<Love> loves) {
-		this.loves = loves;
-	}
 
 	public String getAddress() {
 		return address;
