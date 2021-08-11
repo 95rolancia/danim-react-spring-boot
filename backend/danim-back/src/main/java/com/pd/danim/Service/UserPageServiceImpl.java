@@ -103,7 +103,6 @@ public class UserPageServiceImpl implements UserPageService {
 		}
 		
 		boolean isFollow = followRepo.existsByFollowUserNoAndUser(userno, danim.getUser());
-		System.out.println("follow상태는 "+ isFollow);
 		
 		UserPageResponse upf = new UserPageResponse();
 		
@@ -113,6 +112,7 @@ public class UserPageServiceImpl implements UserPageService {
 		upf.setStories(stories);
 		upf.setProfile(user.getProfile());
 		upf.setIsFollow(isFollow);
+		upf.setIntroduce(user.getIntroduce());
 		
 		return upf;
 		
