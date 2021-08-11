@@ -172,8 +172,16 @@ public class Photo implements Comparable<Photo> {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}	
+
+	public String getSpaceName() {
+		return spaceName;
 	}
-	
+
+	public void setSpaceName(String spaceName) {
+		this.spaceName = spaceName;
+	}
+
 	@Override
 	public int compareTo(Photo o) {
 		return this.getDate().getNano() - o.getDate().getNano();

@@ -93,25 +93,17 @@ public class StoryServiceImpl implements StoryService {
 			return null;
 		}
 		
-		
 		String address = addressUtil.ConvertAddress(latitude, longtitude);
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm:ss");
+		
 		/*
 		 *  공공 데이터 테이블 생성 및 연결 
 		 */
+	
 		
 		String filename = uid.toString() + originalFileExtension;
-		Photo photo = new Photo();
-		photo.setFilename(filename);
-		photo.setLatitude(latitude);
-		photo.setLongtitude(longtitude);
-		photo.setDate(LocalDateTime.parse(date,formatter));
-		photo.setAddress(address);
-		
-		photoRepo.save(photo);
 
 		// 파일 저장
-		file = new File(absolutePath + path + File.separator + photo.getFilename());
+		file = new File(absolutePath + path + File.separator + filename);
 		file.setWritable(true);
 		file.setReadable(true);
 		try {
@@ -122,16 +114,14 @@ public class StoryServiceImpl implements StoryService {
 			e.printStackTrace();
 		}
 		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm:ss");
 		
 		PhotoResponse response = new PhotoResponse();
 		response.setFilename(filename);
-		response.setLatitude(photo.getLatitude());
-		response.setLongtitude(photo.getLongtitude());
 		response.setDate(LocalDateTime.parse(date,formatter));
-//		response.setSpaceName(spaceName);
-//		response.setAddress(address);
-		response.setPhotoNo(photo.getPhotoNo());
 		response.setAddress(address);
+		response.setLatitude(latitude);
+		response.setLongtitude(longtitude);
 		
 		
 		return response;
@@ -165,9 +155,15 @@ public class StoryServiceImpl implements StoryService {
 		List<Photo> photoList = new ArrayList();
 		for (PhotoRequest photoReq : photoReqList) {
 			Photo photo = new Photo(); 
-			if(photoRepo.existsByPhotoNo(photoReq.getPhotoNo())) {
-				photo = photoRepo.findByPhotoNo(photoReq.getPhotoNo());
-			}
+
+			
+			photo.setFilename(photoReq.getFilename());
+			photo.setLatitude(photoReq.getLatitude());
+			photo.setLongtitude(photoReq.getLongtitude());
+			photo.setDate(LocalDateTime.parse(photoReq.getDate()));		
+			photo.setAddress(photoReq.getAddress());
+			photo.setSpaceName(photoReq.getSpaceName());
+			photo.setContent(photoReq.getContent());
 			
 			seqNo = (int) Duration.between(input.getStartDate(), photo.getDate()).toDays();
 			subStoryArr[seqNo].setUserNo(userno);
