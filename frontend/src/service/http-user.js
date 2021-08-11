@@ -62,6 +62,15 @@ class HttpUser {
     }
   }
 
+  async updatePassword(newPassword) {
+    try {
+      const res = await this.instance.put('/account/pwd', newPassword);
+      return res;
+    } catch (error) {
+      throw new Error(`updatePassword Error ${error.response}`);
+    }
+  }
+
   async follow(nickname) {
     try {
       const res = await this.instance.post('/follow', nickname);
