@@ -9,8 +9,6 @@ import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(value="사진 폼", description="사진 파일명, 사진 날짜, 사진 태그, 사진 파일, 요청자 아이디")
 public class PhotoRequest {
-	@ApiModelProperty(value ="사진 번호", example="6")
-	private long photoNo;
 	
 	@ApiModelProperty(value="사진 파일명", example ="3142-1232-234.png")
 	private String filename;
@@ -25,18 +23,16 @@ public class PhotoRequest {
 	private String content; 
 	
 	@ApiModelProperty(value = "사진 날짜", example="2021-08-21 12:42:33")
-	private LocalDateTime date; 
+	private String date;
 	
 	@ApiModelProperty(value = "사진 태그", example="FOOD")
 	private PhotoTag tag;
-
-	public long getPhotoNo() {
-		return photoNo;
-	}
-
-	public void setPhotoNo(long photoNo) {
-		this.photoNo = photoNo;
-	}
+	
+	@ApiModelProperty(value = "주소명", example="대전광역시 유성구 상대로 12")
+	private String address;
+	
+	@ApiModelProperty(value = "장소 이름", example="유성온천역")
+	private String spaceName;
 
 	public String getFilename() {
 		return filename;
@@ -70,11 +66,11 @@ public class PhotoRequest {
 		this.content = content;
 	}
 
-	public LocalDateTime getDate() {
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(LocalDateTime date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 
@@ -85,6 +81,25 @@ public class PhotoRequest {
 	public void setTag(PhotoTag tag) {
 		this.tag = tag;
 	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getSpaceName() {
+		return spaceName;
+	}
+
+	public void setSpaceName(String spaceName) {
+		this.spaceName = spaceName;
+	}
+	
+	
+	
 	
 	
 	
