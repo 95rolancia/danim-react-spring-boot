@@ -41,7 +41,7 @@ public class StoryController {
 	@PostMapping("/upload")
 	public ResponseEntity<PhotoResponse> photo(@RequestPart("file") MultipartFile file,
 			@RequestPart("latitude") String latitude, @RequestPart("longtitude") String longtitude,
-			@RequestPart("date") LocalDateTime date, HttpServletRequest httpServletReq) {
+			@RequestPart("date") String date, HttpServletRequest httpServletReq) {
 		
 		PhotoResponse response = new PhotoResponse();
 		PhotoUploadRequest photoReq = new PhotoUploadRequest();

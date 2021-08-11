@@ -17,6 +17,6 @@ public interface StoryService {
 	boolean getStory(long storyno);
 	boolean getStories(User user);
 	boolean deleteStory(long storyno);
-	PhotoResponse uploadPhoto(MultipartFile file,String latitude, String longtitude, LocalDateTime date, HttpServletRequest httpServletReq);
+	PhotoResponse uploadPhoto(MultipartFile file,String latitude, String longtitude, String date, HttpServletRequest httpServletReq);
 	
 }
