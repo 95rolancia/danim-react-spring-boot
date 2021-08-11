@@ -11,7 +11,7 @@ public class UserPageResponse {
 	private int followerCnt;
 	private List<UserSimpleResponse> followingList;
 	private List<UserSimpleResponse> followerList;
-	private List<Story> stories;
+	private List<StoryResponse> stories;
 	private boolean isFollow;
 	
 	public String getNickname() {
@@ -46,10 +46,10 @@ public class UserPageResponse {
 		this.followerList = followerList;
 		this.followerCnt = followerList.size();
 	}
-	public List<Story> getStories() {
+	public List<StoryResponse> getStories() {
 		return stories;
 	}
-	public void setStories(List<Story> stories) {
+	public void setStories(List<StoryResponse> stories) {
 		this.stories = stories;
 	}
 	public String getProfile() {
