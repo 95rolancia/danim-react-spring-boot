@@ -54,6 +54,22 @@ class UserStore {
     }
     return res.data;
   }
+
+  async follow(nickname) {
+    const res = await HttpUser.follow(nickname);
+    if (res.status === 400 && res.data === 'follow user already exists') {
+      return 'exist';
+    }
+    return true;
+  }
+
+  async unfollow(nickname) {
+    const res = await HttpUser.unfollow(nickname);
+    if (res.status === 400) {
+      return 'exist';
+    }
+    return true;
+  }
 }
 
 export default new UserStore();

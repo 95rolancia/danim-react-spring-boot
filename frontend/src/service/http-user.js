@@ -61,6 +61,38 @@ class HttpUser {
       throw new Error(`updateUserInfo Error ${error.response}`);
     }
   }
+
+  async follow(nickname) {
+    try {
+      const res = await this.instance.post('/follow', nickname);
+      return res;
+    } catch (error) {
+      const res = error.response;
+      console.log(res);
+      if (res.status === 400) {
+        return res;
+      }
+      throw new Error(`Follow Error ${error.response}`);
+    }
+  }
+
+  async unfollow(nickname) {
+    try {
+      const res = await this.instance.delete('/follow', {
+        data: {
+          nickname: nickname.nickname,
+        },
+      });
+      return res;
+    } catch (error) {
+      const res = error.response;
+      console.log(res);
+      if (res.status === 400) {
+        return res;
+      }
+      throw new Error(`Follow Error ${error.response}`);
+    }
+  }
 }
 
 export default new HttpUser(instance);
