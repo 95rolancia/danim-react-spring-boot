@@ -1,5 +1,7 @@
 package com.pd.danim.Controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,12 +25,12 @@ public class UserPageController {
 	@ApiOperation(tags ="회원 페이지", value ="회원 페이지 접근", notes = "닉네임으로 회원 페이지에 접근합니다")
 	@ApiResponse(code = 200, message ="success")
 	@GetMapping("/users/{nickname}")
-	public ResponseEntity<UserPageResponse> checkEmail(@PathVariable("nickname") String nickname) {
+	public ResponseEntity<UserPageResponse> checkEmail(@PathVariable("nickname") String nickname, HttpServletRequest httpServletReq) {
 		
 
 		UserPageResponse response;
 		
-		response = userPageService.userPage(nickname);
+		response = userPageService.userPage(nickname, httpServletReq);
 		
 		if(response == null)
 			return new ResponseEntity<UserPageResponse>(response, HttpStatus.NOT_FOUND);
