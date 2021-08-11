@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -94,7 +95,7 @@ public class StoryServiceImpl implements StoryService {
 		
 		
 		String address = addressUtil.ConvertAddress(latitude, longtitude);
-		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm:ss");
 		/*
 		 *  공공 데이터 테이블 생성 및 연결 
 		 */
@@ -104,7 +105,7 @@ public class StoryServiceImpl implements StoryService {
 		photo.setFilename(filename);
 		photo.setLatitude(latitude);
 		photo.setLongtitude(longtitude);
-		photo.setDate(LocalDateTime.parse(date));
+		photo.setDate(LocalDateTime.parse(date,formatter));
 		photo.setAddress(address);
 		
 		photoRepo.save(photo);
@@ -126,7 +127,7 @@ public class StoryServiceImpl implements StoryService {
 		response.setFilename(filename);
 		response.setLatitude(photo.getLatitude());
 		response.setLongtitude(photo.getLongtitude());
-		response.setDate(LocalDateTime.parse(date));
+		response.setDate(LocalDateTime.parse(date,formatter));
 //		response.setSpaceName(spaceName);
 //		response.setAddress(address);
 		response.setPhotoNo(photo.getPhotoNo());
