@@ -82,13 +82,13 @@ const Interest = observer(({ type }) => {
   const [nickname, setNickname] = useState('danim');
 
   useEffect(() => {
-    setNickname(toJS(user.user).nickname);
-    if (history.location.state.prevPath === '/main') {
-    } else {
-      if (toJS(user.user).areas.length > 0) {
-        history.push('/main');
-      }
+    if (
+      history.location.state.prevPath === '/signin' &&
+      toJS(user.user).areas.length > 0
+    ) {
+      history.push('/main');
     }
+    setNickname(toJS(user.user).nickname);
   }, [history, user.user]);
 
   const handleClick = (chip) => {
@@ -136,12 +136,9 @@ const Interest = observer(({ type }) => {
     const data = {
       areas: [...selectedAreas],
     };
+
     user.setInterestArea(data).then((res) => {
-      if (res) {
-        history.push('/main');
-      } else {
-        alert('관심 지역 설정에 문제가 생겼습니다...! 헐');
-      }
+      history.push('/main');
     });
   };
 
