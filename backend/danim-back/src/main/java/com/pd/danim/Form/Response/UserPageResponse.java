@@ -58,12 +58,13 @@ public class UserPageResponse {
 	public void setProfile(String profile) {
 		this.profile = profile;
 	}
-	public boolean isFollow() {
+	public boolean getIsFollow() {
 		return isFollow;
 	}
-	public void setFollow(boolean isFollow) {
+	public void setIsFollow(boolean isFollow) {
 		this.isFollow = isFollow;
 	}
+	
 	
 	
 	
