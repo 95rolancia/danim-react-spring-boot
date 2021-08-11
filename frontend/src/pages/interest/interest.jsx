@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
+import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import PlaceChip from './place-chip';
 import SelectedChip from './selected-chip';
@@ -11,7 +12,6 @@ import {
   Typography,
 } from '@material-ui/core';
 import useUser from '../../hooks/useUser';
-import { toJS } from 'mobx';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -82,20 +82,14 @@ const Interest = observer(({ type }) => {
   const [nickname, setNickname] = useState('danim');
 
   useEffect(() => {
-    user.getUser().then((res) => {
-      if (!res) {
-        alert('사용자 정보 조회 실패!');
-        return;
+    setNickname(toJS(user.user).nickname);
+    if (history.location.state.prevPath === '/main') {
+    } else {
+      if (toJS(user.user).areas.length > 0) {
+        history.push('/main');
       }
-      if (type === 'initial') {
-        if (toJS(user.user).interests.length) {
-          history.push('/main');
-        } else {
-          setNickname(toJS(user.user).nickname);
-        }
-      }
-    });
-  });
+    }
+  }, [history, user.user]);
 
   const handleClick = (chip) => {
     if (chip.state === 'unselected') {
@@ -140,7 +134,6 @@ const Interest = observer(({ type }) => {
   const handleInterestSubmit = () => {
     const selectedAreas = selectedChipData.map((item) => item.label);
     const data = {
-      userno: toJS(user.user).userno,
       areas: [...selectedAreas],
     };
     user.setInterestArea(data).then((res) => {
@@ -152,23 +145,6 @@ const Interest = observer(({ type }) => {
     });
   };
 
-  const handleInterestModify = () => {
-    const selectedAreas = selectedChipData.map((item) => item.label);
-    const userData = toJS(user.user).userno;
-    const data = {
-      userno: userData,
-      areas: [...selectedAreas],
-    };
-    user.setInterestArea(data).then((res) => {
-      if (res) {
-        history.push('/main');
-        // window.location.replace('/main');
-      } else {
-        alert('관심 지역 수정에 문제가 발생했습니다.');
-      }
-    });
-  };
-
   const goToMain = () => {
     history.push('/main');
   };
@@ -176,16 +152,10 @@ const Interest = observer(({ type }) => {
   return (
     <Container>
       <div className={classes.root}>
-        {type === 'initial' ? (
-          <Typography className={classes.intro} variant="h5">
-            안녕하세요, {nickname}!<br />
-            어디를 소개해드릴까요?
-          </Typography>
-        ) : (
-          <Typography className={classes.intro} variant="h5">
-            관심지역을 수정할까요?
-          </Typography>
-        )}
+        <Typography className={classes.intro} variant="h5">
+          안녕하세요, {nickname}!<br />
+          어디를 소개해드릴까요?
+        </Typography>
         <div className={classes.selected_box}>
           {selectedChipData.map((interestedPlace) => (
             <SelectedChip
@@ -217,7 +187,7 @@ const Interest = observer(({ type }) => {
           ))}
         </div>
       </div>
-      {type === 'initial' ? (
+      <>
         <Button
           fullWidth
           variant="contained"
@@ -225,30 +195,18 @@ const Interest = observer(({ type }) => {
           className={classes.button}
           onClick={handleInterestSubmit}
         >
-          완료
+          등록
         </Button>
-      ) : (
-        <>
-          <Button
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            onClick={handleInterestModify}
-          >
-            수정
-          </Button>
-          <Button
-            fullWidth
-            variant="contained"
-            color="secondary"
-            className={classes.button}
-            onClick={goToMain}
-          >
-            취소
-          </Button>
-        </>
-      )}
+        <Button
+          fullWidth
+          variant="contained"
+          color="secondary"
+          className={classes.button}
+          onClick={goToMain}
+        >
+          취소
+        </Button>
+      </>
     </Container>
   );
 });
