@@ -89,7 +89,7 @@ const Interest = observer(({ type }) => {
       history.push('/main');
     }
     setNickname(toJS(user.user).nickname);
-  }, [history, user.user]);
+  }, [history]);
 
   const handleClick = (chip) => {
     if (chip.state === 'unselected') {
