@@ -49,12 +49,9 @@ public class StoryServiceImpl implements StoryService {
 
 	@Autowired
 	private StoryRepository storyRepo;
-
-	@Autowired
-	private AddressUtil addressUtil;
 	 
 	@Autowired
-	JwtUtil jwtUtil;
+	private JwtUtil jwtUtil;
 	
 	public PhotoResponse uploadPhoto(MultipartFile mfile,String latitude, String longtitude, String date, HttpServletRequest httpServletReq) {
 		
@@ -93,7 +90,7 @@ public class StoryServiceImpl implements StoryService {
 			return null;
 		}
 		
-		String address = addressUtil.ConvertAddress(latitude, longtitude);
+		String address = AddressUtil.ConvertAddress(latitude, longtitude);
 		
 		/*
 		 *  공공 데이터 테이블 생성 및 연결 
