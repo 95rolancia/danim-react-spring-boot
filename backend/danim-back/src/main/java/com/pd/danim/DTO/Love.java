@@ -20,17 +20,11 @@ public class Love {
 	@JoinColumn(name="user_no")
 	private User user;
 	
-	@ManyToOne
-	@JoinColumn(name="photo_no")
-	private Photo photo;
 	
 	@ManyToOne
 	@JoinColumn(name="story_no")
 	private Story story;
 	
-	@ManyToOne
-	@JoinColumn(name="substory_no")
-	private SubStory substory;
 
 	public long getLoveNo() {
 		return loveNo;
@@ -48,13 +42,6 @@ public class Love {
 		this.user = user;
 	}
 
-	public Photo getPhoto() {
-		return photo;
-	}
-
-	public void setPhoto(Photo photo) {
-		this.photo = photo;
-	}
 
 	public Story getStory() {
 		return story;
@@ -63,17 +50,5 @@ public class Love {
 	public void setStory(Story story) {
 		this.story = story;
 	}
-
-	public SubStory getSubstory() {
-		return substory;
-	}
-
-	public void setSubstory(SubStory substory) {
-		this.substory = substory;
-	}
-	
-	
-	
-	
 	
 }

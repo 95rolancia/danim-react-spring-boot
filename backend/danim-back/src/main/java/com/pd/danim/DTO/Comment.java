@@ -17,17 +17,9 @@ public class Comment {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long commentNo;
 		
-	@ManyToOne
-	@JoinColumn(name="photo_no")
-	private Photo photo;
-	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="story_no")
 	private Story story;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="substory_no")
-	private SubStory substory;
 	
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="user_no")
@@ -47,28 +39,12 @@ public class Comment {
 		this.commentNo = commentNo;
 	}
 
-	public Photo getPhoto() {
-		return photo;
-	}
-
-	public void setPhoto(Photo photo) {
-		this.photo = photo;
-	}
-
 	public Story getStory() {
 		return story;
 	}
 
 	public void setStory(Story story) {
 		this.story = story;
-	}
-
-	public SubStory getSubstory() {
-		return substory;
-	}
-
-	public void setSubstory(SubStory substory) {
-		this.substory = substory;
 	}
 
 	public User getUser() {
