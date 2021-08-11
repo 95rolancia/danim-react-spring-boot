@@ -1,5 +1,6 @@
 body {
-  margin: 0;
+  width: 45em;
+  margin: auto;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -12,10 +13,10 @@ code {
     monospace;
 }
 
-@media screen and (min-width: 960px) {
+@media screen and (max-width: 960px) {
   body {
     display: flex;
-    width: 45em;
+    max-width: 45em;
     height: 100vh;
     flex-direction: column;
     margin: auto;
