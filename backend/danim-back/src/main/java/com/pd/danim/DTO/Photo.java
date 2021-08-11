@@ -1,5 +1,6 @@
 package com.pd.danim.DTO;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +16,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -24,12 +23,11 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Entity
 @DynamicInsert
 @EntityListeners(AuditingEntityListener.class)
-public class Photo {
+public class Photo implements Comparable<Photo> {
 	@Id
 	@Column(name = "photo_no")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long photoNo;
-	
 	
 	@ManyToOne
 	@JoinColumn(name="substory_no")
@@ -175,6 +173,12 @@ public class Photo {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	@Override
+	public int compareTo(Photo o) {
+		Duration duration;
+		return this.getDate().getNano() - o.getDate().getNano();
 	}
 	
 	
