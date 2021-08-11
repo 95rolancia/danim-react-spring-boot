@@ -1,19 +1,14 @@
 package com.pd.danim.Form.Request;
 
 public class UserEditRequest {
-	private String userId;
+	
 	private String nickname;
 	private String introduce;
 	private int age;
 	private String gender; 
 	private String profile;
 	
-	public String getUserId() {
-		return userId;
-	}
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
+
 	public String getNickname() {
 		return nickname;
 	}

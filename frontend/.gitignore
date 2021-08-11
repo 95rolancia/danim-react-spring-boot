@@ -11,6 +11,10 @@
 # production
 /build
 
+# mkcert SSL
+localhost+2-key.pem
+localhost+2.pem
+
 # misc
 .DS_Store
 .env.local

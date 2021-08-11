@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,10 +16,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.pd.danim.DTO.DanimId;
 import com.pd.danim.DTO.User;
 import com.pd.danim.Form.Request.PasswordRequest;
-import com.pd.danim.Form.Request.ProfileRequest;
 import com.pd.danim.Form.Request.UserEditRequest;
 import com.pd.danim.Repository.DanimRepository;
 import com.pd.danim.Repository.UserRepository;
+import com.pd.danim.Util.JwtUtil;
 
 @Service
 public class UserEditServiceImpl implements UserEditService {
@@ -29,13 +31,22 @@ public class UserEditServiceImpl implements UserEditService {
 	@Autowired
 	private UserRepository userRepo;
 	
+	@Autowired
+	JwtUtil jwtUtil;
 				
-	public String uploadProfile(ProfileRequest profileReq) {
+	public String uploadProfile(MultipartFile mpf, HttpServletRequest httpServletReq) {
 		UUID uid = UUID.randomUUID();
-		MultipartFile mpf = profileReq.getFile();
 		String absolutePath = new File("").getAbsolutePath() + File.separator;
-		User user = userRepo.findByNickname(profileReq.getNickname());
-		String path = "image" + File.separator + user.getUserno();
+		final String requestTokenHeader = httpServletReq.getHeader("Authorization");
+		String userId = jwtUtil.getUsername(requestTokenHeader);
+		
+		DanimId danim = danimRepo.findById(userId);
+		
+		if(danim==null) {
+			return null;			
+		}
+		
+		String path = "src" +  File.separator + "main" +  File.separator + "resources" +  File.separator + "danim-image" + File.separator + danim.getUser().getNickname();
 		File file = new File(path);
 
 		if (!file.exists()) {
@@ -74,28 +85,46 @@ public class UserEditServiceImpl implements UserEditService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+		System.out.println(">>>>경로 출력<<<<");
+		System.out.println(absolutePath + path + File.separator + filename);
+		System.out.println(file.getPath());
+		System.out.println(file.getAbsolutePath());
+		try {
+			System.out.println(file.getCanonicalPath());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return filename;		
 	}
 	
 	
-	public boolean setUserInfo(UserEditRequest userEditReq) {
+	public boolean setUserInfo(UserEditRequest userEditReq, HttpServletRequest httpServletReq) {
+		final String requestTokenHeader = httpServletReq.getHeader("Authorization");
+		String userId = jwtUtil.getUsername(requestTokenHeader);
 		
+		DanimId danim = danimRepo.findById(userId);
 		
-		if(!danimRepo.existsById(userEditReq.getUserId())) {
-			
-			return false;
+		if(danim==null) {
+			return false;			
 		}
-		DanimId danim = danimRepo.findById(userEditReq.getUserId());
+		
+	
 		User user = danim.getUser();
-		
-		
 		
 		if(!user.getNickname().equals(userEditReq.getNickname())) {
 			if(userRepo.existsByNickname(userEditReq.getNickname())){
 				return false;
 			}
 			
+			String path = "src" +  File.separator + "main" +  File.separator + "resources" +  File.separator + "danim-image" + File.separator + danim.getUser().getNickname();
+			String newPath = "src" +  File.separator + "main" +  File.separator + "resources" +  File.separator + "danim-image" + File.separator + userEditReq.getNickname();
+			
+			File file = new File(path);
+			File newFile = new File(newPath);
+			
+			if(!file.renameTo(newFile)) {
+				return false;
+			}
 			user.setNickname(userEditReq.getNickname());
 		}
 		
@@ -111,16 +140,16 @@ public class UserEditServiceImpl implements UserEditService {
 		
 	}
 	
-	public boolean setPassword(PasswordRequest pwdReq) {
+	public boolean setPassword(PasswordRequest pwdReq, HttpServletRequest httpServletReq) {
+		final String requestTokenHeader = httpServletReq.getHeader("Authorization");
+		String userId = jwtUtil.getUsername(requestTokenHeader);
 		
-		String nickname = pwdReq.getNickname();
+		DanimId danim = danimRepo.findById(userId);
 		
-		
-		if(!userRepo.existsByNickname(nickname)) {
-			return false;
+		if(danim==null) {
+			return false;			
 		}
 		
-		User user = userRepo.findByNickname(nickname);
 		
 		String password = pwdReq.getPassword();
 		
@@ -128,8 +157,7 @@ public class UserEditServiceImpl implements UserEditService {
 
 		if (!password.matches(regex))
 			return false;
-		
-		DanimId danim = danimRepo.findByUser(user);
+
 		PasswordEncoder encoder = new BCryptPasswordEncoder();
 		danim.setPassword(encoder.encode(password));
 		

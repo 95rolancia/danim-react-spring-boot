@@ -95,7 +95,10 @@ const Home = observer((props) => {
   const [selectOptionIndex, setSelectOptionIndex] = useState(0);
   const [selectOptionValue, setSelectOptionValue] = useState('여행루트');
   const goToInterestModify = () => {
-    history.push('/interest-modify');
+    history.push({
+      pathname: '/interest',
+      state: { prevPath: history.location.pathname },
+    });
   };
 
   const openMenu = (e) => {
@@ -113,20 +116,13 @@ const Home = observer((props) => {
   };
 
   useEffect(() => {
-    //유저의 관심지역 정보들 담기
-    user.getUser().then((res) => {
-      if (!res) {
-        alert('사용자 정보 조회 실패!');
-        return;
-      }
-      const userInterestArray = toJS(user.user).interests;
-      let userInterest = '';
-      for (let interest of userInterestArray) {
-        userInterest += interest.area;
-      }
-      setInterestRegions(userInterest);
-    });
-  }, [user]);
+    const userInterestArray = toJS(user.user).areas;
+    let userInterest = '';
+    for (let interest of userInterestArray) {
+      userInterest += interest;
+    }
+    setInterestRegions(userInterest);
+  }, [user.user]);
 
   return (
     <>

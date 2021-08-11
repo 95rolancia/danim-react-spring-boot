@@ -30,9 +30,12 @@ class UserStore {
   async setInterestArea(area) {
     const res = await HttpUser.setInterestArea(area);
     if (res.status !== 200) {
-      return false;
+      return;
     }
-    return true;
+
+    runInAction(() => {
+      this.user = { ...this.user, areas: [...area.areas] };
+    });
   }
 }
 

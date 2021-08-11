@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.pd.danim.Form.Request.PasswordRequest;
-import com.pd.danim.Form.Request.ProfileRequest;
 import com.pd.danim.Form.Request.UserEditRequest;
 import com.pd.danim.Form.Response.PhotoResponse;
 import com.pd.danim.Service.UserEditService;
@@ -30,10 +30,12 @@ public class UserEditController {
 
 	@ApiOperation(value = "프로필 사진 업로드", notes = "프로필 사진을 업로드합니다")
 	@PostMapping("/avatar")
-	public ResponseEntity<String> profile(@RequestBody ProfileRequest profileReq, HttpServletRequest httpServletReq) {
+	public ResponseEntity<String> profile(@RequestBody MultipartFile file, HttpServletRequest httpServletReq) {
 		PhotoResponse response = new PhotoResponse();
-
-		String filename = userEditService.uploadProfile(profileReq);
+		
+	
+		
+		String filename = userEditService.uploadProfile(file, httpServletReq);
 		
 		if (filename == null) 
 			return new ResponseEntity<String>("", HttpStatus.BAD_REQUEST);		
@@ -44,25 +46,24 @@ public class UserEditController {
 
 	@ApiOperation(value = "회원 정보 수정", notes = "회원 정보를 수정합니다")
 	@PutMapping("/info")
-	public ResponseEntity<String> information(@RequestBody UserEditRequest userEditReq) {
+	public ResponseEntity<String> information(@RequestBody UserEditRequest userEditReq, HttpServletRequest httpServletReq) {
 
-		if(userEditService.setUserInfo(userEditReq)) 
-			return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+		if(!userEditService.setUserInfo(userEditReq,httpServletReq)) 
+			return new ResponseEntity<String>("FAIL", HttpStatus.BAD_REQUEST);
 		
 		else			
-			return new ResponseEntity<String>("FAIL", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "비밀번호 변경", notes = "비밀 번호를 변경합니다")
 	@PutMapping("/pwd")
-	public ResponseEntity<String> password(@RequestBody PasswordRequest pwdReq) {
+	public ResponseEntity<String> password(@RequestBody PasswordRequest pwdReq, HttpServletRequest httpServletReq) {
 
-		if (userEditService.setPassword(pwdReq)) 
-			return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
-		
+		if (!userEditService.setPassword(pwdReq,httpServletReq)) 
+			return new ResponseEntity<String>("FAIL", HttpStatus.BAD_REQUEST);
 		
 		else 	
-			return new ResponseEntity<String>("FAIL", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
 		
 	}
 

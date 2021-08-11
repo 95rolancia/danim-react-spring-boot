@@ -15,6 +15,7 @@ import {
 } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
 import useAuth from '../../hooks/useAuth';
+import useUser from '../../hooks/useUser';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -50,6 +51,7 @@ const SignIn = observer(() => {
   const classes = useStyles();
   const history = useHistory();
   const auth = useAuth();
+  const user = useUser();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -112,14 +114,13 @@ const SignIn = observer(() => {
     }
 
     await auth.signIn(new SignInDto(email, password));
+
     if (auth.isLoggedIn) {
-      setSnackbarInfo({
-        isShow: true,
-        msg: '로그인 성공',
-        state: 'success',
+      await user.getUser();
+      history.push({
+        pathname: '/interest',
+        state: { prevPath: history.location.pathname },
       });
-      history.push('/interest');
-      return;
     }
     setSnackbarInfo({
       isShow: true,

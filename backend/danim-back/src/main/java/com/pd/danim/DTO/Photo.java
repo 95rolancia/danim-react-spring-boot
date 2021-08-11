@@ -15,8 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -24,13 +22,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Entity
 @DynamicInsert
 @EntityListeners(AuditingEntityListener.class)
-public class Photo {
+public class Photo implements Comparable<Photo> {
 	@Id
 	@Column(name = "photo_no")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long photoNo;
-	
-	
+		
 	@ManyToOne
 	@JoinColumn(name="substory_no")
 	private SubStory substory;
@@ -69,9 +66,6 @@ public class Photo {
 	
 	@Column(name="space_name")
 	private String spaceName;
-	
-	@OneToMany(mappedBy = "photo")
-	private List<Love> loves = new ArrayList();
 
 	public long getPhotoNo() {
 		return photoNo;
@@ -161,13 +155,6 @@ public class Photo {
 		this.tag = tag;
 	}
 
-	public List<Love> getLoves() {
-		return loves;
-	}
-
-	public void setLoves(List<Love> loves) {
-		this.loves = loves;
-	}
 
 	public String getAddress() {
 		return address;
@@ -177,7 +164,10 @@ public class Photo {
 		this.address = address;
 	}
 	
-	
+	@Override
+	public int compareTo(Photo o) {
+		return this.getDate().getNano() - o.getDate().getNano();
+	}
 
 	
 	
