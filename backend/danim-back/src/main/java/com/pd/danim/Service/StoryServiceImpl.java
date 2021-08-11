@@ -55,7 +55,7 @@ public class StoryServiceImpl implements StoryService {
 	@Autowired
 	JwtUtil jwtUtil;
 	
-	public PhotoResponse uploadPhoto(MultipartFile mfile,String latitude, String longtitude, LocalDateTime date, HttpServletRequest httpServletReq) {
+	public PhotoResponse uploadPhoto(MultipartFile mfile,String latitude, String longtitude, String date, HttpServletRequest httpServletReq) {
 		
 		final String requestTokenHeader = httpServletReq.getHeader("Authorization");
 		String userId = jwtUtil.getUsername(requestTokenHeader);
@@ -104,7 +104,7 @@ public class StoryServiceImpl implements StoryService {
 		photo.setFilename(filename);
 		photo.setLatitude(latitude);
 		photo.setLongtitude(longtitude);
-		photo.setDate(date);
+		photo.setDate(LocalDateTime.parse(date));
 		photo.setAddress(address);
 		
 		photoRepo.save(photo);
@@ -126,7 +126,7 @@ public class StoryServiceImpl implements StoryService {
 		response.setFilename(filename);
 		response.setLatitude(photo.getLatitude());
 		response.setLongtitude(photo.getLongtitude());
-		response.setDate(date);
+		response.setDate(LocalDateTime.parse(date));
 //		response.setSpaceName(spaceName);
 //		response.setAddress(address);
 		response.setPhotoNo(photo.getPhotoNo());
