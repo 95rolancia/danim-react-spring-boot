@@ -19,7 +19,12 @@ const Profile = ({ isManager, userInfo, handleFollow, history }) => {
         <Avatar
           className={classes.avatar}
           alt={userInfo.nickname}
-          src={userInfo.profile}
+          src={
+            process.env.REACT_APP_IMAGE_BASE_URL +
+            userInfo.nickname +
+            '/' +
+            userInfo.profile
+          }
         />
       </div>
       <div className={styles.right}>
