@@ -67,7 +67,7 @@ public class StoryServiceImpl implements StoryService {
 		
 		UUID uid = UUID.randomUUID();
 		String absolutePath = new File("").getAbsolutePath() + File.separator;
-		String path = "src" +  File.separator + "main" +  File.separator + "resources" +  File.separator + "danim-image" + File.separator + danim.getUserno();
+		String path = "src" +  File.separator + "main" +  File.separator + "resources" +  File.separator + "danim-image" + File.separator + danim.getUser().getNickname();
 		File file = new File(path);
 
 		if (!file.exists()) {

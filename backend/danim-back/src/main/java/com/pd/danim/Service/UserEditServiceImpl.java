@@ -46,7 +46,7 @@ public class UserEditServiceImpl implements UserEditService {
 			return null;			
 		}
 		
-		String path = "src" +  File.separator + "main" +  File.separator + "resources" +  File.separator + "danim-image" + File.separator + danim.getUser().getUserno();
+		String path = "src" +  File.separator + "main" +  File.separator + "resources" +  File.separator + "danim-image" + File.separator + danim.getUser().getNickname();
 		File file = new File(path);
 
 		if (!file.exists()) {
@@ -92,7 +92,6 @@ public class UserEditServiceImpl implements UserEditService {
 		try {
 			System.out.println(file.getCanonicalPath());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return filename;		
@@ -117,6 +116,15 @@ public class UserEditServiceImpl implements UserEditService {
 				return false;
 			}
 			
+			String path = "src" +  File.separator + "main" +  File.separator + "resources" +  File.separator + "danim-image" + File.separator + danim.getUser().getNickname();
+			String newPath = "src" +  File.separator + "main" +  File.separator + "resources" +  File.separator + "danim-image" + File.separator + userEditReq.getNickname();
+			
+			File file = new File(path);
+			File newFile = new File(newPath);
+			
+			if(!file.renameTo(newFile)) {
+				return false;
+			}
 			user.setNickname(userEditReq.getNickname());
 		}
 		
