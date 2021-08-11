@@ -114,20 +114,13 @@ const SignIn = observer(() => {
     }
 
     await auth.signIn(new SignInDto(email, password));
-    if (auth.isLoggedIn) {
-      setSnackbarInfo({
-        isShow: true,
-        msg: '로그인 성공',
-        state: 'success',
-      });
 
-      if (await user.getUserInfo()) {
-        history.push({
-          pathname: '/interest',
-          state: { prevPath: history.location.pathname },
-        });
-      }
-      return;
+    if (auth.isLoggedIn) {
+      await user.getUser();
+      history.push({
+        pathname: '/interest',
+        state: { prevPath: history.location.pathname },
+      });
     }
     setSnackbarInfo({
       isShow: true,
