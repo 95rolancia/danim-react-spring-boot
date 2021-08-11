@@ -47,6 +47,14 @@ class UserStore {
     return true;
   }
 
+  async updatePassword(newPassword) {
+    const res = await HttpUser.updatePassword(newPassword);
+    if (res.status !== 200) {
+      return false;
+    }
+    return true;
+  }
+
   async updateAvatar(newAvatar) {
     const res = await HttpUser.updateAvatar(newAvatar);
     if (res.status !== 200) {
