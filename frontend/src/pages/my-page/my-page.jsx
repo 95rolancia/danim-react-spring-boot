@@ -3,7 +3,7 @@ import { Header, Profile, Introduce, Stories, Setting } from './components';
 import { useHistory } from 'react-router-dom';
 import styles from './my-page.module.css';
 
-const MyPage = ({ userInfo, isManager }) => {
+const MyPage = ({ userInfo, isManager, handleFollow }) => {
   const [isShowSetting, setIsShowSetting] = useState(false);
   const history = useHistory();
 
@@ -28,7 +28,12 @@ const MyPage = ({ userInfo, isManager }) => {
         isManager={isManager}
         userInfo={userInfo}
       />
-      <Profile isManager={isManager} userInfo={userInfo} history={history} />
+      <Profile
+        isManager={isManager}
+        userInfo={userInfo}
+        handleFollow={handleFollow}
+        history={history}
+      />
       <Introduce />
       <Stories stories={userInfo.stories} />
     </div>
