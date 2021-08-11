@@ -116,20 +116,13 @@ const Home = observer((props) => {
   };
 
   useEffect(() => {
-    //유저의 관심지역 정보들 담기
-    user.getUser().then((res) => {
-      if (!res) {
-        alert('사용자 정보 조회 실패!');
-        return;
-      }
-      const userInterestArray = toJS(user.user).areas;
-      let userInterest = '';
-      for (let interest of userInterestArray) {
-        userInterest += interest;
-      }
-      setInterestRegions(userInterest);
-    });
-  }, [user]);
+    const userInterestArray = toJS(user.user).areas;
+    let userInterest = '';
+    for (let interest of userInterestArray) {
+      userInterest += interest;
+    }
+    setInterestRegions(userInterest);
+  }, [user.user]);
 
   return (
     <>
