@@ -34,7 +34,7 @@ const MyPage = ({ userInfo, isManager, handleFollow }) => {
         handleFollow={handleFollow}
         history={history}
       />
-      <Introduce />
+      <Introduce introduce={userInfo.introduce} />
       <Stories stories={userInfo.stories} />
     </div>
   );
