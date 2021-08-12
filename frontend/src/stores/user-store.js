@@ -37,6 +37,14 @@ class UserStore {
       this.user = { ...this.user, areas: [...area.areas] };
     });
   }
+
+  async setStoryPhoto(files) {
+    const res = await HttpUser.setStoryPhoto(files);
+    if (res.status !== 200) {
+      return false
+    }
+    return res
+  }
 }
 
 export default new UserStore();

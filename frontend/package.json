@@ -12,6 +12,7 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
     "blueimp-load-image": "^5.14.0",
+    "compressorjs": "^1.0.7",
     "mkcert": "^1.4.0",
     "mobx": "^6.3.2",
     "mobx-react-lite": "^3.2.0",
