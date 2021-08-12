@@ -25,7 +25,7 @@ const StoryDay = ({ imgBaseURL, photos, nickname }) => {
       <div className={classes.photoBox}>
         {photos.map((photo) => (
           <StoryThumbnail
-            key={photo.filename}
+            key={photo.key}
             photo={photo}
             nickname={nickname}
             imgBaseURL={imgBaseURL}

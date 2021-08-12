@@ -8,6 +8,7 @@ import useUser from '../../hooks/useUser';
 import Compressor from 'compressorjs';
 import { TitleCreate, Loading, MemoWrite } from './component/index';
 import { observer } from 'mobx-react-lite';
+import uuid from 'react-uuid';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -168,6 +169,7 @@ const BoardCreate = observer(() => {
             longtitude: res.data.longtitude,
             spaceName: res.data.spaceName,
             tag: null,
+            key: uuid(),
           };
           // // 서버로 부터 정보 받아와서 photo에 저장
           setPhotos((photos) => [...photos, obj]);
