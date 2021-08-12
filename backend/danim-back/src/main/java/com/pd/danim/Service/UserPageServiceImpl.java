@@ -102,8 +102,6 @@ public class UserPageServiceImpl implements UserPageService {
 			followerList.add(usf);
 		}
 		
-		boolean isFollow = followRepo.existsByFollowUserNoAndUser(userno, danim.getUser());
-		
 		UserPageResponse upf = new UserPageResponse();
 		
 		upf.setFollowingList(followingList);		
@@ -111,8 +109,6 @@ public class UserPageServiceImpl implements UserPageService {
 		upf.setNickname(nickname);
 		upf.setStories(stories);
 		upf.setProfile(user.getProfile());
-		upf.setIsFollow(isFollow);
-		upf.setIntroduce(user.getIntroduce());
 		
 		return upf;
 		

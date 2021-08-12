@@ -140,14 +140,14 @@ public class UserEditServiceImpl implements UserEditService {
 		
 	}
 	
-	public int setPassword(PasswordRequest pwdReq, HttpServletRequest httpServletReq) {
+	public boolean setPassword(PasswordRequest pwdReq, HttpServletRequest httpServletReq) {
 		final String requestTokenHeader = httpServletReq.getHeader("Authorization");
 		String userId = jwtUtil.getUsername(requestTokenHeader);
 		
 		DanimId danim = danimRepo.findById(userId);
 		
 		if(danim==null) {
-			return 406;			
+			return false;			
 		}
 		
 		
@@ -156,17 +156,14 @@ public class UserEditServiceImpl implements UserEditService {
 		String regex = "^(?=.*\\d)(?=.*[a-zA-Z]).{8,12}$";
 
 		if (!password.matches(regex))
-			return 400;
+			return false;
 
 		PasswordEncoder encoder = new BCryptPasswordEncoder();
-		if(!encoder.matches(pwdReq.getLastPassword(), danim.getPassword())){
-			return 409;
-		}
 		danim.setPassword(encoder.encode(password));
 		
 		danimRepo.save(danim);
 		
-		return 200;
+		return true;
 	}
 	
 	

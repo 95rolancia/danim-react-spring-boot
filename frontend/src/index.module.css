@@ -13,9 +13,13 @@ code {
     monospace;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 960px) {
   body {
-    width: 100%;
+    display: flex;
+    max-width: 45em;
+    height: 100vh;
+    flex-direction: column;
+    margin: auto;
   }
 }
 

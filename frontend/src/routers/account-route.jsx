@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
-import { AccountEdit, AccountChangePwd } from '../components';
+import AccountEdit from '../components/account-edit/account-edit';
 
 const AccountRoute = ({ children, ...rest }) => {
   let { path } = useRouteMatch();
@@ -8,9 +8,6 @@ const AccountRoute = ({ children, ...rest }) => {
     <Switch>
       <Route {...rest} exact path={`${path}/edit`}>
         <AccountEdit />
-      </Route>
-      <Route {...rest} exact path={`${path}/change-password`}>
-        <AccountChangePwd />
       </Route>
     </Switch>
   );

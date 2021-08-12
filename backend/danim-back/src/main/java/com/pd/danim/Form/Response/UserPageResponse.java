@@ -13,7 +13,6 @@ public class UserPageResponse {
 	private List<UserSimpleResponse> followerList;
 	private List<StoryResponse> stories;
 	private boolean isFollow;
-	private String introduce;
 	
 	public String getNickname() {
 		return nickname;
@@ -63,15 +62,6 @@ public class UserPageResponse {
 		return isFollow;
 	}
 	public void setIsFollow(boolean isFollow) {
-		this.isFollow = isFollow;
-	}
-	public String getIntroduce() {
-		return introduce;
-	}
-	public void setIntroduce(String introduce) {
-		this.introduce = introduce;
-	}
-	public void setFollow(boolean isFollow) {
 		this.isFollow = isFollow;
 	}
 	

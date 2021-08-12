@@ -1,7 +1,7 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import styles from './profile.module.css';
 import { Avatar, makeStyles } from '@material-ui/core';
-import ProfileButton from '../profile-button/profile-button';
 
 const useStyles = makeStyles((theme) => ({
   avatar: {
@@ -10,31 +10,30 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Profile = ({ isManager, userInfo, handleFollow, history }) => {
+const Profile = ({ isManager, userInfo }) => {
   const classes = useStyles();
-
+  const history = useHistory();
+  const goToProfileEdit = () => {
+    history.push('/main/account/edit');
+  };
   return (
     <div className={styles.profile}>
       <div className={styles.left}>
         <Avatar
           className={classes.avatar}
           alt={userInfo.nickname}
-          src={
-            process.env.REACT_APP_IMAGE_BASE_URL +
-            userInfo.nickname +
-            '/' +
-            userInfo.profile
-          }
+          src={userInfo.profile}
         />
       </div>
       <div className={styles.right}>
         <h1 className="nickname">{userInfo.nickname}</h1>
-        <ProfileButton
-          isManager={isManager}
-          userInfo={userInfo}
-          handleFollow={handleFollow}
-          history={history}
-        />
+        {isManager ? (
+          <button className={styles.editBtn} onClick={goToProfileEdit}>
+            프로필 편집
+          </button>
+        ) : (
+          <button>구독 하기</button>
+        )}
       </div>
     </div>
   );

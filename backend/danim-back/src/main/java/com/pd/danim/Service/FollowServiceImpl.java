@@ -82,9 +82,9 @@ public class FollowServiceImpl implements FollowService {
 			}
 
 			if (a==0) {
-				return "fail";
-			} else {
 				return "success";
+			} else {
+				return "fail";
 			}
 
 		} catch (NullPointerException e) {

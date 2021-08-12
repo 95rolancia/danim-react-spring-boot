@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -18,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.pd.danim.DTO.DanimId;
 import com.pd.danim.DTO.Photo;
-import com.pd.danim.DTO.Place;
 import com.pd.danim.DTO.Story;
 import com.pd.danim.DTO.SubStory;
 import com.pd.danim.DTO.User;
@@ -27,11 +25,10 @@ import com.pd.danim.Form.Request.StoryRequest;
 import com.pd.danim.Form.Response.PhotoResponse;
 import com.pd.danim.Repository.DanimRepository;
 import com.pd.danim.Repository.PhotoRepository;
-import com.pd.danim.Repository.PlaceRepository;
 import com.pd.danim.Repository.StoryRepository;
 import com.pd.danim.Repository.SubStoryRepository;
 import com.pd.danim.Repository.UserRepository;
-import com.pd.danim.Util.GoogleReverseGeocodeUtil;
+import com.pd.danim.Util.AddressUtil;
 import com.pd.danim.Util.JwtUtil;
 
 @Service
@@ -51,17 +48,14 @@ public class StoryServiceImpl implements StoryService {
 
 	@Autowired
 	private StoryRepository storyRepo;
+
+	@Autowired
+	private AddressUtil addressUtil;
 	 
 	@Autowired
-	private PlaceRepository placeRepo;
+	JwtUtil jwtUtil;
 	
-	@Autowired
-	private JwtUtil jwtUtil;
-	
-	@Autowired
-	private GoogleReverseGeocodeUtil geocodeUtil;
-	
-	public PhotoResponse uploadPhoto(MultipartFile mfile,String latitude, String longtitude, String date, HttpServletRequest httpServletReq) {
+	public PhotoResponse uploadPhoto(MultipartFile mfile,String latitude, String longtitude, LocalDateTime date, HttpServletRequest httpServletReq) {
 		
 		final String requestTokenHeader = httpServletReq.getHeader("Authorization");
 		String userId = jwtUtil.getUsername(requestTokenHeader);
@@ -83,33 +77,40 @@ public class StoryServiceImpl implements StoryService {
 		String originalFileExtension;
 		String contentType = mfile.getContentType();
 
-	
+		// 확장자가 없는 경우
 		if (ObjectUtils.isEmpty(contentType)) {
 			return null;
 		}
 
-		
+		// 확장자 jpg, png 확인
 		if (contentType.contains("image/jpeg")) {
 			originalFileExtension = ".jpg";
 		} else if (contentType.contains("image/png")) {
 			originalFileExtension = ".png";
 		} else {
+			// 다른 확장자인 경우
 			return null;
 		}
 		
-		String address = geocodeUtil.getAddress(latitude, longtitude);
-		Place place = placeRepo.findByAddress(address);
 		
-		String placeName = null;
-		if(place!=null) {
-			placeName = place.getName().substring(5);
-		}
-	
+		String address = addressUtil.ConvertAddress(latitude, longtitude);
+		
+		/*
+		 *  공공 데이터 테이블 생성 및 연결 
+		 */
 		
 		String filename = uid.toString() + originalFileExtension;
+		Photo photo = new Photo();
+		photo.setFilename(filename);
+		photo.setLatitude(latitude);
+		photo.setLongtitude(longtitude);
+		photo.setDate(date);
+		photo.setAddress(address);
+		
+		photoRepo.save(photo);
 
 		// 파일 저장
-		file = new File(absolutePath + path + File.separator + filename);
+		file = new File(absolutePath + path + File.separator + photo.getFilename());
 		file.setWritable(true);
 		file.setReadable(true);
 		try {
@@ -120,15 +121,16 @@ public class StoryServiceImpl implements StoryService {
 			e.printStackTrace();
 		}
 		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm:ss");
 		
 		PhotoResponse response = new PhotoResponse();
 		response.setFilename(filename);
-		response.setDate(LocalDateTime.parse(date,formatter));
+		response.setLatitude(photo.getLatitude());
+		response.setLongtitude(photo.getLongtitude());
+		response.setDate(date);
+//		response.setSpaceName(spaceName);
+//		response.setAddress(address);
+		response.setPhotoNo(photo.getPhotoNo());
 		response.setAddress(address);
-		response.setPlaceName(placeName);
-		response.setLatitude(latitude);
-		response.setLongtitude(longtitude);
 		
 		
 		return response;
@@ -162,15 +164,9 @@ public class StoryServiceImpl implements StoryService {
 		List<Photo> photoList = new ArrayList();
 		for (PhotoRequest photoReq : photoReqList) {
 			Photo photo = new Photo(); 
-
-			
-			photo.setFilename(photoReq.getFilename());
-			photo.setLatitude(photoReq.getLatitude());
-			photo.setLongtitude(photoReq.getLongtitude());
-			photo.setDate(LocalDateTime.parse(photoReq.getDate()));		
-			photo.setAddress(photoReq.getAddress());
-			photo.setPlaceName(photoReq.getPlaceName());
-			photo.setContent(photoReq.getContent());
+			if(photoRepo.existsByPhotoNo(photoReq.getPhotoNo())) {
+				photo = photoRepo.findByPhotoNo(photoReq.getPhotoNo());
+			}
 			
 			seqNo = (int) Duration.between(input.getStartDate(), photo.getDate()).toDays();
 			subStoryArr[seqNo].setUserNo(userno);

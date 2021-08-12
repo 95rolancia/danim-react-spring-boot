@@ -36,12 +36,7 @@ const Setting = ({ isShowSetting, hideSetting, history, nickname }) => {
   };
 
   return (
-    <Dialog
-      className={classes.root}
-      fullScreen
-      open={isShowSetting}
-      onClose={hideSetting}
-    >
+    <Dialog fullScreen open={isShowSetting} onClose={hideSetting}>
       <AppBar className={classes.appBar}>
         <Toolbar>
           <IconButton
@@ -63,10 +58,7 @@ const Setting = ({ isShowSetting, hideSetting, history, nickname }) => {
         </ListItem>
         <Divider />
         <Divider />
-        <ListItem
-          button
-          onClick={() => history.push('/main/account/change-password')}
-        >
+        <ListItem button>
           <ListItemText primary="비밀번호 변경" />
         </ListItem>
         <Divider />

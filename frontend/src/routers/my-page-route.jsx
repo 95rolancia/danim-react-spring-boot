@@ -20,7 +20,7 @@ const MyPageRoute = observer(({ children, ...rest }) => {
   const classes = useStyles();
   const [loading, setLoading] = useState(true);
 
-  const [userInfo, setUserInfo] = useState(null);
+  const [userInfo, setUserInfo] = useState({});
   const [isManager, setIsManager] = useState(false);
   const user = useUser();
 
@@ -32,16 +32,10 @@ const MyPageRoute = observer(({ children, ...rest }) => {
         if (toJS(user.user).nickname === userInfo.nickname) {
           setIsManager(true);
         }
-      } else {
-        setUserInfo(null);
       }
       setLoading(false);
     });
   }, [rest.computedMatch.params.nickname, user]);
-
-  const handleFollow = () => {
-    setUserInfo({ ...userInfo, isFollow: !userInfo.isFollow });
-  };
 
   if (loading)
     return (
@@ -55,11 +49,7 @@ const MyPageRoute = observer(({ children, ...rest }) => {
       userInfo={userInfo}
       render={() =>
         userInfo ? (
-          <MyPage
-            userInfo={userInfo}
-            isManager={isManager}
-            handleFollow={handleFollow}
-          />
+          <MyPage userInfo={userInfo} isManager={isManager} />
         ) : (
           <NotUserExist />
         )

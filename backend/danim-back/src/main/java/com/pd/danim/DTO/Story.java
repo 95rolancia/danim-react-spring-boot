@@ -52,11 +52,6 @@ public class Story {
 	@Column(name="thumbnail")
 	private String thumbnail;
 	
-	@Column(name="love_count")
-	private long loveCount;
-	
-
-
 	@JsonIgnore
 	@Enumerated(EnumType.STRING)
 	@Column(name = "status")
@@ -134,13 +129,7 @@ public class Story {
 		this.status = status;
 	}
 
-	public long getLoveCount() {
-		return loveCount;
-	}
 
-	public void setLoveCount(long loveCount) {
-		this.loveCount = loveCount;
-	}
 
 
 

@@ -3,14 +3,22 @@ package com.pd.danim.Form.Response;
 import java.time.LocalDateTime;
 
 public class PhotoResponse {
+	private long photoNo;
 	private String filename;
 	private String latitude;
 	private String longtitude;
 	private String address;
-	private String placeName;
+	private String spaceName;
 	private LocalDateTime date;
 	
 	
+	
+	public long getPhotoNo() {
+		return photoNo;
+	}
+	public void setPhotoNo(long photoNo) {
+		this.photoNo = photoNo;
+	}
 	public String getFilename() {
 		return filename;
 	}
@@ -35,11 +43,11 @@ public class PhotoResponse {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public String getPlaceName() {
-		return placeName;
+	public String getSpaceName() {
+		return spaceName;
 	}
-	public void setPlaceName(String placeName) {
-		this.placeName = placeName;
+	public void setSpaceName(String spaceName) {
+		this.spaceName = spaceName;
 	}
 	public LocalDateTime getDate() {
 		return date;
