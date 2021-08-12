@@ -159,7 +159,7 @@ public class UserEditServiceImpl implements UserEditService {
 			return 400;
 
 		PasswordEncoder encoder = new BCryptPasswordEncoder();
-		if(encoder.matches(pwdReq.getLastPassword(), danim.getPassword())){
+		if(!encoder.matches(pwdReq.getLastPassword(), danim.getPassword())){
 			return 409;
 		}
 		danim.setPassword(encoder.encode(password));
