@@ -7,22 +7,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SelecedChip = ({ place, onDelete }) => {
+const AreaChip = ({ place, onClick }) => {
   const classes = useStyles();
 
-  const handleDelete = () => {
-    onDelete(place);
+  const handleClick = () => {
+    onClick(place);
   };
 
   return (
     <Chip
       label={place.label}
-      onDelete={handleDelete}
-      onClick={handleDelete}
+      onClick={handleClick}
       className={classes.chip}
-      color="primary"
+      color={place.state === 'selected' ? 'primary' : 'default'}
     />
   );
 };
 
-export default SelecedChip;
+export default AreaChip;
