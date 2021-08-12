@@ -11,5 +11,5 @@ public interface UserEditService {
 
 	String uploadProfile(MultipartFile file, HttpServletRequest httpServletReq);
 	boolean setUserInfo(UserEditRequest userEditReq, HttpServletRequest httpServletReq);
-	boolean setPassword(PasswordRequest pwdReq, HttpServletRequest httpServletReq);
+	int setPassword(PasswordRequest pwdReq, HttpServletRequest httpServletReq);
 }
