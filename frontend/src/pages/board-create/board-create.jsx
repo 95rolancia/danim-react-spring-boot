@@ -72,26 +72,26 @@ const BoardCreate = () => {
   //   });
   // });
 
-  useEffect(
-    (user) => {
-      if (Object.keys(img).length !== 0) {
-        console.log('img에 변화를 감지함 서버에 지금 img 넘겨줄거임', img);
-        // user
-        //   .setStoryPhoto(img)
-        //   .then((res) => {
-        //     if (res) {
-        //       return console.log(res);
-        //     } else {
-        //       alert('스토리 작성에 문제가 발생했습니다');
-        //     }
-        //   })
-        //   .catch((err) => {
-        //     console.log(err);
-        //   });
-      }
-    },
-    [img],
-  );
+  // useEffect(
+  //   (user) => {
+  //     if (Object.keys(img).length !== 0) {
+  //       console.log('img에 변화를 감지함 서버에 지금 img 넘겨줄거임', img);
+  //       // user
+  //       //   .setStoryPhoto(img)
+  //       //   .then((res) => {
+  //       //     if (res) {
+  //       //       return console.log(res);
+  //       //     } else {
+  //       //       alert('스토리 작성에 문제가 발생했습니다');
+  //       //     }
+  //       //   })
+  //       //   .catch((err) => {
+  //       //     console.log(err);
+  //       //   });
+  //     }
+  //   },
+  //   [img],
+  // );
 
   const handleTitleChange = (e) => {
     const title = e.target.value;
