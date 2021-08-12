@@ -7,6 +7,7 @@ import HeaderGoBack from '../../components/header/header-go-back';
 import useUser from '../../hooks/useUser';
 import Compressor from 'compressorjs';
 import { TitleCreate, Loading, MemoWrite } from './component/index';
+import { observer } from 'mobx-react-lite';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const BoardCreate = () => {
+const BoardCreate = observer(() => {
   const classes = useStyles();
   const history = useHistory();
   const user = useUser();
@@ -36,7 +37,6 @@ const BoardCreate = () => {
   const [isFirstPage, setIsFirstPage] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  const [userInfo, setUserInfo] = useState(null);
   const [nickname, setNickname] = useState('danim');
   const [title, setTitle] = useState(defaultTitle);
 
@@ -46,16 +46,10 @@ const BoardCreate = () => {
   const [whereWhen, setWhereWhen] = useState([]);
   const [photos, setPhotos] = useState([]);
 
+  // 이거 계속
   useEffect(() => {
-    user.getUser().then((res) => {
-      if (!res) {
-        alert('사용자 정보 조회 실패!');
-        return;
-      }
-      setUserInfo(toJS(user.user));
-      setNickname(toJS(user.user).nickname);
-    });
-  });
+    setNickname(toJS(user.user).nickname);
+  }, [user]);
 
   // useEffect(() => {
   //   // photo 배열 시간순으로 정렬 근데 이렇게 배열하는게 맞나
@@ -178,7 +172,7 @@ const BoardCreate = () => {
           // // 서버로 부터 정보 받아와서 photo에 저장
           setPhotos((photos) => [...photos, obj]);
           console.log('나는 레스', res.data);
-          console.log('나는 유저인포', userInfo);
+          console.log('나는 유저인포', nickname);
           console.log(photos);
           return;
         } else {
@@ -262,12 +256,12 @@ const BoardCreate = () => {
             imgErrSuccess={imgErrSuccess}
             tripDate={tripDate}
             whereWhen={whereWhen}
-            userInfo={userInfo}
+            nickname={nickname}
           />
         )}
       </Container>
     </>
   );
-};
+});
 
 export default BoardCreate;

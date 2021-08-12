@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const StoryDay = ({ imgBaseURL, photos, userInfo }) => {
+const StoryDay = ({ imgBaseURL, photos, nickname }) => {
   const classes = useStyles();
 
   const watchPhoto = () => {
@@ -27,7 +27,7 @@ const StoryDay = ({ imgBaseURL, photos, userInfo }) => {
           <StoryThumbnail
             key={photo.filename}
             photo={photo}
-            userInfo={userInfo}
+            nickname={nickname}
             imgBaseURL={imgBaseURL}
           />
         ))}

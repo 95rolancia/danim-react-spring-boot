@@ -11,7 +11,7 @@ const MemoWrite = ({
   imgErrSuccess,
   tripDate,
   whereWhen,
-  userInfo,
+  nickname,
 }) => {
   const classes = useStyles();
   const imgBaseURL = process.env.REACT_APP_IMAGE_BASE_URL;
@@ -26,7 +26,7 @@ const MemoWrite = ({
   return (
     <>
       <StoryCover title={title} />
-      <StoryDay imgBaseURL={imgBaseURL} photos={photos} userInfo={userInfo} />
+      <StoryDay imgBaseURL={imgBaseURL} photos={photos} nickname={nickname} />
       <Button onClick={watchPhoto}>포토보자</Button>
     </>
   );

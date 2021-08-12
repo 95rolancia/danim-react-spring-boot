@@ -10,10 +10,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const StoryThumbnail = ({ imgBaseURL, photo, userInfo }) => {
+const StoryThumbnail = ({ imgBaseURL, photo, nickname }) => {
   const classes = useStyles();
 
-  const photoURL = imgBaseURL + userInfo.nickname + '/' + photo.fileName;
+  const photoURL = imgBaseURL + nickname + '/' + photo.fileName;
   const watchURL = () => {
     console.log('나는 포토유알엘', photoURL);
   };
