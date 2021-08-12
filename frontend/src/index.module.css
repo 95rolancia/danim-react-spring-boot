@@ -13,9 +13,9 @@ code {
     monospace;
 }
 
-@media screen and (max-width: 960px) {
+@media screen and (max-width: 768px) {
   body {
-    width: 30em;
+    width: 100%;
   }
 }
 
