@@ -90,6 +90,7 @@ const AccountChangePwd = observer(() => {
   const updatePassword = async (e) => {
     e.preventDefault();
     const res = await user.updatePassword({
+      lastPassword: originPassword,
       password: newPasswordSecond,
     });
 
