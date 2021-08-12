@@ -67,6 +67,10 @@ class HttpUser {
       const res = await this.instance.put('/account/pwd', newPassword);
       return res;
     } catch (error) {
+      const res = error.response;
+      if (res.status === 409) {
+        return res.status;
+      }
       throw new Error(`updatePassword Error ${error.response}`);
     }
   }

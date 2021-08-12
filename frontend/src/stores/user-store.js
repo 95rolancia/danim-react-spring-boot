@@ -48,8 +48,8 @@ class UserStore {
   }
 
   async updatePassword(newPassword) {
-    const res = await HttpUser.updatePassword(newPassword);
-    if (res.status !== 200) {
+    const status = await HttpUser.updatePassword(newPassword);
+    if (status !== 200) {
       return false;
     }
     return true;
