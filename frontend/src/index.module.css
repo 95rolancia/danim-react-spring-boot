@@ -15,11 +15,7 @@ code {
 
 @media screen and (max-width: 960px) {
   body {
-    display: flex;
-    max-width: 45em;
-    height: 100vh;
-    flex-direction: column;
-    margin: auto;
+    width: 30em;
   }
 }
 
