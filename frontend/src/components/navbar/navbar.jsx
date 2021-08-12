@@ -44,7 +44,7 @@ const Navbar = observer(() => {
   };
 
   const goToBoardCreate = () => {
-    history.push('/main/create');
+    history.push('/create');
   };
 
   const goToBookmark = () => {
