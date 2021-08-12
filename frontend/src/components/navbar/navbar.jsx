@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { toJS } from 'mobx';
+import { observer } from 'mobx-react-lite';
 import {
   AppBar,
-  BottomNavigation,
-  BottomNavigationAction,
+  BottomNavigation as BN,
+  BottomNavigationAction as BNAction,
+  makeStyles,
 } from '@material-ui/core';
 import {
   Home,
@@ -12,9 +15,6 @@ import {
   PersonOutlineOutlined,
   Create,
 } from '@material-ui/icons';
-import { makeStyles } from '@material-ui/styles';
-import { observer } from 'mobx-react-lite';
-import { toJS } from 'mobx';
 import useUser from '../../hooks/useUser';
 
 const useStyles = makeStyles({
@@ -31,46 +31,39 @@ const Navbar = observer(() => {
   const [value, setValue] = useState(0);
   const user = useUser();
 
+  const selectMenu = (_, selectedMenu) => {
+    setValue(selectedMenu);
+  };
+
+  const goToMain = () => {
+    history.push('/main');
+  };
+
+  const goToSearch = () => {
+    history.push('/main/search');
+  };
+
+  const goToBoardCreate = () => {
+    history.push('/main/create');
+  };
+
+  const goToBookmark = () => {
+    history.push('/main/bookmark');
+  };
+
+  const goToMyPage = () => {
+    history.push(`/main/${toJS(user.user).nickname}`);
+  };
+
   return (
     <AppBar>
-      <BottomNavigation
-        className={classes.root}
-        value={value}
-        onChange={(_, newValue) => {
-          setValue(newValue);
-        }}
-      >
-        <BottomNavigationAction
-          icon={<Home />}
-          onClick={() => {
-            history.push('/main');
-          }}
-        />
-        <BottomNavigationAction
-          icon={<Search />}
-          onClick={() => {
-            history.push('/main/search');
-          }}
-        />
-        <BottomNavigationAction
-          icon={<Create />}
-          onClick={() => {
-            history.push('/create');
-          }}
-        />
-        <BottomNavigationAction
-          icon={<BookmarkBorder />}
-          onClick={() => {
-            history.push('/main/bookmark');
-          }}
-        />
-        <BottomNavigationAction
-          icon={<PersonOutlineOutlined />}
-          onClick={() => {
-            history.push(`/main/${toJS(user.user).nickname}`);
-          }}
-        />
-      </BottomNavigation>
+      <BN className={classes.root} value={value} onChange={selectMenu}>
+        <BNAction icon={<Home />} onClick={goToMain} />
+        <BNAction icon={<Search />} onClick={goToSearch} />
+        <BNAction icon={<Create />} onClick={goToBoardCreate} />
+        <BNAction icon={<BookmarkBorder />} onClick={goToBookmark} />
+        <BNAction icon={<PersonOutlineOutlined />} onClick={goToMyPage} />
+      </BN>
     </AppBar>
   );
 });

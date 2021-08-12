@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
-import PlaceChip from './place-chip';
-import SelectedChip from './selected-chip';
+import { SelectedAreaChip, AreaChip } from './components';
 import {
   Container,
   Button,
@@ -15,9 +14,8 @@ import useUser from '../../hooks/useUser';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    margin: theme.spacing(2),
     marginTop: theme.spacing(8),
-    marginLeft: theme.spacing(2),
-    marginRight: theme.spacing(2),
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -25,18 +23,18 @@ const useStyles = makeStyles((theme) => ({
   intro: {
     marginTop: theme.spacing(3),
   },
-  selected_box: {
+  selectedBox: {
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(1),
-    height: '40px',
+    height: '2em',
   },
   divider: {
     backgroundColor: '#4F9EE8',
-    height: '3px',
+    height: '0.1em',
   },
   dividerRed: {
     backgroundColor: 'red',
-    height: '3px',
+    height: '0.1em',
   },
   chipBox: {
     marginTop: theme.spacing(3),
@@ -52,11 +50,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Interest = observer(({ type }) => {
+const Interest = observer(() => {
   const classes = useStyles();
   const history = useHistory();
   const user = useUser();
-
   const [chipData, setChipData] = useState([
     { key: 0, label: '서울', state: 'unselected' },
     { key: 1, label: '부산', state: 'unselected' },
@@ -87,7 +84,7 @@ const Interest = observer(({ type }) => {
       (prevPath === '/signin' || prevPath === '/') &&
       toJS(user.user).areas.length > 0
     ) {
-      history.push('/main');
+      goToMain();
     }
     setNickname(toJS(user.user).nickname);
   }, [history]);
@@ -154,9 +151,9 @@ const Interest = observer(({ type }) => {
           안녕하세요, {nickname}!<br />
           어디를 소개해드릴까요?
         </Typography>
-        <div className={classes.selected_box}>
+        <div className={classes.selectedBox}>
           {selectedChipData.map((interestedPlace) => (
-            <SelectedChip
+            <SelectedAreaChip
               key={interestedPlace.key}
               place={interestedPlace}
               onDelete={handleDelete}
@@ -181,7 +178,7 @@ const Interest = observer(({ type }) => {
         </Typography>
         <div className={classes.chipBox}>
           {chipData.map((place) => (
-            <PlaceChip key={place.key} place={place} onClick={handleClick} />
+            <AreaChip key={place.key} place={place} onClick={handleClick} />
           ))}
         </div>
       </div>
