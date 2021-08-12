@@ -58,12 +58,20 @@ public class UserEditController {
 	@ApiOperation(value = "비밀번호 변경", notes = "비밀 번호를 변경합니다")
 	@PutMapping("/pwd")
 	public ResponseEntity<String> password(@RequestBody PasswordRequest pwdReq, HttpServletRequest httpServletReq) {
-
-		if (!userEditService.setPassword(pwdReq,httpServletReq)) 
-			return new ResponseEntity<String>("FAIL", HttpStatus.BAD_REQUEST);
 		
-		else 	
-			return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+		int response = userEditService.setPassword(pwdReq,httpServletReq);
+		if (response == 400) 
+			return new ResponseEntity<String>("INVALIDITY", HttpStatus.BAD_REQUEST);
+		else if(response == 406) {
+			return new ResponseEntity<String>("NOT ACCEPTABLE", HttpStatus.NOT_ACCEPTABLE);
+		}
+		else if(response == 409) {
+			return new ResponseEntity<String>("CONFLICT", HttpStatus.CONFLICT);
+		}
+		
+		
+		
+		return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
 		
 	}
 
