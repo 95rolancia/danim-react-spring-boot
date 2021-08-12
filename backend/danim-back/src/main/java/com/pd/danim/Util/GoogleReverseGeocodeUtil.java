@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class GoogleReverseGeocodeUtil {
 	
-	public static String getAddress(String lat, String lng) {
+	public String getAddress(String lat, String lng) {
 
 		String realAddress = null;
 
