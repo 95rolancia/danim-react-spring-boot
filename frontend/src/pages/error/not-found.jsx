@@ -1,16 +1,16 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/styles';
-import { Box, Container, Typography } from '@material-ui/core';
+import { makeStyles, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(10),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
   },
-  image: {
+  notFoundImg: {
     width: '8em',
+    marginBottom: '2em',
   },
   title: {
     fontFamily: 'MingukBold',
@@ -20,17 +20,16 @@ const useStyles = makeStyles((theme) => ({
 const NotFound = () => {
   const classes = useStyles();
   return (
-    <>
-      <Container component="main" maxWidth="xs">
-        <div className={classes.paper}>
-          <img className={classes.image} src="/images/danierror.png" alt="" />
-          <Box component="span" m={1}></Box>
-          <Typography color="primary" variant="h5" className={classes.title}>
-            이런! 존재하지 않는 페이지입니다.
-          </Typography>
-        </div>
-      </Container>
-    </>
+    <section className={classes.paper}>
+      <img
+        className={classes.notFoundImg}
+        src="images/danierror.png"
+        alt="page not found img"
+      />
+      <Typography color="primary" variant="h5" className={classes.title}>
+        이런! 존재하지 않는 페이지입니다.
+      </Typography>
+    </section>
   );
 };
 

@@ -1,10 +1,13 @@
 import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import { Button, IconButton, makeStyles, Typography } from '@material-ui/core';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
-import useAuth from '../../hooks/useAuth';
+import {
+  makeStyles,
+  AppBar,
+  Toolbar,
+  Button,
+  Typography,
+} from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,13 +19,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Header = observer(() => {
+const HeaderMain = observer(() => {
   const classes = useStyles();
   const history = useHistory();
 
   const goToMain = () => {
     history.push('/main');
   };
+
   return (
     <div className={classes.root}>
       <AppBar position="static" color="inherit" elevation={0}>
@@ -38,4 +42,4 @@ const Header = observer(() => {
   );
 });
 
-export default Header;
+export default HeaderMain;
