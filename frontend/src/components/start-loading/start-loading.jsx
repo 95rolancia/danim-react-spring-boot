@@ -10,7 +10,7 @@ const StartLoading = (props) => {
         className={classes.background}
         width="100%"
         height="100%"
-        src="https://media.giphy.com/media/46hpy8xB3MiHfruixn/source.gif"
+        src="images/main-background.gif"
         alt=""
       />
       <Typography className={classes.title} variant="button">
