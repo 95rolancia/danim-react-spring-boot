@@ -99,9 +99,10 @@ public class StoryServiceImpl implements StoryService {
 		
 		String address = geocodeUtil.getAddress(latitude, longtitude);
 		Place place = placeRepo.findByAddress(address);
+		
 		String placeName = null;
 		if(place!=null) {
-			placeName = place.getName();
+			placeName = place.getName().substring(5);
 		}
 	
 		
