@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.pd.danim.DTO.DanimId;
 import com.pd.danim.DTO.Photo;
+import com.pd.danim.DTO.Place;
 import com.pd.danim.DTO.Story;
 import com.pd.danim.DTO.SubStory;
 import com.pd.danim.DTO.User;
@@ -26,10 +27,11 @@ import com.pd.danim.Form.Request.StoryRequest;
 import com.pd.danim.Form.Response.PhotoResponse;
 import com.pd.danim.Repository.DanimRepository;
 import com.pd.danim.Repository.PhotoRepository;
+import com.pd.danim.Repository.PlaceRepository;
 import com.pd.danim.Repository.StoryRepository;
 import com.pd.danim.Repository.SubStoryRepository;
 import com.pd.danim.Repository.UserRepository;
-import com.pd.danim.Util.AddressUtil;
+import com.pd.danim.Util.GoogleReverseGeocodeUtil;
 import com.pd.danim.Util.JwtUtil;
 
 @Service
@@ -51,7 +53,13 @@ public class StoryServiceImpl implements StoryService {
 	private StoryRepository storyRepo;
 	 
 	@Autowired
+	private PlaceRepository placeRepo;
+	
+	@Autowired
 	private JwtUtil jwtUtil;
+	
+	@Autowired
+	private GoogleReverseGeocodeUtil geocodeUtil;
 	
 	public PhotoResponse uploadPhoto(MultipartFile mfile,String latitude, String longtitude, String date, HttpServletRequest httpServletReq) {
 		
@@ -75,26 +83,26 @@ public class StoryServiceImpl implements StoryService {
 		String originalFileExtension;
 		String contentType = mfile.getContentType();
 
-		// 확장자가 없는 경우
+	
 		if (ObjectUtils.isEmpty(contentType)) {
 			return null;
 		}
 
-		// 확장자 jpg, png 확인
+		
 		if (contentType.contains("image/jpeg")) {
 			originalFileExtension = ".jpg";
 		} else if (contentType.contains("image/png")) {
 			originalFileExtension = ".png";
 		} else {
-			// 다른 확장자인 경우
 			return null;
 		}
 		
-		String address = AddressUtil.ConvertAddress(latitude, longtitude);
-		
-		/*
-		 *  공공 데이터 테이블 생성 및 연결 
-		 */
+		String address = geocodeUtil.getAddress(latitude, longtitude);
+		Place place = placeRepo.findByAddress(address);
+		String placeName = null;
+		if(place!=null) {
+			placeName = place.getName();
+		}
 	
 		
 		String filename = uid.toString() + originalFileExtension;
@@ -117,6 +125,7 @@ public class StoryServiceImpl implements StoryService {
 		response.setFilename(filename);
 		response.setDate(LocalDateTime.parse(date,formatter));
 		response.setAddress(address);
+		response.setPlaceName(placeName);
 		response.setLatitude(latitude);
 		response.setLongtitude(longtitude);
 		
@@ -159,7 +168,7 @@ public class StoryServiceImpl implements StoryService {
 			photo.setLongtitude(photoReq.getLongtitude());
 			photo.setDate(LocalDateTime.parse(photoReq.getDate()));		
 			photo.setAddress(photoReq.getAddress());
-			photo.setSpaceName(photoReq.getSpaceName());
+			photo.setPlaceName(photoReq.getPlaceName());
 			photo.setContent(photoReq.getContent());
 			
 			seqNo = (int) Duration.between(input.getStartDate(), photo.getDate()).toDays();
