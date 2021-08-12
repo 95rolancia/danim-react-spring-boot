@@ -82,8 +82,9 @@ const Interest = observer(({ type }) => {
   const [nickname, setNickname] = useState('danim');
 
   useEffect(() => {
+    const prevPath = history.location.state.prevPath;
     if (
-      history.location.state.prevPath === '/signin' &&
+      (prevPath === '/signin' || prevPath === '/') &&
       toJS(user.user).areas.length > 0
     ) {
       history.push('/main');
