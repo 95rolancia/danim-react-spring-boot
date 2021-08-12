@@ -12,15 +12,16 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class GoogleReverseGeocodeUtil {
-
+	
 	public String getAddress(String lat, String lng) {
 
 		String realAddress = null;
 
 		try {
-			String apiURL = "https://maps.googleapis.com/maps/api/geocode/json?latlng=+"+lat+","+lng+"&key=AIzaSyCP1LvTKFOdO5IqoFOZ9q2lV79gZtVeJXY"
+			String apiURL = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+lat+","+lng+"&key=AIzaSyCP1LvTKFOdO5IqoFOZ9q2lV79gZtVeJXY"
 					+ "&language=ko&result_type=street_address";
 			URL url = new URL(apiURL);
+			
 
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			int responseCode = con.getResponseCode();
@@ -36,16 +37,18 @@ public class GoogleReverseGeocodeUtil {
 				response.append(inputLine);
 			}
 			br.close();
-
+			
 			String result = response.toString();
+			
 			JSONParser jsonParser = new JSONParser();
 			JSONObject jsonObject = (JSONObject) jsonParser.parse(result);
 			JSONArray results = (JSONArray) jsonObject.get("results");
 
 			for (int i = 0; i < results.size(); i++) {
 				JSONObject object = (JSONObject) results.get(i);
-				realAddress = (String) object.get("formmated_address");
+				realAddress = (String)object.get("formatted_address");
 			}
+			return realAddress;
 		} catch (Exception e) {
 
 		}
