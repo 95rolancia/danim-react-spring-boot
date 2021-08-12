@@ -7,7 +7,7 @@ public class PhotoResponse {
 	private String latitude;
 	private String longtitude;
 	private String address;
-	private String spaceName;
+	private String placeName;
 	private LocalDateTime date;
 	
 	
@@ -35,11 +35,11 @@ public class PhotoResponse {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public String getSpaceName() {
-		return spaceName;
+	public String getPlaceName() {
+		return placeName;
 	}
-	public void setSpaceName(String spaceName) {
-		this.spaceName = spaceName;
+	public void setPlaceName(String placeName) {
+		this.placeName = placeName;
 	}
 	public LocalDateTime getDate() {
 		return date;

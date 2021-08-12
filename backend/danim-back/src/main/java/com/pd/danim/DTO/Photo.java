@@ -64,8 +64,8 @@ public class Photo implements Comparable<Photo> {
 	@Column(name ="address")
 	private String address;
 	
-	@Column(name="space_name")
-	private String spaceName;
+	@Column(name="place_name")
+	private String placeName;
 
 	public long getPhotoNo() {
 		return photoNo;
@@ -164,12 +164,12 @@ public class Photo implements Comparable<Photo> {
 		this.address = address;
 	}	
 
-	public String getSpaceName() {
-		return spaceName;
+	public String getPlaceName() {
+		return placeName;
 	}
 
-	public void setSpaceName(String spaceName) {
-		this.spaceName = spaceName;
+	public void setPlaceName(String placeName) {
+		this.placeName = placeName;
 	}
 
 	@Override

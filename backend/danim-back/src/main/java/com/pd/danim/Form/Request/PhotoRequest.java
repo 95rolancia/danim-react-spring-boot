@@ -32,7 +32,7 @@ public class PhotoRequest {
 	private String address;
 	
 	@ApiModelProperty(value = "장소 이름", example="유성온천역")
-	private String spaceName;
+	private String placeName;
 
 	public String getFilename() {
 		return filename;
@@ -90,14 +90,15 @@ public class PhotoRequest {
 		this.address = address;
 	}
 
-	public String getSpaceName() {
-		return spaceName;
+	public String getPlaceName() {
+		return placeName;
 	}
 
-	public void setSpaceName(String spaceName) {
-		this.spaceName = spaceName;
+	public void setPlaceName(String placeName) {
+		this.placeName = placeName;
 	}
-	
+
+
 	
 	
 	
