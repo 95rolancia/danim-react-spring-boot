@@ -46,7 +46,6 @@ public class LoveServiceImpl implements LoveService {
 			Story story = storyRepository.findByStoryNo(storyNo);
 
 			boolean flag = loveRepository.existsByUserAndStory(user, story);
-			System.out.println(flag);
 			if (!flag) {
 				Love newLove = new Love();
 				newLove.setUser(user);
