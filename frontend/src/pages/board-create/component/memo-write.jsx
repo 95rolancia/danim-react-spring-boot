@@ -11,6 +11,7 @@ const MemoWrite = ({
   tripDate,
   whereWhen,
   nickname,
+  tripAddress,
 }) => {
   const classes = useStyles();
   const imgBaseURL = process.env.REACT_APP_IMAGE_BASE_URL;
@@ -19,7 +20,7 @@ const MemoWrite = ({
     console.log(photos);
     console.log(imgErrSuccess);
     console.log(tripDate);
-    console.log(whereWhen);
+    console.log(tripAddress);
   };
 
   return (
@@ -30,6 +31,7 @@ const MemoWrite = ({
         photos={photos}
         nickname={nickname}
         tripDate={tripDate}
+        tripAddress={tripAddress}
       />
       {/* <StoryDay imgBaseURL={imgBaseURL} photos={photos} nickname={nickname} tripDate={tripDate}/> */}
       <Button onClick={watchPhoto}>포토보자</Button>

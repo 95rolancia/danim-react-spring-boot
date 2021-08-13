@@ -1,7 +1,13 @@
 import React from 'react';
 import { StoryDay } from './index';
 
-const StoryContents = ({ imgBaseURL, photos, nickname, tripDate }) => {
+const StoryContents = ({
+  imgBaseURL,
+  photos,
+  nickname,
+  tripDate,
+  tripAddress,
+}) => {
   return (
     <>
       <div>나는 스토리 컨텐츠</div>
@@ -13,6 +19,7 @@ const StoryContents = ({ imgBaseURL, photos, nickname, tripDate }) => {
             photos={photos.filter((photo) => photo.date.slice(0, 10) === date)}
             nickname={nickname}
             imgBaseURL={imgBaseURL}
+            tripAddress={tripAddress}
           />
         ))}
       </div>

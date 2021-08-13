@@ -42,6 +42,7 @@ const BoardCreate = observer(() => {
   const [imgErrSuccess, setImgErrSuccess] = useState([0, 0]);
 
   const [tripDate, setTripDate] = useState([]);
+  const [tripAddress, setTripAddress] = useState([]);
   const [whereWhen, setWhereWhen] = useState([]);
   const [photos, setPhotos] = useState([]);
 
@@ -151,6 +152,7 @@ const BoardCreate = observer(() => {
       .setStoryPhoto(obj)
       .then((res) => {
         if (res) {
+          console.log(res);
           // // 서버에서 정보 오면 성공 +1 해줌
           setImgErrSuccess((imgErrSuccess) => [
             imgErrSuccess[0],
@@ -162,8 +164,14 @@ const BoardCreate = observer(() => {
           );
           setTripDate((tripDate) => [...tripDate].sort());
 
+          setTripAddress(
+            (tripAddress) => new Set([...tripAddress, res.data.address]),
+          );
+          setTripAddress((tripAddress) => [...tripAddress].sort());
+          // setTripAdress((tripAdress) => [...tripAdress].sort());
+
           let obj = {
-            adress: res.data.adress,
+            address: res.data.address,
             content: null,
             date: res.data.date,
             fileName: res.data.filename,
@@ -173,12 +181,8 @@ const BoardCreate = observer(() => {
             tag: null,
             key: uuid(),
           };
-
           // // 서버로 부터 정보 받아와서 photo에 저장
           setPhotos((photos) => [...photos, obj]);
-          // console.log('나는 레스', res.data);
-          // console.log('나는 유저인포', nickname);
-          // console.log(photos);
           return;
         } else {
           alert('스토리작성에 문제가 발생했습니다');
@@ -262,6 +266,7 @@ const BoardCreate = observer(() => {
             tripDate={tripDate}
             whereWhen={whereWhen}
             nickname={nickname}
+            tripAddress={tripAddress}
           />
         )}
       </Container>
