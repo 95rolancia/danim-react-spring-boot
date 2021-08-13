@@ -12,17 +12,12 @@ const useStyles = makeStyles((theme) => ({
 
 const StoryThumbnail = ({ imgBaseURL, photo, nickname }) => {
   const classes = useStyles();
-
   const photoURL = imgBaseURL + nickname + '/' + photo.fileName;
-  const watchURL = () => {
-    console.log('나는 포토유알엘', photoURL);
-  };
 
   return (
     <>
       <img src={photoURL} alt={photo.adress} className={classes.thumbnail} />
       <div>{photo.date}</div>
-      <button onClick={watchURL}>유알엘알려줘</button>
     </>
   );
 };

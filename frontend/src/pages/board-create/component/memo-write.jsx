@@ -1,7 +1,6 @@
 import React from 'react';
 import { makeStyles, Container, Button } from '@material-ui/core';
-import { StoryCover, StoryDay } from './index';
-import { PhotoSizeSelectLargeOutlined } from '@material-ui/icons';
+import { StoryCover, StoryContents } from './index';
 
 const useStyles = makeStyles((theme) => {});
 
@@ -26,7 +25,13 @@ const MemoWrite = ({
   return (
     <>
       <StoryCover title={title} />
-      <StoryDay imgBaseURL={imgBaseURL} photos={photos} nickname={nickname} />
+      <StoryContents
+        imgBaseURL={imgBaseURL}
+        photos={photos}
+        nickname={nickname}
+        tripDate={tripDate}
+      />
+      {/* <StoryDay imgBaseURL={imgBaseURL} photos={photos} nickname={nickname} tripDate={tripDate}/> */}
       <Button onClick={watchPhoto}>포토보자</Button>
     </>
   );

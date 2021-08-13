@@ -11,16 +11,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const StoryDay = ({ imgBaseURL, photos, nickname }) => {
+const StoryDay = ({ imgBaseURL, photos, nickname, date }) => {
   const classes = useStyles();
-
   const watchPhoto = () => {
     console.log(photos);
   };
 
   return (
     <>
-      <h1>스토리데이</h1>
+      <h1>{date}</h1>
       <button onClick={watchPhoto}>아 포토머임</button>
       <div className={classes.photoBox}>
         {photos.map((photo) => (

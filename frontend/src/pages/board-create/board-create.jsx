@@ -156,8 +156,12 @@ const BoardCreate = observer(() => {
             imgErrSuccess[0],
             imgErrSuccess[1] + 1,
           ]);
-          // // 서버에서 정보 오면 날짜만 따로 언제부터 언제인지랑 날짜/장소/주소 계산
-          calculateDatesSpacesAdresses(res.data);
+          // 날짜 순으로 정렬
+          setTripDate(
+            (tripDate) => new Set([...tripDate, res.data.date.slice(0, 10)]),
+          );
+          setTripDate((tripDate) => [...tripDate].sort());
+
           let obj = {
             adress: res.data.adress,
             content: null,
@@ -169,11 +173,12 @@ const BoardCreate = observer(() => {
             tag: null,
             key: uuid(),
           };
+
           // // 서버로 부터 정보 받아와서 photo에 저장
           setPhotos((photos) => [...photos, obj]);
-          console.log('나는 레스', res.data);
-          console.log('나는 유저인포', nickname);
-          console.log(photos);
+          // console.log('나는 레스', res.data);
+          // console.log('나는 유저인포', nickname);
+          // console.log(photos);
           return;
         } else {
           alert('스토리작성에 문제가 발생했습니다');
@@ -187,45 +192,45 @@ const BoardCreate = observer(() => {
     }, 1000);
   };
 
-  const calculateDatesSpacesAdresses = (data) => {
-    if (!tripDate.includes(data.date.slice(0, 10))) {
-      setTripDate((tripDate) => [...tripDate, data.date.slice(0, 10)]);
-    }
-    // let orderCheck = null;
-    let newWhereWhen = {
-      date: data.date.slice(0, 10),
-      spaceName: data.placeName,
-      adress: data.adress,
-      order: null,
-    };
+  // const calculateDatesSpacesAdresses = (data) => {
+  //   if (!tripDate.includes(data.date.slice(0, 10))) {
+  //     setTripDate((tripDate) => [...tripDate, data.date.slice(0, 10)]);
+  //   }
+  //   // let orderCheck = null;
+  //   let newWhereWhen = {
+  //     date: data.date.slice(0, 10),
+  //     spaceName: data.placeName,
+  //     adress: data.adress,
+  //     order: null,
+  //   };
 
-    // if (orderCheck === null) {
-    //   orderCheck = 0;
-    // } else if (
-    //   JSON.stringify(newWhereWhen) ===
-    //   JSON.stringify(whereWhen[whereWhen.length - 1])
-    // ) {
-    //   orderCheck += 1;
-    // }
-    if (whereWhen.length === 0) {
-      setWhereWhen([newWhereWhen]);
-    } else {
-      for (let i = 0; i < whereWhen.length; i++) {
-        console.log('나는 new', JSON.stringify(newWhereWhen));
-        console.log('나는 비교대상', JSON.stringify(whereWhen[i]));
-        if (JSON.stringify(newWhereWhen) !== JSON.stringify(whereWhen[i])) {
-          setWhereWhen((whereWhen) => [...whereWhen, newWhereWhen]);
-        }
-      }
-      // 얘도 그냥 new set 해버리는게 낫나...
-      // 왜 객체 같은거 들어갔는데 인식을 못하지 싶음
-      // setWhereWhen((whereWhen) => new Set([...whereWhen, newWhereWhen]));
-      // if (whereWhen.includes(newWhereWhen)) {
-      //   setWhereWhen((whereWhen) => [...whereWhen, newWhereWhen]);
-      // }
-    }
-    return;
-  };
+  //   // if (orderCheck === null) {
+  //   //   orderCheck = 0;
+  //   // } else if (
+  //   //   JSON.stringify(newWhereWhen) ===
+  //   //   JSON.stringify(whereWhen[whereWhen.length - 1])
+  //   // ) {
+  //   //   orderCheck += 1;
+  //   // }
+  //   if (whereWhen.length === 0) {
+  //     setWhereWhen([newWhereWhen]);
+  //   } else {
+  //     for (let i = 0; i < whereWhen.length; i++) {
+  //       console.log('나는 new', JSON.stringify(newWhereWhen));
+  //       console.log('나는 비교대상', JSON.stringify(whereWhen[i]));
+  //       if (JSON.stringify(newWhereWhen) !== JSON.stringify(whereWhen[i])) {
+  //         setWhereWhen((whereWhen) => [...whereWhen, newWhereWhen]);
+  //       }
+  //     }
+  //     // 얘도 그냥 new set 해버리는게 낫나...
+  //     // 왜 객체 같은거 들어갔는데 인식을 못하지 싶음
+  //     // setWhereWhen((whereWhen) => new Set([...whereWhen, newWhereWhen]));
+  //     // if (whereWhen.includes(newWhereWhen)) {
+  //     //   setWhereWhen((whereWhen) => [...whereWhen, newWhereWhen]);
+  //     // }
+  //   }
+  //   return;
+  // };
 
   const handlePageChange = () => {
     setIsFirstPage(false);
