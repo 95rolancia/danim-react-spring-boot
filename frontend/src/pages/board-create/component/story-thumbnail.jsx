@@ -17,7 +17,6 @@ const StoryThumbnail = ({ imgBaseURL, photo, nickname }) => {
   return (
     <>
       <img src={photoURL} alt={photo.adress} className={classes.thumbnail} />
-      <div>{photo.date}</div>
     </>
   );
 };

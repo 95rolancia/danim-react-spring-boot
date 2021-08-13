@@ -20,7 +20,7 @@ const StoryByAdress = ({ imgBaseURL, photos, nickname, address }) => {
           <div>
             {photos.map((photo) => (
               <StoryThumbnail
-                key={address}
+                key={photo.fileName}
                 photo={photo}
                 nickname={nickname}
                 imgBaseURL={imgBaseURL}

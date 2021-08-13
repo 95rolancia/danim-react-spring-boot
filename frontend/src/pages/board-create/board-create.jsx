@@ -179,7 +179,6 @@ const BoardCreate = observer(() => {
             longtitude: res.data.longtitude,
             spaceName: res.data.spaceName,
             tag: null,
-            key: uuid(),
           };
           // // 서버로 부터 정보 받아와서 photo에 저장
           setPhotos((photos) => [...photos, obj]);
