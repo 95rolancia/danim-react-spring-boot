@@ -20,8 +20,8 @@ public class StoryRequest {
 	private int duration; 
 	@ApiModelProperty(value = "게시글 상태", example="PUBLISHED")
 	private StoryStatus status; 
-	@ApiModelProperty(value="썸네일 이미지 번호", example="3")
-	private int thumbnailNo;
+	@ApiModelProperty(value="썸네일 이미지명", example="23-123421-asdf42.png")
+	private String thumbnail;
 	
 	@ApiModelProperty(value = "사진들 상세 정보")
 	private List<PhotoRequest> photos;
@@ -57,15 +57,12 @@ public class StoryRequest {
 	public void setPhotos(List<PhotoRequest> photos) {
 		this.photos = photos;
 	}
-	public int getThumbnailNo() {
-		return thumbnailNo;
+	public String getThumbnail() {
+		return thumbnail;
 	}
-	public void setThumbnailNo(int thumbnailNo) {
-		this.thumbnailNo = thumbnailNo;
-	}
-
-	
-		
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
+	}		
 	
 	
 }

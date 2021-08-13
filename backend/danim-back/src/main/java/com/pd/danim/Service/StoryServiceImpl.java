@@ -6,6 +6,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,7 +26,11 @@ import com.pd.danim.DTO.User;
 import com.pd.danim.Form.Request.PhotoRequest;
 import com.pd.danim.Form.Request.StoryRequest;
 import com.pd.danim.Form.Response.PhotoResponse;
+import com.pd.danim.Form.Response.StoryDetailResponse;
+import com.pd.danim.Form.Response.StoryResponse;
+import com.pd.danim.Form.Response.SubStoryResponse;
 import com.pd.danim.Repository.DanimRepository;
+import com.pd.danim.Repository.LoveRepository;
 import com.pd.danim.Repository.PhotoRepository;
 import com.pd.danim.Repository.PlaceRepository;
 import com.pd.danim.Repository.StoryRepository;
@@ -54,6 +59,9 @@ public class StoryServiceImpl implements StoryService {
 	 
 	@Autowired
 	private PlaceRepository placeRepo;
+	
+	@Autowired
+	private LoveRepository loveRepo;
 	
 	@Autowired
 	private JwtUtil jwtUtil;
@@ -148,8 +156,7 @@ public class StoryServiceImpl implements StoryService {
 		Story story = new Story();
 
 		List<PhotoRequest> photoReqList = input.getPhotos();
-
-
+		Collections.sort(photoReqList);
 		SubStory[] subStoryArr = new SubStory[input.getDuration()];
 
 		story.setCreatedDate(LocalDateTime.now());
@@ -182,16 +189,17 @@ public class StoryServiceImpl implements StoryService {
 			
 			photoList.add(photo);
 		}
-
-		// 스토리 저장
+		if(input.getThumbnail()!=null)
+			story.setThumbnail(input.getThumbnail());
+		else
+			story.setThumbnail(photoList.get(0).getFilename());
+		
 		storyRepo.save(story);
-
-		// 서브 스토리 저장
+		
 		for (SubStory sub : subStoryArr) {
 			subStoryRepo.save(sub);
 		}
-
-		// 포토 저장
+		
 		for (Photo photo : photoList) {
 			photoRepo.save(photo);
 		}
@@ -206,15 +214,77 @@ public class StoryServiceImpl implements StoryService {
 	}
 
 	@Override
-	public boolean getStory(long storyno) {
-		// TODO Auto-generated method stub
-		return false;
+	public StoryDetailResponse getStory(long storyno, HttpServletRequest httpServletReq) {
+		
+		if(!storyRepo.existsById(storyno))
+			return null;
+		Story story = storyRepo.findByStoryNo(storyno);
+		
+		final String requestTokenHeader = httpServletReq.getHeader("Authorization");
+		String userId = jwtUtil.getUsername(requestTokenHeader);
+		
+		DanimId danim = danimRepo.findById(userId);
+		if(danim==null) {
+			return null;			
+		}		
+		User reader = danim.getUser();
+		
+		
+		StoryDetailResponse storyDetail = new StoryDetailResponse();
+		User writer = userRepo.findByUserno(story.getUserNo());
+		boolean isLove = loveRepo.existsByUserAndStory(reader, story);
+		
+		storyDetail.setDuration(story.getDuration());
+		storyDetail.setNickname(writer.getNickname());
+		storyDetail.setStartDate(story.getStartDate());
+		storyDetail.setThumbnail(story.getThumbnail());
+		storyDetail.setTitle(story.getTitle());
+		storyDetail.setIsLove(isLove);
+		
+		List<SubStory> subStoryList = subStoryRepo.findAllByStory(story);
+		
+		List<SubStoryResponse> substories = new ArrayList();
+		
+		for(SubStory substory : subStoryList) {
+			List<Photo> photoList = photoRepo.findAllBySubstory(substory);
+			List<PhotoResponse> photos = new ArrayList();
+			SubStoryResponse subStoryRes = new SubStoryResponse();
+			subStoryRes.setSeqNo(substory.getSeqNo());
+			
+			for(Photo photo : photoList) {
+				PhotoResponse photoRes = new PhotoResponse();
+				photoRes.setFilename(photo.getFilename());
+				photoRes.setDate(photo.getDate());
+				photoRes.setLatitude(photo.getLatitude());
+				photoRes.setLongtitude(photo.getLongtitude());
+				photoRes.setPlaceName(photo.getPlaceName());
+				photoRes.setAddress(photo.getAddress());
+				photoRes.setContent(photo.getContent());
+				photoRes.setTag(photo.getTag());
+				
+				photos.add(photoRes);
+			}
+			Collections.sort(photos);
+			subStoryRes.setPhotos(photos);
+			substories.add(subStoryRes);
+			
+		}
+		
+		Collections.sort(substories);
+		storyDetail.setSubstories(substories);
+		
+		
+		
+		
+		
+		return storyDetail;
 	}
 
+
 	@Override
-	public boolean getStories(User user) {
+	public List<StoryResponse> getStories(User user) {
 		// TODO Auto-generated method stub
-		return false;
+		return null;
 	}
 
 	@Override

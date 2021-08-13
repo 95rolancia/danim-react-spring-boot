@@ -23,7 +23,7 @@ const NotUserExist = () => {
     <section className={classes.paper}>
       <img
         className={classes.notFoundImg}
-        src="images/danierror.png"
+        src="/images/danierror.png"
         alt="page not found img"
       />
       <Typography color="primary" variant="h5" className={classes.title}>

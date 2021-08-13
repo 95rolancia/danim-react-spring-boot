@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(value="사진 폼", description="사진 파일명, 사진 날짜, 사진 태그, 사진 파일, 요청자 아이디")
-public class PhotoRequest {
+public class PhotoRequest implements Comparable<PhotoRequest> {
 	
 	@ApiModelProperty(value="사진 파일명", example ="3142-1232-234.png")
 	private String filename;
@@ -98,8 +98,12 @@ public class PhotoRequest {
 		this.placeName = placeName;
 	}
 
-
-	
+	@Override
+	public int compareTo(PhotoRequest o) {
+		
+		return LocalDateTime.parse(this.getDate()).getNano() - LocalDateTime.parse(o.getDate()).getNano();
+	}
+		
 	
 	
 	
