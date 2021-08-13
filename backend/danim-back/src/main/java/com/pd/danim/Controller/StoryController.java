@@ -1,7 +1,5 @@
 package com.pd.danim.Controller;
 
-import java.time.LocalDateTime;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.pd.danim.Form.Request.PhotoUploadRequest;
 import com.pd.danim.Form.Request.StoryRequest;
 import com.pd.danim.Form.Response.PhotoResponse;
+import com.pd.danim.Form.Response.StoryDetailResponse;
 import com.pd.danim.Service.AuthService;
 import com.pd.danim.Service.StoryService;
 
@@ -68,10 +68,15 @@ public class StoryController {
 
 	@ApiOperation(tags = "스토리", value = "스토리 조회", notes = "스토리 내용을 조회합니다")
 	@GetMapping("/{storyno}")
-	public ResponseEntity<String> getStory() {
+	public ResponseEntity<StoryDetailResponse> getStory(@PathVariable("storyno") long storyno, HttpServletRequest httpServletReq) {
 		// 조회
+		
+		StoryDetailResponse storyDetail = storyService.getStory(storyno, httpServletReq);
 
-		return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+		if(storyDetail == null)
+			return new ResponseEntity<StoryDetailResponse>(storyDetail, HttpStatus.NOT_FOUND);
+		
+		return new ResponseEntity<StoryDetailResponse>(storyDetail, HttpStatus.OK);
 	}
 
 	@ApiOperation(tags = "스토리", value = "스토리 수정", notes = "스토리 내용을 수정합니다")

@@ -156,8 +156,7 @@ public class StoryServiceImpl implements StoryService {
 		Story story = new Story();
 
 		List<PhotoRequest> photoReqList = input.getPhotos();
-
-
+		Collections.sort(photoReqList);
 		SubStory[] subStoryArr = new SubStory[input.getDuration()];
 
 		story.setCreatedDate(LocalDateTime.now());
@@ -190,7 +189,10 @@ public class StoryServiceImpl implements StoryService {
 			
 			photoList.add(photo);
 		}
-
+		if(input.getThumbnail()!=null)
+			story.setThumbnail(input.getThumbnail());
+		else
+			story.setThumbnail(photoList.get(0).getFilename());
 		
 		storyRepo.save(story);
 		
