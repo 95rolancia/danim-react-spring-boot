@@ -14,5 +14,5 @@ public interface PhotoRepository extends CrudRepository<Photo, Long> {
 	Photo findByFilename(String filename);	
 	List<Photo> findAllByAddressContaining(String address);
 	List<Photo> findAllBySubstory(SubStory substory);
-
+	List<Photo> findTop9ByAddressContaining(String address);
 }
