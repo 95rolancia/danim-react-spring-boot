@@ -191,15 +191,13 @@ public class StoryServiceImpl implements StoryService {
 			photoList.add(photo);
 		}
 
-		// 스토리 저장
+		
 		storyRepo.save(story);
-
-		// 서브 스토리 저장
+		
 		for (SubStory sub : subStoryArr) {
 			subStoryRepo.save(sub);
 		}
-
-		// 포토 저장
+		
 		for (Photo photo : photoList) {
 			photoRepo.save(photo);
 		}
