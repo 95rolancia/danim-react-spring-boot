@@ -8,5 +8,5 @@ import com.pd.danim.DTO.PlanPlace;
 import com.pd.danim.DTO.SubPlan;
 
 public interface PlanPlaceRepository extends CrudRepository<PlanPlace, Long> {
-	List<PlanPlace> findAllBySubPlan(SubPlan subplan);
+	List<PlanPlace> findAllBySubplan(SubPlan subplan);
 }

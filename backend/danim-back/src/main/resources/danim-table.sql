@@ -161,14 +161,14 @@ create table `subplan`(
 
 create table `planplace`(
 	`planplace_no` bigint(20) not null auto_increment, 
-	`plan_no` bigint(20) not null,
+	`subplan_no` bigint(20) not null,
 	`latitude` varchar(25) not null,
     `longtitude` varchar(25) not null,
     `address` varchar(200),
     `place_name` varchar(200),
     `seq_no` int,
     PRIMARY KEY (planplace_no),
-	FOREIGN KEY (plan_no) REFERENCES plan(plan_no)
+	FOREIGN KEY (subplan_no) REFERENCES subplan(subplan_no)
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 

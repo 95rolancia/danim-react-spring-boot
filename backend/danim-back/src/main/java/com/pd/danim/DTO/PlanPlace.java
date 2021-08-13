@@ -21,7 +21,6 @@ public class PlanPlace {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long planplace_no;
 	
-	
 	@ManyToOne
 	@JoinColumn(name="subplan_no")
 	private SubPlan subplan;
