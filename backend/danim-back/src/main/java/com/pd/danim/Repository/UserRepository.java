@@ -12,5 +12,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
 	boolean existsByNickname(String nickname);
 	User findByNickname(String nickname);	
 	void save(Interest interest);
+	
+	List<User> findByNicknameContaining(String nickname);
 
 }
