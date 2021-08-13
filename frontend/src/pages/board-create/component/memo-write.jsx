@@ -1,7 +1,6 @@
 import React from 'react';
 import { makeStyles, Container, Button } from '@material-ui/core';
-import { StoryCover, StoryDay } from './index';
-import { PhotoSizeSelectLargeOutlined } from '@material-ui/icons';
+import { StoryCover, StoryContents } from './index';
 
 const useStyles = makeStyles((theme) => {});
 
@@ -12,6 +11,7 @@ const MemoWrite = ({
   tripDate,
   whereWhen,
   nickname,
+  tripAddress,
 }) => {
   const classes = useStyles();
   const imgBaseURL = process.env.REACT_APP_IMAGE_BASE_URL;
@@ -20,13 +20,20 @@ const MemoWrite = ({
     console.log(photos);
     console.log(imgErrSuccess);
     console.log(tripDate);
-    console.log(whereWhen);
+    console.log(tripAddress);
   };
 
   return (
     <>
       <StoryCover title={title} />
-      <StoryDay imgBaseURL={imgBaseURL} photos={photos} nickname={nickname} />
+      <StoryContents
+        imgBaseURL={imgBaseURL}
+        photos={photos}
+        nickname={nickname}
+        tripDate={tripDate}
+        tripAddress={tripAddress}
+      />
+      {/* <StoryDay imgBaseURL={imgBaseURL} photos={photos} nickname={nickname} tripDate={tripDate}/> */}
       <Button onClick={watchPhoto}>포토보자</Button>
     </>
   );
