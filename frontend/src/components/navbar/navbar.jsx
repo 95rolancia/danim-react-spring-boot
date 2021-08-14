@@ -47,8 +47,8 @@ const Navbar = observer(() => {
     history.push('/create');
   };
 
-  const goToBookmark = () => {
-    history.push('/main/bookmark');
+  const goToPlan = () => {
+    history.push('/main/plan');
   };
 
   const goToMyPage = () => {
@@ -61,7 +61,7 @@ const Navbar = observer(() => {
         <BNAction icon={<Home />} onClick={goToMain} />
         <BNAction icon={<Search />} onClick={goToSearch} />
         <BNAction icon={<Create />} onClick={goToBoardCreate} />
-        <BNAction icon={<BookmarkBorder />} onClick={goToBookmark} />
+        <BNAction icon={<BookmarkBorder />} onClick={goToPlan} />
         <BNAction icon={<PersonOutlineOutlined />} onClick={goToMyPage} />
       </BN>
     </AppBar>
