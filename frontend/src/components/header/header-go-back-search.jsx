@@ -1,5 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
 import {
   alpha,
   makeStyles,
@@ -10,8 +11,7 @@ import {
 } from '@material-ui/core';
 
 import { ArrowBack, Search } from '@material-ui/icons';
-import usePlan from '../../hooks/usePlan';
-import { observer } from 'mobx-react-lite';
+// import usePlan from '../../hooks/usePlan';
 
 const useStyles = makeStyles((theme) => ({
   search: {
@@ -48,14 +48,14 @@ const useStyles = makeStyles((theme) => ({
 const HeaderGoBackSearch = observer(() => {
   const classes = useStyles();
   const history = useHistory();
-  const plan = usePlan();
+  // const plan = usePlan();
 
   const goBack = () => {
     history.goBack();
   };
 
   const searchPlace = (e) => {
-    plan.searchPlace(e.target.value);
+    // plan.searchPlace(e.target.value);
   };
 
   return (
