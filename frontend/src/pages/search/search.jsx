@@ -1,7 +1,13 @@
 import React from 'react';
+import { Header, Content } from './components';
 
-const Search = (props) => (
-      <h1>검색</h1>
+const Search = () => {
+  return (
+    <>
+      <Header />
+      <Content />
+    </>
   );
+};
 
 export default Search;
