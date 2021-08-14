@@ -38,13 +38,13 @@ class UserStore {
     });
   }
 
-  async setStoryPhoto(files) {
-    const res = await HttpUser.setStoryPhoto(files);
-    if (res.status !== 200) {
-      return false
-    };
-    return res
-  }
+  // async setStoryPhoto(files) {
+  //   const res = await HttpUser.setStoryPhoto(files);
+  //   if (res.status !== 200) {
+  //     return false
+  //   };
+  //   return res
+  // }
   
   async updateUserInfo(newUserInfo) {
     const res = await HttpUser.updateUserInfo(newUserInfo);
