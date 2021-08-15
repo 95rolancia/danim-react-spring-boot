@@ -1,6 +1,5 @@
 export const getPlanDate = (date) => {
   if (date === undefined) return '정보 없음';
-  console.log(date.startDate.getDay());
   return (
     date.startDate.getFullYear() +
     '.' +
