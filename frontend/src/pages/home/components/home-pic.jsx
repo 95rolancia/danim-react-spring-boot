@@ -48,7 +48,7 @@ function a11yProps(index) {
 const HomePic = ({ datas }) => {
   const classes = useStyles();
   const [value, setValue] = useState(0);
-  const type = ['all', 'food', 'scenery', 'person'];
+  const type = ['ALL', 'FOOD', 'SCENERY', 'PERSON'];
   const [filterPic, setFilterPic] = useState([]);
 
   const handleChange = (_, newValue) => {
