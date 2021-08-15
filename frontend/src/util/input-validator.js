@@ -18,7 +18,7 @@ export class InputValidator {
   };
 
   checkNickname = (nickname) => {
-    const regExp = /^([a-zA-Z0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣]).{1,11}$/;
+    const regExp = /^([a-zA-Z0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣]){1,11}$/;
 
     if (regExp.test(nickname)) {
       return true;
