@@ -152,18 +152,25 @@ public class StoryServiceImpl implements StoryService {
 		if(danim==null) {
 			return false;			
 		}
-		long userno = danim.getUserno();
+
 		Story story = new Story();
 
 		List<PhotoRequest> photoReqList = input.getPhotos();
 		Collections.sort(photoReqList);
 		SubStory[] subStoryArr = new SubStory[input.getDuration()];
-
+		for(int i=0;i<input.getDuration(); i++) {
+			subStoryArr[i] = new SubStory();
+		}
+		
+			
+		LocalDateTime startDate = LocalDateTime.parse(input.getStartDate());
+		
 		story.setCreatedDate(LocalDateTime.now());
-		story.setStartDate(input.getStartDate());
+		story.setStartDate(startDate);
 		story.setDuration(input.getDuration());
 		story.setStatus(input.getStatus());
 		story.setTitle(input.getTitle());
+		story.setUserNo(danim.getUserno());
 
 		int seqNo = 0;
 		List<Photo> photoList = new ArrayList();
@@ -179,13 +186,13 @@ public class StoryServiceImpl implements StoryService {
 			photo.setPlaceName(photoReq.getPlaceName());
 			photo.setContent(photoReq.getContent());
 			
-			seqNo = (int) Duration.between(input.getStartDate(), photo.getDate()).toDays();
-			subStoryArr[seqNo].setUserNo(userno);
+			seqNo = (int) Duration.between(startDate, LocalDateTime.parse(photoReq.getDate())).toDays();
+			subStoryArr[seqNo].setUserNo(danim.getUserno());
 			subStoryArr[seqNo].setSeqNo(seqNo);
 			subStoryArr[seqNo].setStory(story);
 			photo.setStory(story);
 			photo.setSubstory(subStoryArr[seqNo]);
-			photo.setUserNo(userno);
+			photo.setUserNo(danim.getUserno());
 			
 			photoList.add(photo);
 		}

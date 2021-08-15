@@ -9,13 +9,13 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 
-@ApiModel(value="스토리 폼", description="회원 번호, 스토리 제목, 여행 시작 날짜, 여행 기간, 게시글 상태, 사진들")
+@ApiModel(value="스토리 폼", description="스토리 제목, 여행 시작 날짜, 여행 기간, 게시글 상태, 사진들")
 public class StoryRequest {
 	
 	@ApiModelProperty(value = "스토리 제목", required=true, example="바람이 불어오는 나의 제주도 여행기")
 	private String title; 
 	@ApiModelProperty(value = "여행 시작 날짜", required=true, example="2021-05-30")
-	private LocalDateTime startDate; 
+	private String startDate; 
 	@ApiModelProperty(value = "여행 기간", required=true, example="4")
 	private int duration; 
 	@ApiModelProperty(value = "게시글 상태", example="PUBLISHED")
@@ -32,11 +32,10 @@ public class StoryRequest {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	
-	public LocalDateTime getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(LocalDateTime startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
 	public int getDuration() {
