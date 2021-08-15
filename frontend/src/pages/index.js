@@ -6,6 +6,7 @@ export { default as Interest } from './interest/interest';
 export { default as Main } from './main/main';
 export { default as MyPage } from './my-page/my-page';
 export { default as Plan } from './plan/plan';
+export { default as PlanArea } from './plan-area/plan-area';
 export { default as PlanDate } from './plan-date/plan-date';
 export { default as Search } from './search/search';
 export { default as SignIn } from './sign-in/sign-in';
