@@ -7,19 +7,48 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(2),
     color: '#36434C',
   },
+  marginBottom: {
+    marginBottom: theme.spacing(2),
+  },
+  interest: {
+    marginLeft: theme.spacing(2),
+    fontFamily: 'MingukBold',
+  },
+  interestSub: {
+    marginLeft: theme.spacing(1),
+    fontFamily: 'MingukBold',
+  },
 }));
-const HomeRoot = ({ datas }) => {
+const HomeRoot = ({ datas, interests }) => {
   const classes = useStyles();
   return (
     <>
-      <Slider datas={datas} />
-      <Box component="span" m={1}></Box>
-      <div>
+      {interests.map((interest) => (
+        <div key={interest}>
+          <Typography
+            variant="h5"
+            component="span"
+            color="primary"
+            className={classes.interest}
+          >
+            {interest}
+          </Typography>
+          <Typography
+            variant="h5"
+            component="span"
+            className={classes.interestSub}
+          >
+            추천 Story
+          </Typography>
+          <div className={classes.marginBottom}></div>
+          <Slider className={classes.marginBottom} datas={datas} />
+        </div>
+      ))}
+      <div className={classes.marginBottom}>
         <Typography variant="h5" component="span" className={classes.title}>
           다님 인기 여행 Story
         </Typography>
       </div>
-      <Box component="span" m={1}></Box>
       <Slider datas={datas} />
     </>
   );
