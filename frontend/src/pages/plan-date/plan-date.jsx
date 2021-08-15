@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PlanMaker = () => {
+const PlanDate = () => {
   const classes = useStyles();
   const history = useHistory();
   const [date, setDate] = useState([
@@ -63,4 +63,4 @@ const PlanMaker = () => {
   );
 };
 
-export default PlanMaker;
+export default PlanDate;
