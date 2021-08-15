@@ -12,3 +12,5 @@ export { default as Search } from './search/search';
 export { default as SignIn } from './sign-in/sign-in';
 export { default as SignUp } from './sign-up/sign-up';
 export { default as Trip } from './trip/trip';
+export { default as StoryRead } from './/board-read/story-read';
+export { default as StoryDetail } from './board-read/story-detail';

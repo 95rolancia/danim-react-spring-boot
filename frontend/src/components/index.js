@@ -6,3 +6,4 @@ export { default as HeaderGoBackSearch } from './header/header-go-back-search';
 export { default as HeaderGoMain } from './header/header-go-main';
 export { default as Navbar } from './navbar/navbar';
 export { default as StartLoading } from './start-loading/start-loading';
+export { default as BoardDetailMap } from './board-detail-map/board-detail-map';
