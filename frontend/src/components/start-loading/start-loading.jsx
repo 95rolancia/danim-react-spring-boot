@@ -35,7 +35,7 @@ const StartLoading = () => {
     <div className={classes.main}>
       <img
         className={classes.background}
-        src="images/main-background.gif"
+        src="/images/main-background.gif"
         alt="landing-page-background-img"
       />
       <section className={classes.titleContainer}>
