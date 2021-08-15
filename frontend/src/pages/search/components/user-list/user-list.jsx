@@ -7,13 +7,11 @@ import { List } from '@material-ui/core';
 
 const UserList = observer(() => {
   const search = useSearch();
-
   return (
     <List>
-      {search.searchedUser &&
-        toJS(search.searchedUser).map((user) => (
-          <UserItem user={user} key={user.name} />
-        ))}
+      {toJS(search.searchedUser).map((user) => (
+        <UserItem user={user} key={user.nickname} />
+      ))}
     </List>
   );
 });
