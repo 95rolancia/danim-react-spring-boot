@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pd.danim.Form.Response.PlaceDetailResponse;
 import com.pd.danim.Form.Response.SearchPlanPlaceResponse;
 import com.pd.danim.Service.PlanService;
 
@@ -19,7 +20,7 @@ public class PlanController {
 	PlanService planService;
 
 	@GetMapping("/place/{keyword}")
-	public ResponseEntity<SearchPlanPlaceResponse> searchArea(@PathVariable("keyword")String keyword){
+	public ResponseEntity<SearchPlanPlaceResponse> searchPlaces(@PathVariable("keyword")String keyword){
 			
 		SearchPlanPlaceResponse response = planService.getfindAllPlace(keyword);
 		
@@ -27,6 +28,13 @@ public class PlanController {
 		return new ResponseEntity<SearchPlanPlaceResponse>(response,HttpStatus.OK);
 	}
 	
-	@PostMapping("")
+	@GetMapping("/place/detail/{keyword}")
+	public ResponseEntity<PlaceDetailResponse> searchArea(@PathVariable("keyword")String keyword){
+		
+		PlaceDetailResponse response = planService.getPlaceDetail(keyword);
+		
+				
+		return new ResponseEntity<PlaceDetailResponse>(response,HttpStatus.OK);
+	}
 
 }
