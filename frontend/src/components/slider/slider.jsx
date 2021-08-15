@@ -1,7 +1,8 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import CardSlide from './card-slide';
 import 'swiper/swiper.scss';
+import CardSlide from './card-slide';
 import { makeStyles } from '@material-ui/styles';
 import {
   Card,
@@ -16,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     height: '90%',
   },
   slides: {
-    height: '21em',
+    height: '23em',
   },
   media: {
     height: '16em',
@@ -25,16 +26,20 @@ const useStyles = makeStyles((theme) => ({
 
 const Slider = ({ datas }) => {
   const classes = useStyles();
+  const history = useHistory();
 
+  const readStory = (storyNo) => {
+    history.push('/read/' + storyNo);
+  };
   return (
     <Swiper
       className={classes.slides}
       spaceBetween={10}
       slidesPerView={2}
-      onClick={(swiper) => console.log(datas[swiper.clickedIndex])}
+      onClick={(swiper) => readStory(datas[swiper.clickedIndex].storyNum)}
     >
       {datas.map((data) => (
-        <SwiperSlide key={data.no}>
+        <SwiperSlide key={data.storyNum}>
           <Card className={classes.slide}>
             <CardActionArea>
               <CardMedia

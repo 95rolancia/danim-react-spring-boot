@@ -2,31 +2,37 @@ import React from 'react';
 import GoogleMapReact from 'google-map-react';
 import RoomIcon from '@material-ui/icons/Room';
 
-const AnyReactComponent = () => <RoomIcon />;
+const AnyReactComponent = () => <RoomIcon color="primary" />;
 
-const BoardDetailMap = ({ stories }) => {
-  const defaultProps = {
-    //   맨 처음 지도 위치 설정
-    center: {
-      lat: 33.492269071672496,
-      lng: 126.53945522035214,
-    },
-    zoom: 11,
-  };
+const BoardDetailMap = ({ stories, lat, lng }) => {
+  if (lat === null && lng === null) {
+    lat = 33.492269071672496;
+    lng = 126.53945522035214;
+  }
+
+  function getRandomColor() {
+    let color;
+    let letters = '0123456789ABCDEF';
+    color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+
+    return color;
+  }
 
   const renderPolylines = (map, maps, stories) => {
-    stories.forEach((story) => {
-      const flightPlanCoordinates = story.places.map((place) => {
+    stories.substories.forEach((story) => {
+      const flightPlanCoordinates = story.photos.map((pic) => {
         return {
-          lat: +place.lat,
-          lng: +place.lng,
+          lat: +pic.latitude,
+          lng: +pic.longtitude,
         };
       });
-
       const flightPath = new maps.Polyline({
         path: flightPlanCoordinates,
         geodesic: true,
-        strokeColor: '#FF0000',
+        strokeColor: getRandomColor(),
         strokeOpacity: 1.0,
         strokeWeight: 3,
       });
@@ -36,23 +42,23 @@ const BoardDetailMap = ({ stories }) => {
 
   return (
     // Important! Always set the container height explicitly
-    <div style={{ height: '100%', width: '100%' }}>
+    <div style={{ height: '50%', width: '100%' }}>
       <GoogleMapReact
         bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAP_API_KEY }}
-        defaultCenter={defaultProps.center}
-        defaultZoom={defaultProps.zoom}
+        center={{ lat, lng }}
+        zoom={14}
         onGoogleApiLoaded={({ map, maps }) => {
           renderPolylines(map, maps, stories);
         }}
         yesIWantToUseGoogleMapApiInternals
       >
-        {stories.map((story) => {
-          return story.places.map((place) => {
+        {stories.substories.map((story) => {
+          return story.photos.map((place) => {
             return (
               <AnyReactComponent
-                lat={place.lat}
-                lng={place.lng}
-                key={place.lat}
+                lat={place.latitude}
+                lng={place.longtitude}
+                key={place.latitude}
               />
             );
           });
