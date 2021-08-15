@@ -51,7 +51,7 @@ public class SearchServiceImpl implements SearchService {
 			SearchByAreaResponse response = new SearchByAreaResponse();
 			response.setPhotoFileName(photo.getFilename());
 			response.setStoryNo(photo.getStory().getStoryNo());
-			response.setTitle(photo.getStory().getThumbnail());
+			response.setTitle(photo.getStory().getTitle());
 			responses.add(response);
 		}
 		
