@@ -56,7 +56,7 @@ const Header = observer(() => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl);
-  const [searchType, setSearchType] = useState('');
+  const [searchType, setSearchType] = useState('지역 검색');
   const searchInputRef = useRef();
   const search = useSearch();
 
@@ -93,7 +93,7 @@ const Header = observer(() => {
 
   const handleSearch = () => {
     if (searchType === '지역 검색')
-      search.searchArea(searchInputRef.current.value);
+      search.searchStory(searchInputRef.current.value);
     else search.searchUser(searchInputRef.current.value);
   };
 

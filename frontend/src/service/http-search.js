@@ -5,23 +5,29 @@ class HttpSearch {
     this.instance = instance;
   }
 
-  async searchArea(keyword) {
+  async searchStory(keyword) {
     try {
-      const res = await this.instance.post('/search/area', keyword);
+      const res = await this.instance.get(`/search/area/${keyword}`);
       return res;
     } catch (error) {
       const res = error.response;
+      if (res.status === 404) {
+        return res;
+      }
       throw new Error(`search area error ${(res, error)}`);
     }
   }
 
   async searchUser(keyword) {
     try {
-      const res = await this.instance.post('/search/nickname', keyword);
+      const res = await this.instance.get(`/search/nickname/${keyword}`);
       return res;
     } catch (error) {
       const res = error.response;
-      throw new Error(`search user error ${(res, error)}`);
+      if (res.status === 404) {
+        return res;
+      }
+      throw new Error(`search nickname error ${(res, error)}`);
     }
   }
 }
