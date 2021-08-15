@@ -52,6 +52,8 @@ public class SearchServiceImpl implements SearchService {
 			response.setPhotoFileName(photo.getFilename());
 			response.setStoryNo(photo.getStory().getStoryNo());
 			response.setTitle(photo.getStory().getTitle());
+			User user = userRepository.findByUserno(photo.getStory().getUserNo());
+			response.setNickname(user.getNickname());
 			responses.add(response);
 		}
 		
