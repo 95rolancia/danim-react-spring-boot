@@ -67,6 +67,7 @@ const useStyles = makeStyles((theme) => ({
 const Home = observer((props) => {
   const classes = useStyles();
   const [interestRegions, setInterestRegions] = useState(null);
+  const [interestArray, setInterestArray] = useState([]);
   const history = useHistory();
   const user = useUser();
 
@@ -96,6 +97,7 @@ const Home = observer((props) => {
 
   useEffect(() => {
     const userInterestArray = toJS(user.user).areas;
+    setInterestArray(userInterestArray);
     let userInterest = '';
     for (let interest of userInterestArray) {
       userInterest += interest;
@@ -146,7 +148,7 @@ const Home = observer((props) => {
       </div>
       <Box component="span" m={1}></Box>
       {selectOptionValue === '여행루트' ? (
-        <HomeRoot datas={datasRoot} />
+        <HomeRoot datas={datasRoot} interests={interestArray} />
       ) : (
         <HomePic datas={datasPic} />
       )}
