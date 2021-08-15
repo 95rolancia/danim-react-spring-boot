@@ -2,6 +2,7 @@ package com.pd.danim.Controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,12 +24,12 @@ public class HomeController {
 	private HomeService homeService;
 	
 	@GetMapping("/myPopular")
-	public ResponseEntity<List<List<StoryResponse>>> myPopularStory(HttpServletRequest httpServletRequest){
+	public ResponseEntity<Map<String,List<StoryResponse>>> myPopularStory(HttpServletRequest httpServletRequest){
 		homeService.getMyPopularStory(httpServletRequest);
 		
-		List<List<StoryResponse>> storyResponses = homeService.getMyPopularStory(httpServletRequest); 
-		
-		return new ResponseEntity<List<List<StoryResponse>>>(storyResponses,HttpStatus.OK);
+//		List<List<StoryResponse>> storyResponses = homeService.getMyPopularStory(httpServletRequest); 
+		Map<String,List<StoryResponse>> storyResponses = homeService.getMyPopularStory(httpServletRequest);
+		return new ResponseEntity<Map<String,List<StoryResponse>>>(storyResponses,HttpStatus.OK);
 	}
 	
 	
