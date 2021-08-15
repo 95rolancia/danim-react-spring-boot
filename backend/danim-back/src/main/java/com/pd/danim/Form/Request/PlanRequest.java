@@ -5,10 +5,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlanRequest {
+	private String title;
 	private String startDate;
 	private String endDate;
-	private List<SubplanRequest> subplans = new ArrayList();	
-		
+	private List<SubplanRequest> subplans = new ArrayList();		
+	
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
 	public String getStartDate() {
 		return startDate;
 	}
