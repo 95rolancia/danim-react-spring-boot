@@ -28,11 +28,15 @@ public class Plan {
 	@JoinColumn(name="user_no")
 	private User user;
 	
+	@Column(name="title")
+	private String title;
+	
 	@Column(name="start_date")
 	private LocalDateTime startDate;
 	
 	@Column(name="duration")
 	private int duration;
+	
 
 	public long getPlanNo() {
 		return planNo;
@@ -64,6 +68,14 @@ public class Plan {
 
 	public void setDuration(int duration) {
 		this.duration = duration;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	
 	

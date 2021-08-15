@@ -2,7 +2,6 @@ package com.pd.danim.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +22,7 @@ import com.pd.danim.Form.Request.PlanRequest;
 import com.pd.danim.Form.Request.SubplanRequest;
 import com.pd.danim.Form.Response.PlaceDetailResponse;
 import com.pd.danim.Form.Response.PlaceResponse;
+import com.pd.danim.Form.Response.PlanResponse;
 import com.pd.danim.Form.Response.SearchPlanPlaceResponse;
 import com.pd.danim.Repository.DanimRepository;
 import com.pd.danim.Repository.PlaceRepository;
@@ -54,7 +54,7 @@ public class PlanServiceImpl implements PlanService {
 	private JwtUtil jwtUtil;
 	
 	
-	
+	@Override
 	public SearchPlanPlaceResponse getfindAllPlace(String keyword) {
 		List<Place> placeList = placeRepo.findAllByNameContaining(keyword);
 		List<PlaceResponse> places = new ArrayList();
@@ -74,6 +74,7 @@ public class PlanServiceImpl implements PlanService {
 		return response;
 	}
 	
+	@Override
 	public PlaceDetailResponse getPlaceDetail(String name) {
 
 		Place place = placeRepo.findByName(name); 
@@ -91,7 +92,7 @@ public class PlanServiceImpl implements PlanService {
 		
 	}
 	
-	
+	@Override
 	public boolean insertPlan(PlanRequest planReq, HttpServletRequest httpServletReq) {
 		
 		final String requestTokenHeader = httpServletReq.getHeader("Authorization");
@@ -101,7 +102,6 @@ public class PlanServiceImpl implements PlanService {
 		
 		Plan plan = new Plan();
 		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm:ss");
 		LocalDateTime startDate = LocalDateTime.parse(planReq.getStartDate());
 		LocalDateTime endDate = LocalDateTime.parse(planReq.getEndDate());
 		
@@ -109,6 +109,7 @@ public class PlanServiceImpl implements PlanService {
 		plan.setDuration(duration);
 		plan.setStartDate(startDate);		
 		plan.setUser(user);
+		plan.setTitle(planReq.getTitle());
 		
 		List<SubPlan> subplans = new ArrayList();
 		List<PlanPlace> places = new ArrayList();
@@ -144,9 +145,23 @@ public class PlanServiceImpl implements PlanService {
 		
 	}
 	
+	public PlanResponse getPlan(long planNo) {
+		
+		PlanResponse response = new PlanResponse();
+		
+		Plan plan = planRepo.findByPlanNo(planNo);
+		response.setStartDate(plan.getStartDate());
+		response.setEndDate(plan.getStartDate().plusDays(plan.getDuration()));
+		response.setTitle(plan.getTitle());
+		
+		List<SubPlan> subPlans = subPlanRepo.findAllByPlan(plan);
+		
+		return null;
+	}
+	
 
 	
-	
+
 	public void getBestRoute(BestRouteRequest bestRouteReq) {
 
 	}

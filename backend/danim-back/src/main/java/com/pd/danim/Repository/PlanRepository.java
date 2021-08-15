@@ -9,4 +9,5 @@ import com.pd.danim.DTO.User;
 
 public interface PlanRepository extends CrudRepository<Plan, Long> {
 	List<Plan> findAllByUser(User user);
+	Plan findByPlanNo(long planNo);
 }

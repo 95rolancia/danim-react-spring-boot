@@ -11,5 +11,4 @@ public interface PlanService {
 	PlaceDetailResponse getPlaceDetail(String name);
 	boolean insertPlan(PlanRequest planReq, HttpServletRequest httpServletReq);
 	
-	
 }
