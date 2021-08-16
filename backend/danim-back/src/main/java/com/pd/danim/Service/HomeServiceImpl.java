@@ -2,7 +2,9 @@ package com.pd.danim.Service;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.PriorityQueue;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,7 +43,7 @@ public class HomeServiceImpl implements HomeService {
 	private StoryRepository storyRepository;
 
 	@Override
-	public List<List<StoryResponse>> getMyPopularStory(HttpServletRequest httpServletRequest) {
+	public Map<String,List<StoryResponse>> getMyPopularStory(HttpServletRequest httpServletRequest) {
 
 		final String requestTokenHeader = httpServletRequest.getHeader("Authorization");
 		String userId = jwtUtil.getUsername(requestTokenHeader);
@@ -50,7 +52,7 @@ public class HomeServiceImpl implements HomeService {
 		User user = danim.getUser();
 
 		List<Interest> interests = user.getInterests();
-		List<List<StoryResponse>> storyResponses = new ArrayList<List<StoryResponse>>();
+		Map<String,List<StoryResponse>> storyResponses = new HashMap<String,List<StoryResponse>>();
 
 		for (Interest interest : interests) {
 
@@ -101,7 +103,7 @@ public class HomeServiceImpl implements HomeService {
 				responses.add(storyResponse);
 			}
 			
-			storyResponses.add(responses);
+			storyResponses.put(interest.getArea(),responses);
 
 		}
 

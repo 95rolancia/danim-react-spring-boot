@@ -17,34 +17,13 @@ import { observer } from 'mobx-react-lite';
 import { toJS } from 'mobx';
 const datasRoot = [
   {
-    no: '1111',
-    title: '혼밥하기 좋은곳',
-    location: '대전 중구 대흥동',
-    thumbnail: 'https://picsum.photos/500',
-  },
-  {
-    no: '1112',
-    title: '대전에서 가장 조용한 곳',
-    location: '대전 동구 가양동',
-    thumbnail: 'https://picsum.photos/500',
-  },
-  {
-    no: '1113',
-    title: '카페맛집',
-    location: '대전 중구 은행동',
-    thumbnail: 'https://picsum.photos/500',
-  },
-  {
-    no: '1114',
-    title: '넓은 공원',
-    location: '대전 유성구 봉명동',
-    thumbnail: 'https://picsum.photos/500',
-  },
-  {
-    no: '1115',
-    title: '낮잠자기 좋은 곳',
-    location: '대전 중구 문창동',
-    thumbnail: 'https://picsum.photos/500',
+    duration: 2,
+    startDate: '2021-08-09',
+    thumbnail: 'https://picsum.photos/id/103/500',
+    title: '바람이 불어오는 나의 제주도 여행기',
+    location: '제주',
+    author: '영구',
+    storyNum: 2,
   },
 ];
 const datasPic = [
@@ -52,31 +31,31 @@ const datasPic = [
     no: '1111',
     picNo: '1',
     pic: 'https://picsum.photos/id/1080/500',
-    tag: 'food',
+    tag: 'FOOD',
   },
   {
     no: '1111',
     picNo: '2',
     pic: 'https://picsum.photos/id/1013/500',
-    tag: 'person',
+    tag: 'PERSON',
   },
   {
     no: '1112',
     picNo: '3',
     pic: 'https://picsum.photos/id/1002/500',
-    tag: 'scenery',
+    tag: 'SCENERY',
   },
   {
     no: '1112',
     picNo: '5',
     pic: 'https://picsum.photos/id/139/500',
-    tag: 'food',
+    tag: 'FOOD',
   },
   {
     no: '1112',
     picNo: '4',
     pic: 'https://picsum.photos/id/1005/500',
-    tag: 'person',
+    tag: 'PERSON',
   },
 ];
 const options = ['여행루트', '여행사진'];
@@ -88,6 +67,7 @@ const useStyles = makeStyles((theme) => ({
 const Home = observer((props) => {
   const classes = useStyles();
   const [interestRegions, setInterestRegions] = useState(null);
+  const [interestArray, setInterestArray] = useState([]);
   const history = useHistory();
   const user = useUser();
 
@@ -117,6 +97,7 @@ const Home = observer((props) => {
 
   useEffect(() => {
     const userInterestArray = toJS(user.user).areas;
+    setInterestArray(userInterestArray);
     let userInterest = '';
     for (let interest of userInterestArray) {
       userInterest += interest;
@@ -167,7 +148,7 @@ const Home = observer((props) => {
       </div>
       <Box component="span" m={1}></Box>
       {selectOptionValue === '여행루트' ? (
-        <HomeRoot datas={datasRoot} />
+        <HomeRoot datas={datasRoot} interests={interestArray} />
       ) : (
         <HomePic datas={datasPic} />
       )}

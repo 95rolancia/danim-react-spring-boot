@@ -23,7 +23,9 @@ import com.pd.danim.DTO.Place;
 import com.pd.danim.DTO.Story;
 import com.pd.danim.DTO.SubStory;
 import com.pd.danim.DTO.User;
+import com.pd.danim.Form.Request.PhotoPutRequest;
 import com.pd.danim.Form.Request.PhotoRequest;
+import com.pd.danim.Form.Request.StoryPutRequest;
 import com.pd.danim.Form.Request.StoryRequest;
 import com.pd.danim.Form.Response.PhotoResponse;
 import com.pd.danim.Form.Response.StoryDetailResponse;
@@ -152,18 +154,25 @@ public class StoryServiceImpl implements StoryService {
 		if(danim==null) {
 			return false;			
 		}
-		long userno = danim.getUserno();
+
 		Story story = new Story();
 
 		List<PhotoRequest> photoReqList = input.getPhotos();
 		Collections.sort(photoReqList);
 		SubStory[] subStoryArr = new SubStory[input.getDuration()];
-
+		for(int i=0;i<input.getDuration(); i++) {
+			subStoryArr[i] = new SubStory();
+		}
+		
+			
+		LocalDateTime startDate = LocalDateTime.parse(input.getStartDate());
+		
 		story.setCreatedDate(LocalDateTime.now());
-		story.setStartDate(input.getStartDate());
+		story.setStartDate(startDate);
 		story.setDuration(input.getDuration());
 		story.setStatus(input.getStatus());
 		story.setTitle(input.getTitle());
+		story.setUserNo(danim.getUserno());
 
 		int seqNo = 0;
 		List<Photo> photoList = new ArrayList();
@@ -179,13 +188,13 @@ public class StoryServiceImpl implements StoryService {
 			photo.setPlaceName(photoReq.getPlaceName());
 			photo.setContent(photoReq.getContent());
 			
-			seqNo = (int) Duration.between(input.getStartDate(), photo.getDate()).toDays();
-			subStoryArr[seqNo].setUserNo(userno);
+			seqNo = (int) Duration.between(startDate, LocalDateTime.parse(photoReq.getDate())).toDays();
+			subStoryArr[seqNo].setUserNo(danim.getUserno());
 			subStoryArr[seqNo].setSeqNo(seqNo);
 			subStoryArr[seqNo].setStory(story);
 			photo.setStory(story);
 			photo.setSubstory(subStoryArr[seqNo]);
-			photo.setUserNo(userno);
+			photo.setUserNo(danim.getUserno());
 			
 			photoList.add(photo);
 		}
@@ -208,10 +217,70 @@ public class StoryServiceImpl implements StoryService {
 	}
 
 	@Override
-	public boolean modifyStory(StoryRequest input, long storyno) {
-		// TODO Auto-generated method stub
-		return false;
+	public int modifyStory(long storyNo, StoryPutRequest req, HttpServletRequest httpServletReq) {
+		
+		if(!storyRepo.existsById(storyNo)) {
+			return 404;
+		}
+
+		final String requestTokenHeader = httpServletReq.getHeader("Authorization");
+		String userId = jwtUtil.getUsername(requestTokenHeader);
+		
+		DanimId danim = danimRepo.findById(userId);
+		if(danim == null)
+			return 401;
+		
+		
+		
+		
+		Story story = storyRepo.findByStoryNo(storyNo);
+		
+		if(story.getUserNo() != danim.getUserno()) {
+			return 406;
+		}
+		
+		
+		story.setStatus(req.getStatus());
+		story.setTitle(req.getTitle());
+		story.setThumbnail(req.getThumbnail());
+		
+		storyRepo.save(story);
+		
+		
+		
+		return 200;
 	}
+	
+	@Override
+	public int modifyPhoto(PhotoPutRequest req, HttpServletRequest httpServletReq) {
+
+		
+		final String requestTokenHeader = httpServletReq.getHeader("Authorization");
+		String userId = jwtUtil.getUsername(requestTokenHeader);
+		
+		DanimId danim = danimRepo.findById(userId);
+		if(danim == null)
+			return 401;
+		
+		Photo photo = photoRepo.findByPhotoNo(req.getPhotoNo());
+		
+		if(photo == null)
+			return 404;
+		
+		if(photo.getUserNo() != danim.getUserno())
+			return 406;
+		
+		
+		photo.setContent(req.getContent());
+		photo.setTag(req.getTag());
+		
+		
+		photoRepo.save(photo);
+		
+		return 200;
+	}
+	
+	
 
 	@Override
 	public StoryDetailResponse getStory(long storyno, HttpServletRequest httpServletReq) {
@@ -240,6 +309,7 @@ public class StoryServiceImpl implements StoryService {
 		storyDetail.setThumbnail(story.getThumbnail());
 		storyDetail.setTitle(story.getTitle());
 		storyDetail.setIsLove(isLove);
+		storyDetail.setLoveCount(story.getLoveCount());
 		
 		List<SubStory> subStoryList = subStoryRepo.findAllByStory(story);
 		
@@ -261,6 +331,7 @@ public class StoryServiceImpl implements StoryService {
 				photoRes.setAddress(photo.getAddress());
 				photoRes.setContent(photo.getContent());
 				photoRes.setTag(photo.getTag());
+				photoRes.setPhotoNo(photo.getPhotoNo());
 				
 				photos.add(photoRes);
 			}
@@ -292,5 +363,7 @@ public class StoryServiceImpl implements StoryService {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+
 
 }

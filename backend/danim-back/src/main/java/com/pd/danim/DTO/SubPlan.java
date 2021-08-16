@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import org.hibernate.annotations.DynamicInsert;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-@Entity
+@Entity(name="subplan")
 @DynamicInsert
 @EntityListeners(AuditingEntityListener.class)
 public class SubPlan {
