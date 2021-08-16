@@ -23,7 +23,9 @@ import com.pd.danim.DTO.Place;
 import com.pd.danim.DTO.Story;
 import com.pd.danim.DTO.SubStory;
 import com.pd.danim.DTO.User;
+import com.pd.danim.Form.Request.PhotoPutRequest;
 import com.pd.danim.Form.Request.PhotoRequest;
+import com.pd.danim.Form.Request.StoryPutRequest;
 import com.pd.danim.Form.Request.StoryRequest;
 import com.pd.danim.Form.Response.PhotoResponse;
 import com.pd.danim.Form.Response.StoryDetailResponse;
@@ -215,10 +217,70 @@ public class StoryServiceImpl implements StoryService {
 	}
 
 	@Override
-	public boolean modifyStory(StoryRequest input, long storyno) {
-		// TODO Auto-generated method stub
-		return false;
+	public int modifyStory(long storyNo, StoryPutRequest req, HttpServletRequest httpServletReq) {
+		
+		if(!storyRepo.existsById(storyNo)) {
+			return 404;
+		}
+
+		final String requestTokenHeader = httpServletReq.getHeader("Authorization");
+		String userId = jwtUtil.getUsername(requestTokenHeader);
+		
+		DanimId danim = danimRepo.findById(userId);
+		if(danim == null)
+			return 401;
+		
+		
+		
+		
+		Story story = storyRepo.findByStoryNo(storyNo);
+		
+		if(story.getUserNo() != danim.getUserno()) {
+			return 406;
+		}
+		
+		
+		story.setStatus(req.getStatus());
+		story.setTitle(req.getTitle());
+		story.setThumbnail(req.getThumbnail());
+		
+		storyRepo.save(story);
+		
+		
+		
+		return 200;
 	}
+	
+	@Override
+	public int modifyPhoto(PhotoPutRequest req, HttpServletRequest httpServletReq) {
+
+		
+		final String requestTokenHeader = httpServletReq.getHeader("Authorization");
+		String userId = jwtUtil.getUsername(requestTokenHeader);
+		
+		DanimId danim = danimRepo.findById(userId);
+		if(danim == null)
+			return 401;
+		
+		Photo photo = photoRepo.findByPhotoNo(req.getPhotoNo());
+		
+		if(photo == null)
+			return 404;
+		
+		if(photo.getUserNo() != danim.getUserno())
+			return 406;
+		
+		
+		photo.setContent(req.getContent());
+		photo.setTag(req.getTag());
+		
+		
+		photoRepo.save(photo);
+		
+		return 200;
+	}
+	
+	
 
 	@Override
 	public StoryDetailResponse getStory(long storyno, HttpServletRequest httpServletReq) {
@@ -300,5 +362,7 @@ public class StoryServiceImpl implements StoryService {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+
 
 }
