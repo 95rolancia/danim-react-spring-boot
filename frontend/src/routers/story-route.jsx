@@ -96,7 +96,7 @@ const StoryRoute = observer(({ children, ...rest }) => {
                 opacity: '0.5',
               }}
             >
-              <h2>지역 : 아직없음</h2>
+              <h2>{res.loveCount}개의 좋아요를 받은 스토리</h2>
               <p style={{ textDecoration: 'underline' }} onClick={close}>
                 {res.nickname}님 스토리로 돌아가기
               </p>
