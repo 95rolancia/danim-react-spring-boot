@@ -331,6 +331,7 @@ public class StoryServiceImpl implements StoryService {
 				photoRes.setAddress(photo.getAddress());
 				photoRes.setContent(photo.getContent());
 				photoRes.setTag(photo.getTag());
+				photoRes.setPhotoNo(photo.getPhotoNo());
 				
 				photos.add(photoRes);
 			}
