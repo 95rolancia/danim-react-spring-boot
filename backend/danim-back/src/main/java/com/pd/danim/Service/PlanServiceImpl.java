@@ -94,11 +94,9 @@ public class PlanServiceImpl implements PlanService {
 	@Override
 	public boolean insertPlan(PlanRequest planReq, HttpServletRequest httpServletReq) {
 		
-//		final String requestTokenHeader = httpServletReq.getHeader("Authorization");
-//		String userId = jwtUtil.getUsername(requestTokenHeader);
-//		DanimId danim = danimRepo.findById(userId);
-//		User user = danim.getUser();
-		DanimId danim = danimRepo.findById("shining8543@naver.com");
+		final String requestTokenHeader = httpServletReq.getHeader("Authorization");
+		String userId = jwtUtil.getUsername(requestTokenHeader);
+		DanimId danim = danimRepo.findById(userId);
 		User user = danim.getUser();
 		
 		Plan plan = new Plan();
