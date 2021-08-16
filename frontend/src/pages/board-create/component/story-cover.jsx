@@ -1,47 +1,101 @@
 import React from 'react';
-import { makeStyles, Typography, Grid, Button } from '@material-ui/core';
+import useBoardCreate from '../../../hooks/useBoardCreate';
+import { observer } from 'mobx-react-lite';
+import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
+import {
+  makeStyles,
+  Typography,
+  Grid,
+  Button,
+  Box,
+  TextField,
+  Fab,
+} from '@material-ui/core';
+import { useEffect } from 'react';
 
-const useStyles = makeStyles((theme) => ({
-  image: {
-    width: '7em',
-  },
-}));
+const StoryCover = observer((props) => {
+  const boardCreate = useBoardCreate();
 
-const StoryCover = ({ title }) => {
+  const coverImgUrl =
+    boardCreate.imgBaseURL +
+    boardCreate.nickname +
+    '/' +
+    boardCreate.photos[0].filename;
+
+  const useStyles = makeStyles((theme) => ({
+    storyCover: {
+      height: '90vw',
+      width: '90vw',
+      paddingBottom: '2vh',
+      objectFit: 'cover',
+    },
+    storyCoverBox: {
+      backgroundImage: `url(${coverImgUrl})`,
+      backgroundSize: 'cover',
+      height: '90vw',
+      width: '90vw',
+    },
+    titleBox: {
+      backgroundColor: 'rgba(0,0,0,0.6)',
+      color: 'white',
+      textAlign: 'center',
+    },
+    tripDateTypo: {
+      marginTop: '0.5em',
+      color: 'gray',
+    },
+    inputTextColor: {
+      color: 'white',
+      fontSize: '1.7rem',
+    },
+    buttonBox: {
+      marginBottom: '2.4em',
+    },
+  }));
   const classes = useStyles();
+
+  const handleTitleChange = (e) => {
+    boardCreate.handleTitleChange(e.target.value);
+  };
 
   return (
     <>
-      <Grid container>
-        <Grid item xs={9}>
-          <Typography variant="h5" component="h5">
-            {title} 표지
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="flex-start"
+        alignContent="center"
+        className={classes.storyCoverBox}
+      >
+        <Box
+          display="flex"
+          flexDirection="row"
+          justifyContent="flex-end"
+          p={1}
+          className={classes.buttonBox}
+        >
+          <Fab>
+            <PhotoLibraryIcon />
+          </Fab>
+        </Box>
+        <Box p={3} className={classes.titleBox}>
+          <form>
+            <TextField
+              defaultValue={boardCreate.title}
+              fullWidth
+              inputProps={{ style: { textAlign: 'center' } }}
+              InputProps={{ className: classes.inputTextColor }}
+              onChange={handleTitleChange}
+            ></TextField>
+          </form>
+          <Typography className={classes.tripDateTypo}>
+            {boardCreate.tripDate[0]} -{' '}
+            {boardCreate.tripDate[boardCreate.tripDate.length - 1]}
           </Typography>
-        </Grid>
-        <Grid item xs={3}>
-          <Button fullWidth>수정</Button>
-        </Grid>
-
-        <Grid item xs={4}>
-          <img className={classes.image} src="/images/danilogo.png" alt="" />
-        </Grid>
-        <Grid item xs={8} container>
-          <Grid item xs={12}>
-            <div className="duration">날짜 자동으로 계산해서 들어오게</div>
-          </Grid>
-          <Grid item xs={12}>
-            <div className="storyTag">태그 흠 선택탭 추가를 고민하기</div>
-          </Grid>
-        </Grid>
-        <Grid item>
-          <Typography>
-            표지 메모 더보기도 구현하세요 이거보다 예쁜 레이아웃이 있을 것
-            같은디...
-          </Typography>
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
     </>
   );
-};
+});
 
 export default StoryCover;
