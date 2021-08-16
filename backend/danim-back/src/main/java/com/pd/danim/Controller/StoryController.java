@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.pd.danim.Form.Request.PhotoPutRequest;
 import com.pd.danim.Form.Request.PhotoUploadRequest;
+import com.pd.danim.Form.Request.StoryPutRequest;
 import com.pd.danim.Form.Request.StoryRequest;
 import com.pd.danim.Form.Response.PhotoResponse;
 import com.pd.danim.Form.Response.StoryDetailResponse;
@@ -81,12 +83,36 @@ public class StoryController {
 
 	@ApiOperation(tags = "스토리", value = "스토리 수정", notes = "스토리 내용을 수정합니다")
 	@PutMapping("/{storyno}")
-	public ResponseEntity<String> putStory(@RequestBody String temp) {
+	public ResponseEntity<String> putStory(@PathVariable("storyno") long storyNo, @RequestBody StoryPutRequest req, HttpServletRequest httpServletReq) {
 		// 본인 검증 후 수정
-
+		
+		int res= storyService.modifyStory(storyNo, req, httpServletReq);
+		if(res == 401)
+			return new ResponseEntity<String>("UNAUTHORIZED", HttpStatus.UNAUTHORIZED);
+		else if(res == 404)
+			return new ResponseEntity<String>("NOT FOUND", HttpStatus.NOT_FOUND); 
+		else if(res== 406)
+			return new ResponseEntity<String>("NOT ACCEPTABLE", HttpStatus.NOT_ACCEPTABLE);
+		
 		return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
 	}
 
+	@ApiOperation(tags = "스토리", value = "스토리 수정", notes = "스토리 내용을 수정합니다")
+	@PutMapping("/photo")
+	public ResponseEntity<String> putPhoto(@RequestBody PhotoPutRequest req, HttpServletRequest httpServletReq) {
+		// 본인 검증 후 수정
+		
+		int res= storyService.modifyPhoto(req, httpServletReq);
+		if(res == 401)
+			return new ResponseEntity<String>("UNAUTHORIZED", HttpStatus.UNAUTHORIZED);
+		else if(res == 404)
+			return new ResponseEntity<String>("NOT FOUND", HttpStatus.NOT_FOUND); 
+		else if(res== 406)
+			return new ResponseEntity<String>("NOT ACCEPTABLE", HttpStatus.NOT_ACCEPTABLE);
+		
+		return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+	}
+	
 	@ApiOperation(tags = "스토리", value = "스토리 삭제", notes = "스토리를 삭제합니다")
 	@DeleteMapping("/{storyno}")
 	public ResponseEntity<String> deleteStory(@RequestBody String temp) {
