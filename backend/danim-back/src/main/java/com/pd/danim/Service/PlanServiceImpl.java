@@ -94,11 +94,9 @@ public class PlanServiceImpl implements PlanService {
 	@Override
 	public boolean insertPlan(PlanRequest planReq, HttpServletRequest httpServletReq) {
 		
-//		final String requestTokenHeader = httpServletReq.getHeader("Authorization");
-//		String userId = jwtUtil.getUsername(requestTokenHeader);
-//		DanimId danim = danimRepo.findById(userId);
-//		User user = danim.getUser();
-		DanimId danim = danimRepo.findById("shining8543@naver.com");
+		final String requestTokenHeader = httpServletReq.getHeader("Authorization");
+		String userId = jwtUtil.getUsername(requestTokenHeader);
+		DanimId danim = danimRepo.findById(userId);
 		User user = danim.getUser();
 		
 		Plan plan = new Plan();
@@ -110,22 +108,22 @@ public class PlanServiceImpl implements PlanService {
 		plan.setDuration(duration);
 		plan.setStartDate(startDate);		
 		plan.setUser(user);
-		plan.setTitle(planReq.getTitle());
+		plan.setTitle(planReq.getTitle());		
 		
 		PlaceRequest[][] placesReq = planReq.getPlaces();
 		
 		List<SubPlan> subplans = new ArrayList();
 		List<PlanPlace> places = new ArrayList();
-		for(int i=1; i<=placesReq.length; i++) {
+		for(int i=0; i<placesReq.length; i++) {
 			SubPlan subplan = new SubPlan();
 			subplan.setPlan(plan);
-			subplan.setSeqNo(i);
-			for(int j=1; j<=placesReq[i].length; j++) {
+			subplan.setSeqNo(i+1);
+			for(int j=0; j<placesReq[i].length; j++) {
 				PlanPlace planPlace = new PlanPlace();
 				planPlace.setLatitude(placesReq[i][j].getLatitude());
 				planPlace.setLongtitude(placesReq[i][j].getLongtitude());
 				planPlace.setPlaceName(placesReq[i][j].getName());
-				planPlace.setSeqNo(j);
+				planPlace.setSeqNo(j+1);
 				planPlace.setSubplan(subplan);
 				places.add(planPlace);
 			}

@@ -9,9 +9,8 @@ import {
   Typography,
   makeStyles,
 } from '@material-ui/core';
-import RoomIcon from '@material-ui/icons/Room';
-import HomeRoot from './components/home-root';
-import HomePic from './components/home-pic';
+import { Room, DoubleArrow } from '@material-ui/icons';
+import { HomeRoot, HomePic, MainHeader } from './components';
 import useUser from '../../hooks/useUser';
 import { observer } from 'mobx-react-lite';
 import { toJS } from 'mobx';
@@ -63,6 +62,11 @@ const useStyles = makeStyles((theme) => ({
   title: {
     fontFamily: 'MingukBold',
   },
+  icon: {
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
+    color: '#667580',
+  },
 }));
 const Home = observer((props) => {
   const classes = useStyles();
@@ -107,18 +111,22 @@ const Home = observer((props) => {
 
   return (
     <>
+      <MainHeader />
       <Box component="span" m={1}></Box>
       <div>
         <Button
-          startIcon={<RoomIcon color="primary" />}
+          variant="outlined"
+          color="primary"
+          startIcon={<Room color="primary" />}
           onClick={goToInterestModify}
         >
           <Typography variant="h5" component="span" className={classes.title}>
             {interestRegions}
           </Typography>
         </Button>
-        의
+        <DoubleArrow className={classes.icon} />
         <Button
+          variant="outlined"
           color="secondary"
           aria-controls="simple-menu"
           aria-haspopup="true"
