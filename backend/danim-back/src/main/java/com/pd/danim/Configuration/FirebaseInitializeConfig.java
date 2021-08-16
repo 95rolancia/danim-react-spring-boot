@@ -17,7 +17,11 @@ public class FirebaseInitializeConfig {
     @PostConstruct
     public void initialize() throws IOException {		
     	String rootPath = System.getProperty("user.dir");
-//        System.out.println("현재 프로젝트의 경로 : "+ rootPath);
+    	System.out.println("------------------------------");
+    	System.out.println();
+        System.out.println("현재 프로젝트의 경로 : "+ rootPath);
+        System.out.println();
+        System.out.println("------------------------------");
         
 		FileInputStream serviceAccount =
 		  new FileInputStream(rootPath + "/src/main/resources/firebase/danim-89ae9-firebase-adminsdk-4v8tv-df518fb5fb.json");
