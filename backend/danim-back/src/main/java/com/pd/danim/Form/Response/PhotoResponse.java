@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import com.pd.danim.DTO.PhotoTag;
 
 public class PhotoResponse implements Comparable<PhotoResponse> {
+	private long photoNo;
 	private String filename;
 	private String latitude;
 	private String longtitude;
@@ -13,8 +14,17 @@ public class PhotoResponse implements Comparable<PhotoResponse> {
 	private LocalDateTime date;
 	private PhotoTag tag;
 	private String content;
-	
-		
+			
+	public long getPhotoNo() {
+		return photoNo;
+	}
+
+
+	public void setPhotoNo(long photoNo) {
+		this.photoNo = photoNo;
+	}
+
+
 	public String getFilename() {
 		return filename;
 	}
