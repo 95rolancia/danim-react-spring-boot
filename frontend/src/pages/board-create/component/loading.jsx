@@ -1,19 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import useBoardCreate from '../../../hooks/useBoardCreate';
+import { toJS } from 'mobx';
+import { observer } from 'mobx-react-lite';
 
-const Loading = (props) => {
-  const imsi = '나는 로딩';
+const Loading = observer((props) => {
+  const boardCreate = useBoardCreate();
+  if (
+    toJS(boardCreate.successImgNum) + toJS(boardCreate.errorImgNum) ===
+    toJS(boardCreate.totalImgNum)
+  ) {
+    boardCreate.changeLoading2MemoWrite();
+  }
+
   return (
     <>
-      <h1>{imsi}</h1>
-      <div>ㅇㄹㅇㅇㄹ</div>
-      <div>옠</div>
-      <div>옠</div>
-      <div>옠</div>
-      <div>옠</div>
-      <div>옠</div>
+      <h1>{boardCreate.title}의 사진을 로딩 중입니다.</h1>
+      <div>토탈 : {toJS(boardCreate.totalImgNum)}</div>
+      <div>성공 : {toJS(boardCreate.successImgNum)}</div>
+      <div>실패 : {toJS(boardCreate.errorImgNum)}</div>
       <div>옠</div>
     </>
   );
-};
+});
 
 export default Loading;

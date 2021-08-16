@@ -9,6 +9,7 @@ import {
   TextField,
   Fab,
 } from '@material-ui/core';
+import { useEffect } from 'react';
 
 const StoryCover = ({ boardCreate }) => {
   const coverImgUrl =

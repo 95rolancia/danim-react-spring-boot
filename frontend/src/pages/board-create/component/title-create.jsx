@@ -1,4 +1,6 @@
 import React from 'react';
+import useBoardCreate from '../../../hooks/useBoardCreate';
+import { observer } from 'mobx-react-lite';
 import {
   makeStyles,
   Button,
@@ -27,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TitleCreate = ({ boardCreate, onFileChange }) => {
+const TitleCreate = observer(({ boardCreate, onFileChange, onLoadingPage }) => {
   const classes = useStyles();
   const [defaultTitle, setDefaultTitle] = useState();
 
@@ -48,7 +50,7 @@ const TitleCreate = ({ boardCreate, onFileChange }) => {
   };
 
   const handleClick = (e) => {
-    boardCreate.handlePageChange();
+    boardCreate.handleLoading();
     onFileChange(e);
   };
 
@@ -91,6 +93,6 @@ const TitleCreate = ({ boardCreate, onFileChange }) => {
       </Box>
     </form>
   );
-};
+});
 
 export default TitleCreate;

@@ -62,12 +62,13 @@ const BoardCreate = observer(() => {
   };
 
   const handleFileChange = async (e) => {
-    boardCreate.resetImgErrSuccess();
+    boardCreate.resetImgErrSuccessNum();
+    boardCreate.setTotalImgNum(e.target.files.length);
     for (let i = 0; i < e.target.files.length; i++) {
       if (e.target.files[i]) {
         const exifData = await getMetaData(e.target.files[i]);
         if (!exifData) {
-          boardCreate.uploadImgErr();
+          boardCreate.uploadImgErrNum();
           console.log(e.target.files[i], 'gps 데이터 없는 파일');
           return;
         }
@@ -79,7 +80,6 @@ const BoardCreate = observer(() => {
             formData.append('date', exifData.dateTimeDigitized);
             formData.append('latitude', exifData.latitude);
             formData.append('longtitude', exifData.longtitude);
-            console.log(formData);
             handleStoryPhotoSubmit(formData);
           },
         });
@@ -94,7 +94,7 @@ const BoardCreate = observer(() => {
       .then((res) => {
         if (res) {
           console.log(res);
-          boardCreate.uploadImgSuccess();
+          boardCreate.uploadImgSuccessNum();
           boardCreate.sortTripDate(res.data.date);
           boardCreate.sortTripAddress(res.data.address);
 
@@ -116,27 +116,37 @@ const BoardCreate = observer(() => {
         }
       })
       .catch((err) => {
+        boardCreate.uploadImgErrNum();
         console.log(err);
       });
   };
 
-  return (
-    <>
-      <HeaderGoBack title="여행일기 작성" />
-      <Container maxWidth="xs" className={classes.root}>
-        {boardCreate.isFirstPage && (
-          <TitleCreate
-            boardCreate={boardCreate}
-            onFileChange={handleFileChange}
-          />
-        )}
-        {boardCreate.isLoading && <Loading />}
-        {!boardCreate.loading && !boardCreate.isFirstPage && (
+  if (boardCreate.isLoading) {
+    console.log('로딩짠!');
+    return <Loading />;
+  }
+
+  if (!boardCreate.isFirstPage) {
+    console.log('세컨드 페이지 짠!');
+    return (
+      <>
+        <HeaderGoBack title="여행일기 작성" />
+        <Container maxWidth="xs" className={classes.root}>
           <MemoWrite boardCreate={boardCreate} />
-        )}
-      </Container>
-    </>
-  );
+        </Container>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <HeaderGoBack title="여행일기 제목" />
+        <TitleCreate
+          boardCreate={boardCreate}
+          onFileChange={handleFileChange}
+        />
+      </>
+    );
+  }
 });
 
 export default BoardCreate;

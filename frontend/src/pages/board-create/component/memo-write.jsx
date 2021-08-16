@@ -15,10 +15,7 @@ const useStyles = makeStyles((theme) => ({
 
 const MemoWrite = ({ boardCreate }) => {
   const classes = useStyles();
-  // useEffect(() => {
-  //   boardCreate.photos.sort(boardCreate.sortPhotosByDate);
-  //   console.log('정렬실행', boardCreate.photos);
-  // }, []);
+  // useEffect(() => {}, [boardCreate.photos]);
 
   const watchPhoto = () => {
     console.log(toJS(boardCreate.title));

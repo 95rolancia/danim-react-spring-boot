@@ -6,17 +6,17 @@ class BoardCreateStore {
   duration = 0;
   photos = [];
   startDate = "";
-  status = "TEMP";
+  status = "";
   thumbnail = "";
   title = "";
 
-  errorImg = 0;
-  successImg = 0;
-
-  nickname = "danim";
-
+  totalImgNum = 0;
+  errorImgNum = 0;
+  successImgNum = 0;
   isFirstPage = true;
   isLoading = false;
+
+  nickname = "danim";
 
   tripDate = [];
   tripAddress = [];
@@ -25,6 +25,19 @@ class BoardCreateStore {
 
   constructor() {
     makeAutoObservable(this);
+  }
+
+  changeLoading2MemoWrite() {
+    this.isFirstPage = false;
+    this.isLoading = !this.isLoading
+  }
+
+  changePage2MemoWrite() {
+    this.isFirstPage = false;
+  }
+
+  handleLoading() {
+    this.isLoading = !this.isLoading
   }
 
   async setStoryPhoto(obj) {
@@ -148,28 +161,33 @@ class BoardCreateStore {
     this.tripAddress = [...addressSet].sort()
   }
 
-  handlePageChange() {
-    this.isFirstPage = false
-    this.isLoading = true
+  // handlePageChange() {
+  //   this.isFirstPage = false
+  //   this.isLoading = true
 
-      setTimeout(() => {
-        this.isLoading = false
-      }, 1000)
-    }
+  //     setTimeout(() => {
+  //       this.isLoading = false
+  //     }, 1000)
+  //   }
 
-  async resetImgErrSuccess() {
-    this.errorImg = 0
-    this.successImg = 0
-    return
+  async setTotalImgNum(num) {
+    this.totalImgNum = num
   }
 
-  async uploadImgErr() {
-    this.errorImg += 1
-    return
+  resetImgErrSuccessNum() {
+    console.log('넘버리셋!')
+    this.errorImgNum = 0
+    this.successImgNum = 0
   }
 
-  async uploadImgSuccess() {
-    this.successImg += 1
+  uploadImgErrNum() {
+    console.log('에러넘버추가!')
+    this.errorImgNum += 1
+  }
+
+  async uploadImgSuccessNum() {
+    this.successImgNum += 1
+    console.log('성공넘버추가!', this.successImgNum)
     return
   }
 
