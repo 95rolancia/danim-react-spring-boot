@@ -131,7 +131,7 @@ const BoardCreate = observer(() => {
     return (
       <>
         <HeaderGoBack title="여행일기 작성" />
-        <Container maxWidth="xs" className={classes.root}>
+        <Container Container className={classes.root}>
           <MemoWrite boardCreate={boardCreate} />
         </Container>
       </>
@@ -140,7 +140,9 @@ const BoardCreate = observer(() => {
     return (
       <>
         <HeaderGoBack title="여행일기 제목" />
-        <TitleCreate onFileChange={handleFileChange} />
+        <Container maxWidth="xs" className={classes.root}>
+          <TitleCreate onFileChange={handleFileChange} />
+        </Container>
       </>
     );
   }

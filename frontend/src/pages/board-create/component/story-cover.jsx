@@ -32,8 +32,8 @@ const StoryCover = observer((props) => {
     storyCoverBox: {
       backgroundImage: `url(${coverImgUrl})`,
       backgroundSize: 'cover',
-      height: '90vw',
-      width: '90vw',
+      height: '100% ',
+      width: '100%',
     },
     titleBox: {
       backgroundColor: 'rgba(0,0,0,0.6)',
@@ -59,7 +59,7 @@ const StoryCover = observer((props) => {
   };
 
   return (
-    <>
+    <Grid item xs={12}>
       <Box
         display="flex"
         flexDirection="column"
@@ -94,7 +94,7 @@ const StoryCover = observer((props) => {
           </Typography>
         </Box>
       </Box>
-    </>
+    </Grid>
   );
 });
 
