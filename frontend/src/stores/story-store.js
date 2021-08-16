@@ -1,4 +1,4 @@
-import { makeAutoObservable, runInAction } from 'mobx';
+import { makeAutoObservable } from 'mobx';
 import HttpStory from '../service/http-story';
 
 class StoryStore {
@@ -14,8 +14,8 @@ class StoryStore {
     this.lng = lng;
   }
 
-  async getStory(storyno) {
-    const res = await HttpStory.getStory(storyno);
+  async getStory(storyNo) {
+    const res = await HttpStory.getStory(storyNo);
     if (res.status !== 200) {
       return;
     }
@@ -34,6 +34,30 @@ class StoryStore {
     const res = await HttpStory.unlike(storyNo);
     if (res.status === 400) {
       return 'exist';
+    }
+    return true;
+  }
+
+  async getCommentList(storyNo) {
+    const res = await HttpStory.getCommentList(storyNo);
+    if (res.status !== 200) {
+      return;
+    }
+    return res.data;
+  }
+
+  async writeComment(comment) {
+    const res = await HttpStory.writeComment(comment);
+    if (res.status !== 200) {
+      return;
+    }
+    return true;
+  }
+
+  async deleteComment(comment) {
+    const res = await HttpStory.deleteComment(comment);
+    if (res.status !== 200) {
+      return;
     }
     return true;
   }

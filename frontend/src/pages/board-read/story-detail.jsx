@@ -7,27 +7,32 @@ import {
   DetailTab,
   ReplyList,
   LoveList,
+  ReplyField,
 } from './components';
-import { Divider } from '@material-ui/core';
+import { Divider, Box } from '@material-ui/core';
 
-const StoryDetail = observer(({ datas, no, handleLike }) => {
-  const story = useStory();
-
-  return (
-    <>
-      <DetailHeader num={no} />
-      <BoardDetailMap stories={datas} lat={story.lat} lng={story.lng} />
-      <DetailTab datas={datas} nickname={datas.nickname} />
-      <Divider />
-      <LoveList
-        love={datas.isLove}
-        loveCnt={datas.loveCount}
-        no={no}
-        handleLike={handleLike}
-      />
-      <ReplyList />
-    </>
-  );
-});
+const StoryDetail = observer(
+  ({ datas, no, handleLike, handleDelete, comments, handleComment }) => {
+    const story = useStory();
+    return (
+      <>
+        <DetailHeader num={no} />
+        <BoardDetailMap stories={datas} lat={story.lat} lng={story.lng} />
+        <DetailTab datas={datas} nickname={datas.nickname} />
+        <Divider />
+        <LoveList
+          love={datas.isLove}
+          loveCnt={datas.loveCount}
+          no={no}
+          handleLike={handleLike}
+        />
+        <ReplyList datas={comments} no={no} handleComment={handleComment} />
+        <Divider />
+        <ReplyField no={no} handleComment={handleComment} />
+        <Box component="span" m={3} />
+      </>
+    );
+  },
+);
 
 export default StoryDetail;
