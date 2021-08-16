@@ -19,7 +19,6 @@ import com.pd.danim.DTO.User;
 import com.pd.danim.Form.Request.BestRouteRequest;
 import com.pd.danim.Form.Request.PlaceRequest;
 import com.pd.danim.Form.Request.PlanRequest;
-import com.pd.danim.Form.Request.SubplanRequest;
 import com.pd.danim.Form.Response.PlaceDetailResponse;
 import com.pd.danim.Form.Response.PlaceResponse;
 import com.pd.danim.Form.Response.PlanResponse;
@@ -95,9 +94,11 @@ public class PlanServiceImpl implements PlanService {
 	@Override
 	public boolean insertPlan(PlanRequest planReq, HttpServletRequest httpServletReq) {
 		
-		final String requestTokenHeader = httpServletReq.getHeader("Authorization");
-		String userId = jwtUtil.getUsername(requestTokenHeader);
-		DanimId danim = danimRepo.findById(userId);
+//		final String requestTokenHeader = httpServletReq.getHeader("Authorization");
+//		String userId = jwtUtil.getUsername(requestTokenHeader);
+//		DanimId danim = danimRepo.findById(userId);
+//		User user = danim.getUser();
+		DanimId danim = danimRepo.findById("shining8543@naver.com");
 		User user = danim.getUser();
 		
 		Plan plan = new Plan();
@@ -111,18 +112,20 @@ public class PlanServiceImpl implements PlanService {
 		plan.setUser(user);
 		plan.setTitle(planReq.getTitle());
 		
+		PlaceRequest[][] placesReq = planReq.getPlaces();
+		
 		List<SubPlan> subplans = new ArrayList();
 		List<PlanPlace> places = new ArrayList();
-		for(SubplanRequest subplanReq : planReq.getSubplans()) {
+		for(int i=1; i<=placesReq.length; i++) {
 			SubPlan subplan = new SubPlan();
 			subplan.setPlan(plan);
-			subplan.setSeqNo(subplanReq.getSeqNo());
-			for(PlaceRequest placeReq : subplanReq.getPlaces()) {
+			subplan.setSeqNo(i);
+			for(int j=1; j<=placesReq[i].length; j++) {
 				PlanPlace planPlace = new PlanPlace();
-				planPlace.setLatitude(placeReq.getLatitude());
-				planPlace.setLongtitude(placeReq.getLongtitude());
-				planPlace.setPlaceName(placeReq.getName());
-				planPlace.setSeqNo(placeReq.getSeqNo());
+				planPlace.setLatitude(placesReq[i][j].getLatitude());
+				planPlace.setLongtitude(placesReq[i][j].getLongtitude());
+				planPlace.setPlaceName(placesReq[i][j].getName());
+				planPlace.setSeqNo(j);
 				planPlace.setSubplan(subplan);
 				places.add(planPlace);
 			}
