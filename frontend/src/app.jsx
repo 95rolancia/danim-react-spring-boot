@@ -14,7 +14,6 @@ import { StartLoading } from './components';
 import useAuth from './hooks/useAuth';
 import useUser from './hooks/useUser';
 import PrivateRoute from './routers/private-route';
-import PlanRoute from './routers/plan-route';
 import StoryRoute from './routers/story-route';
 import StoryDetailRoute from './routers/story-detail-route';
 
@@ -58,9 +57,6 @@ const App = observer(() => {
             </PrivateRoute>
             <PrivateRoute path="/create">
               <BoardCreate />
-            </PrivateRoute>
-            <PrivateRoute path="/plan">
-              <PlanRoute />
             </PrivateRoute>
             <StoryRoute path="/read/:no" />
             <StoryDetailRoute path="/detail/:no" />
