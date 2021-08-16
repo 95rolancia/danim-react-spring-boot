@@ -18,6 +18,7 @@ const StoryDetailRoute = observer(({ children, ...rest }) => {
   const [loading, setLoading] = useState(true);
   const [detailStory, setDetailStory] = useState({});
   const [storyNum, setStoryNum] = useState(0);
+
   const story = useStory();
 
   useEffect(() => {
@@ -44,6 +45,16 @@ const StoryDetailRoute = observer(({ children, ...rest }) => {
     });
   }, [rest.computedMatch.params.no, story]);
 
+  const handleLike = () => {
+    let loveCount = detailStory.loveCount;
+    if (!detailStory.isLove) {
+      loveCount += 1;
+    } else {
+      loveCount -= 1;
+    }
+    setDetailStory({ ...detailStory, isLove: !detailStory.isLove, loveCount });
+  };
+
   if (loading)
     return (
       <Backdrop className={classes.backdrop} open={loading}>
@@ -52,7 +63,15 @@ const StoryDetailRoute = observer(({ children, ...rest }) => {
     );
 
   return (
-    <Route render={() => <StoryDetail datas={detailStory} no={storyNum} />} />
+    <Route
+      render={() => (
+        <StoryDetail
+          datas={detailStory}
+          no={storyNum}
+          handleLike={handleLike}
+        />
+      )}
+    />
   );
 });
 
