@@ -6,7 +6,6 @@ import { Navbar } from '../../components';
 import AccountRoute from '../../routers/account-route';
 import MyPageRoute from '../../routers/my-page-route';
 import PlanRoute from '../../routers/plan-route';
-import PlaceInfo from '../place-info/place-info';
 
 const Main = () => {
   return (
