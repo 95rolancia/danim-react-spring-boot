@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -167,6 +168,7 @@ public class StoryServiceImpl implements StoryService {
 		
 			
 		LocalDateTime startDate = LocalDateTime.parse(input.getStartDate());
+		LocalDateTime startDateDays = startDate.truncatedTo(ChronoUnit.DAYS);
 		
 		story.setCreatedDate(LocalDateTime.now());
 		story.setStartDate(startDate);
@@ -189,7 +191,9 @@ public class StoryServiceImpl implements StoryService {
 			photo.setPlaceName(photoReq.getPlaceName());
 			photo.setContent(photoReq.getContent());
 			
-			seqNo = (int) Duration.between(startDate, LocalDateTime.parse(photoReq.getDate())).toDays();
+			LocalDateTime thisDays = LocalDateTime.parse(photoReq.getDate()).truncatedTo(ChronoUnit.DAYS);
+			
+			seqNo = thisDays.compareTo(startDateDays);
 			subStoryArr[seqNo].setUserNo(danim.getUserno());
 			subStoryArr[seqNo].setSeqNo(seqNo);
 			subStoryArr[seqNo].setStory(story);
