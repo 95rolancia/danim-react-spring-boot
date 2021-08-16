@@ -14,7 +14,6 @@ import { StartLoading } from './components';
 import useAuth from './hooks/useAuth';
 import useUser from './hooks/useUser';
 import PrivateRoute from './routers/private-route';
-import PlanRoute from './routers/plan-route';
 
 const App = observer(() => {
   const auth = useAuth();
@@ -56,9 +55,6 @@ const App = observer(() => {
             </PrivateRoute>
             <PrivateRoute path="/create">
               <BoardCreate />
-            </PrivateRoute>
-            <PrivateRoute path="/plan">
-              <PlanRoute />
             </PrivateRoute>
             <Route path="*">
               <NotFound />
