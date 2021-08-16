@@ -247,6 +247,7 @@ public class StoryServiceImpl implements StoryService {
 		storyDetail.setThumbnail(story.getThumbnail());
 		storyDetail.setTitle(story.getTitle());
 		storyDetail.setIsLove(isLove);
+		storyDetail.setLoveCount(story.getLoveCount());
 		
 		List<SubStory> subStoryList = subStoryRepo.findAllByStory(story);
 		
