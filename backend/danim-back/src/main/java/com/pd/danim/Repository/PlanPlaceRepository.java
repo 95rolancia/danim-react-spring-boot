@@ -9,4 +9,5 @@ import com.pd.danim.DTO.SubPlan;
 
 public interface PlanPlaceRepository extends CrudRepository<PlanPlace, Long> {
 	List<PlanPlace> findAllBySubplan(SubPlan subplan);
+	boolean deleteAllBySubplan(SubPlan subplan);
 }
