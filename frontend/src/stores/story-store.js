@@ -21,6 +21,22 @@ class StoryStore {
     }
     return res.data;
   }
+
+  async like(storyNo) {
+    const res = await HttpStory.like(storyNo);
+    if (res.status === 400) {
+      return 'exist';
+    }
+    return true;
+  }
+
+  async unlike(storyNo) {
+    const res = await HttpStory.unlike(storyNo);
+    if (res.status === 400) {
+      return 'exist';
+    }
+    return true;
+  }
 }
 
 export default new StoryStore();
