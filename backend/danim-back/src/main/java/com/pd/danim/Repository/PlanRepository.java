@@ -13,5 +13,5 @@ public interface PlanRepository extends CrudRepository<Plan, Long> {
 	List<Plan> findAllByUser(User user);
 	Plan findByPlanNo(long planNo);
 	@Transactional
-	boolean deleteByPlanNo(long planNo);
+	void deleteByPlanNo(long planNo);
 }
