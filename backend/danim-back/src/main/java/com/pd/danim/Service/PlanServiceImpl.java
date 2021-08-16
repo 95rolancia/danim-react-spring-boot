@@ -185,9 +185,7 @@ public class PlanServiceImpl implements PlanService {
 		
 		if(plan.getUser().getUserno()!=danim.getUserno())
 			return null;
-		
-		subPlanRepo.deleteAllByPlan(plan);
-		
+						
 		PlanResponse response = new PlanResponse();
 		
 		response.setStartDate(plan.getStartDate());
@@ -236,6 +234,17 @@ public class PlanServiceImpl implements PlanService {
 		User user = danim.getUser();
 		
 		Plan plan = planRepo.findByPlanNo(planNo);
+		
+			
+		List<SubPlan> subplanList = subPlanRepo.findAllByPlan(plan);
+		
+		for(SubPlan subplan : subplanList) {
+			planPlaceRepo.deleteAllBySubplan(subplan);
+		}
+		
+		subPlanRepo.deleteAllByPlan(plan);
+		
+		
 		
 		LocalDateTime startDate = LocalDateTime.parse(planReq.getStartDate());
 		LocalDateTime endDate = LocalDateTime.parse(planReq.getEndDate());
@@ -288,9 +297,21 @@ public class PlanServiceImpl implements PlanService {
 	@Override
 	public int deletePlan(long planNo, HttpServletRequest httpServletReq) {
 		
-		
 		if(!planRepo.existsById(planNo))
 			return 404;
+		
+		Plan plan = planRepo.findByPlanNo(planNo);
+		
+		List<SubPlan> subplanList = subPlanRepo.findAllByPlan(plan);
+		
+		for(SubPlan subplan : subplanList) {
+			planPlaceRepo.deleteAllBySubplan(subplan);
+		}
+		
+		subPlanRepo.deleteAllByPlan(plan);
+		
+		
+		
 			
 		planRepo.deleteById(planNo);
 		
