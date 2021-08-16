@@ -10,8 +10,7 @@ import {
   makeStyles,
 } from '@material-ui/core';
 import RoomIcon from '@material-ui/icons/Room';
-import HomeRoot from './components/home-root';
-import HomePic from './components/home-pic';
+import { HomeRoot, HomePic, MainHeader } from './components';
 import useUser from '../../hooks/useUser';
 import { observer } from 'mobx-react-lite';
 import { toJS } from 'mobx';
@@ -107,6 +106,7 @@ const Home = observer((props) => {
 
   return (
     <>
+      <MainHeader />
       <Box component="span" m={1}></Box>
       <div>
         <Button
