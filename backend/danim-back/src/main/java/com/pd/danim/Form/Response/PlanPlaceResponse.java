@@ -1,18 +1,13 @@
 package com.pd.danim.Form.Response;
 
 public class PlanPlaceResponse implements Comparable<PlanPlaceResponse>{
-	private long planPlaceNo;
+	
 	private String name;
 	private String address;
-	private String type;
-	private String thumbnail;
+	private String latitude;
+	private String longtitude;
 	private int seqNo;
-	public long getPlanPlaceNo() {
-		return planPlaceNo;
-	}
-	public void setPlanPlaceNo(long planPlaceNo) {
-		this.planPlaceNo = planPlaceNo;
-	}
+
 	public String getName() {
 		return name;
 	}
@@ -25,21 +20,18 @@ public class PlanPlaceResponse implements Comparable<PlanPlaceResponse>{
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public String getType() {
-		return type;
+	public String getLatitude() {
+		return latitude;
 	}
-	public void setType(String type) {
-		this.type = type;
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
 	}
-	public String getThumbnail() {
-		return thumbnail;
+	public String getLongtitude() {
+		return longtitude;
 	}
-	public void setThumbnail(String thumbnail) {
-		this.thumbnail = thumbnail;
+	public void setLongtitude(String longtitude) {
+		this.longtitude = longtitude;
 	}
-	
-	
-	
 	public int getSeqNo() {
 		return seqNo;
 	}
