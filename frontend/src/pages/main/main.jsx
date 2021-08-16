@@ -1,3 +1,4 @@
+import { Box } from '@material-ui/core';
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { Home, Search, Trip, Bookmark, Plan } from '../';
@@ -29,6 +30,7 @@ const Main = () => {
         </Route>
         <MyPageRoute path="/main/:nickname" />
       </Switch>
+      <Box component="span" m={10} />
       <Navbar />
     </>
   );
