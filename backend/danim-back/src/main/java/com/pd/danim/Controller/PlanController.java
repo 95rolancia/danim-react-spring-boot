@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,25 +43,20 @@ public class PlanController {
 				
 		return new ResponseEntity<PlaceDetailResponse>(response,HttpStatus.OK);
 	}
-
+	
+	
 	@PostMapping
-	public ResponseEntity<String> testPlan(@RequestPart("arr") PlaceRequest[][] arr, @RequestPart("startDate") String startDate, @RequestPart("endDate") String endDate, @RequestPart("title") String title, HttpServletRequest httpServletReq){
+	public ResponseEntity<String> writePlan(@RequestBody PlanRequest planReq, HttpServletRequest httpServletReq){
 		
-		PlanRequest planReq = new PlanRequest();
-		planReq.setPlaces(arr);
-		planReq.setTitle(title);
-		planReq.setEndDate(endDate);
-		planReq.setStartDate(startDate);
-		
-		
+				
 		if(!planService.insertPlan(planReq, httpServletReq)) {
 			return new ResponseEntity<String>("FAIL",HttpStatus.BAD_REQUEST);
 		}
-		
-		
-		
+				
 				
 		return new ResponseEntity<String>("SUCCESS",HttpStatus.OK);
 	}
+	
+
 	
 }
