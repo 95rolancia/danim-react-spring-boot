@@ -47,6 +47,44 @@ class HttpStory {
             throw new Error(`UnLike Error ${error.response}`);
         }
     }
+
+    async getCommentList(storyNo) {
+        try {
+            const res = await this.instance.get('/comment/' + storyNo);
+            return res;
+        } catch (error) {
+            const res = error.response;
+            console.log(res);
+            throw new Error(`CommentList Error ${error.response}`);
+        }
+    }
+
+    async writeComment(comment) {
+        try {
+            const res = await this.instance.post('/comment', comment);
+            return res;
+        } catch (error) {
+            const res = error.response;
+            console.log(res);
+            throw new Error(`WriteComment Error ${error.response}`);
+        }
+    }
+
+    async deleteComment(comment) {
+        try {
+            const res = await this.instance.delete('/comment', {
+                data: {
+                    commentNo: comment.commentNo,
+                    storyNo: comment.storyNo
+                }
+            });
+            return res;
+        } catch (error) {
+            const res = error.response;
+            console.log(res);
+            throw new Error(`DeleteComment Error ${error.response}`);
+        }
+    }
 }
 
 export default new HttpStory(instance);

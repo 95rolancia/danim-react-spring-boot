@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Route } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import useStory from '../hooks/useStory';
+import { StoryDetail } from '../pages';
 import { makeStyles } from '@material-ui/styles';
 import { Backdrop, CircularProgress } from '@material-ui/core';
-import { StoryDetail } from '../pages';
 
 const useStyle = makeStyles((theme) => ({
   backdrop: {
@@ -17,17 +17,17 @@ const StoryDetailRoute = observer(({ children, ...rest }) => {
   const classes = useStyle();
   const [loading, setLoading] = useState(true);
   const [detailStory, setDetailStory] = useState({});
+  const [commentList, setCommentList] = useState([]);
   const [storyNum, setStoryNum] = useState(0);
 
   const story = useStory();
+  const no = rest.computedMatch.params.no;
 
   useEffect(() => {
-    const no = rest.computedMatch.params.no;
     setStoryNum(no);
     story.getStory(no).then((res) => {
       if (res) {
         const data = res;
-
         for (let i = 0; i < data['substories'].length; i++) {
           for (let j = 0; j < data['substories'][i].photos.length; j++) {
             data['substories'][i].photos[j].latitude = Number(
@@ -38,8 +38,12 @@ const StoryDetailRoute = observer(({ children, ...rest }) => {
             );
           }
         }
-
         setDetailStory(data);
+        story.getCommentList(no).then((res) => {
+          if (res) {
+            setCommentList(res);
+          }
+        });
       }
       setLoading(false);
     });
@@ -53,6 +57,18 @@ const StoryDetailRoute = observer(({ children, ...rest }) => {
       loveCount -= 1;
     }
     setDetailStory({ ...detailStory, isLove: !detailStory.isLove, loveCount });
+  };
+
+  const handleDelete = () => {
+    setCommentList(...commentList);
+  };
+
+  const handleComment = () => {
+    story.getCommentList(no).then((res) => {
+      if (res) {
+        setCommentList(res);
+      }
+    });
   };
 
   if (loading)
@@ -69,6 +85,9 @@ const StoryDetailRoute = observer(({ children, ...rest }) => {
           datas={detailStory}
           no={storyNum}
           handleLike={handleLike}
+          handleDelete={handleDelete}
+          comments={commentList}
+          handleComment={handleComment}
         />
       )}
     />
