@@ -1,10 +1,12 @@
 import { Box } from '@material-ui/core';
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { Home, Search, Trip, Bookmark, Plan } from '../';
+import { Home, Search, Trip, Bookmark } from '../';
 import { Navbar } from '../../components';
 import AccountRoute from '../../routers/account-route';
 import MyPageRoute from '../../routers/my-page-route';
+import PlanRoute from '../../routers/plan-route';
+import PlaceInfo from '../place-info/place-info';
 
 const Main = () => {
   return (
@@ -26,7 +28,7 @@ const Main = () => {
           <AccountRoute />
         </Route>
         <Route path="/main/plan">
-          <Plan />
+          <PlanRoute />
         </Route>
         <MyPageRoute path="/main/:nickname" />
       </Switch>

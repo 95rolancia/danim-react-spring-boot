@@ -25,7 +25,7 @@ const Plan = observer(() => {
   const history = useHistory();
 
   const goToPlanMaker = () => {
-    history.push('/plan/date');
+    history.push('/main/plan/date');
   };
 
   return (
