@@ -192,7 +192,6 @@ class BoardCreateStore {
   }
 
   async uploadMemo(newMemo, address) {
-    console.log('업로드메모 실행!')
     const memo = newMemo
     for (let i = 0; i < this.photos.length; i++) {
       if (this.photos[i].address === address) {
