@@ -162,6 +162,7 @@ public class StoryServiceImpl implements StoryService {
 		SubStory[] subStoryArr = new SubStory[input.getDuration()];
 		for(int i=0;i<input.getDuration(); i++) {
 			subStoryArr[i] = new SubStory();
+			subStoryArr[i].setStory(story);
 		}
 		
 			
