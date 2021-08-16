@@ -1,6 +1,7 @@
 package com.pd.danim.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -16,4 +17,6 @@ public interface FollowRepository extends JpaRepository<Follow, Long>  {
 	boolean existsByFollowUserNoAndUser(long followUserNo, User user);
 	@Transactional
 	int deleteByFollowUserNoAndUser(long followUserNo, User user);
+	
+	Optional<Follow> findByFollowUserNoAndUser(long followUserNo, User user);
 }

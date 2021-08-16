@@ -1,5 +1,7 @@
 package com.pd.danim.Service;
 
+import java.util.Optional;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import com.pd.danim.DTO.DanimId;
 import com.pd.danim.DTO.Follow;
 import com.pd.danim.DTO.User;
 import com.pd.danim.Form.Request.FollowRequest;
+import com.pd.danim.Form.Request.NotificationRequest;
 import com.pd.danim.Repository.DanimRepository;
 import com.pd.danim.Repository.FollowRepository;
 import com.pd.danim.Repository.UserRepository;
@@ -28,6 +31,9 @@ public class FollowServiceImpl implements FollowService {
 
 	@Autowired
 	private JwtUtil jwtUtil;
+	
+	@Autowired
+	private NotificationService notiService;
 
 	@Override
 	public String setFollow(FollowRequest followRequestForm, HttpServletRequest httpServletRequest) {
@@ -46,17 +52,31 @@ public class FollowServiceImpl implements FollowService {
 			if (followUser != null) {
 				flag = followRepository.existsByFollowUserNoAndUser(followUser.getUserno(), user);
 			}
-
-			if (!flag) {
+			
+			
+			Optional<Follow> option = followRepository.findByFollowUserNoAndUser(followUser.getUserno(), user);
+			if(option.isPresent()) {
+				System.out.println("이미 있음");
+			}else {
+				System.out.println("없어");
 				Follow newFollow = new Follow();
 				newFollow.setFollowUserNo(followUser.getUserno());
 				newFollow.setUser(user);
 				followRepository.save(newFollow);
+				
+				NotificationRequest request = new NotificationRequest();
+				request.setToUserNickname(followUser.getNickname());
+				request.setIsRead(false);
+				request.setDataId(followUser.getNickname());
+				request.setType("follow");
+				notiService.saveNoti(request,user.getNickname());
+			}
+			
+			if (!flag) {
 				return "success";
 			} else {
 				return "exists";
 			}
-
 		} catch (NullPointerException e) {
 			return "null";
 
