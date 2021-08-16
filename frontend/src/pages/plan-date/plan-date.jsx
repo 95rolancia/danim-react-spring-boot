@@ -9,7 +9,7 @@ import { Button, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   planDate: {
-    height: '100vh',
+    height: '90%',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -36,7 +36,7 @@ const PlanDate = () => {
   ]);
 
   const choiceDate = () => {
-    history.push({ pathname: '/plan/area', state: { date: date[0] } });
+    history.push({ pathname: '/main/plan/area' });
   };
 
   return (
