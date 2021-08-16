@@ -1,4 +1,6 @@
 import React from 'react';
+import useBoardCreate from '../../../hooks/useBoardCreate';
+import { observer } from 'mobx-react-lite';
 import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
 import {
   makeStyles,
@@ -11,7 +13,9 @@ import {
 } from '@material-ui/core';
 import { useEffect } from 'react';
 
-const StoryCover = ({ boardCreate }) => {
+const StoryCover = observer((props) => {
+  const boardCreate = useBoardCreate();
+
   const coverImgUrl =
     boardCreate.imgBaseURL +
     boardCreate.nickname +
@@ -92,6 +96,6 @@ const StoryCover = ({ boardCreate }) => {
       </Box>
     </>
   );
-};
+});
 
 export default StoryCover;

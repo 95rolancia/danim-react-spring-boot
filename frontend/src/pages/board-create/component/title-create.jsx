@@ -29,7 +29,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TitleCreate = observer(({ boardCreate, onFileChange, onLoadingPage }) => {
+const TitleCreate = observer(({ onFileChange }) => {
+  const boardCreate = useBoardCreate();
   const classes = useStyles();
   const [defaultTitle, setDefaultTitle] = useState();
 
@@ -58,7 +59,7 @@ const TitleCreate = observer(({ boardCreate, onFileChange, onLoadingPage }) => {
     <form>
       <div className={classes.titleBox}>
         <Typography variant="h6" component="h6">
-          안녕하세요! <br></br>
+          안녕하세요! {boardCreate.nickname}님!<br></br>
           새로운 여행의 제목을 알려주세요.
         </Typography>
         <TextField

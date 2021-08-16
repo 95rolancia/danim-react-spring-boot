@@ -1,13 +1,15 @@
 import React from 'react';
+import useBoardCreate from '../../../hooks/useBoardCreate';
+import { observer } from 'mobx-react-lite';
 import { StoryDay } from './index';
 
-const StoryContents = ({ boardCreate }) => {
+const StoryContents = observer((props) => {
+  const boardCreate = useBoardCreate();
   return (
     <>
       <div>
         {boardCreate.tripDate.map((date) => (
           <StoryDay
-            boardCreate={boardCreate}
             date={date}
             key={date}
             photos={boardCreate.photos.filter(
@@ -18,6 +20,6 @@ const StoryContents = ({ boardCreate }) => {
       </div>
     </>
   );
-};
+});
 
 export default StoryContents;

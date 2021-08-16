@@ -1,5 +1,7 @@
 import { makeStyles } from '@material-ui/styles';
 import React from 'react';
+import useBoardCreate from '../../../hooks/useBoardCreate';
+import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import uuid from 'react-uuid';
@@ -14,7 +16,8 @@ import { StoryThumbnail, StoryByAdress } from './index';
 //   },
 // }));
 
-const StoryDay = ({ photos, date, boardCreate }) => {
+const StoryDay = observer(({ photos, date }) => {
+  const boardCreate = useBoardCreate();
   // const classes = useStyles();
 
   const [address2compare, setAddress2compare] = useState([]);
@@ -47,12 +50,11 @@ const StoryDay = ({ photos, date, boardCreate }) => {
             key={uuid()}
             photos={photos.filter((photo) => photo.address === address)}
             address={address}
-            boardCreate={boardCreate}
           />
         ))}
       </div>
     </>
   );
-};
+});
 
 export default StoryDay;

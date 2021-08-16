@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import useBoardCreate from '../../../hooks/useBoardCreate';
+import { observer } from 'mobx-react-lite';
 import { makeStyles } from '@material-ui/styles';
 import { StoryThumbnail, BoardPlaceMemo } from './index';
-import { Button } from '@material-ui/core';
+import { Button, Fab, Box, Typography, TextField } from '@material-ui/core';
+import CreateIcon from '@material-ui/icons/Create';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -12,7 +15,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const StoryByAdress = ({ photos, boardCreate, address }) => {
+const StoryByAdress = observer(({ photos, address }) => {
+  const boardCreate = useBoardCreate();
   const classes = useStyles();
   const [isPhoto, setIsPhoto] = useState(false);
   const [isShowSetting, setIsShowSetting] = useState(false);
@@ -35,7 +39,6 @@ const StoryByAdress = ({ photos, boardCreate, address }) => {
 
   const handleMemoChange = (e) => {
     const newMemo = e.target.value;
-    console.log('뉴메모?', newMemo);
     boardCreate.uploadMemo(newMemo, address);
   };
 
@@ -47,33 +50,43 @@ const StoryByAdress = ({ photos, boardCreate, address }) => {
     <>
       {isPhoto && (
         <>
-          <BoardPlaceMemo
-            address={address}
-            isShowSetting={isShowSetting}
-            hideSetting={hideSetting}
-            onMemoChange={handleMemoChange}
-            photos={photos}
-            boardCreate={boardCreate}
-          />
+          <Box display="flex" flexDirection="column">
+            <BoardPlaceMemo
+              address={address}
+              isShowSetting={isShowSetting}
+              hideSetting={hideSetting}
+              onMemoChange={handleMemoChange}
+              photos={photos}
+              boardCreate={boardCreate}
+            />
 
-          <div>{address}</div>
-          <Button onClick={showSetting} className={classes.button}>
-            메모
-          </Button>
-          <div>
-            {photos.map((photo) => (
-              <StoryThumbnail
-                key={photo.filename}
-                photo={photo}
-                boardCreate={boardCreate}
-              />
-            ))}
-          </div>
-          <div>메모 : {photos[0].content}</div>
+            <div>{address}</div>
+            {/* <Fab onClick={showSetting}>
+              <CreateIcon />
+            </Fab> */}
+            <Box>
+              {photos.map((photo) => (
+                <StoryThumbnail key={photo.filename} photo={photo} />
+              ))}
+            </Box>
+            <Box>
+              <form>
+                <TextField
+                  defaultValue={photos[0].content}
+                  fullWidth
+                  multiline
+                  onChange={handleMemoChange}
+                ></TextField>
+              </form>
+            </Box>
+            {/* <Box display="flex">
+              <Box>{photos[0].content}</Box>
+            </Box> */}
+          </Box>
         </>
       )}
     </>
   );
-};
+});
 
 export default StoryByAdress;

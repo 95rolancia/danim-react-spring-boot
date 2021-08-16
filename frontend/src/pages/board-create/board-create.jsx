@@ -140,10 +140,7 @@ const BoardCreate = observer(() => {
     return (
       <>
         <HeaderGoBack title="여행일기 제목" />
-        <TitleCreate
-          boardCreate={boardCreate}
-          onFileChange={handleFileChange}
-        />
+        <TitleCreate onFileChange={handleFileChange} />
       </>
     );
   }
