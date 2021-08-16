@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import useBoardCreate from '../../../hooks/useBoardCreate';
 import { observer } from 'mobx-react-lite';
 import { makeStyles } from '@material-ui/styles';
-import { StoryThumbnail, BoardPlaceMemo } from './index';
+import { StoryThumbnail } from './index';
 import { Button, Fab, Box, Typography, TextField } from '@material-ui/core';
 import CreateIcon from '@material-ui/icons/Create';
 
@@ -51,15 +51,6 @@ const StoryByAdress = observer(({ photos, address }) => {
       {isPhoto && (
         <>
           <Box display="flex" flexDirection="column">
-            <BoardPlaceMemo
-              address={address}
-              isShowSetting={isShowSetting}
-              hideSetting={hideSetting}
-              onMemoChange={handleMemoChange}
-              photos={photos}
-              boardCreate={boardCreate}
-            />
-
             <div>{address}</div>
             {/* <Fab onClick={showSetting}>
               <CreateIcon />
