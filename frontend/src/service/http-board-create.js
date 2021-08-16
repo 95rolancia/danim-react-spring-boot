@@ -18,6 +18,20 @@ class HttpBoardCreate {
       throw new Error(`set Stroy Photo error ${error}`);
     }
   }
+
+  async setStory(obj) {
+    try {
+      const res = await this.instance.post('/story', obj)
+      return res;
+    } catch (error) {
+      const res = error.response;
+      console.log(res)
+      if (res.status === 401) {
+        return res;
+      }
+      throw new Error(`set Stroy Photo error ${error}`)
+    }
+  }
   
 }
 

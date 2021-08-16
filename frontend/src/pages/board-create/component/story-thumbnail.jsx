@@ -10,9 +10,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const StoryThumbnail = ({ imgBaseURL, photo, nickname }) => {
+const StoryThumbnail = ({ photo, boardCreate }) => {
   const classes = useStyles();
-  const photoURL = imgBaseURL + nickname + '/' + photo.fileName;
+  const photoURL =
+    boardCreate.imgBaseURL + boardCreate.nickname + '/' + photo.filename;
 
   return (
     <>
