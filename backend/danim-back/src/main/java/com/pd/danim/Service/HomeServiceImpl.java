@@ -17,6 +17,7 @@ import com.pd.danim.DTO.Interest;
 import com.pd.danim.DTO.Photo;
 import com.pd.danim.DTO.Story;
 import com.pd.danim.DTO.User;
+import com.pd.danim.Form.Response.MyPopularResponse;
 import com.pd.danim.Form.Response.StoryResponse;
 import com.pd.danim.Repository.DanimRepository;
 import com.pd.danim.Repository.PhotoRepository;
@@ -43,8 +44,9 @@ public class HomeServiceImpl implements HomeService {
 	private StoryRepository storyRepository;
 
 	@Override
-	public Map<String,List<StoryResponse>> getMyPopularStory(HttpServletRequest httpServletRequest) {
-
+	public List<MyPopularResponse> getMyPopularStory(HttpServletRequest httpServletRequest) {
+		
+		
 		final String requestTokenHeader = httpServletRequest.getHeader("Authorization");
 		String userId = jwtUtil.getUsername(requestTokenHeader);
 
@@ -52,9 +54,13 @@ public class HomeServiceImpl implements HomeService {
 		User user = danim.getUser();
 
 		List<Interest> interests = user.getInterests();
-		Map<String,List<StoryResponse>> storyResponses = new HashMap<String,List<StoryResponse>>();
-
+//		Map<String,List<StoryResponse>> storyResponses = new HashMap<String,List<StoryResponse>>();
+		
+		List<MyPopularResponse> myPopularResponses = new ArrayList<MyPopularResponse>();
 		for (Interest interest : interests) {
+			
+			MyPopularResponse myPopularResponse = new MyPopularResponse();
+			myPopularResponse.setArea(interest.getArea());
 
 			List<Photo> photos = photoRepository.findAllByAddressContaining(interest.getArea());
 			List<Story> stories = new ArrayList<Story>();
@@ -103,11 +109,12 @@ public class HomeServiceImpl implements HomeService {
 				responses.add(storyResponse);
 			}
 			
-			storyResponses.put(interest.getArea(),responses);
-
+//			storyResponses.put(interest.getArea(),responses);
+			myPopularResponse.setStories(responses);
+			myPopularResponses.add(myPopularResponse);
 		}
 
-		return storyResponses;
+		return myPopularResponses;
 	}
 
 	@Override
