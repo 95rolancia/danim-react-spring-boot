@@ -63,6 +63,7 @@ public class CommentServiceImpl implements CommentService {
 		comment.setUser(danim.getUser());
 		commentRepo.save(comment);	
 		
+		User commentUser = userRepository.findByUserno(danim.getUserno());
 		//danim.getUser() => 댓글을 작성한 사람
 		//story의 getUser => 알람을 받을 사람
 		User user = userRepository.findByUserno(story.getUserNo());
@@ -71,7 +72,7 @@ public class CommentServiceImpl implements CommentService {
 		request.setIsRead(false);
 		request.setDataId(comment.getStory().getTitle());
 		request.setType("comment");
-		notiService.saveNoti(request,user.getNickname());
+		notiService.saveNoti(request,commentUser.getNickname());
 		
 		return 200;
 	}
