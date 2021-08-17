@@ -138,6 +138,15 @@ class HttpUser {
       throw new Error(`delete plan Error ${error.response}`);
     }
   }
+
+  async readNoti(notis) {
+    try {
+      const res = await this.instance.post(`/noti/read`, notis);
+      return res;
+    } catch (error) {
+      throw new Error(`read noti Error ${error.response}`);
+    }
+  }
 }
 
 export default new HttpUser(instance);
