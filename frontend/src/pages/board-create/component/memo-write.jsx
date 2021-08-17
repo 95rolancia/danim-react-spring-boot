@@ -22,7 +22,7 @@ const MemoWrite = observer(({ onFileChange }) => {
   const watchPhoto = () => {
     console.log(toJS(boardCreate.title));
     console.log(toJS(boardCreate.photos));
-    console.log(toJS(Date.parse(boardCreate.photos[0].date)));
+    console.log(toJS(boardCreate.tripDate));
   };
 
   const handleSubmitStory = () => {

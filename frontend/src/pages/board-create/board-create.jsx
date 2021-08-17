@@ -104,7 +104,7 @@ const BoardCreate = observer(() => {
             latitude: res.data.latitude,
             longtitude: res.data.longtitude,
             placeName: res.data.placeName,
-            tag: 'ALL',
+            tag: 'NONE',
           };
           boardCreate.addPhoto(obj);
 

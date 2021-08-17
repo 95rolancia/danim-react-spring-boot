@@ -2,29 +2,18 @@ import React, { useState, useEffect, useRef } from 'react';
 import { toJS } from 'mobx';
 import useBoardCreate from '../../../hooks/useBoardCreate';
 import { observer } from 'mobx-react-lite';
-// import { makeStyles } from '@material-ui/styles';
-import { StoryThumbnail } from './index';
 import {
   makeStyles,
   Box,
   ImageList,
   ImageListItem,
   TextField,
-  Chip,
-  ListSubheader,
   ImageListItemBar,
   IconButton,
-  Button,
   Menu,
   MenuItem,
-  List,
-  ListItem,
-  ListItemText,
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import LocalOfferIcon from '@material-ui/icons/LocalOffer';
-
-const tagOptions = ['ALL', 'FOOD', 'SCENERY', 'PERSON'];
 
 const useStyles = makeStyles((theme) => ({
   imageList: {
@@ -80,7 +69,6 @@ const StoryByAdress = observer(({ photos, address }) => {
   };
 
   const handleClickTag = (str, photo) => {
-    console.log(str, toJS(photo));
     boardCreate.changeTag(str, photo);
     setAnchorEl(null);
   };
@@ -88,13 +76,14 @@ const StoryByAdress = observer(({ photos, address }) => {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  // const saveAddressMemoAtPhoto = (photo) => {
-
-  // }
+  const deletePhoto = (photo) => {
+    boardCreate.deletePhoto(photo);
+  };
 
   return (
     <>
@@ -124,7 +113,6 @@ const StoryByAdress = observer(({ photos, address }) => {
                       ref={imgRef}
                     />
                     <ImageListItemBar
-                      // title={`# ${photo.tag}`}
                       actionPosition="left"
                       actionIcon={
                         <>
@@ -155,9 +143,9 @@ const StoryByAdress = observer(({ photos, address }) => {
                             }}
                           >
                             <MenuItem
-                              onClick={() => handleClickTag('ALL', photo)}
+                              onClick={() => handleClickTag('NONE', photo)}
                             >
-                              All
+                              NONE
                             </MenuItem>
                             <MenuItem
                               onClick={() => handleClickTag('PERSON', photo)}
@@ -182,7 +170,7 @@ const StoryByAdress = observer(({ photos, address }) => {
                     <ImageListItemBar
                       position="top"
                       actionIcon={
-                        <IconButton>
+                        <IconButton onClick={() => deletePhoto(photo)}>
                           <CloseIcon className={classes.deleteIcon} />
                         </IconButton>
                       }
@@ -192,9 +180,6 @@ const StoryByAdress = observer(({ photos, address }) => {
                   </ImageListItem>
                 ))}
               </ImageList>
-              {/* {photos.map((photo) => (
-                <StoryThumbnail key={photo.filename} photo={photo} />
-              ))} */}
             </Box>
             <Box>
               <form>

@@ -113,19 +113,19 @@ class BoardCreateStore {
     }
   }
 
-  addPhoto(photo) {
+  async addPhoto(photo) {
     if (this.photos.length === 0) {
+      console.log('사진 추가중, 첫번째 사진 추가')
       this.photos = [photo]
     } else {
-      if (Date.parse(this.photos[0].date) > Date.parse(photo.date)) {
+      if (Date.parse(this.photos[0].date) >= Date.parse(photo.date)) {
         this.photos = [photo, ...this.photos]
       } else if (Date.parse(this.photos[this.photos.length - 1].date) < Date.parse(photo.date)) {
         this.photos = [...this.photos, photo]
       } else {
-        for (let i = 1; i < (this.photos.length - 1); i++) {
-          if (Date.parse(this.photos[i].date) > Date.parse(photo.date)) {
+        for (let i = 1; i < (this.photos.length); i++) {
+          if (Date.parse(this.photos[i].date) >= Date.parse(photo.date)) {
             this.photos = [...this.photos.slice(0, i), photo, ...this.photos.slice(i)]
-            // this.photos = this.photos.slice(0, i) + [photo] + this.photos.slice(i)
             break;
           }
         }
@@ -185,8 +185,40 @@ class BoardCreateStore {
 
   changeTag(str, targetPhoto) {
     const tempIndex = this.photos.findIndex(photo => photo.filename === targetPhoto.filename)
-    console.log(tempIndex)
     this.photos[tempIndex].tag = str
+  }
+
+  deletePhoto(targetPhoto) {
+    const tempIndex = this.photos.findIndex(photo => photo.filename === targetPhoto.filename)
+    this.photos.splice(tempIndex, 1)
+
+    runInAction(() => {
+      if (targetPhoto.filename === this.thumbnail) {
+        this.thumbnail = this.photos[0].filename
+      }
+
+      const tempDateIndex = this.tripDate.findIndex(date => date === targetPhoto.date.slice(0, 10))
+      console.log(this.photos.slice(tempDateIndex)[0])
+      
+      if (tempIndex === 0 && this.photos[tempIndex].date.slice(0, 10) !== targetPhoto.date.slice(0, 10)) {
+        this.tripDate.splice(tempDateIndex, 1)
+      } else if (tempIndex === (this.photos.length) && this.photos[tempIndex-1].date.slice(0, 10) !== targetPhoto.date.slice(0, 10)) {
+        console.log('나는 템프인덱스', tempIndex)
+        console.log('나는 포토', this.photos)
+        this.tripDate.splice(tempDateIndex, 1)
+      } else {
+        if (this.photos[tempIndex - 1].date.slice(0, 10) !== targetPhoto.date.slice(0, 10) && this.photos[tempIndex].date.slice(0, 10) !== targetPhoto.date.slice(0, 10)) {
+          this.tripDate.splice(tempDateIndex, 1)
+        }
+      }
+      // if (!this.tripDate.includes(targetPhoto.date)) {
+      //   console.log('나는 타겟 포토 데이트', targetPhoto.date.slice(0, 10))
+      //   console.log('나는 트립 데이트', this.tripDate)
+      //   const tempDateIndex = this.tripDate.findIndex(date => date === targetPhoto.date.slice(0, 10))
+      //   console.log(tempDateIndex)
+      //   this.tripDate.splice(tempDateIndex, 1)
+      // }
+    })
   }
 }
 
