@@ -70,7 +70,7 @@ const BoardDetailMap = ({ stories, lat, lng }) => {
               <AnyReactComponent
                 lat={place.latitude}
                 lng={place.longtitude}
-                key={place.latitude}
+                key={place.photoNo}
               />
             );
           });
