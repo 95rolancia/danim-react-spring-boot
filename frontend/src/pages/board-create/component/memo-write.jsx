@@ -41,7 +41,7 @@ const MemoWrite = observer(({ onFileChange }) => {
       photos: toJS(boardCreate.photos),
       startDate: toJS(boardCreate.photos[0].date),
       status: 'PUBLISHED',
-      thumbnail: toJS(boardCreate.photos[0].filename),
+      thumbnail: toJS(boardCreate.thumbnail),
       title: toJS(boardCreate.title),
     };
     console.log(obj);
@@ -67,7 +67,7 @@ const MemoWrite = observer(({ onFileChange }) => {
       photos: toJS(boardCreate.photos),
       startDate: toJS(boardCreate.photos[0].date),
       status: 'TEMP',
-      thumbnail: toJS(boardCreate.photos[0].filename),
+      thumbnail: toJS(boardCreate.thumbnail),
       title: toJS(boardCreate.title),
     };
     console.log(obj);
