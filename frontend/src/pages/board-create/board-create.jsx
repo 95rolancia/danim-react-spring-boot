@@ -132,7 +132,7 @@ const BoardCreate = observer(() => {
       <>
         <HeaderGoBack title="여행일기 작성" />
         <Container Container className={classes.root}>
-          <MemoWrite boardCreate={boardCreate} />
+          <MemoWrite onFileChange={handleFileChange} />
         </Container>
       </>
     );

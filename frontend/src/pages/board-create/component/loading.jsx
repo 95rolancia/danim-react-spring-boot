@@ -9,7 +9,9 @@ const Loading = observer((props) => {
     toJS(boardCreate.successImgNum) + toJS(boardCreate.errorImgNum) ===
     toJS(boardCreate.totalImgNum)
   ) {
-    boardCreate.changeLoading2MemoWrite();
+    setTimeout(() => {
+      boardCreate.changeLoading2MemoWrite();
+    }, 500);
   }
 
   return (
