@@ -24,6 +24,9 @@ const useStyles = makeStyles((theme) => ({
   logout: {
     color: 'red',
   },
+  title: {
+    fontFamily: 'MingukBold',
+  },
 }));
 
 const Setting = ({ isShowSetting, hideSetting, history, nickname }) => {
@@ -46,7 +49,7 @@ const Setting = ({ isShowSetting, hideSetting, history, nickname }) => {
         <Toolbar>
           <IconButton
             className={classes.menuButton}
-            color="inherit"
+            color="secondary"
             onClick={hideSetting}
             aria-label="close"
           >
