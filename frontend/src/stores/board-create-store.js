@@ -211,14 +211,22 @@ class BoardCreateStore {
           this.tripDate.splice(tempDateIndex, 1)
         }
       }
-      // if (!this.tripDate.includes(targetPhoto.date)) {
-      //   console.log('나는 타겟 포토 데이트', targetPhoto.date.slice(0, 10))
-      //   console.log('나는 트립 데이트', this.tripDate)
-      //   const tempDateIndex = this.tripDate.findIndex(date => date === targetPhoto.date.slice(0, 10))
-      //   console.log(tempDateIndex)
-      //   this.tripDate.splice(tempDateIndex, 1)
-      // }
     })
+  }
+
+  calculateDayNum(targetDate) {
+    const tempDateIndex = this.tripDate.findIndex(date => date === targetDate)
+    const translateDate = [
+      '첫째', '둘째', '셋째', '넷째', '다섯째', '여섯째', '일곱째', '여덟째', '아홉째', '열째', '열한째', '열두째'
+    ]
+    return translateDate[tempDateIndex]
+  }
+
+  calculatePrettyDate(targetDate) {
+    const year = targetDate.slice(2,4)
+    const month = targetDate.slice(5,7)
+    const day = targetDate.slice(8, 10)
+    return [year, month, day]
   }
 }
 
