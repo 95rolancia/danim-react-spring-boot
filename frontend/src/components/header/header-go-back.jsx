@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
   menuButton: {
     marginRight: theme.spacing(2),
+    color: '#F5F5F5',
   },
   title: {
     flexGrow: 1,
@@ -35,7 +36,6 @@ const HeaderGoBack = ({ title }) => {
         <Toolbar>
           <IconButton
             className={classes.menuButton}
-            color="inherit"
             aria-label="go-back"
             onClick={goBack}
           >
