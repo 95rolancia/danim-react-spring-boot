@@ -10,6 +10,7 @@ import java.util.PriorityQueue;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.pd.danim.DTO.DanimId;
@@ -17,6 +18,8 @@ import com.pd.danim.DTO.Interest;
 import com.pd.danim.DTO.Photo;
 import com.pd.danim.DTO.Story;
 import com.pd.danim.DTO.User;
+import com.pd.danim.Form.Response.MyPopularPhotoResponse;
+import com.pd.danim.Form.Response.MyPopularResponse;
 import com.pd.danim.Form.Response.StoryResponse;
 import com.pd.danim.Repository.DanimRepository;
 import com.pd.danim.Repository.PhotoRepository;
@@ -43,8 +46,9 @@ public class HomeServiceImpl implements HomeService {
 	private StoryRepository storyRepository;
 
 	@Override
-	public Map<String,List<StoryResponse>> getMyPopularStory(HttpServletRequest httpServletRequest) {
-
+	public List<MyPopularResponse> getMyPopularStory(HttpServletRequest httpServletRequest) {
+		
+		
 		final String requestTokenHeader = httpServletRequest.getHeader("Authorization");
 		String userId = jwtUtil.getUsername(requestTokenHeader);
 
@@ -52,9 +56,13 @@ public class HomeServiceImpl implements HomeService {
 		User user = danim.getUser();
 
 		List<Interest> interests = user.getInterests();
-		Map<String,List<StoryResponse>> storyResponses = new HashMap<String,List<StoryResponse>>();
-
+//		Map<String,List<StoryResponse>> storyResponses = new HashMap<String,List<StoryResponse>>();
+		
+		List<MyPopularResponse> myPopularResponses = new ArrayList<MyPopularResponse>();
 		for (Interest interest : interests) {
+			
+			MyPopularResponse myPopularResponse = new MyPopularResponse();
+			myPopularResponse.setArea(interest.getArea());
 
 			List<Photo> photos = photoRepository.findAllByAddressContaining(interest.getArea());
 			List<Story> stories = new ArrayList<Story>();
@@ -103,11 +111,12 @@ public class HomeServiceImpl implements HomeService {
 				responses.add(storyResponse);
 			}
 			
-			storyResponses.put(interest.getArea(),responses);
-
+//			storyResponses.put(interest.getArea(),responses);
+			myPopularResponse.setStories(responses);
+			myPopularResponses.add(myPopularResponse);
 		}
 
-		return storyResponses;
+		return myPopularResponses;
 	}
 
 	@Override
@@ -133,5 +142,47 @@ public class HomeServiceImpl implements HomeService {
 		}
 		return responses;
 	}
+
+	@Override
+	public List<MyPopularPhotoResponse> getMyPopularPhoto(HttpServletRequest httpServletRequest) {
+		
+		
+		
+		final String requestTokenHeader = httpServletRequest.getHeader("Authorization");
+		String userId = jwtUtil.getUsername(requestTokenHeader);
+
+		DanimId danim = danimRepository.findById(userId);
+		User user = danim.getUser();
+
+		List<Interest> interests = user.getInterests();
+		Sort sort = sortByDate();
+		List<MyPopularPhotoResponse> responses = new ArrayList<>();
+		
+		for (Interest interest : interests) {
+			
+			List<Photo> photos = photoRepository.findTop20ByAddressContaining(interest.getArea(), sort);
+			
+			for (Photo photo : photos) {
+				MyPopularPhotoResponse response = new MyPopularPhotoResponse();
+				response.setFilePath(photo.getFilename());
+				response.setPhotoNo(photo.getPhotoNo());
+				response.setStoryNo(photo.getStory().getStoryNo());
+				response.setTag(photo.getTag());
+				User storyUser = userRepository.findByUserno(photo.getStory().getUserNo());
+				response.setUserNickname(storyUser.getNickname());
+				responses.add(response);
+			}
+			
+		}
+		
+		return responses;
+	}
+	
+	private Sort sortByDate() {
+		return Sort.by(Sort.Direction.DESC, "date");
+	}
+	
+	
+	
 
 }

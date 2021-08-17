@@ -10,7 +10,6 @@ import {
   Backdrop,
   CircularProgress,
 } from '@material-ui/core';
-import { Room, DoubleArrow } from '@material-ui/icons';
 import { HomeRoot, HomePic, MainHeader } from './components';
 import useUser from '../../hooks/useUser';
 import useMainPage from '../../hooks/useMainPage';
@@ -52,14 +51,26 @@ const options = ['여행루트', '여행사진'];
 const useStyles = makeStyles((theme) => ({
   title: {
     fontFamily: 'MingukBold',
+    color: '#F5F5F5',
   },
-  icon: {
-    marginLeft: theme.spacing(2),
-    marginRight: theme.spacing(2),
-    color: '#667580',
+  option: {
+    fontFamily: 'MingukBold',
+    textDecoration: 'underline',
+  },
+  desc: {
+    fontFamily: 'MingukBold',
+    color: '#36434C',
   },
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
+  },
+  root: {
+    textAlign: 'center',
+  },
+  imgDaniBear: {
+    width: '5em',
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
   },
 }));
 const Home = observer((props) => {
@@ -105,7 +116,7 @@ const Home = observer((props) => {
         setInterestArray(userInterestArray);
         let userInterest = '';
         for (let interest of userInterestArray) {
-          userInterest += interest;
+          userInterest += '#' + interest + ' ';
         }
         setInterestRegions(userInterest);
         mainContents.getPopularStory().then((res) => {
@@ -133,47 +144,55 @@ const Home = observer((props) => {
     <>
       <MainHeader />
       <Box component="span" m={1}></Box>
-      <div>
-        <Button
-          variant="outlined"
-          color="primary"
-          startIcon={<Room color="primary" />}
-          onClick={goToInterestModify}
-        >
-          <Typography variant="h5" component="span" className={classes.title}>
-            {interestRegions}
-          </Typography>
-        </Button>
-        <DoubleArrow className={classes.icon} />
-        <Button
-          variant="outlined"
-          color="secondary"
-          aria-controls="simple-menu"
-          aria-haspopup="true"
-          onClick={openMenu}
-        >
-          <Typography variant="h5" component="span" className={classes.title}>
-            #{selectOptionValue}
-          </Typography>
-        </Button>
-        <Menu
-          id="simple-menu"
-          anchorEl={menu}
-          keepMounted
-          open={Boolean(menu)}
-          onClose={handleClose}
-        >
-          {options.map((option, index) => (
-            <MenuItem
-              key={option}
-              onClick={(e) => handleMenuItem(e, index)}
-              selected={index === selectOptionIndex}
+      <div className={classes.root}>
+        <div>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={goToInterestModify}
+          >
+            <Typography variant="h6" component="span" className={classes.title}>
+              {interestRegions}
+            </Typography>
+          </Button>
+        </div>
+        <div>
+          <Button
+            color="secondary"
+            aria-controls="simple-menu"
+            aria-haspopup="true"
+            onClick={openMenu}
+          >
+            <Typography
+              variant="h6"
+              component="span"
+              className={classes.option}
             >
-              {option}
-            </MenuItem>
-          ))}
-        </Menu>
+              {selectOptionValue}
+            </Typography>
+          </Button>
+          <Typography variant="h6" component="span" className={classes.desc}>
+            보여드릴게요.
+          </Typography>
+        </div>
       </div>
+      <Menu
+        id="simple-menu"
+        anchorEl={menu}
+        keepMounted
+        open={Boolean(menu)}
+        onClose={handleClose}
+      >
+        {options.map((option, index) => (
+          <MenuItem
+            key={option}
+            onClick={(e) => handleMenuItem(e, index)}
+            selected={index === selectOptionIndex}
+          >
+            {option}
+          </MenuItem>
+        ))}
+      </Menu>
       <Box component="span" m={1}></Box>
       {selectOptionValue === '여행루트' ? (
         <HomeRoot

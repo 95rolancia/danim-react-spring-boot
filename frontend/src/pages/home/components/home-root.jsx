@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Box, Typography, makeStyles } from '@material-ui/core';
+import { Typography, makeStyles } from '@material-ui/core';
 import Slider from '../../../components/slider/slider';
 import { useState } from 'react';
 const useStyles = makeStyles((theme) => ({
@@ -18,31 +18,23 @@ const useStyles = makeStyles((theme) => ({
   interestSub: {
     marginLeft: theme.spacing(1),
     fontFamily: 'MingukBold',
+    color: '#36434C',
   },
 }));
 const HomeRoot = ({ popularContents, contents }) => {
   const classes = useStyles();
-  const [keys, setKeys] = useState([]);
-
-  useEffect(() => {
-    let datas = [];
-    Object.keys(contents).forEach((key) => {
-      datas.push(key);
-    });
-    setKeys(datas);
-  }, [contents, popularContents]);
 
   return (
     <>
-      {keys.map((key) => (
-        <div key={key}>
+      {contents.map((content) => (
+        <div key={content.area}>
           <Typography
             variant="h5"
             component="span"
             color="primary"
             className={classes.interest}
           >
-            {key}
+            {content.area}
           </Typography>
           <Typography
             variant="h5"
@@ -52,7 +44,8 @@ const HomeRoot = ({ popularContents, contents }) => {
             인기 Story
           </Typography>
           <div className={classes.marginBottom}></div>
-          <Slider className={classes.marginBottom} datas={contents[key]} />
+          <Slider className={classes.marginBottom} datas={content.stories} />
+          <div className={classes.marginBottom}></div>
         </div>
       ))}
 
