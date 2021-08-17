@@ -102,7 +102,6 @@ const PlanArea = observer(() => {
   const handleClickOpen = () => {
     let canISubmit = true;
     let plans = toJS(plan.subPlans);
-    console.log(plans);
 
     for (let i = 0; i < plans.length; i++) {
       if (plans[i].length === 0) {
