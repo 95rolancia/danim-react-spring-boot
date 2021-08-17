@@ -9,6 +9,7 @@ import {
   CardActionArea,
   CardContent,
   CardMedia,
+  Typography,
 } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
@@ -22,6 +23,10 @@ const useStyles = makeStyles((theme) => ({
   media: {
     height: '16em',
   },
+  empty: {
+    height: '5em',
+    textAlign: 'center',
+  },
 }));
 
 const Slider = ({ datas }) => {
@@ -32,29 +37,42 @@ const Slider = ({ datas }) => {
     history.push('/read/' + storyNo);
   };
   return (
-    <Swiper
-      className={classes.slides}
-      spaceBetween={10}
-      slidesPerView={2}
-      onClick={(swiper) => readStory(datas[swiper.clickedIndex].storyNum)}
-    >
-      {datas.map((data) => (
-        <SwiperSlide key={data.storyNum}>
-          <Card className={classes.slide}>
-            <CardActionArea>
-              <CardMedia
-                className={classes.media}
-                image={data.thumbnail}
-                title="게시글 사진"
-              />
-              <CardContent>
-                <CardSlide data={data} />
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        </SwiperSlide>
-      ))}
-    </Swiper>
+    <>
+      {!datas.length ? (
+        <div className={classes.empty}>
+          <Typography>해당 지역에는 아직 스토리가 없습니다.</Typography>
+        </div>
+      ) : (
+        <Swiper
+          className={classes.slides}
+          spaceBetween={10}
+          slidesPerView={2}
+          onClick={(swiper) => readStory(datas[swiper.clickedIndex].storyNo)}
+        >
+          {datas.map((data, index) => (
+            <SwiperSlide key={index}>
+              <Card className={classes.slide}>
+                <CardActionArea>
+                  <CardMedia
+                    className={classes.media}
+                    image={
+                      process.env.REACT_APP_IMAGE_BASE_URL +
+                      data.nickname +
+                      '/' +
+                      data.thumbnail
+                    }
+                    title="게시글 사진"
+                  />
+                  <CardContent>
+                    <CardSlide data={data} />
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      )}
+    </>
   );
 };
 
