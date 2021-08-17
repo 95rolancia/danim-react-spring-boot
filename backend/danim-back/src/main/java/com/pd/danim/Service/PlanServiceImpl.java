@@ -89,7 +89,8 @@ public class PlanServiceImpl implements PlanService {
 		response.setLatitude(place.getLatitude());
 		response.setLongtitude(place.getLongtitude());
 		response.setName(place.getName());
-		response.setType(place.getType());		
+		response.setType(place.getType());
+		response.setPlaceNo(place.getPlaceNo());
 		
 		return response;
 		
@@ -129,6 +130,7 @@ public class PlanServiceImpl implements PlanService {
 				planPlace.setPlaceName(placesReq[i][j].getName());
 				planPlace.setSeqNo(j+1);
 				planPlace.setSubplan(subplan);
+				planPlace.setPlaceNo(placesReq[i][j].getPlaceNo());
 				places.add(planPlace);
 			}
 			
@@ -210,6 +212,7 @@ public class PlanServiceImpl implements PlanService {
 				placeRes.setSeqNo(place.getSeqNo());
 				placeRes.setLatitude(place.getLatitude());
 				placeRes.setLongtitude(place.getLongtitude());
+				placeRes.setPlaceNo(place.getPlaceNo());
 				places.add(placeRes);
 			}
 			Collections.sort(places);
