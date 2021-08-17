@@ -5,6 +5,7 @@ public class PlaceRequest {
 	private String longtitude;
 	private String name;
 	private int seqNo;
+	private long placeNo;
 	private String type;
 	public String getLatitude() {
 		return latitude;
@@ -35,6 +36,12 @@ public class PlaceRequest {
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+	public long getPlaceNo() {
+		return placeNo;
+	}
+	public void setPlaceNo(long placeNo) {
+		this.placeNo = placeNo;
 	}	
 	
 	

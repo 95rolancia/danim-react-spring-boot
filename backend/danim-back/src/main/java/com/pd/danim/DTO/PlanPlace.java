@@ -40,6 +40,8 @@ public class PlanPlace {
 	@Column(name="address")
 	private String address;
 	
+	@JoinColumn(name="place_no")
+	private long placeNo;
 	
 	
 	public String getAddress() {
@@ -96,6 +98,14 @@ public class PlanPlace {
 
 	public void setSeqNo(int seqNo) {
 		this.seqNo = seqNo;
+	}
+
+	public long getPlaceNo() {
+		return placeNo;
+	}
+
+	public void setPlaceNo(long placeNo) {
+		this.placeNo = placeNo;
 	}
 	
 	

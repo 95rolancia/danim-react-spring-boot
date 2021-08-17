@@ -7,6 +7,7 @@ public class PlaceDetailResponse {
 	private String type;
 	private String latitude;
 	private String longtitude;
+	private long placeNo;
 	public String getName() {
 		return name;
 	}
@@ -42,6 +43,12 @@ public class PlaceDetailResponse {
 	}
 	public void setLongtitude(String longtitude) {
 		this.longtitude = longtitude;
+	}
+	public long getPlaceNo() {
+		return placeNo;
+	}
+	public void setPlaceNo(long placeNo) {
+		this.placeNo = placeNo;
 	}
 	
 	
