@@ -85,7 +85,7 @@ const StoryCover = observer((props) => {
           <Box
             display="flex"
             flexDirection="row"
-            justifyContent="flex-end"
+            justifyContent="flex-start"
             p={1}
             className={classes.buttonBox}
           >

@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     position: 'absolute',
-    left: '45%',
+    left: '35%',
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -50,10 +50,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
-
 const CoverImageChange = observer(({ isShowSetting, hideSetting }) => {
   const boardCreate = useBoardCreate();
   const classes = useStyles();
@@ -74,9 +70,8 @@ const CoverImageChange = observer(({ isShowSetting, hideSetting }) => {
       fullScreen={fullScreen}
       open={isShowSetting}
       onClose={hideSetting}
-      TransitionComponent={Transition}
     >
-      <AppBar className={classes.appBar}>
+      <AppBar className={classes.appBar} color="transparent">
         <Toolbar>
           <IconButton
             className={classes.menuButton}

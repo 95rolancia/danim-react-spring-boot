@@ -88,7 +88,7 @@ const MemoWrite = observer(({ onFileChange }) => {
 
   return (
     <>
-      <Box display="flex" flexDirection="row-reverse">
+      {/* <Box>
         <input
           type="file"
           id="input-file"
@@ -107,7 +107,7 @@ const MemoWrite = observer(({ onFileChange }) => {
             사진추가 임시버튼
           </Fab>
         </label>
-      </Box>
+      </Box> */}
       <StoryCover />
       <StoryContents />
       <Button onClick={watchPhoto}>포토보자</Button>
