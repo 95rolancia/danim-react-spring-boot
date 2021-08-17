@@ -90,7 +90,6 @@ class UserStore {
 
   async getPlan() {
     const res = await HttpUser.getPlans();
-    console.log(res.data);
     runInAction(() => {
       this.plans = res.data;
     });

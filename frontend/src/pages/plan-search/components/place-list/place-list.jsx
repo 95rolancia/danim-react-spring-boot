@@ -7,7 +7,6 @@ import List from '@material-ui/core/List';
 
 const PlaceList = observer(() => {
   const search = useSearch();
-  console.log(toJS(search.searchedPlace));
   return (
     <List>
       {toJS(search.searchedPlace).map((place) => (
