@@ -56,21 +56,6 @@ class BoardCreateStore {
     return res
   }
 
-  // async handleSubmitStory() {
-  //   console.log(this.tripDate)
-  //   const obj = {
-  //     // 이거 나중에 조금 더 고치기
-  //     duration: this.tripDate,
-  //     photos: this.photos,
-  //     startDate: this.tripDate[0],
-  //     status: this.status,
-  //     thumbnail: this.photos[0],
-  //     title: this.title,
-  //   }
-  //   console.log(obj)
-  //   this.setStory(obj)
-  // }
-
   async setNickname(nickname) {
     this.nickname = nickname
   }
@@ -164,15 +149,6 @@ class BoardCreateStore {
     this.tripAddress = [...addressSet].sort()
   }
 
-  // handlePageChange() {
-  //   this.isFirstPage = false
-  //   this.isLoading = true
-
-  //     setTimeout(() => {
-  //       this.isLoading = false
-  //     }, 1000)
-  //   }
-
   async setTotalImgNum(num) {
     this.totalImgNum = num
   }
@@ -207,6 +183,11 @@ class BoardCreateStore {
     this.thumbnail = filename
   }
 
+  changeTag(str, targetPhoto) {
+    const tempIndex = this.photos.findIndex(photo => photo.filename === targetPhoto.filename)
+    console.log(tempIndex)
+    this.photos[tempIndex].tag = str
+  }
 }
 
 export default new BoardCreateStore();

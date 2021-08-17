@@ -6,12 +6,10 @@ import {
   makeStyles,
   Typography,
   Grid,
-  Button,
   Box,
   TextField,
   Fab,
 } from '@material-ui/core';
-import { useEffect } from 'react';
 import CoverImageChange from './cover-image-change';
 
 const StoryCover = observer((props) => {

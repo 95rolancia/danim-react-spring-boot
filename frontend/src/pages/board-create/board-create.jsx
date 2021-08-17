@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { toJS } from 'mobx';
 import { makeStyles, Container } from '@material-ui/core';
 import loadImage from 'blueimp-load-image';
@@ -23,10 +23,8 @@ const BoardCreate = observer(() => {
   const user = useUser();
   const boardCreate = useBoardCreate();
 
-  useEffect(() => {
-    boardCreate.setNickname(toJS(user.user).nickname);
-    boardCreate.setDefaultTitle();
-  }, []);
+  boardCreate.setNickname(toJS(user.user).nickname);
+  boardCreate.setDefaultTitle();
 
   const getMetaData = async (imgFile) => {
     const result = await loadImage.parseMetaData(imgFile, {
@@ -106,7 +104,7 @@ const BoardCreate = observer(() => {
             latitude: res.data.latitude,
             longtitude: res.data.longtitude,
             placeName: res.data.placeName,
-            tag: null,
+            tag: 'ALL',
           };
           boardCreate.addPhoto(obj);
 

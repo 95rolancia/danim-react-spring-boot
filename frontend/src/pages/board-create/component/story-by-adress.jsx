@@ -1,25 +1,70 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { toJS } from 'mobx';
 import useBoardCreate from '../../../hooks/useBoardCreate';
 import { observer } from 'mobx-react-lite';
-import { makeStyles } from '@material-ui/styles';
+// import { makeStyles } from '@material-ui/styles';
 import { StoryThumbnail } from './index';
-import { Button, Fab, Box, Typography, TextField } from '@material-ui/core';
-import CreateIcon from '@material-ui/icons/Create';
+import {
+  makeStyles,
+  Box,
+  ImageList,
+  ImageListItem,
+  TextField,
+  Chip,
+  ListSubheader,
+  ImageListItemBar,
+  IconButton,
+  Button,
+  Menu,
+  MenuItem,
+  List,
+  ListItem,
+  ListItemText,
+} from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
+import LocalOfferIcon from '@material-ui/icons/LocalOffer';
+
+const tagOptions = ['ALL', 'FOOD', 'SCENERY', 'PERSON'];
 
 const useStyles = makeStyles((theme) => ({
-  button: {
-    marginTop: theme.spacing(1.5),
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'flex-start',
+  imageList: {
+    flexWrap: 'nowrap',
+    // zIndex: '10',
+    // // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
+    transform: 'translateZ(0)',
+  },
+  deleteIcon: {
+    color: 'white',
+  },
+  deleteIconBackground: {
+    background:
+      'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
+      'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+  },
+  tagBackground: {
+    background:
+      'linear-gradient(to top, rgba(0,0,0,0.7) 0%, ' +
+      'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+    justifyContent: 'center',
+    flexDirection: 'column',
+  },
+  tagButton: {
+    color: 'white',
+    overflow: 'visible',
+    fontSize: '1em',
+    textDecoration: 'underline',
   },
 }));
 
 const StoryByAdress = observer(({ photos, address }) => {
+  const imgRef = useRef();
   const boardCreate = useBoardCreate();
   const classes = useStyles();
   const [isPhoto, setIsPhoto] = useState(false);
-  const [isShowSetting, setIsShowSetting] = useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+
+  const photoURL = boardCreate.imgBaseURL + boardCreate.nickname + '/';
 
   useEffect(() => {
     for (let i = 0; i < photos.length; i++) {
@@ -29,17 +74,22 @@ const StoryByAdress = observer(({ photos, address }) => {
     }
   }, [photos, address]);
 
-  const showSetting = () => {
-    setIsShowSetting(true);
-  };
-
-  const hideSetting = () => {
-    setIsShowSetting(false);
-  };
-
   const handleMemoChange = (e) => {
     const newMemo = e.target.value;
     boardCreate.uploadMemo(newMemo, address);
+  };
+
+  const handleClickTag = (str, photo) => {
+    console.log(str, toJS(photo));
+    boardCreate.changeTag(str, photo);
+    setAnchorEl(null);
+  };
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   // const saveAddressMemoAtPhoto = (photo) => {
@@ -56,9 +106,95 @@ const StoryByAdress = observer(({ photos, address }) => {
               <CreateIcon />
             </Fab> */}
             <Box>
-              {photos.map((photo) => (
+              <ImageList
+                // sx={{ width: 500, height: 450 }}
+                cols={2.7}
+                className={classes.imageList}
+                // rowHeight={164}
+              >
+                {/* <ImageListItem key="Subheader" cols={3}>
+                  <ListSubheader component="div">December</ListSubheader>
+                </ImageListItem> */}
+                {photos.map((photo) => (
+                  <ImageListItem key={photo.filename}>
+                    <img
+                      src={photoURL + photo.filename}
+                      alt={photo.adress}
+                      loading="lazy"
+                      ref={imgRef}
+                    />
+                    <ImageListItemBar
+                      // title={`# ${photo.tag}`}
+                      actionPosition="left"
+                      actionIcon={
+                        <>
+                          <IconButton
+                            id={`tag-button-${photo.filename}`}
+                            aria-controls={`tag-menu-${photo.filename}`}
+                            aria-haspopup="true"
+                            aria-expanded={open ? 'true' : undefined}
+                            className={classes.tagButton}
+                            onClick={handleClick}
+                            // onClick={() => handleTagClick(photo)}
+                          >
+                            # {photo.tag}
+                            {/* <Chip
+                            // icon={<LocalOfferIcon />}
+                            label={`# ${photo.tag}`}
+                            variant="outlined"
+                            className={classes.tagChip}
+                          /> */}
+                          </IconButton>
+                          <Menu
+                            id={`tag-menu-${photo.filename}`}
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={handleClose}
+                            MenuListProps={{
+                              'aria-labelledby': 'basic-button',
+                            }}
+                          >
+                            <MenuItem
+                              onClick={() => handleClickTag('ALL', photo)}
+                            >
+                              All
+                            </MenuItem>
+                            <MenuItem
+                              onClick={() => handleClickTag('PERSON', photo)}
+                            >
+                              PERSON
+                            </MenuItem>
+                            <MenuItem
+                              onClick={() => handleClickTag('SENERY', photo)}
+                            >
+                              SENERY
+                            </MenuItem>
+                            <MenuItem
+                              onClick={() => handleClickTag('FOOD', photo)}
+                            >
+                              FOOD
+                            </MenuItem>
+                          </Menu>
+                        </>
+                      }
+                      className={classes.tagBackground}
+                    />
+                    <ImageListItemBar
+                      position="top"
+                      actionIcon={
+                        <IconButton>
+                          <CloseIcon className={classes.deleteIcon} />
+                        </IconButton>
+                      }
+                      actionPosition="left"
+                      className={classes.deleteIconBackground}
+                    />
+                  </ImageListItem>
+                ))}
+              </ImageList>
+              {/* {photos.map((photo) => (
                 <StoryThumbnail key={photo.filename} photo={photo} />
-              ))}
+              ))} */}
             </Box>
             <Box>
               <form>

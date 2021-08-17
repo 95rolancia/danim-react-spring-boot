@@ -5,20 +5,20 @@ import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import uuid from 'react-uuid';
-import { StoryThumbnail, StoryByAdress } from './index';
+import { StoryByAdress } from './index';
 
-// const useStyles = makeStyles((theme) => ({
-//   photoBox: {
-//     marginTop: theme.spacing(1.5),
-//     display: 'flex',
-//     flexWrap: 'wrap',
-//     justifyContent: 'flex-start',
-//   },
-// }));
+const useStyles = makeStyles((theme) => ({
+  photoBox: {
+    marginTop: theme.spacing(1.5),
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-start',
+  },
+}));
 
-const StoryDay = observer(({ photos, date }) => {
+const StoryDay = observer(({ date, photos }) => {
   const boardCreate = useBoardCreate();
-  // const classes = useStyles();
+  const classes = useStyles();
 
   const [address2compare, setAddress2compare] = useState([]);
 
