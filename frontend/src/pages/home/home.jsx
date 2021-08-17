@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
   Box,
@@ -8,23 +7,15 @@ import {
   MenuItem,
   Typography,
   makeStyles,
+  Backdrop,
+  CircularProgress,
 } from '@material-ui/core';
 import { Room, DoubleArrow } from '@material-ui/icons';
 import { HomeRoot, HomePic, MainHeader } from './components';
 import useUser from '../../hooks/useUser';
+import useMainPage from '../../hooks/useMainPage';
 import { observer } from 'mobx-react-lite';
 import { toJS } from 'mobx';
-const datasRoot = [
-  {
-    duration: 2,
-    startDate: '2021-08-09',
-    thumbnail: 'https://picsum.photos/id/103/500',
-    title: '바람이 불어오는 나의 제주도 여행기',
-    location: '제주',
-    author: '영구',
-    storyNum: 2,
-  },
-];
 const datasPic = [
   {
     no: '1111',
@@ -67,13 +58,20 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
     color: '#667580',
   },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+  },
 }));
 const Home = observer((props) => {
   const classes = useStyles();
+  const [loading, setLoading] = useState(true);
   const [interestRegions, setInterestRegions] = useState(null);
   const [interestArray, setInterestArray] = useState([]);
+  const [interestContents, setInterestContents] = useState([]);
+  const [popularContents, setPopularContents] = useState([]);
   const history = useHistory();
   const user = useUser();
+  const mainContents = useMainPage();
 
   const [menu, setMenu] = useState(null);
   const [selectOptionIndex, setSelectOptionIndex] = useState(0);
@@ -101,13 +99,35 @@ const Home = observer((props) => {
 
   useEffect(() => {
     const userInterestArray = toJS(user.user).areas;
-    setInterestArray(userInterestArray);
-    let userInterest = '';
-    for (let interest of userInterestArray) {
-      userInterest += interest;
-    }
-    setInterestRegions(userInterest);
-  }, [user.user]);
+    mainContents.getMyInterestsStory().then((res) => {
+      if (res) {
+        setInterestContents(res);
+        setInterestArray(userInterestArray);
+        let userInterest = '';
+        for (let interest of userInterestArray) {
+          userInterest += interest;
+        }
+        setInterestRegions(userInterest);
+        mainContents.getPopularStory().then((res) => {
+          if (res) {
+            setPopularContents(res);
+          }
+        });
+      }
+      setLoading(false);
+    });
+    return () => {
+      setLoading(false);
+    };
+  }, [user.user, mainContents]);
+
+  if (loading) {
+    return (
+      <Backdrop className={classes.backdrop} open={loading}>
+        <CircularProgress color="primary" />
+      </Backdrop>
+    );
+  }
 
   return (
     <>
@@ -156,7 +176,11 @@ const Home = observer((props) => {
       </div>
       <Box component="span" m={1}></Box>
       {selectOptionValue === '여행루트' ? (
-        <HomeRoot datas={datasRoot} interests={interestArray} />
+        <HomeRoot
+          popularContents={popularContents}
+          interests={interestArray}
+          contents={interestContents}
+        />
       ) : (
         <HomePic datas={datasPic} />
       )}
