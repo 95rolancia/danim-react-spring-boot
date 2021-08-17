@@ -17,4 +17,5 @@ public interface PlanService {
 	PlanResponse getPlan(long planNo, HttpServletRequest httpServletReq);	
 	int deletePlan(long planNo, HttpServletRequest httpServletReq);
 	List<SearchPlanResponse> getPlans(HttpServletRequest httpServletReq);
+	int putPlan(long planNo, PlanRequest planReq, HttpServletRequest httpServletReq);
 }

@@ -225,7 +225,7 @@ public class PlanServiceImpl implements PlanService {
 	}
 	
 	
-	
+	@Override
 	public int putPlan(long planNo, PlanRequest planReq, HttpServletRequest httpServletReq) {
 		
 		final String requestTokenHeader = httpServletReq.getHeader("Authorization");
