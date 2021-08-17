@@ -4,6 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { makeStyles, Button, Grid, Fab, Box } from '@material-ui/core';
 import { StoryCover, StoryContents } from './index';
 import { toJS } from 'mobx';
+// import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -17,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
 const MemoWrite = observer(({ onFileChange }) => {
   const boardCreate = useBoardCreate();
   const classes = useStyles();
+  // const history = useHistory();
   // useEffect(() => {}, [boardCreate.photos]);
 
   const watchPhoto = () => {
@@ -42,6 +44,7 @@ const MemoWrite = observer(({ onFileChange }) => {
       .then((res) => {
         if (res) {
           console.log(res);
+          window.location.replace('/main');
         } else {
           alert('스토리 못올려!!!!!');
         }
@@ -68,6 +71,7 @@ const MemoWrite = observer(({ onFileChange }) => {
       .then((res) => {
         if (res) {
           console.log(res);
+          window.location.replace('/main');
         } else {
           alert('스토리 못올려!!!!!');
         }
