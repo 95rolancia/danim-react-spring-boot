@@ -84,14 +84,14 @@ public class PlanController {
 	
 	
 	@PutMapping("/{planNo}")
-	public ResponseEntity<PlanResponse> putPlan(@PathVariable("planNo") long planNo, HttpServletRequest httpServletReq){
+	public ResponseEntity<String> putPlan(@PathVariable("planNo") long planNo,@RequestBody PlanRequest planReq, HttpServletRequest httpServletReq){
 		
 		
-		PlanResponse planRes = planService.getPlan(planNo, httpServletReq);
+		int response = planService.putPlan(planNo, planReq, httpServletReq);
 		
 		
 		
-		return new ResponseEntity<PlanResponse>(planRes,HttpStatus.OK);
+		return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/{planNo}")
