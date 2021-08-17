@@ -83,9 +83,8 @@ public class StoryController {
 
 	@ApiOperation(tags = "스토리", value = "스토리 수정", notes = "스토리 내용을 수정합니다")
 	@PutMapping("/{storyno}")
-	public ResponseEntity<String> putStory(@PathVariable("storyno") long storyNo, @RequestBody StoryPutRequest req, HttpServletRequest httpServletReq) {
-		// 본인 검증 후 수정
-		
+	public ResponseEntity<String> putStory(@PathVariable("storyno") long storyNo, @RequestBody StoryRequest req, HttpServletRequest httpServletReq) {
+
 		int res= storyService.modifyStory(storyNo, req, httpServletReq);
 		if(res == 401)
 			return new ResponseEntity<String>("UNAUTHORIZED", HttpStatus.UNAUTHORIZED);
@@ -97,11 +96,10 @@ public class StoryController {
 		return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
 	}
 
-	@ApiOperation(tags = "스토리", value = "스토리 수정", notes = "스토리 내용을 수정합니다")
+	@ApiOperation(tags = "스토리", value = "사진 수정", notes = "사진 내용을 수정합니다")
 	@PutMapping("/photo")
 	public ResponseEntity<String> putPhoto(@RequestBody PhotoPutRequest req, HttpServletRequest httpServletReq) {
-		// 본인 검증 후 수정
-		
+	
 		int res= storyService.modifyPhoto(req, httpServletReq);
 		if(res == 401)
 			return new ResponseEntity<String>("UNAUTHORIZED", HttpStatus.UNAUTHORIZED);
