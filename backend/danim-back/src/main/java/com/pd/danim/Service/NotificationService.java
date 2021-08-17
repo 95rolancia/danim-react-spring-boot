@@ -1,7 +1,9 @@
 package com.pd.danim.Service;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 import javax.transaction.Transactional;
 
@@ -53,11 +55,19 @@ public class NotificationService {
 
 	@Transactional
 	public void saveNoti(NotificationRequest notiRequest, String nickname) {
-
+		
 		LocalDateTime curDateTime = LocalDateTime.now();
-		String nowDate = curDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
-
-		NotificationSaveRequest saveRequest = new NotificationSaveRequest(nowDate, notiRequest.getDataId(), nickname,
+		System.out.println(curDateTime);
+		Date realDate = new Date();
+		SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
+		String time1 = format1.format(realDate);
+//		System.out.println("time은"+time1);
+//		String date2 = (String) curDateTime;
+		
+		
+//		String nowDate = curDateTime.format(DateTimeFormatter.ofPattern("a yyyy-MM-dd hh:mm:ss"));
+//		System.out.println(nowDate);
+		NotificationSaveRequest saveRequest = new NotificationSaveRequest(time1, notiRequest.getDataId(), nickname,
 				notiRequest.getIsRead(), notiRequest.getType());
 
 		String toId = notiRequest.getToUserNickname();
@@ -80,7 +90,7 @@ public class NotificationService {
 		//	if(user.getProfile()!=null) {
 		//		saveRequest.setProfile(user.getProfile());
 		//	}
-		
+		saveRequest.setUuid(postId);
 		//다르게 설정해줘야함
 		if(type.equals("follow")) {
 			saveNoti.setValueAsync(saveRequest);
@@ -106,6 +116,18 @@ public class NotificationService {
 		deleteRef.removeValueAsync();
 	}
 	
+	@Transactional
+	public void readNoti(String nickname, String uuid) {
+		
+		FirebaseDatabase database = FirebaseDatabase.getInstance();
+		DatabaseReference ref = database.getReference("noti");
+		
+		DatabaseReference notiRef = ref.child(nickname); // noti의 child node: to의 아이디 값
+		
+		DatabaseReference uuidRef = notiRef.child(uuid);
+		uuidRef.child("isRead").setValueAsync(true);
+		
+	}
 	
 	
 	
