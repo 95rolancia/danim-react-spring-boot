@@ -10,16 +10,22 @@ import {
   Button,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => {});
 const ReplyList = ({ datas, handleComment, no }) => {
   const classes = useStyles();
   const story = useStory();
+  const history = useHistory();
 
   const deleteComment = (commentNo) => {
     story.deleteComment({ commentNo, storyNo: no }).then((res) => {
       handleComment();
     });
+  };
+
+  const goToUserPage = (nickname) => {
+    history.push('/main/' + nickname);
   };
   return (
     <List>
@@ -42,6 +48,7 @@ const ReplyList = ({ datas, handleComment, no }) => {
                     '/' +
                     data.profile
                   }
+                  onClick={() => goToUserPage(data.nickname)}
                 />
               </ListItemAvatar>
               <ListItemText primary={data.nickname} secondary={data.content} />
