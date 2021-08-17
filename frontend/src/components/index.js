@@ -5,5 +5,6 @@ export { default as HeaderGoBack } from './header/header-go-back';
 export { default as HeaderGoBackSearch } from './header/header-go-back-search';
 export { default as HeaderGoMain } from './header/header-go-main';
 export { default as Navbar } from './navbar/navbar';
+export { default as NumberMarker } from './number-marker/number-marker';
 export { default as StartLoading } from './start-loading/start-loading';
 export { default as BoardDetailMap } from './board-detail-map/board-detail-map';
