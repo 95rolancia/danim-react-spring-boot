@@ -2,6 +2,7 @@ import React from 'react';
 import { toJS } from 'mobx';
 import { makeStyles, Container } from '@material-ui/core';
 import loadImage from 'blueimp-load-image';
+import HeaderBoardCreateMemo from '../../components/header/header-board-create-memo';
 import HeaderGoBack from '../../components/header/header-go-back';
 import useUser from '../../hooks/useUser';
 import useBoardCreate from '../../hooks/useBoardCreate';
@@ -24,7 +25,9 @@ const BoardCreate = observer(() => {
   const boardCreate = useBoardCreate();
 
   boardCreate.setNickname(toJS(user.user).nickname);
-  boardCreate.setDefaultTitle();
+  if (boardCreate.title === '') {
+    boardCreate.setDefaultTitle();
+  }
 
   const getMetaData = async (imgFile) => {
     const result = await loadImage.parseMetaData(imgFile, {
@@ -128,7 +131,10 @@ const BoardCreate = observer(() => {
     console.log('세컨드 페이지 짠!');
     return (
       <>
-        <HeaderGoBack title="여행일기 작성" />
+        <HeaderBoardCreateMemo
+          title="여행일기 작성"
+          onFileChange={handleFileChange}
+        />
         <Container Container className={classes.root}>
           <MemoWrite onFileChange={handleFileChange} />
         </Container>

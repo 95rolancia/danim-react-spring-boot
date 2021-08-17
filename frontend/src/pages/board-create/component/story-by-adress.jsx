@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { toJS } from 'mobx';
 import useBoardCreate from '../../../hooks/useBoardCreate';
 import { observer } from 'mobx-react-lite';
 import {
@@ -12,8 +11,10 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  Typography,
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+import RoomIcon from '@material-ui/icons/Room';
 
 const useStyles = makeStyles((theme) => ({
   imageList: {
@@ -88,114 +89,121 @@ const StoryByAdress = observer(({ photos, address }) => {
   return (
     <>
       {isPhoto && (
-        <>
-          <Box display="flex" flexDirection="column">
-            <div>{address}</div>
-            {/* <Fab onClick={showSetting}>
+        <Box display="flex" flexDirection="column" mb={1}>
+          {/* <Fab onClick={showSetting}>
               <CreateIcon />
             </Fab> */}
-            <Box>
-              <ImageList
-                // sx={{ width: 500, height: 450 }}
-                cols={2.7}
-                className={classes.imageList}
-                // rowHeight={164}
-              >
-                {/* <ImageListItem key="Subheader" cols={3}>
+          <Box mb={1}>
+            <ImageList
+              // sx={{ width: 500, height: 450 }}
+              cols={3.1}
+              className={classes.imageList}
+              // rowHeight={164}
+            >
+              {/* <ImageListItem key="Subheader" cols={3}>
                   <ListSubheader component="div">December</ListSubheader>
                 </ImageListItem> */}
-                {photos.map((photo) => (
-                  <ImageListItem key={photo.filename}>
-                    <img
-                      src={photoURL + photo.filename}
-                      alt={photo.adress}
-                      loading="lazy"
-                      ref={imgRef}
-                    />
-                    <ImageListItemBar
-                      actionPosition="left"
-                      actionIcon={
-                        <>
-                          <IconButton
-                            id={`tag-button-${photo.filename}`}
-                            aria-controls={`tag-menu-${photo.filename}`}
-                            aria-haspopup="true"
-                            aria-expanded={open ? 'true' : undefined}
-                            className={classes.tagButton}
-                            onClick={handleClick}
-                            // onClick={() => handleTagClick(photo)}
-                          >
-                            # {photo.tag}
-                            {/* <Chip
+              {photos.map((photo) => (
+                <ImageListItem key={photo.filename}>
+                  <img
+                    src={photoURL + photo.filename}
+                    alt={photo.adress}
+                    loading="lazy"
+                    ref={imgRef}
+                  />
+                  <ImageListItemBar
+                    actionPosition="left"
+                    actionIcon={
+                      <>
+                        <IconButton
+                          id={`tag-button-${photo.filename}`}
+                          aria-controls={`tag-menu-${photo.filename}`}
+                          aria-haspopup="true"
+                          aria-expanded={open ? 'true' : undefined}
+                          className={classes.tagButton}
+                          onClick={handleClick}
+                          // onClick={() => handleTagClick(photo)}
+                        >
+                          #{photo.tag}
+                          {/* <Chip
                             // icon={<LocalOfferIcon />}
                             label={`# ${photo.tag}`}
                             variant="outlined"
                             className={classes.tagChip}
                           /> */}
-                          </IconButton>
-                          <Menu
-                            id={`tag-menu-${photo.filename}`}
-                            anchorEl={anchorEl}
-                            open={open}
-                            onClose={handleClose}
-                            MenuListProps={{
-                              'aria-labelledby': 'basic-button',
-                            }}
-                          >
-                            <MenuItem
-                              onClick={() => handleClickTag('NONE', photo)}
-                            >
-                              NONE
-                            </MenuItem>
-                            <MenuItem
-                              onClick={() => handleClickTag('PERSON', photo)}
-                            >
-                              PERSON
-                            </MenuItem>
-                            <MenuItem
-                              onClick={() => handleClickTag('SENERY', photo)}
-                            >
-                              SENERY
-                            </MenuItem>
-                            <MenuItem
-                              onClick={() => handleClickTag('FOOD', photo)}
-                            >
-                              FOOD
-                            </MenuItem>
-                          </Menu>
-                        </>
-                      }
-                      className={classes.tagBackground}
-                    />
-                    <ImageListItemBar
-                      position="top"
-                      actionIcon={
-                        <IconButton onClick={() => deletePhoto(photo)}>
-                          <CloseIcon className={classes.deleteIcon} />
                         </IconButton>
-                      }
-                      actionPosition="left"
-                      className={classes.deleteIconBackground}
-                    />
-                  </ImageListItem>
-                ))}
-              </ImageList>
+                        <Menu
+                          id={`tag-menu-${photo.filename}`}
+                          anchorEl={anchorEl}
+                          open={open}
+                          onClose={handleClose}
+                          MenuListProps={{
+                            'aria-labelledby': 'basic-button',
+                          }}
+                        >
+                          <MenuItem
+                            onClick={() => handleClickTag('NONE', photo)}
+                          >
+                            NONE
+                          </MenuItem>
+                          <MenuItem
+                            onClick={() => handleClickTag('PERSON', photo)}
+                          >
+                            PERSON
+                          </MenuItem>
+                          <MenuItem
+                            onClick={() => handleClickTag('SENERY', photo)}
+                          >
+                            SENERY
+                          </MenuItem>
+                          <MenuItem
+                            onClick={() => handleClickTag('FOOD', photo)}
+                          >
+                            FOOD
+                          </MenuItem>
+                        </Menu>
+                      </>
+                    }
+                    className={classes.tagBackground}
+                  />
+                  <ImageListItemBar
+                    position="top"
+                    actionIcon={
+                      <IconButton onClick={() => deletePhoto(photo)}>
+                        <CloseIcon className={classes.deleteIcon} />
+                      </IconButton>
+                    }
+                    actionPosition="left"
+                    className={classes.deleteIconBackground}
+                  />
+                </ImageListItem>
+              ))}
+            </ImageList>
+          </Box>
+          <Box display="flex" flexDirection="row" py={1}>
+            <RoomIcon color="primary" />
+            <Box pl={1}>
+              <Typography>
+                {boardCreate.calculatePrettyAddress(address)}
+              </Typography>
             </Box>
-            <Box>
-              <form>
-                <TextField
-                  defaultValue={photos[0].content}
-                  fullWidth
-                  multiline
-                  onChange={handleMemoChange}
-                ></TextField>
-              </form>
-            </Box>
-            {/* <Box display="flex">
+          </Box>
+          <Box mb={3}>
+            <form>
+              <TextField
+                defaultValue={photos[0].content}
+                label="Memo"
+                variant="outlined"
+                fullWidth
+                multiline
+                onChange={handleMemoChange}
+              ></TextField>
+            </form>
+          </Box>
+          {/* <Box display="flex">
               <Box>{photos[0].content}</Box>
             </Box> */}
-          </Box>
-        </>
+        </Box>
       )}
     </>
   );
