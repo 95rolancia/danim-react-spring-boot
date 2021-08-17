@@ -11,6 +11,9 @@ import {
 } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 import { NotiList } from './components';
+import { observer } from 'mobx-react-lite';
+import useUser from '../../hooks/useUser';
+import { toJS } from 'mobx';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="left" ref={ref} {...props} />;
@@ -30,13 +33,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const NotiDialog = ({ isOpen, handleDialogClose, notis }) => {
+const NotiDialog = observer(({ isOpen, handleDialogClose, notis }) => {
   const classes = useStyles();
+  const user = useUser();
+
+  const onCloseClick = () => {
+    handleDialogClose();
+    user.readNoti({
+      nickname: toJS(user.user).nickname,
+      notis: notis,
+    });
+  };
+
   return (
     <Dialog
       fullScreen
       open={isOpen}
-      onClose={handleDialogClose}
+      onClose={onCloseClick}
       TransitionComponent={Transition}
     >
       <AppBar className={classes.appBar}>
@@ -44,7 +57,7 @@ const NotiDialog = ({ isOpen, handleDialogClose, notis }) => {
           <IconButton
             edge="start"
             color="inherit"
-            onClick={handleDialogClose}
+            onClick={onCloseClick}
             aria-label="close"
           >
             <Close />
@@ -59,6 +72,6 @@ const NotiDialog = ({ isOpen, handleDialogClose, notis }) => {
       </List>
     </Dialog>
   );
-};
+});
 
 export default NotiDialog;

@@ -9,7 +9,7 @@ class Notification {
       for (let noti in value) {
         result.push(value[noti]);
       }
-      result && onUpdate(result);
+      result && onUpdate(result.reverse());
     });
     return () => ref.off();
   }
