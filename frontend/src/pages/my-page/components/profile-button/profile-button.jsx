@@ -2,6 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react-lite';
 import useUser from '../../../../hooks/useUser';
 import styles from './profile-button.module.css';
+import { Button } from '@material-ui/core';
 
 const ProfileButton = observer(
   ({ isManager, userInfo, handleFollow, history }) => {
@@ -29,13 +30,21 @@ const ProfileButton = observer(
     return (
       <>
         {isManager ? (
-          <button className={styles.editBtn} onClick={goToProfileEdit}>
+          <Button
+            variant="outlined"
+            className={styles.editBtn}
+            onClick={goToProfileEdit}
+          >
             프로필 편집
-          </button>
+          </Button>
         ) : userInfo.isFollow ? (
-          <button onClick={unfollow}>구독 취소</button>
+          <Button variant="outlined" onClick={unfollow}>
+            구독 취소
+          </Button>
         ) : (
-          <button onClick={follow}>구독 하기</button>
+          <Button variant="outlined" onClick={follow}>
+            구독 하기
+          </Button>
         )}
       </>
     );

@@ -25,6 +25,16 @@ class HttpMainPage{
         }
     }
 
+    async getMyInterestsPhoto() {
+        try {
+            const res = await this.instance.get('/home/myPopular/photo');
+            return res;
+        } catch (error) {
+            const res = error.response;
+            throw new Error(`MyPhotos get error ${(res.response)}`);
+        }
+    }
+
 }
 
 export default new HttpMainPage(instance);

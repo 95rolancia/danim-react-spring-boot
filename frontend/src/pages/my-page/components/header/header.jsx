@@ -18,6 +18,8 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+    fontFamily: 'MingukBold',
+    color: '#F5F5F5',
   },
 }));
 
@@ -31,7 +33,7 @@ const Header = ({ showSetting, isManager, userInfo }) => {
             <Toolbar>
               <IconButton
                 className={classes.menuButton}
-                color="inherit"
+                color="secondary"
                 aria-label="show-setting"
                 onClick={showSetting}
               >

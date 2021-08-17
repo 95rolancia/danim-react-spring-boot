@@ -43,6 +43,8 @@ const MyPageRoute = observer(({ children, ...rest }) => {
     setUserInfo({ ...userInfo, isFollow: !userInfo.isFollow });
   };
 
+  const handleStory = () => {};
+
   if (loading)
     return (
       <Backdrop className={classes.backdrop} open={loading}>
@@ -59,6 +61,7 @@ const MyPageRoute = observer(({ children, ...rest }) => {
             userInfo={userInfo}
             isManager={isManager}
             handleFollow={handleFollow}
+            handleStory={handleStory}
           />
         ) : (
           <NotUserExist />

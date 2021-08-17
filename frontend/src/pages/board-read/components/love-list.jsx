@@ -1,16 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import useStory from '../../../hooks/useStory';
-import { AppBar, IconButton, Toolbar, Typography } from '@material-ui/core';
+import {
+  AppBar,
+  IconButton,
+  Snackbar,
+  Toolbar,
+  Typography,
+} from '@material-ui/core';
 import { FavoriteBorder, Favorite } from '@material-ui/icons';
+import MuiAlert from '@material-ui/lab/Alert';
+
+const Alert = (props) => {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+};
 
 const LoveList = observer(({ love, loveCnt, no, handleLike }) => {
   const story = useStory();
+  const [snackbarInfo, setSnackbarInfo] = useState({
+    isShow: false,
+    msg: '',
+    state: '',
+  });
 
   const like = (e) => {
     e.preventDefault();
     story.like({ storyNo: no }).then((res) => {
-      if (res === 'exist') alert('이미 좋아요를 눌렀습니다.');
+      if (res === 'exist') {
+        setSnackbarInfo({
+          isShow: true,
+          msg: '자신의 글에는 좋아요를 누를 수 없어요.',
+          state: 'error',
+        });
+        return;
+      }
       handleLike();
     });
   };
@@ -18,6 +41,16 @@ const LoveList = observer(({ love, loveCnt, no, handleLike }) => {
     e.preventDefault();
     story.unlike({ storyNo: no }).then((res) => {
       handleLike();
+    });
+  };
+
+  const handleClose = (_, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbarInfo({
+      ...snackbarInfo,
+      isShow: false,
     });
   };
   return (
@@ -36,6 +69,15 @@ const LoveList = observer(({ love, loveCnt, no, handleLike }) => {
           이 스토리를 {loveCnt}명이 좋아합니다.
         </Typography>
       </Toolbar>
+      <Snackbar
+        open={snackbarInfo.isShow}
+        autoHideDuration={700}
+        onClose={handleClose}
+      >
+        <Alert severity={snackbarInfo.state} onClose={handleClose}>
+          {snackbarInfo.msg}
+        </Alert>
+      </Snackbar>
     </AppBar>
   );
 });
