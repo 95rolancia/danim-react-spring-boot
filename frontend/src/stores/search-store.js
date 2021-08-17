@@ -59,7 +59,6 @@ class SearchStore {
 
     runInAction(() => {
       this.placeDetailInfo = res.data;
-      console.log(this.placeDetailInfo);
     });
   }
 }
