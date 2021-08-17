@@ -189,7 +189,7 @@ public class PlanServiceImpl implements PlanService {
 		PlanResponse response = new PlanResponse();
 		
 		response.setStartDate(plan.getStartDate());
-		response.setEndDate(plan.getStartDate().plusDays(plan.getDuration()));
+		response.setEndDate(plan.getStartDate().plusDays(plan.getDuration()-1));
 		response.setTitle(plan.getTitle());
 		
 		List<SubPlan> subplanList = subPlanRepo.findAllByPlan(plan);
