@@ -1,17 +1,9 @@
 import React from 'react';
 import useBoardCreate from '../../../hooks/useBoardCreate';
 import { observer } from 'mobx-react-lite';
-import {
-  makeStyles,
-  Container,
-  Button,
-  Grid,
-  Fab,
-  Box,
-} from '@material-ui/core';
+import { makeStyles, Button, Grid, Fab, Box } from '@material-ui/core';
 import { StoryCover, StoryContents } from './index';
 import { toJS } from 'mobx';
-import { useEffect } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -30,7 +22,7 @@ const MemoWrite = observer(({ onFileChange }) => {
   const watchPhoto = () => {
     console.log(toJS(boardCreate.title));
     console.log(toJS(boardCreate.photos));
-    console.log(toJS(Date.parse(boardCreate.photos[0].date)));
+    console.log(toJS(boardCreate.tripDate));
   };
 
   const handleSubmitStory = () => {
