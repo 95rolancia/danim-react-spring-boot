@@ -34,11 +34,11 @@ public class CommentController {
 		
 		int response = commentService.writeComment(request, httpServletReq);
 		
-		if(response == 401)
+		if(response == 401) {
 			return new ResponseEntity<String>("UNAUTHORIZED", HttpStatus.UNAUTHORIZED);
-		else if(response == 404)
+		}else if(response == 404) {
 			return new ResponseEntity<String>("NOT FOUND", HttpStatus.NOT_FOUND);
-		
+		}
 		
 		return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
 		
@@ -49,11 +49,11 @@ public class CommentController {
 				
 	int response = commentService.deleteComment(request, httpServletReq);
 		
-		if(response == 401)
+		if(response == 401) {
 			return new ResponseEntity<String>("UNAUTHORIZED", HttpStatus.UNAUTHORIZED);
-		else if(response == 404)
+		}else if(response == 404) {
 			return new ResponseEntity<String>("NOT FOUND", HttpStatus.NOT_FOUND);
-		
+		}
 		
 		return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
 		
