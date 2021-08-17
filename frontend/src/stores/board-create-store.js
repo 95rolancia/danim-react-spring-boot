@@ -128,10 +128,9 @@ class BoardCreateStore {
     }
   }
 
-  async addPhoto(photo) {
+  addPhoto(photo) {
     if (this.photos.length === 0) {
       this.photos = [photo]
-      return true;
     } else {
       if (Date.parse(this.photos[0].date) > Date.parse(photo.date)) {
         this.photos = [photo, ...this.photos]
@@ -146,8 +145,12 @@ class BoardCreateStore {
           }
         }
       }
-      return true;
     }
+    runInAction(() => {
+      if (this.thumbnail === "") {
+        this.thumbnail = this.photos[0].filename
+      }
+    })
   }
 
   async sortTripDate(date) {
@@ -198,6 +201,10 @@ class BoardCreateStore {
         this.photos[i].content = memo
       }
     }
+  }
+
+  changeThumbnail(filename) {
+    this.thumbnail = filename
   }
 
 }
