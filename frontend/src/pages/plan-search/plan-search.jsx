@@ -1,12 +1,11 @@
 import React from 'react';
-import { HeaderGoBackSearch } from '../../components';
-import PlaceList from './components/place-list/place-list';
+import { Content, PlaceSearchHeader } from './components';
 
-const PlanSearch = (props) => {
+const PlanSearch = () => {
   return (
     <>
-      <HeaderGoBackSearch />
-      <PlaceList />
+      <PlaceSearchHeader />
+      <Content />
     </>
   );
 };

@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
 import { HeaderGoBack } from '../../components';
 import { DateRange } from 'react-date-range';
 import * as rdrLocales from 'react-date-range/dist/locale';
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
+import usePlan from '../../hooks/usePlan';
+import { getFullPlanDate } from '../../util/data-transform';
 import { Button, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
@@ -24,9 +27,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PlanDate = () => {
+const PlanDate = observer(() => {
   const classes = useStyles();
   const history = useHistory();
+  const plan = usePlan();
   const [date, setDate] = useState([
     {
       startDate: new Date(),
@@ -37,6 +41,14 @@ const PlanDate = () => {
 
   const choiceDate = () => {
     history.push({ pathname: '/main/plan/area' });
+    plan.setDate(date[0].startDate, date[0].endDate);
+    plan.initSubPlans(getFullPlanDate(date[0].startDate, date[0].endDate));
+    localStorage.setItem('startDate', JSON.stringify(date[0].startDate));
+    localStorage.setItem('endDate', JSON.stringify(date[0].endDate));
+    localStorage.setItem(
+      'subPlans',
+      getFullPlanDate(date[0].startDate, date[0].endDate),
+    );
   };
 
   return (
@@ -61,6 +73,6 @@ const PlanDate = () => {
       </section>
     </>
   );
-};
+});
 
 export default PlanDate;

@@ -1,20 +1,21 @@
-export const getPlanDate = (date) => {
-  if (date === undefined) return '정보 없음';
+export const getPlanDate = (startDate, endDate) => {
+  if (startDate == null) return '정보 없음';
   return (
-    date.startDate.getFullYear() +
+    startDate.getFullYear() +
     '.' +
-    (date.startDate.getMonth() + 1) +
+    (startDate.getMonth() + 1) +
     '.' +
-    date.startDate.getDate() +
+    startDate.getDate() +
     ' - ' +
-    (date.endDate.getMonth() + 1) +
+    (endDate.getMonth() + 1) +
     '.' +
-    date.endDate.getDate()
+    endDate.getDate()
   );
 };
 
-export const getFullPlanDate = (date) => {
-  const diffTime = Math.abs(date.endDate - date.startDate);
+export const getFullPlanDate = (startDate, endDate) => {
+  if (startDate == null) return 3;
+  const diffTime = Math.abs(endDate - startDate);
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   return diffDays + 1;
 };

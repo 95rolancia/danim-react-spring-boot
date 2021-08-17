@@ -3,11 +3,15 @@ import authStore from './auth-store';
 import userStore from './user-store';
 import searchStore from './search-store';
 import storyStore from './story-store';
+import boardCreateStore from './board-create-store';
+import planStore from './plan-store';
 
 export const AuthContext = createContext();
 export const UserContext = createContext();
 export const SearchContext = createContext();
 export const StoryContext = createContext();
+export const BoardCreateContext = createContext();
+export const PlanContext = createContext();
 
 const ProviderStores = ({ children }) => {
   return (
@@ -15,7 +19,11 @@ const ProviderStores = ({ children }) => {
       <UserContext.Provider value={userStore}>
         <SearchContext.Provider value={searchStore}>
           <StoryContext.Provider value={storyStore}>
-          {children}
+            <BoardCreateContext.Provider value={boardCreateStore}>
+            <PlanContext.Provider value={planStore}>
+              {children}
+            </PlanContext.Provider>
+            </BoardCreateContext.Provider>
           </StoryContext.Provider>
         </SearchContext.Provider>
       </UserContext.Provider>

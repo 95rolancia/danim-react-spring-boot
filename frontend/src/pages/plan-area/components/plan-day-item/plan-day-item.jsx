@@ -1,7 +1,10 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { toJS } from 'mobx';
+import { observer } from 'mobx-react-lite';
+import usePlan from '../../../../hooks/usePlan';
+import PlanDayPlaceList from '../plan-day-place-list/plan-day-place-list';
 import { Button, makeStyles } from '@material-ui/core';
-
 const useStyles = makeStyles((theme) => ({
   planDayContainer: {
     margin: theme.spacing(1),
@@ -17,19 +20,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PlanDay = ({ date }) => {
+const PlanDayItem = observer(({ date }) => {
   const classes = useStyles();
   const history = useHistory();
-
-  // 나중에 기존의 계획을 읽었을 때 상태 반영 해야됌
+  const plan = usePlan();
 
   const gotoPlanSearch = () => {
-    history.push({ pathname: '/plan/search', state: { date: date } });
+    history.push({ pathname: '/main/plan/search' });
+    plan.selectDay(date);
   };
 
   return (
     <section className={classes.planDayContainer}>
       <h1>day {date}</h1>
+      <PlanDayPlaceList places={toJS(plan.subPlans)[date - 1]} day={date - 1} />
       <div>
         <Button
           variant="contained"
@@ -42,6 +46,6 @@ const PlanDay = ({ date }) => {
       </div>
     </section>
   );
-};
+});
 
-export default PlanDay;
+export default PlanDayItem;
