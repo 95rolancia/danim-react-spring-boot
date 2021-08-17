@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import useBoardCreate from '../../../hooks/useBoardCreate';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
