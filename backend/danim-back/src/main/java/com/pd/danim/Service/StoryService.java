@@ -17,7 +17,7 @@ import com.pd.danim.Form.Response.StoryResponse;
 public interface StoryService {
 
 	boolean writeStory(StoryRequest input, HttpServletRequest httpServletReq);
-	int modifyStory(long storyNo, StoryPutRequest req, HttpServletRequest httpServletReq);
+	int modifyStory(long storyNo, StoryRequest req, HttpServletRequest httpServletReq);
 	int modifyPhoto(PhotoPutRequest req, HttpServletRequest httpServletReq);
 	StoryDetailResponse getStory(long storyno, HttpServletRequest httpServletReq);
 	List<StoryResponse> getStories(User user);
