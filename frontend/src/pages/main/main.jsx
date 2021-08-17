@@ -6,6 +6,7 @@ import { Navbar } from '../../components';
 import AccountRoute from '../../routers/account-route';
 import MyPageRoute from '../../routers/my-page-route';
 import PlanRoute from '../../routers/plan-route';
+import PlaceInfo from '../place-info/place-info';
 
 const Main = () => {
   return (
@@ -28,6 +29,9 @@ const Main = () => {
         </Route>
         <Route path="/main/plan">
           <PlanRoute />
+        </Route>
+        <Route path="/main/place/:placeName">
+          <PlaceInfo />
         </Route>
         <MyPageRoute path="/main/:nickname" />
       </Switch>
