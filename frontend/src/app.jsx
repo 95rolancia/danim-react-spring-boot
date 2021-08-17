@@ -16,10 +16,12 @@ import useUser from './hooks/useUser';
 import PrivateRoute from './routers/private-route';
 import StoryRoute from './routers/story-route';
 import StoryDetailRoute from './routers/story-detail-route';
+import usePlan from './hooks/usePlan';
 
 const App = observer(() => {
   const auth = useAuth();
   const user = useUser();
+  const plan = usePlan();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -32,6 +34,12 @@ const App = observer(() => {
     if (localStorage.getItem('user')) {
       auth.silentRefresh().then(() => {
         user.getUser();
+        plan.setDate(
+          new Date(JSON.parse(localStorage.getItem('startDate'))),
+          new Date(JSON.parse(localStorage.getItem('endDate'))),
+        );
+
+        plan.initSubPlans(localStorage.getItem('subPlans'));
       });
     }
   });
