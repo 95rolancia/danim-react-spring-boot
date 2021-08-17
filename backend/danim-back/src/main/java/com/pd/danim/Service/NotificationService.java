@@ -90,6 +90,7 @@ public class NotificationService {
 		//	if(user.getProfile()!=null) {
 		//		saveRequest.setProfile(user.getProfile());
 		//	}
+		saveRequest.setStoryNo(notiRequest.getStoryNo());
 		saveRequest.setUuid(postId);
 		//다르게 설정해줘야함
 		if(type.equals("follow")) {

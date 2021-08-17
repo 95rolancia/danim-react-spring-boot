@@ -70,6 +70,7 @@ public class LoveServiceImpl implements LoveService {
 				notificationRequest.setIsRead(false);
 				notificationRequest.setDataId(story.getTitle());
 				notificationRequest.setType("love");
+				notificationRequest.setStoryNo(storyNo);
 				notiService.saveNoti(notificationRequest,user.getNickname());
 
 				return "success";
