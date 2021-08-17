@@ -55,10 +55,7 @@ public class FollowServiceImpl implements FollowService {
 			
 			
 			Optional<Follow> option = followRepository.findByFollowUserNoAndUser(followUser.getUserno(), user);
-			if(option.isPresent()) {
-				System.out.println("이미 있음");
-			}else {
-				System.out.println("없어");
+			if(!option.isPresent()) {
 				Follow newFollow = new Follow();
 				newFollow.setFollowUserNo(followUser.getUserno());
 				newFollow.setUser(user);
@@ -97,7 +94,8 @@ public class FollowServiceImpl implements FollowService {
 			User user = danim.getUser();
 
 			int a = -9999;
-			if (followUser != null) {
+			Optional<Follow> option = followRepository.findByFollowUserNoAndUser(followUser.getUserno(), user);
+			if (option.isPresent()) {
 				a = followRepository.deleteByFollowUserNoAndUser(followUser.getUserno(), user);
 			}
 
