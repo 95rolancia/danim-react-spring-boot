@@ -147,15 +147,11 @@ const Interest = observer(() => {
 
     setChipData(newChipData);
     setSelectedAreas(selectedAreas.filter((area) => area.label !== chip.label));
-    console.log(selectedAreas);
   };
 
   const handleInterestSubmit = () => {
-    const selectedAreas = chipData
-      .filter((chip) => chip.state === 'selected')
-      .map((chip) => chip.label);
-
-    if (selectedAreas.length < 1) {
+    const data = selectedAreas.map((chip) => chip.label);
+    if (data.length < 1) {
       setSnackbarInfo({
         isShow: true,
         msg: '최소 한 개 이상 선택하셔야해요!',
@@ -165,7 +161,7 @@ const Interest = observer(() => {
     }
 
     const areas = {
-      areas: [...selectedAreas],
+      areas: [...data],
     };
 
     user.setInterestArea(areas).then(() => {
