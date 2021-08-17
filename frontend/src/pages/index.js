@@ -8,6 +8,7 @@ export { default as MyPage } from './my-page/my-page';
 export { default as Plan } from './plan/plan';
 export { default as PlanArea } from './plan-area/plan-area';
 export { default as PlanDate } from './plan-date/plan-date';
+export { default as PlanSearch } from './plan-search/plan-search';
 export { default as Search } from './search/search';
 export { default as SignIn } from './sign-in/sign-in';
 export { default as SignUp } from './sign-up/sign-up';

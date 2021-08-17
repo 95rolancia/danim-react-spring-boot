@@ -3,6 +3,7 @@ import HttpUser from '../service/http-user';
 
 class UserStore {
   user = null;
+  plans = null;
 
   constructor() {
     makeAutoObservable(this);
@@ -41,11 +42,11 @@ class UserStore {
   async setStoryPhoto(files) {
     const res = await HttpUser.setStoryPhoto(files);
     if (res.status !== 200) {
-      return false
-    };
-    return res
+      return false;
+    }
+    return res;
   }
-  
+
   async updateUserInfo(newUserInfo) {
     const res = await HttpUser.updateUserInfo(newUserInfo);
     if (res.status !== 200) {
@@ -84,6 +85,22 @@ class UserStore {
     if (res.status === 400) {
       return 'exist';
     }
+    return true;
+  }
+
+  async getPlan() {
+    const res = await HttpUser.getPlans();
+    runInAction(() => {
+      this.plans = res.data;
+    });
+  }
+
+  async deletePlan(planNo) {
+    const res = await HttpUser.deletePlan(planNo);
+    if (res.status !== 200) {
+      return false;
+    }
+    this.plans = this.plans.filter((plan) => plan.planNo !== planNo);
     return true;
   }
 }

@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
 import HttpPlan from '../service/http-plan';
 
 class PlanStore {
@@ -7,6 +7,9 @@ class PlanStore {
   selectedDay = 1;
   selectedPlaceCnt = 0;
   subPlans = null;
+  loadingDetailPlan = 'done';
+  currentReadingPlanNo = undefined;
+  currentPlanType = 'write';
 
   constructor() {
     makeAutoObservable(this);
@@ -39,8 +42,36 @@ class PlanStore {
   }
 
   async createPlan(plan) {
-    console.log(plan);
     const res = await HttpPlan.createPlan(plan);
+    if (res.status !== 200) {
+      return false;
+    }
+    return true;
+  }
+
+  async getDetailPlan(planNo) {
+    this.loadingDetailPlan = 'pending';
+    const res = await HttpPlan.getDetailPlan(planNo);
+    console.log(res);
+    if (res.status !== 200) {
+      return;
+    }
+
+    runInAction(() => {
+      this.currentReadingPlanNo = planNo;
+      this.startDate = new Date(res.data.startDate);
+      this.endDate = new Date(res.data.endDate);
+      const temp = res.data.subplans.map((plan) => {
+        return plan.places.map((place) => place);
+      });
+      this.subPlans = temp;
+      this.currentPlanType = 'edit';
+      this.loadingDetailPlan = 'done';
+    });
+  }
+
+  async updatePlan(newPlan, planNo) {
+    const res = await HttpPlan.updatePlan(newPlan, planNo);
     if (res.status !== 200) {
       return false;
     }
