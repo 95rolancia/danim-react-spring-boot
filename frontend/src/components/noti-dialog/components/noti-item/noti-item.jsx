@@ -20,11 +20,26 @@ const useStyles = makeStyles((theme) => ({
     width: '25%',
     textAlign: 'right',
   },
+  unread: {
+    backgroundColor: 'whitesmoke',
+  },
 }));
+
+const getStyles = (classes, type) => {
+  switch (type) {
+    case true:
+      return classes.read;
+    case false:
+      return classes.unread;
+    default:
+      throw new Error(`unknown type: ${type}`);
+  }
+};
 
 const NotiItem = ({ noti }) => {
   const classes = useStyles();
   const history = useHistory();
+
   const notiClick = () => {
     switch (noti.type) {
       case 'follow':
@@ -38,9 +53,10 @@ const NotiItem = ({ noti }) => {
         throw new Error(`unknown noti type ${noti.type}`);
     }
   };
+
   return (
     <>
-      <ListItem onClick={notiClick}>
+      <ListItem onClick={notiClick} className={getStyles(classes, noti.isRead)}>
         <ListItemText primary={notiTemplate(noti)} className={classes.noti} />
         <TimeAgo
           date={noti.createdAt}
@@ -52,4 +68,5 @@ const NotiItem = ({ noti }) => {
     </>
   );
 };
+
 export default NotiItem;
