@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import { toJS } from 'mobx';
+import { observer } from 'mobx-react-lite';
+import { HomeRoot, HomePic, MainHeader } from './components';
+import useUser from '../../hooks/useUser';
+import useMainPage from '../../hooks/useMainPage';
 import {
   Box,
   Button,
@@ -10,43 +15,7 @@ import {
   Backdrop,
   CircularProgress,
 } from '@material-ui/core';
-import { HomeRoot, HomePic, MainHeader } from './components';
-import useUser from '../../hooks/useUser';
-import useMainPage from '../../hooks/useMainPage';
-import { observer } from 'mobx-react-lite';
-import { toJS } from 'mobx';
-const datasPic = [
-  {
-    no: '1111',
-    picNo: '1',
-    pic: 'https://picsum.photos/id/1080/500',
-    tag: 'FOOD',
-  },
-  {
-    no: '1111',
-    picNo: '2',
-    pic: 'https://picsum.photos/id/1013/500',
-    tag: 'PERSON',
-  },
-  {
-    no: '1112',
-    picNo: '3',
-    pic: 'https://picsum.photos/id/1002/500',
-    tag: 'SCENERY',
-  },
-  {
-    no: '1112',
-    picNo: '5',
-    pic: 'https://picsum.photos/id/139/500',
-    tag: 'FOOD',
-  },
-  {
-    no: '1112',
-    picNo: '4',
-    pic: 'https://picsum.photos/id/1005/500',
-    tag: 'PERSON',
-  },
-];
+
 const options = ['여행루트', '여행사진'];
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -77,8 +46,8 @@ const Home = observer((props) => {
   const classes = useStyles();
   const [loading, setLoading] = useState(true);
   const [interestRegions, setInterestRegions] = useState(null);
-  const [interestArray, setInterestArray] = useState([]);
   const [interestContents, setInterestContents] = useState([]);
+  const [interestPhotos, setInterestPhotos] = useState([]);
   const [popularContents, setPopularContents] = useState([]);
   const history = useHistory();
   const user = useUser();
@@ -113,7 +82,6 @@ const Home = observer((props) => {
     mainContents.getMyInterestsStory().then((res) => {
       if (res) {
         setInterestContents(res);
-        setInterestArray(userInterestArray);
         let userInterest = '';
         for (let interest of userInterestArray) {
           userInterest += '#' + interest + ' ';
@@ -122,6 +90,11 @@ const Home = observer((props) => {
         mainContents.getPopularStory().then((res) => {
           if (res) {
             setPopularContents(res);
+          }
+        });
+        mainContents.getMyInterestsPhoto().then((res) => {
+          if (res) {
+            setInterestPhotos(res);
           }
         });
       }
@@ -197,11 +170,10 @@ const Home = observer((props) => {
       {selectOptionValue === '여행루트' ? (
         <HomeRoot
           popularContents={popularContents}
-          interests={interestArray}
           contents={interestContents}
         />
       ) : (
-        <HomePic datas={datasPic} />
+        <HomePic datas={interestPhotos} />
       )}
     </>
   );
