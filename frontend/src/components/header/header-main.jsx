@@ -83,7 +83,7 @@ const HeaderMain = observer(() => {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" color="primary" elevation={0}>
+      <AppBar position="static" color="inherit" elevation={0}>
         <Toolbar className={classes.toolBar}>
           <Button edge="start" onClick={goToMain}>
             <Typography variant="h6" className={classes.title}>

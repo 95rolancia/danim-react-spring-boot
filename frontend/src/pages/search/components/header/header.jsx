@@ -31,7 +31,14 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 0,
     width: '100%',
   },
+  userIcon: {
+    color: 'whitesmoke',
+  },
+  areaIcon: {
+    color: 'whitesmoke',
+  },
   searchIcon: {
+    color: 'whitesmoke',
     padding: theme.spacing(0, 2),
     height: '100%',
     position: 'absolute',
@@ -99,7 +106,7 @@ const Header = observer(() => {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="static">
+      <AppBar position="static" elevation={1}>
         <Toolbar>
           <IconButton
             edge="start"
@@ -109,7 +116,11 @@ const Header = observer(() => {
             onClick={handleSearchMenuOpen}
             color="inherit"
           >
-            {searchType === '사용자 검색' ? <AccountCircle /> : <Explore />}
+            {searchType === '사용자 검색' ? (
+              <AccountCircle className={classes.userIcon} />
+            ) : (
+              <Explore className={classes.areaIcon} />
+            )}
           </IconButton>
           <form className={classes.search}>
             <div className={classes.searchIcon}>
