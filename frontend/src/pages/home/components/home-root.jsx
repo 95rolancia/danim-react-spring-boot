@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
-import { Typography, makeStyles } from '@material-ui/core';
+import React from 'react';
 import Slider from '../../../components/slider/slider';
-import { useState } from 'react';
+import { Typography, makeStyles } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
   title: {
     fontFamily: 'MingukBold',
