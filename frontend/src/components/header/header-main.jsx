@@ -61,10 +61,6 @@ const HeaderMain = observer(() => {
 
   const handleDialogClose = () => {
     setIsDialogOpen(false);
-    user.readNoti({
-      nickname: toJS(user.user).nickname,
-      notis: notis,
-    });
   };
 
   const goToMain = () => {
