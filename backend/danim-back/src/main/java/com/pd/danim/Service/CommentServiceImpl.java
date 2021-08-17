@@ -72,6 +72,7 @@ public class CommentServiceImpl implements CommentService {
 		request.setIsRead(false);
 		request.setDataId(comment.getStory().getTitle());
 		request.setType("comment");
+		request.setStoryNo(story.getUserNo());
 		notiService.saveNoti(request,commentUser.getNickname());
 		
 		return 200;

@@ -7,6 +7,7 @@ public class NotificationRequest {
 	private String dataId;
 	private Boolean  isRead;
 	private String type;
+	private long storyNo;
 	
 	public String getToUserNickname() {
 		return toUserNickname;
@@ -31,6 +32,12 @@ public class NotificationRequest {
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+	public long getStoryNo() {
+		return storyNo;
+	}
+	public void setStoryNo(long storyNo) {
+		this.storyNo = storyNo;
 	}
 
 }
