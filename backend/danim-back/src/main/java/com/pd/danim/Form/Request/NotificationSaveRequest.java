@@ -13,7 +13,7 @@ public class NotificationSaveRequest {
     private String userEmail;
     private String profile; // 알림을 보낸 사람의 프로필 사진
     private String uuid;
-	
+    private long storyNo;
 	
     public String getUuid() {
 		return uuid;
@@ -93,6 +93,12 @@ public class NotificationSaveRequest {
         this.isRead = isRead;
         this.type = type;
     }
+	public long getStoryNo() {
+		return storyNo;
+	}
+	public void setStoryNo(long storyNo) {
+		this.storyNo = storyNo;
+	}
 	
 	
 	
