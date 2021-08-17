@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pd.danim.Form.Response.MyPopularPhotoResponse;
 import com.pd.danim.Form.Response.MyPopularResponse;
 import com.pd.danim.Form.Response.StoryResponse;
 import com.pd.danim.Service.HomeService;
@@ -41,5 +42,14 @@ public class HomeController {
 		List<StoryResponse> storyResponses = homeService.getPopularStory();
 		
 		return new ResponseEntity<List<StoryResponse>>(storyResponses,HttpStatus.OK);
+	}
+	
+	@GetMapping("/myPopular/photo")
+	public ResponseEntity<List<MyPopularPhotoResponse>> myPopularPhoto(HttpServletRequest httpServletRequest){
+		
+		
+		List<MyPopularPhotoResponse> responses =homeService.getMyPopularPhoto(httpServletRequest);
+		
+		return new ResponseEntity<List<MyPopularPhotoResponse>>(responses,HttpStatus.OK);
 	}
 }

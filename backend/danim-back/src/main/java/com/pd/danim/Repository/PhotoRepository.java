@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
 
 import com.pd.danim.DTO.Photo;
@@ -20,4 +21,5 @@ public interface PhotoRepository extends CrudRepository<Photo, Long> {
 	List<Photo> findTop9ByAddressContaining(String address);
 	@Transactional
 	void deleteAllByStory(Story story);
+	List<Photo> findTop20ByAddressContaining(String address, Sort sort);
 }
