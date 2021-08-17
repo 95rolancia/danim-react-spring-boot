@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
   slide: {
     maxHeight: '50vh',
     height: '90%',
+    marginLeft: theme.spacing(1),
   },
   slides: {
     height: '23em',
