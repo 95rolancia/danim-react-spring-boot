@@ -41,7 +41,6 @@ class SearchStore {
   async searchPlace(keyword) {
     if (!keyword) return;
     const res = await HttpSearch.searchPlace(keyword);
-    console.log(res);
     if (res.status !== 200) {
       return;
     }
@@ -54,7 +53,6 @@ class SearchStore {
   async getPlaceInfo(keyword) {
     if (!keyword) return;
     const res = await HttpSearch.getPlaceInfo(keyword);
-    console.log(res);
     if (res.status !== 200) {
       return;
     }

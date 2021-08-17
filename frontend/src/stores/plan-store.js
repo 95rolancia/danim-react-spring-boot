@@ -71,7 +71,6 @@ class PlanStore {
   }
 
   async updatePlan(newPlan, planNo) {
-    console.log(newPlan, planNo);
     const res = await HttpPlan.updatePlan(newPlan, planNo);
     if (res.status !== 200) {
       return false;
