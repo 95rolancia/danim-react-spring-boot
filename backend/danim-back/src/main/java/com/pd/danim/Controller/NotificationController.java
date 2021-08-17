@@ -229,6 +229,15 @@ public class NotificationController {
 		
 	}
 	
+	@GetMapping("/test3")
+	public void test3() {
+		
+		String notiId = "장준혁";
+		String nickname = "이종현33333";
+		
+		notiService.delteNoti(notiId, nickname);
+	}
+	
 	
 	
 	
