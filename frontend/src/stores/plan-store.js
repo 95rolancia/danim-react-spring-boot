@@ -52,7 +52,6 @@ class PlanStore {
   async getDetailPlan(planNo) {
     this.loadingDetailPlan = 'pending';
     const res = await HttpPlan.getDetailPlan(planNo);
-    console.log(res);
     if (res.status !== 200) {
       return;
     }
