@@ -6,7 +6,7 @@ const CardSlide = ({ data }) => {
     <div>
       <Typography variant="h5">{data.title}</Typography>
       <Typography variant="body2">
-        {data.location}, 총 {data.duration}일 여행
+        총 {data.duration}일, {data.nickname}
       </Typography>
     </div>
   );

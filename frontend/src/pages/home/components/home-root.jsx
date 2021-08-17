@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Typography, makeStyles } from '@material-ui/core';
 import Slider from '../../../components/slider/slider';
+import { useState } from 'react';
 const useStyles = makeStyles((theme) => ({
   title: {
     fontFamily: 'MingukBold',
@@ -19,37 +20,48 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: 'MingukBold',
   },
 }));
-const HomeRoot = ({ datas, interests }) => {
+const HomeRoot = ({ popularContents, contents }) => {
   const classes = useStyles();
+  const [keys, setKeys] = useState([]);
+
+  useEffect(() => {
+    let datas = [];
+    Object.keys(contents).forEach((key) => {
+      datas.push(key);
+    });
+    setKeys(datas);
+  }, [contents, popularContents]);
+
   return (
     <>
-      {interests.map((interest) => (
-        <div key={interest}>
+      {keys.map((key) => (
+        <div key={key}>
           <Typography
             variant="h5"
             component="span"
             color="primary"
             className={classes.interest}
           >
-            {interest}
+            {key}
           </Typography>
           <Typography
             variant="h5"
             component="span"
             className={classes.interestSub}
           >
-            추천 Story
+            인기 Story
           </Typography>
           <div className={classes.marginBottom}></div>
-          <Slider className={classes.marginBottom} datas={datas} />
+          <Slider className={classes.marginBottom} datas={contents[key]} />
         </div>
       ))}
+
       <div className={classes.marginBottom}>
         <Typography variant="h5" component="span" className={classes.title}>
           다님 인기 여행 Story
         </Typography>
       </div>
-      <Slider datas={datas} />
+      <Slider datas={popularContents} />
     </>
   );
 };
