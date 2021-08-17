@@ -157,13 +157,13 @@ public class HomeServiceImpl implements HomeService {
 		List<Interest> interests = user.getInterests();
 		Sort sort = sortByDate();
 		List<MyPopularPhotoResponse> responses = new ArrayList<>();
-		MyPopularPhotoResponse response = new MyPopularPhotoResponse();
+		
 		for (Interest interest : interests) {
 			
 			List<Photo> photos = photoRepository.findTop20ByAddressContaining(interest.getArea(), sort);
 			
 			for (Photo photo : photos) {
-				
+				MyPopularPhotoResponse response = new MyPopularPhotoResponse();
 				response.setFilePath(photo.getFilename());
 				response.setPhotoNo(photo.getPhotoNo());
 				response.setStoryNo(photo.getStory().getStoryNo());
