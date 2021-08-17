@@ -10,6 +10,7 @@ import java.util.PriorityQueue;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.pd.danim.DTO.DanimId;
@@ -17,6 +18,7 @@ import com.pd.danim.DTO.Interest;
 import com.pd.danim.DTO.Photo;
 import com.pd.danim.DTO.Story;
 import com.pd.danim.DTO.User;
+import com.pd.danim.Form.Response.MyPopularPhotoResponse;
 import com.pd.danim.Form.Response.MyPopularResponse;
 import com.pd.danim.Form.Response.StoryResponse;
 import com.pd.danim.Repository.DanimRepository;
@@ -140,5 +142,47 @@ public class HomeServiceImpl implements HomeService {
 		}
 		return responses;
 	}
+
+	@Override
+	public List<MyPopularPhotoResponse> getMyPopularPhoto(HttpServletRequest httpServletRequest) {
+		
+		
+		
+		final String requestTokenHeader = httpServletRequest.getHeader("Authorization");
+		String userId = jwtUtil.getUsername(requestTokenHeader);
+
+		DanimId danim = danimRepository.findById(userId);
+		User user = danim.getUser();
+
+		List<Interest> interests = user.getInterests();
+		Sort sort = sortByDate();
+		List<MyPopularPhotoResponse> responses = new ArrayList<>();
+		MyPopularPhotoResponse response = new MyPopularPhotoResponse();
+		for (Interest interest : interests) {
+			
+			List<Photo> photos = photoRepository.findTop20ByAddressContaining(interest.getArea(), sort);
+			
+			for (Photo photo : photos) {
+				
+				response.setFilePath(photo.getFilename());
+				response.setPhotoNo(photo.getPhotoNo());
+				response.setStoryNo(photo.getStory().getStoryNo());
+				response.setTag(photo.getTag());
+				User storyUser = userRepository.findByUserno(photo.getStory().getUserNo());
+				response.setUserNickname(storyUser.getNickname());
+				responses.add(response);
+			}
+			
+		}
+		
+		return responses;
+	}
+	
+	private Sort sortByDate() {
+		return Sort.by(Sort.Direction.DESC, "date");
+	}
+	
+	
+	
 
 }
