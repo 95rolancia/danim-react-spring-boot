@@ -15,6 +15,20 @@ class HttpStory {
         }
     }
 
+    async deleteStory(storyNo) {
+        try {
+            const res = await this.instance.delete('/story', {
+                data: {
+                    storyNo: storyNo.storyNo,
+                }
+            });
+            return res;
+        } catch (error) {
+            const res = error.response;
+            throw new Error(`delete story error ${(res, error)}`);
+        }
+    }
+
     async like(storyNo) {
         try {
             const res = await this.instance.post('/love', storyNo);
