@@ -10,6 +10,7 @@ import {
   makeStyles,
   Typography,
 } from '@material-ui/core';
+import GpsFixedIcon from '@material-ui/icons/GpsFixed';
 const useStyles = makeStyles((theme) => ({
   inline: {
     display: 'inline',
@@ -24,9 +25,6 @@ const useStyles = makeStyles((theme) => ({
 const DetailTabPic = ({ datas, nickname }) => {
   const classes = useStyles();
   const map = useStory();
-  const handleBookMark = (lat, lng) => {
-    alert(lat + ' ' + lng);
-  };
   const moveMap = (lat, lng) => {
     map.setLatLng(lat, lng);
   };
@@ -34,7 +32,7 @@ const DetailTabPic = ({ datas, nickname }) => {
   return (
     <List>
       {datas.photos.map((photo) => (
-        <ListItem alignItems="flex-start" key={photo.latitude}>
+        <ListItem alignItems="flex-start" key={photo.photoNo}>
           <ListItemAvatar>
             <Avatar
               className={classes.listPic}
@@ -67,12 +65,11 @@ const DetailTabPic = ({ datas, nickname }) => {
             }
           />
           <Button
-            variant="outlined"
-            color="primary"
-            size="large"
-            onClick={() => handleBookMark(photo.latitude, photo.longtitude)}
+            disableElevation
+            color="secondary"
+            onClick={() => moveMap(photo.latitude, photo.longtitude)}
           >
-            담기
+            <GpsFixedIcon />
           </Button>
         </ListItem>
       ))}
