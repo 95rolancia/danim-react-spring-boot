@@ -17,6 +17,12 @@ class MainPageStore {
     if (res.status !== 200) return;
     return res.data;
   }
+
+  async getMyInterestsPhoto() {
+    const res = await HttpMainPage.getMyInterestsPhoto();
+    if (res.status !== 200) return;
+    return res.data;
+  }
 }
 
 export default new MainPageStore();
