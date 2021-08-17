@@ -27,7 +27,7 @@ const Header = ({ showSetting, isManager, userInfo }) => {
     <>
       {isManager ? (
         <div className={classes.root}>
-          <AppBar position="static">
+          <AppBar position="static" elevation={1}>
             <Toolbar>
               <IconButton
                 className={classes.menuButton}
