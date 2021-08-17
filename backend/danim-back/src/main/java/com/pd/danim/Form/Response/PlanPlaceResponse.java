@@ -6,6 +6,7 @@ public class PlanPlaceResponse implements Comparable<PlanPlaceResponse>{
 	private String address;
 	private String latitude;
 	private String longtitude;
+	private long placeNo;
 	private int seqNo;
 
 	public String getName() {
@@ -37,6 +38,14 @@ public class PlanPlaceResponse implements Comparable<PlanPlaceResponse>{
 	}
 	public void setSeqNo(int seqNo) {
 		this.seqNo = seqNo;
+	}
+	
+	
+	public long getPlaceNo() {
+		return placeNo;
+	}
+	public void setPlaceNo(long placeNo) {
+		this.placeNo = placeNo;
 	}
 	@Override
 	public int compareTo(PlanPlaceResponse o) {

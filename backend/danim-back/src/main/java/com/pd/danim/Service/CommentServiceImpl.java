@@ -14,26 +14,34 @@ import com.pd.danim.DTO.Story;
 import com.pd.danim.DTO.User;
 import com.pd.danim.Form.Request.CommentDeleteRequest;
 import com.pd.danim.Form.Request.CommentRequest;
+import com.pd.danim.Form.Request.NotificationRequest;
 import com.pd.danim.Form.Response.CommentResponse;
 import com.pd.danim.Repository.CommentRepository;
 import com.pd.danim.Repository.DanimRepository;
 import com.pd.danim.Repository.StoryRepository;
+import com.pd.danim.Repository.UserRepository;
 import com.pd.danim.Util.JwtUtil;
 
 @Service
 public class CommentServiceImpl implements CommentService {
 	
 	@Autowired
-	DanimRepository danimRepo;
+	private DanimRepository danimRepo;
 	
 	@Autowired
-	StoryRepository storyRepo;
+	private StoryRepository storyRepo;
 	
 	@Autowired
-	CommentRepository commentRepo;
+	private CommentRepository commentRepo;
 	
 	@Autowired
-	JwtUtil jwtUtil;
+	private NotificationService notiService;
+	
+	@Autowired
+	private UserRepository userRepository;
+	
+	@Autowired
+	private JwtUtil jwtUtil;
 	
 	public int writeComment(CommentRequest req, HttpServletRequest httpServletReq) {
 		final String requestTokenHeader = httpServletReq.getHeader("Authorization");
@@ -53,8 +61,19 @@ public class CommentServiceImpl implements CommentService {
 		comment.setContent(req.getContent());
 		comment.setStory(story);
 		comment.setUser(danim.getUser());
+		commentRepo.save(comment);	
 		
-		commentRepo.save(comment);		
+		User commentUser = userRepository.findByUserno(danim.getUserno());
+		//danim.getUser() => 댓글을 작성한 사람
+		//story의 getUser => 알람을 받을 사람
+		User user = userRepository.findByUserno(story.getUserNo());
+		NotificationRequest request = new NotificationRequest();
+		request.setToUserNickname(user.getNickname());
+		request.setIsRead(false);
+		request.setDataId(comment.getStory().getTitle());
+		request.setType("comment");
+		request.setStoryNo(story.getStoryNo());
+		notiService.saveNoti(request,commentUser.getNickname());
 		
 		return 200;
 	}

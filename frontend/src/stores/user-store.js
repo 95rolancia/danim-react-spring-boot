@@ -103,6 +103,14 @@ class UserStore {
     this.plans = this.plans.filter((plan) => plan.planNo !== planNo);
     return true;
   }
+
+  async readNoti(notis) {
+    const res = await HttpUser.readNoti(notis);
+    if (res.status !== 200) {
+      return false;
+    }
+    return true;
+  }
 }
 
 export default new UserStore();

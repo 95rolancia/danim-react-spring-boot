@@ -222,7 +222,7 @@ public class StoryServiceImpl implements StoryService {
 	}
 
 	@Override
-	public int modifyStory(long storyNo, StoryPutRequest req, HttpServletRequest httpServletReq) {
+	public int modifyStory(long storyNo, StoryRequest req, HttpServletRequest httpServletReq) {
 		
 		if(!storyRepo.existsById(storyNo)) {
 			return 404;
@@ -234,9 +234,7 @@ public class StoryServiceImpl implements StoryService {
 		DanimId danim = danimRepo.findById(userId);
 		if(danim == null)
 			return 401;
-		
-		
-		
+				
 		
 		Story story = storyRepo.findByStoryNo(storyNo);
 		
@@ -244,12 +242,70 @@ public class StoryServiceImpl implements StoryService {
 			return 406;
 		}
 		
+		photoRepo.deleteAllByStory(story);
+		subStoryRepo.deleteAllByStory(story);
 		
+
+
+		List<PhotoRequest> photoReqList = req.getPhotos();
+		Collections.sort(photoReqList);
+		SubStory[] subStoryArr = new SubStory[req.getDuration()];
+		for(int i=0;i<req.getDuration(); i++) {
+			subStoryArr[i] = new SubStory();
+			subStoryArr[i].setStory(story);
+		}
+		
+			
+		LocalDateTime startDate = LocalDateTime.parse(req.getStartDate());
+		LocalDateTime startDateDays = startDate.truncatedTo(ChronoUnit.DAYS);
+		
+		story.setCreatedDate(LocalDateTime.now());
+		story.setStartDate(startDate);
+		story.setDuration(req.getDuration());
 		story.setStatus(req.getStatus());
 		story.setTitle(req.getTitle());
-		story.setThumbnail(req.getThumbnail());
+		story.setUserNo(danim.getUserno());
+
+		int seqNo = 0;
+		List<Photo> photoList = new ArrayList();
+		for (PhotoRequest photoReq : photoReqList) {
+			Photo photo = new Photo(); 
+
+			
+			photo.setFilename(photoReq.getFilename());
+			photo.setLatitude(photoReq.getLatitude());
+			photo.setLongtitude(photoReq.getLongtitude());
+			photo.setDate(LocalDateTime.parse(photoReq.getDate()));		
+			photo.setAddress(photoReq.getAddress());
+			photo.setPlaceName(photoReq.getPlaceName());
+			photo.setContent(photoReq.getContent());
+			
+			LocalDateTime thisDays = LocalDateTime.parse(photoReq.getDate()).truncatedTo(ChronoUnit.DAYS);
+			
+			seqNo = thisDays.compareTo(startDateDays);
+			subStoryArr[seqNo].setUserNo(danim.getUserno());
+			subStoryArr[seqNo].setSeqNo(seqNo);
+			subStoryArr[seqNo].setStory(story);
+			photo.setStory(story);
+			photo.setSubstory(subStoryArr[seqNo]);
+			photo.setUserNo(danim.getUserno());
+			
+			photoList.add(photo);
+		}
+		if(req.getThumbnail()!=null)
+			story.setThumbnail(req.getThumbnail());
+		else
+			story.setThumbnail(photoList.get(0).getFilename());
 		
 		storyRepo.save(story);
+		
+		for (SubStory sub : subStoryArr) {
+			subStoryRepo.save(sub);
+		}
+		
+		for (Photo photo : photoList) {
+			photoRepo.save(photo);
+		}
 		
 		
 		

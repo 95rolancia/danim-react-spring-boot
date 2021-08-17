@@ -47,7 +47,7 @@ const StoryDetailRoute = observer(({ children, ...rest }) => {
       }
       setLoading(false);
     });
-  }, [rest.computedMatch.params.no, story]);
+  }, [no, story]);
 
   const handleLike = () => {
     let loveCount = detailStory.loveCount;

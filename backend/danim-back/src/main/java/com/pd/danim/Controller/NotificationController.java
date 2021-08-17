@@ -38,6 +38,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.pd.danim.Form.Request.NotificationReadRequest;
 import com.pd.danim.Form.Request.NotificationRequest;
 import com.pd.danim.Service.NotificationService;
 
@@ -229,12 +230,32 @@ public class NotificationController {
 		
 	}
 	
+	@PostMapping("/test3")
+	public void test3(@RequestBody NotificationReadRequest request) {
+		
+		
+//		System.out.println(request);
+//		System.out.println(request.getNotis().get(0).getCreatedAt());
+//		System.out.println(request.getNotis().size());
+		String nickname = "장준혁";
+		for (int i = 0; i < request.getNotis().size(); i++) {
+			System.out.println(i);
+			notiService.readNoti(nickname, request.getNotis().get(i).getUuid());
+		}
+		
+//		String notiId = "장준혁";
+//		String nickname = "이종현33333";
+//		
+//		notiService.delteNoti(notiId, nickname);
+	}
 	
-	
-	
-	
-	
-	
-	
-	
+	@PostMapping("/noti/read")
+	public ResponseEntity<String> notiRead(@RequestBody NotificationReadRequest request){
+		
+		String nickname = request.getNickname();
+		for (int i = 0; i < request.getNotis().size(); i++) {
+			notiService.readNoti(nickname, request.getNotis().get(i).getUuid());
+		}
+		return new ResponseEntity<String>("success",HttpStatus.OK);
+	}
 }
