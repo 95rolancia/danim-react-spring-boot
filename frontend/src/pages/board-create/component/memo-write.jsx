@@ -1,7 +1,14 @@
 import React from 'react';
 import useBoardCreate from '../../../hooks/useBoardCreate';
 import { observer } from 'mobx-react-lite';
-import { makeStyles, Container, Button, Grid, Fab } from '@material-ui/core';
+import {
+  makeStyles,
+  Container,
+  Button,
+  Grid,
+  Fab,
+  Box,
+} from '@material-ui/core';
 import { StoryCover, StoryContents } from './index';
 import { toJS } from 'mobx';
 import { useEffect } from 'react';
@@ -15,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MemoWrite = observer((props) => {
+const MemoWrite = observer(({ onFileChange }) => {
   const boardCreate = useBoardCreate();
   const classes = useStyles();
   // useEffect(() => {}, [boardCreate.photos]);
@@ -58,7 +65,7 @@ const MemoWrite = observer((props) => {
       // 이거 나중에 조금 더 고치기
       duration: toJS(boardCreate.tripDate.length),
       photos: toJS(boardCreate.photos),
-      startDate: toJS(boardCreate.photos[0].date).slice(0, 10),
+      startDate: toJS(boardCreate.photos[0].date),
       status: 'TEMP',
       thumbnail: toJS(boardCreate.photos[0].filename),
       title: toJS(boardCreate.title),
@@ -78,8 +85,33 @@ const MemoWrite = observer((props) => {
       });
   };
 
+  const handleFileChange = (e) => {
+    boardCreate.handleLoading();
+    onFileChange(e);
+  };
+
   return (
     <>
+      <Box display="flex" flexDirection="row-reverse">
+        <input
+          type="file"
+          id="input-file"
+          accept={'.jpg, .png'}
+          onChange={handleFileChange}
+          multiple
+          style={{ display: 'none' }}
+        />
+        <label htmlFor="input-file">
+          <Fab
+            variant="extended"
+            color="secondary"
+            component="span"
+            className={classes.button}
+          >
+            사진추가 임시버튼
+          </Fab>
+        </label>
+      </Box>
       <StoryCover />
       <StoryContents />
       <Button onClick={watchPhoto}>포토보자</Button>
