@@ -33,13 +33,14 @@ const StoryCover = observer((props) => {
     storyCoverBox: {
       backgroundImage: `url(${coverImgUrl})`,
       backgroundSize: 'cover',
-      height: '100% ',
+      height: '100%',
       width: '100%',
     },
     titleBox: {
       backgroundColor: 'rgba(0,0,0,0.6)',
       color: 'white',
       textAlign: 'center',
+      marginBottom: '7.5em',
     },
     tripDateTypo: {
       marginTop: '0.5em',
@@ -50,7 +51,7 @@ const StoryCover = observer((props) => {
       fontSize: '1.7rem',
     },
     buttonBox: {
-      marginBottom: '2.4em',
+      marginBottom: '3em',
     },
   }));
   const classes = useStyles();
@@ -92,6 +93,7 @@ const StoryCover = observer((props) => {
               <PhotoLibraryIcon />
             </Fab>
           </Box>
+
           <Box p={3} className={classes.titleBox}>
             <form>
               <TextField
