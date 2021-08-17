@@ -27,7 +27,7 @@ const HomeRoot = ({ popularContents, contents }) => {
   return (
     <>
       {contents.map((content) => (
-        <div key={content.storyNo}>
+        <div key={content.area}>
           <Typography
             variant="h5"
             component="span"
