@@ -9,12 +9,26 @@ import {
   Box,
   TextField,
   Fab,
+  ImageList,
+  ImageListItem,
+  InputAdornment,
 } from '@material-ui/core';
+import EditIcon from '@material-ui/icons/Edit';
+
 import CoverImageChange from './cover-image-change';
+import { toJS } from 'mobx';
 
 const StoryCover = observer((props) => {
   const boardCreate = useBoardCreate();
   const [isShowSetting, setIsShowSetting] = useState(false);
+  const startDay = toJS(
+    boardCreate.calculatePrettyDate(boardCreate.tripDate[0]),
+  );
+  const endDay = toJS(
+    boardCreate.calculatePrettyDate(
+      boardCreate.tripDate[boardCreate.tripDate.length - 1],
+    ),
+  );
 
   // useEffect(() => {
   //   boardCreate.setThumbnail();
@@ -22,6 +36,8 @@ const StoryCover = observer((props) => {
 
   const coverImgUrl =
     boardCreate.imgBaseURL + boardCreate.nickname + '/' + boardCreate.thumbnail;
+
+  const photoURL = boardCreate.imgBaseURL + boardCreate.nickname + '/';
 
   const useStyles = makeStyles((theme) => ({
     storyCover: {
@@ -42,7 +58,7 @@ const StoryCover = observer((props) => {
       textAlign: 'center',
       marginBottom: '7.5em',
     },
-    tripDateTypo: {
+    tripDate: {
       marginTop: '0.5em',
       color: 'gray',
     },
@@ -53,11 +69,29 @@ const StoryCover = observer((props) => {
     buttonBox: {
       marginBottom: '3em',
     },
+    imageList: {
+      flexWrap: 'nowrap',
+      // zIndex: '10',
+      // // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
+      transform: 'translateZ(0)',
+    },
+    underline: {
+      '& .MuiInput-underline:hover:not(.Mui-disabled):before': {
+        borderBottom: '5px solid white',
+      },
+      '& .MuiInput-underline:after': {
+        borderBottom: '5px solid #EC9361',
+      },
+      '& .MuiInput-underline:before': {
+        borderBottom: '5px solid #4F9EE8',
+      },
+    },
   }));
   const classes = useStyles();
 
   const handleTitleChange = (e) => {
-    boardCreate.handleTitleChange(e.target.value);
+    const newTitle = e.target.value;
+    boardCreate.handleTitleChange(newTitle);
   };
 
   const showSetting = () => {
@@ -68,12 +102,16 @@ const StoryCover = observer((props) => {
     setIsShowSetting(false);
   };
 
+  const changeThumbnail = (e) => {
+    boardCreate.changeThumbnail(e.target.alt);
+  };
+
   return (
     <>
-      <CoverImageChange
+      {/* <CoverImageChange
         isShowSetting={isShowSetting}
         hideSetting={hideSetting}
-      />
+      /> */}
       <Grid item xs={12}>
         <Box
           display="flex"
@@ -81,6 +119,8 @@ const StoryCover = observer((props) => {
           justifyContent="flex-start"
           alignContent="center"
           className={classes.storyCoverBox}
+          mt={6}
+          mb={0.5}
         >
           <Box
             display="flex"
@@ -98,17 +138,43 @@ const StoryCover = observer((props) => {
             <form>
               <TextField
                 defaultValue={boardCreate.title}
-                fullWidth
+                color="primary"
                 inputProps={{ style: { textAlign: 'center' } }}
-                InputProps={{ className: classes.inputTextColor }}
+                InputProps={{
+                  className: classes.inputTextColor,
+                  startAdornment: (
+                    <InputAdornment position="end">
+                      <EditIcon />
+                    </InputAdornment>
+                  ),
+                }}
                 onChange={handleTitleChange}
+                className={(classes.titleField, classes.underline)}
               ></TextField>
             </form>
-            <Typography className={classes.tripDateTypo}>
-              {boardCreate.tripDate[0]} -{' '}
-              {boardCreate.tripDate[boardCreate.tripDate.length - 1]}
+            <Typography className={classes.tripDate}>
+              {startDay[0]}.{startDay[1]}.{startDay[2]} - {endDay[0]}.
+              {endDay[1]}.{endDay[2]}
             </Typography>
           </Box>
+        </Box>
+        <Box pb={3}>
+          <ImageList className={classes.imageList} cols={4.3} gap={4}>
+            {boardCreate.photos.map((item) => (
+              <ImageListItem
+                key={item.filename}
+                className={classes.imageListItem}
+                cols={1}
+                rows={0.6}
+              >
+                <img
+                  src={photoURL + item.filename}
+                  alt={item.filename}
+                  onClick={changeThumbnail}
+                />
+              </ImageListItem>
+            ))}
+          </ImageList>
         </Box>
       </Grid>
     </>

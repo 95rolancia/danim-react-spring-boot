@@ -25,7 +25,9 @@ const BoardCreate = observer(() => {
   const boardCreate = useBoardCreate();
 
   boardCreate.setNickname(toJS(user.user).nickname);
-  boardCreate.setDefaultTitle();
+  if (boardCreate.title === '') {
+    boardCreate.setDefaultTitle();
+  }
 
   const getMetaData = async (imgFile) => {
     const result = await loadImage.parseMetaData(imgFile, {

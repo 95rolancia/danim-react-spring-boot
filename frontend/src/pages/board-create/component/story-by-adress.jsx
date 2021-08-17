@@ -11,8 +11,10 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  Typography,
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+import RoomIcon from '@material-ui/icons/Room';
 
 const useStyles = makeStyles((theme) => ({
   imageList: {
@@ -88,14 +90,13 @@ const StoryByAdress = observer(({ photos, address }) => {
     <>
       {isPhoto && (
         <Box display="flex" flexDirection="column" mb={1}>
-          <div>{address}</div>
           {/* <Fab onClick={showSetting}>
               <CreateIcon />
             </Fab> */}
-          <Box mb={3}>
+          <Box mb={1}>
             <ImageList
               // sx={{ width: 500, height: 450 }}
-              cols={2.7}
+              cols={3.1}
               className={classes.imageList}
               // rowHeight={164}
             >
@@ -123,7 +124,7 @@ const StoryByAdress = observer(({ photos, address }) => {
                           onClick={handleClick}
                           // onClick={() => handleTagClick(photo)}
                         >
-                          # {photo.tag}
+                          #{photo.tag}
                           {/* <Chip
                             // icon={<LocalOfferIcon />}
                             label={`# ${photo.tag}`}
@@ -178,6 +179,14 @@ const StoryByAdress = observer(({ photos, address }) => {
                 </ImageListItem>
               ))}
             </ImageList>
+          </Box>
+          <Box display="flex" flexDirection="row" py={1}>
+            <RoomIcon color="primary" />
+            <Box pl={1}>
+              <Typography>
+                {boardCreate.calculatePrettyAddress(address)}
+              </Typography>
+            </Box>
           </Box>
           <Box mb={3}>
             <form>

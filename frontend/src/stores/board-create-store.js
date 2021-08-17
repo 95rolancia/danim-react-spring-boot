@@ -1,6 +1,7 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 import httpBoardCreate from '../service/http-board-create';
 import loadImage from 'blueimp-load-image';
+import { CompareSharp } from '@material-ui/icons';
 
 class BoardCreateStore {
   duration = 0;
@@ -75,9 +76,8 @@ class BoardCreateStore {
     return;
   }
 
-  async handleTitleChange(value) {
+  handleTitleChange(value) {
     this.title = value
-    return;
   }
 
   async getMetaData(imgFile) {
@@ -190,6 +190,7 @@ class BoardCreateStore {
 
   deletePhoto(targetPhoto) {
     const tempIndex = this.photos.findIndex(photo => photo.filename === targetPhoto.filename)
+    console.log('템프인덱스',tempIndex)
     this.photos.splice(tempIndex, 1)
 
     runInAction(() => {
@@ -198,16 +199,20 @@ class BoardCreateStore {
       }
 
       const tempDateIndex = this.tripDate.findIndex(date => date === targetPhoto.date.slice(0, 10))
-      console.log(this.photos.slice(tempDateIndex)[0])
+      console.log(this.photos.slice(0)[0].date)
+      console.log(targetPhoto.date)
       
-      if (tempIndex === 0 && this.photos[tempIndex].date.slice(0, 10) !== targetPhoto.date.slice(0, 10)) {
+      if (tempIndex === 0 && this.photos[0].date.slice(0, 10) !== targetPhoto.date.slice(0, 10)) {
         this.tripDate.splice(tempDateIndex, 1)
       } else if (tempIndex === (this.photos.length) && this.photos[tempIndex-1].date.slice(0, 10) !== targetPhoto.date.slice(0, 10)) {
         console.log('나는 템프인덱스', tempIndex)
         console.log('나는 포토', this.photos)
         this.tripDate.splice(tempDateIndex, 1)
       } else {
-        if (this.photos[tempIndex - 1].date.slice(0, 10) !== targetPhoto.date.slice(0, 10) && this.photos[tempIndex].date.slice(0, 10) !== targetPhoto.date.slice(0, 10)) {
+        if (
+          tempIndex !== 0 && tempIndex !== (this.photos.length) &&
+          this.photos[tempIndex - 1].date.slice(0, 10) !== targetPhoto.date.slice(0, 10) &&
+          this.photos[tempIndex].date.slice(0, 10) !== targetPhoto.date.slice(0, 10)) {
           this.tripDate.splice(tempDateIndex, 1)
         }
       }
@@ -227,6 +232,11 @@ class BoardCreateStore {
     const month = targetDate.slice(5,7)
     const day = targetDate.slice(8, 10)
     return [year, month, day]
+  }
+
+  calculatePrettyAddress(address) {
+    const addressArr = address.split(' ').slice(2).join(' ')
+    return addressArr
   }
 }
 
