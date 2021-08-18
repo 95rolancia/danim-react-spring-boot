@@ -2,9 +2,17 @@ import React from 'react';
 import useBoardCreate from '../../../hooks/useBoardCreate';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
+import { PhotoSizeSelectSmallTwoTone } from '@material-ui/icons';
 
 const Loading = observer((props) => {
   const boardCreate = useBoardCreate();
+  if (
+    boardCreate.photos.length === 0 &&
+    toJS(boardCreate.successImgNum) === 0 &&
+    toJS(boardCreate.errorImgNum) >= toJS(boardCreate.totalImgNum)
+  ) {
+    boardCreate.changePage2TitleCreate();
+  }
   if (
     toJS(boardCreate.successImgNum) + toJS(boardCreate.errorImgNum) ===
     toJS(boardCreate.totalImgNum)
