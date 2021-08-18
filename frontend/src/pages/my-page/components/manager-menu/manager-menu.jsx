@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import useStory from '../../../../hooks/useStory';
+import { useHistory } from 'react-router-dom';
 import {
   Button,
   Menu,
@@ -21,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
 const ManagerMenu = ({ storyNo, onDelete }) => {
   const classes = useStyles();
   const story = useStory();
+  const history = useHistory();
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -44,16 +46,17 @@ const ManagerMenu = ({ storyNo, onDelete }) => {
     if (type === 'delete') {
       handleDialogOpen();
     }
-    if (type === 'modify') {
-      alert('수정합니다.' + storyNo);
-    }
   };
 
-  const handleDeleteStory = (storyNo) => {
+  const handleDeleteStory = () => {
     story.deleteStory(storyNo).then((res) => {
       handleDialogClose();
       onDelete();
     });
+  };
+
+  const goToUpdateStoryPage = () => {
+    history.push({ pathname: '/main/create', state: { storyNo: storyNo } });
   };
 
   return (
@@ -70,7 +73,7 @@ const ManagerMenu = ({ storyNo, onDelete }) => {
         <MenuItem
           onClick={(e) => {
             handleClose(e);
-            handleStory('modify', storyNo);
+            goToUpdateStoryPage();
           }}
         >
           수정
