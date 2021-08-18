@@ -15,3 +15,4 @@ export { default as SignIn } from './sign-in/sign-in';
 export { default as SignUp } from './sign-up/sign-up';
 export { default as StoryRead } from './/board-read/story-read';
 export { default as StoryDetail } from './board-read/story-detail';
+export { default as FindPassword } from './find-password/find-password';

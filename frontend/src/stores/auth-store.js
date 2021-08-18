@@ -90,6 +90,41 @@ class AuthStore {
       });
     }
   }
+
+  async findPassword(emailCode) {
+    const res = await HttpAuth.findPassword(emailCode);
+    if (res.status !== 200) {
+      return false;
+    }
+    return true;
+  }
+
+  async withdrawl() {
+    const res = await HttpAuth.withdrawl();
+    if (res.status !== 200) {
+      return false;
+    }
+    return true;
+  }
+
+  async getEmailAuthCode(email) {
+    const res = await HttpAuth.getEmailAuthCode(email);
+    if (res.status === 403) {
+      return 403;
+    }
+    if (res.status !== 200) {
+      return false;
+    }
+    return true;
+  }
+
+  async resetPassword(data) {
+    const res = await HttpAuth.resetPassword(data);
+    if (res.status !== 200) {
+      return false;
+    }
+    return true;
+  }
 }
 
 export default new AuthStore();
