@@ -2,7 +2,14 @@ import styles from './app.module.css';
 import { useState, useEffect } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
-import { SignUp, SignIn, Main, NotFound, Interest } from './pages/index.js';
+import {
+  SignUp,
+  SignIn,
+  Main,
+  NotFound,
+  Interest,
+  FindPassword,
+} from './pages/index.js';
 import { StartLoading } from './components';
 import useAuth from './hooks/useAuth';
 import useUser from './hooks/useUser';
@@ -49,6 +56,9 @@ const App = observer(() => {
             </Route>
             <Route path="/signup">
               <SignUp />
+            </Route>
+            <Route path="/findPassword">
+              <FindPassword />
             </Route>
             <PrivateRoute path="/main">
               <Main />
