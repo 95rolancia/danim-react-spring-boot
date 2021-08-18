@@ -38,6 +38,11 @@ class BoardCreateStore {
     this.isFirstPage = false;
   }
 
+  changePage2TitleCreate() {
+    this.isFirstPage = true;
+    this.isLoading = !this.isLoading
+  }
+
   handleLoading() {
     this.isLoading = !this.isLoading
   }
@@ -236,8 +241,11 @@ class BoardCreateStore {
   }
 
   calculatePrettyAddress(address) {
-    const addressArr = address.split(' ').slice(2).join(' ')
-    return addressArr
+    if (address) {
+      const addressArr = address.split(' ').slice(2).join(' ')
+      return addressArr
+    }
+    return []
   }
 
   handleIsTempChecked(value) {

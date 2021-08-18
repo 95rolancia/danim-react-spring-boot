@@ -9,12 +9,14 @@ import {
   TextField,
   ImageListItemBar,
   IconButton,
-  Menu,
-  MenuItem,
   Typography,
+  Card,
+  CardMedia,
+  CardContent,
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import RoomIcon from '@material-ui/icons/Room';
+import TagMenu from './tag-menu';
 
 const useStyles = makeStyles((theme) => ({
   imageList: {
@@ -38,12 +40,6 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     flexDirection: 'column',
   },
-  tagButton: {
-    color: 'white',
-    overflow: 'visible',
-    fontSize: '1em',
-    textDecoration: 'underline',
-  },
 }));
 
 const StoryByAdress = observer(({ photos, address }) => {
@@ -51,8 +47,6 @@ const StoryByAdress = observer(({ photos, address }) => {
   const boardCreate = useBoardCreate();
   const classes = useStyles();
   const [isPhoto, setIsPhoto] = useState(false);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
 
   const photoURL = boardCreate.imgBaseURL + boardCreate.nickname + '/';
 
@@ -69,19 +63,6 @@ const StoryByAdress = observer(({ photos, address }) => {
     boardCreate.uploadMemo(newMemo, address);
   };
 
-  const handleClickTag = (str, photo) => {
-    boardCreate.changeTag(str, photo);
-    setAnchorEl(null);
-  };
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
   const deletePhoto = (photo) => {
     boardCreate.deletePhoto(photo);
   };
@@ -90,96 +71,43 @@ const StoryByAdress = observer(({ photos, address }) => {
     <>
       {isPhoto && (
         <Box display="flex" flexDirection="column" mb={1}>
-          {/* <Fab onClick={showSetting}>
-              <CreateIcon />
-            </Fab> */}
           <Box mb={1}>
-            <ImageList
-              // sx={{ width: 500, height: 450 }}
-              cols={3.1}
-              className={classes.imageList}
-              // rowHeight={164}
-            >
-              {/* <ImageListItem key="Subheader" cols={3}>
-                  <ListSubheader component="div">December</ListSubheader>
-                </ImageListItem> */}
-              {photos.map((photo) => (
-                <ImageListItem key={photo.filename}>
-                  <img
-                    src={photoURL + photo.filename}
-                    alt={photo.adress}
-                    loading="lazy"
-                    ref={imgRef}
-                  />
-                  <ImageListItemBar
-                    actionPosition="left"
-                    actionIcon={
-                      <>
-                        <IconButton
-                          id={`tag-button-${photo.filename}`}
-                          aria-controls={`tag-menu-${photo.filename}`}
-                          aria-haspopup="true"
-                          aria-expanded={open ? 'true' : undefined}
-                          className={classes.tagButton}
-                          onClick={handleClick}
-                          // onClick={() => handleTagClick(photo)}
-                        >
-                          #{photo.tag}
-                          {/* <Chip
-                            // icon={<LocalOfferIcon />}
-                            label={`# ${photo.tag}`}
-                            variant="outlined"
-                            className={classes.tagChip}
-                          /> */}
+            <ImageList cols={3.1} className={classes.imageList}>
+              {photos.map((photo) => {
+                // console.log('포토토토토', photo);
+                return (
+                  <ImageListItem key={photo.filename}>
+                    <img
+                      src={photoURL + photo.filename}
+                      alt={photo.adress}
+                      loading="lazy"
+                      ref={imgRef}
+                    />
+                    <ImageListItemBar
+                      actionPosition="left"
+                      actionIcon={
+                        <>
+                          <TagMenu photo={photo} />
+                        </>
+                      }
+                      className={classes.tagBackground}
+                    />
+                    <ImageListItemBar
+                      position="top"
+                      actionIcon={
+                        <IconButton onClick={() => deletePhoto(photo)}>
+                          <CloseIcon className={classes.deleteIcon} />
                         </IconButton>
-                        <Menu
-                          id={`tag-menu-${photo.filename}`}
-                          anchorEl={anchorEl}
-                          open={open}
-                          onClose={handleClose}
-                          MenuListProps={{
-                            'aria-labelledby': 'basic-button',
-                          }}
-                        >
-                          <MenuItem
-                            onClick={() => handleClickTag('NONE', photo)}
-                          >
-                            NONE
-                          </MenuItem>
-                          <MenuItem
-                            onClick={() => handleClickTag('PERSON', photo)}
-                          >
-                            PERSON
-                          </MenuItem>
-                          <MenuItem
-                            onClick={() => handleClickTag('SENERY', photo)}
-                          >
-                            SENERY
-                          </MenuItem>
-                          <MenuItem
-                            onClick={() => handleClickTag('FOOD', photo)}
-                          >
-                            FOOD
-                          </MenuItem>
-                        </Menu>
-                      </>
-                    }
-                    className={classes.tagBackground}
-                  />
-                  <ImageListItemBar
-                    position="top"
-                    actionIcon={
-                      <IconButton onClick={() => deletePhoto(photo)}>
-                        <CloseIcon className={classes.deleteIcon} />
-                      </IconButton>
-                    }
-                    actionPosition="left"
-                    className={classes.deleteIconBackground}
-                  />
-                </ImageListItem>
-              ))}
+                      }
+                      actionPosition="left"
+                      className={classes.deleteIconBackground}
+                    />
+                  </ImageListItem>
+                );
+              })}
             </ImageList>
           </Box>
+
           <Box display="flex" flexDirection="row" py={1}>
             <RoomIcon color="primary" />
             <Box pl={1}>
@@ -188,6 +116,7 @@ const StoryByAdress = observer(({ photos, address }) => {
               </Typography>
             </Box>
           </Box>
+
           <Box mb={3}>
             <form>
               <TextField
@@ -200,9 +129,6 @@ const StoryByAdress = observer(({ photos, address }) => {
               ></TextField>
             </form>
           </Box>
-          {/* <Box display="flex">
-              <Box>{photos[0].content}</Box>
-            </Box> */}
         </Box>
       )}
     </>
