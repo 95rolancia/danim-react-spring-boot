@@ -24,10 +24,13 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   title: {
-    flexGrow: 2,
+    flexGrow: 1,
   },
   appBar: {
     backgroundColor: '#fafafa',
+  },
+  desc: {
+    color: '#36434C',
   },
 }));
 
@@ -61,14 +64,22 @@ const FollowList = ({ userInfo }) => {
     <div className={classes.root}>
       <AppBar position="static" className={classes.appBar} elevation={0}>
         <Toolbar>
+          <Button disabled className={classes.title}>
+            <Typography component="span" className={classes.desc}>
+              스토리 &nbsp;
+            </Typography>
+            <Typography component="span" className={classes.desc}>
+              {userInfo.stories.length}
+            </Typography>
+          </Button>
           <Button className={classes.title} onClick={handleFollowingOpen}>
-            <Typography component="span">팔로잉</Typography>
+            <Typography component="span">팔로우 &nbsp;</Typography>
             <Typography component="span" color="primary">
               {userInfo.followingCnt}
             </Typography>
           </Button>
           <Button className={classes.title} onClick={handleFollowerOpen}>
-            <Typography component="span">팔로워</Typography>
+            <Typography component="span">팔로워 &nbsp;</Typography>
             <Typography component="span" color="secondary">
               {userInfo.followerCnt}
             </Typography>
@@ -122,7 +133,7 @@ function FollowingDialog(props) {
             <ListItemAvatar>
               <Avatar
                 className={classes.avatar}
-                alt="팔로잉 아바타"
+                alt={following.nickname}
                 src={
                   process.env.REACT_APP_IMAGE_BASE_URL +
                   following.nickname +
@@ -174,7 +185,7 @@ function FollowerDialog(props) {
             <ListItemAvatar>
               <Avatar
                 className={classes.avatar}
-                alt="팔로워 아바타"
+                alt={follower.nickname}
                 src={
                   process.env.REACT_APP_IMAGE_BASE_URL +
                   follower.nickname +
