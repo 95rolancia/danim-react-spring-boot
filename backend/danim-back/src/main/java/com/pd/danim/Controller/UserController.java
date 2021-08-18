@@ -99,7 +99,7 @@ public class UserController {
 		return new ResponseEntity<String>("success", HttpStatus.OK);
 	}
 	
-	@ApiOperation(tags="인증", value="비밀번호 찾기(초기화)", notes="비밀번호를 초기화 합니다")
+	@ApiOperation(tags="인증", value="비밀번호 변경(이메일 인증)", notes="비밀번호를 초기화 합니다")
 	@PostMapping("/auth/resetpwd")
 	public ResponseEntity<String> resetPasswrod(@RequestBody PasswordResetRequest input){
 		
