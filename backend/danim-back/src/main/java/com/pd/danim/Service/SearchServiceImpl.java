@@ -79,14 +79,15 @@ public class SearchServiceImpl implements SearchService {
 
 		Iterator<Long> iter = storySet.iterator();
 		while (iter.hasNext()) {
-			Story story = storyRepository.findByStoryNo(iter.next());
+			Long variable = iter.next();
+			Story story = storyRepository.findByStoryNo(variable);
 			stories.add(story);
 		}
 		
 		for (Story story : stories) {
 			SearchByAreaResponse response = new SearchByAreaResponse();
 			response.setPhotoFileName(story.getThumbnail());
-			response.setStoryNo(story.getUserNo());
+			response.setStoryNo(story.getStoryNo());
 			response.setTitle(story.getTitle());
 			User user = userRepository.findByUserno(story.getUserNo());
 			response.setNickname(user.getNickname());
