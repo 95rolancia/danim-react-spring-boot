@@ -71,6 +71,8 @@ const StoryByAdress = observer(({ photos, address }) => {
 
   const handleClickTag = (str, photo) => {
     boardCreate.changeTag(str, photo);
+    console.log('이 사진은', photo.filename);
+    console.log('photos', photos);
     setAnchorEl(null);
   };
 
@@ -90,19 +92,8 @@ const StoryByAdress = observer(({ photos, address }) => {
     <>
       {isPhoto && (
         <Box display="flex" flexDirection="column" mb={1}>
-          {/* <Fab onClick={showSetting}>
-              <CreateIcon />
-            </Fab> */}
           <Box mb={1}>
-            <ImageList
-              // sx={{ width: 500, height: 450 }}
-              cols={3.1}
-              className={classes.imageList}
-              // rowHeight={164}
-            >
-              {/* <ImageListItem key="Subheader" cols={3}>
-                  <ListSubheader component="div">December</ListSubheader>
-                </ImageListItem> */}
+            <ImageList cols={3.1} className={classes.imageList}>
               {photos.map((photo) => (
                 <ImageListItem key={photo.filename}>
                   <img
@@ -122,15 +113,8 @@ const StoryByAdress = observer(({ photos, address }) => {
                           aria-expanded={open ? 'true' : undefined}
                           className={classes.tagButton}
                           onClick={handleClick}
-                          // onClick={() => handleTagClick(photo)}
                         >
                           #{photo.tag}
-                          {/* <Chip
-                            // icon={<LocalOfferIcon />}
-                            label={`# ${photo.tag}`}
-                            variant="outlined"
-                            className={classes.tagChip}
-                          /> */}
                         </IconButton>
                         <Menu
                           id={`tag-menu-${photo.filename}`}
@@ -152,9 +136,9 @@ const StoryByAdress = observer(({ photos, address }) => {
                             PERSON
                           </MenuItem>
                           <MenuItem
-                            onClick={() => handleClickTag('SENERY', photo)}
+                            onClick={() => handleClickTag('SCENERY', photo)}
                           >
-                            SENERY
+                            SCENERY
                           </MenuItem>
                           <MenuItem
                             onClick={() => handleClickTag('FOOD', photo)}

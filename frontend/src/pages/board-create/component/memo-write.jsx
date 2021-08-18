@@ -12,7 +12,7 @@ import {
   Checkbox,
 } from '@material-ui/core';
 import { StoryCover, StoryContents } from './index';
-import { set, toJS } from 'mobx';
+import { toJS } from 'mobx';
 import { useState } from 'react';
 // import { useHistory } from 'react-router-dom';
 
