@@ -18,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.pd.danim.Form.Request.PhotoPutRequest;
 import com.pd.danim.Form.Request.PhotoUploadRequest;
-import com.pd.danim.Form.Request.StoryPutRequest;
 import com.pd.danim.Form.Request.StoryRequest;
 import com.pd.danim.Form.Response.PhotoResponse;
 import com.pd.danim.Form.Response.StoryDetailResponse;
@@ -113,8 +112,17 @@ public class StoryController {
 	
 	@ApiOperation(tags = "스토리", value = "스토리 삭제", notes = "스토리를 삭제합니다")
 	@DeleteMapping("/{storyno}")
-	public ResponseEntity<String> deleteStory(@RequestBody String temp) {
-		// 본인 검증 후 삭제
+	public ResponseEntity<String> deleteStory(@PathVariable("storyno") long storyNo, HttpServletRequest httpServletReq) {
+		
+		int res = storyService.deleteStory(storyNo, httpServletReq);
+		
+		if(res == 401)
+			return new ResponseEntity<String>("UNAUTHORIZED", HttpStatus.UNAUTHORIZED);
+		else if(res == 404)
+			return new ResponseEntity<String>("NOT FOUND", HttpStatus.NOT_FOUND); 
+		else if(res== 406)
+			return new ResponseEntity<String>("NOT ACCEPTABLE", HttpStatus.NOT_ACCEPTABLE);
+			
 
 		return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
 	}

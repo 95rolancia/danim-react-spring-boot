@@ -65,6 +65,8 @@ public class SignUpServiceImpl implements SignUpService {
 		if(!verifyEmail(userForm.getKey(),userForm.getUserId()))
 			return 403;
 		
+		if(userForm.getAge() < 1 || userForm.getAge() >200)
+			return 400;
 		
 
 		User user = new User();
