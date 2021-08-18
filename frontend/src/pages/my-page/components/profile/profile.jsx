@@ -1,12 +1,16 @@
 import React from 'react';
 import styles from './profile.module.css';
-import { Avatar, makeStyles } from '@material-ui/core';
+import { Avatar, makeStyles, Typography } from '@material-ui/core';
 import ProfileButton from '../profile-button/profile-button';
 
 const useStyles = makeStyles((theme) => ({
   avatar: {
     width: theme.spacing(9),
     height: theme.spacing(9),
+  },
+  title: {
+    fontFamily: 'MingukBold',
+    marginBottom: theme.spacing(1),
   },
 }));
 
@@ -28,7 +32,9 @@ const Profile = ({ isManager, userInfo, handleFollow, history }) => {
         />
       </div>
       <div className={styles.right}>
-        <h1 className="nickname">{userInfo.nickname}</h1>
+        <Typography variant="h5" className={classes.title}>
+          {userInfo.nickname}
+        </Typography>
         <ProfileButton
           isManager={isManager}
           userInfo={userInfo}

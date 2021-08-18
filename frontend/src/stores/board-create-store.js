@@ -1,6 +1,7 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 import httpBoardCreate from '../service/http-board-create';
 import loadImage from 'blueimp-load-image';
+import { CompareSharp } from '@material-ui/icons';
 
 class BoardCreateStore {
   duration = 0;
@@ -15,6 +16,7 @@ class BoardCreateStore {
   successImgNum = 0;
   isFirstPage = true;
   isLoading = false;
+  isTempChecked = true;
 
   nickname = "danim";
 
@@ -34,6 +36,11 @@ class BoardCreateStore {
 
   changePage2MemoWrite() {
     this.isFirstPage = false;
+  }
+
+  changePage2TitleCreate() {
+    this.isFirstPage = true;
+    this.isLoading = !this.isLoading
   }
 
   handleLoading() {
@@ -56,21 +63,6 @@ class BoardCreateStore {
     return res
   }
 
-  // async handleSubmitStory() {
-  //   console.log(this.tripDate)
-  //   const obj = {
-  //     // 이거 나중에 조금 더 고치기
-  //     duration: this.tripDate,
-  //     photos: this.photos,
-  //     startDate: this.tripDate[0],
-  //     status: this.status,
-  //     thumbnail: this.photos[0],
-  //     title: this.title,
-  //   }
-  //   console.log(obj)
-  //   this.setStory(obj)
-  // }
-
   async setNickname(nickname) {
     this.nickname = nickname
   }
@@ -90,9 +82,8 @@ class BoardCreateStore {
     return;
   }
 
-  async handleTitleChange(value) {
+  handleTitleChange(value) {
     this.title = value
-    return;
   }
 
   async getMetaData(imgFile) {
@@ -128,19 +119,19 @@ class BoardCreateStore {
     }
   }
 
-  addPhoto(photo) {
+  async addPhoto(photo) {
     if (this.photos.length === 0) {
+      console.log('사진 추가중, 첫번째 사진 추가')
       this.photos = [photo]
     } else {
-      if (Date.parse(this.photos[0].date) > Date.parse(photo.date)) {
+      if (Date.parse(this.photos[0].date) >= Date.parse(photo.date)) {
         this.photos = [photo, ...this.photos]
       } else if (Date.parse(this.photos[this.photos.length - 1].date) < Date.parse(photo.date)) {
         this.photos = [...this.photos, photo]
       } else {
-        for (let i = 1; i < (this.photos.length - 1); i++) {
-          if (Date.parse(this.photos[i].date) > Date.parse(photo.date)) {
+        for (let i = 1; i < (this.photos.length); i++) {
+          if (Date.parse(this.photos[i].date) >= Date.parse(photo.date)) {
             this.photos = [...this.photos.slice(0, i), photo, ...this.photos.slice(i)]
-            // this.photos = this.photos.slice(0, i) + [photo] + this.photos.slice(i)
             break;
           }
         }
@@ -163,15 +154,6 @@ class BoardCreateStore {
     const addressSet = new Set([...this.tripAddress, address])
     this.tripAddress = [...addressSet].sort()
   }
-
-  // handlePageChange() {
-  //   this.isFirstPage = false
-  //   this.isLoading = true
-
-  //     setTimeout(() => {
-  //       this.isLoading = false
-  //     }, 1000)
-  //   }
 
   async setTotalImgNum(num) {
     this.totalImgNum = num
@@ -207,6 +189,68 @@ class BoardCreateStore {
     this.thumbnail = filename
   }
 
+  changeTag(str, targetPhoto) {
+    const tempIndex = this.photos.findIndex(photo => photo.filename === targetPhoto.filename)
+    this.photos[tempIndex].tag = str
+  }
+
+  deletePhoto(targetPhoto) {
+    const tempIndex = this.photos.findIndex(photo => photo.filename === targetPhoto.filename)
+    console.log('템프인덱스',tempIndex)
+    this.photos.splice(tempIndex, 1)
+
+    runInAction(() => {
+      if (targetPhoto.filename === this.thumbnail) {
+        this.thumbnail = this.photos[0].filename
+      }
+
+      const tempDateIndex = this.tripDate.findIndex(date => date === targetPhoto.date.slice(0, 10))
+      console.log(this.photos.slice(0)[0].date)
+      console.log(targetPhoto.date)
+      
+      if (tempIndex === 0 && this.photos[0].date.slice(0, 10) !== targetPhoto.date.slice(0, 10)) {
+        this.tripDate.splice(tempDateIndex, 1)
+      } else if (tempIndex === (this.photos.length) && this.photos[tempIndex-1].date.slice(0, 10) !== targetPhoto.date.slice(0, 10)) {
+        console.log('나는 템프인덱스', tempIndex)
+        console.log('나는 포토', this.photos)
+        this.tripDate.splice(tempDateIndex, 1)
+      } else {
+        if (
+          tempIndex !== 0 && tempIndex !== (this.photos.length) &&
+          this.photos[tempIndex - 1].date.slice(0, 10) !== targetPhoto.date.slice(0, 10) &&
+          this.photos[tempIndex].date.slice(0, 10) !== targetPhoto.date.slice(0, 10)) {
+          this.tripDate.splice(tempDateIndex, 1)
+        }
+      }
+    })
+  }
+
+  calculateDayNum(targetDate) {
+    const tempDateIndex = this.tripDate.findIndex(date => date === targetDate)
+    const translateDate = [
+      '첫째', '둘째', '셋째', '넷째', '다섯째', '여섯째', '일곱째', '여덟째', '아홉째', '열째', '열한째', '열두째'
+    ]
+    return translateDate[tempDateIndex]
+  }
+
+  calculatePrettyDate(targetDate) {
+    const year = targetDate.slice(2,4)
+    const month = targetDate.slice(5,7)
+    const day = targetDate.slice(8, 10)
+    return [year, month, day]
+  }
+
+  calculatePrettyAddress(address) {
+    if (address) {
+      const addressArr = address.split(' ').slice(2).join(' ')
+      return addressArr
+    }
+    return []
+  }
+
+  handleIsTempChecked(value) {
+    this.isTempChecked = value
+  }
 }
 
 export default new BoardCreateStore();

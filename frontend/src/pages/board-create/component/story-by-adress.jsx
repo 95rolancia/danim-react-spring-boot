@@ -1,25 +1,54 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import useBoardCreate from '../../../hooks/useBoardCreate';
 import { observer } from 'mobx-react-lite';
-import { makeStyles } from '@material-ui/styles';
-import { StoryThumbnail } from './index';
-import { Button, Fab, Box, Typography, TextField } from '@material-ui/core';
-import CreateIcon from '@material-ui/icons/Create';
+import {
+  makeStyles,
+  Box,
+  ImageList,
+  ImageListItem,
+  TextField,
+  ImageListItemBar,
+  IconButton,
+  Typography,
+  Card,
+  CardMedia,
+  CardContent,
+} from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
+import RoomIcon from '@material-ui/icons/Room';
+import TagMenu from './tag-menu';
 
 const useStyles = makeStyles((theme) => ({
-  button: {
-    marginTop: theme.spacing(1.5),
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'flex-start',
+  imageList: {
+    flexWrap: 'nowrap',
+    // zIndex: '10',
+    // // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
+    transform: 'translateZ(0)',
+  },
+  deleteIcon: {
+    color: 'white',
+  },
+  deleteIconBackground: {
+    background:
+      'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
+      'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+  },
+  tagBackground: {
+    background:
+      'linear-gradient(to top, rgba(0,0,0,0.7) 0%, ' +
+      'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+    justifyContent: 'center',
+    flexDirection: 'column',
   },
 }));
 
 const StoryByAdress = observer(({ photos, address }) => {
+  const imgRef = useRef();
   const boardCreate = useBoardCreate();
   const classes = useStyles();
   const [isPhoto, setIsPhoto] = useState(false);
-  const [isShowSetting, setIsShowSetting] = useState(false);
+
+  const photoURL = boardCreate.imgBaseURL + boardCreate.nickname + '/';
 
   useEffect(() => {
     for (let i = 0; i < photos.length; i++) {
@@ -29,52 +58,78 @@ const StoryByAdress = observer(({ photos, address }) => {
     }
   }, [photos, address]);
 
-  const showSetting = () => {
-    setIsShowSetting(true);
-  };
-
-  const hideSetting = () => {
-    setIsShowSetting(false);
-  };
-
   const handleMemoChange = (e) => {
     const newMemo = e.target.value;
     boardCreate.uploadMemo(newMemo, address);
   };
 
-  // const saveAddressMemoAtPhoto = (photo) => {
-
-  // }
+  const deletePhoto = (photo) => {
+    boardCreate.deletePhoto(photo);
+  };
 
   return (
     <>
       {isPhoto && (
-        <>
-          <Box display="flex" flexDirection="column">
-            <div>{address}</div>
-            {/* <Fab onClick={showSetting}>
-              <CreateIcon />
-            </Fab> */}
-            <Box>
-              {photos.map((photo) => (
-                <StoryThumbnail key={photo.filename} photo={photo} />
-              ))}
-            </Box>
-            <Box>
-              <form>
-                <TextField
-                  defaultValue={photos[0].content}
-                  fullWidth
-                  multiline
-                  onChange={handleMemoChange}
-                ></TextField>
-              </form>
-            </Box>
-            {/* <Box display="flex">
-              <Box>{photos[0].content}</Box>
-            </Box> */}
+        <Box display="flex" flexDirection="column" mb={1}>
+          <Box mb={1}>
+            <ImageList cols={3.1} className={classes.imageList}>
+              {photos.map((photo) => {
+                // console.log('포토토토토', photo);
+                return (
+                  <ImageListItem key={photo.filename}>
+                    <img
+                      src={photoURL + photo.filename}
+                      alt={photo.adress}
+                      loading="lazy"
+                      ref={imgRef}
+                    />
+                    <ImageListItemBar
+                      actionPosition="left"
+                      actionIcon={
+                        <>
+                          <TagMenu photo={photo} />
+                        </>
+                      }
+                      className={classes.tagBackground}
+                    />
+                    <ImageListItemBar
+                      position="top"
+                      actionIcon={
+                        <IconButton onClick={() => deletePhoto(photo)}>
+                          <CloseIcon className={classes.deleteIcon} />
+                        </IconButton>
+                      }
+                      actionPosition="left"
+                      className={classes.deleteIconBackground}
+                    />
+                  </ImageListItem>
+                );
+              })}
+            </ImageList>
           </Box>
-        </>
+
+          <Box display="flex" flexDirection="row" py={1}>
+            <RoomIcon color="primary" />
+            <Box pl={1}>
+              <Typography>
+                {boardCreate.calculatePrettyAddress(address)}
+              </Typography>
+            </Box>
+          </Box>
+
+          <Box mb={3}>
+            <form>
+              <TextField
+                defaultValue={photos[0].content}
+                label="Memo"
+                variant="outlined"
+                fullWidth
+                multiline
+                onChange={handleMemoChange}
+              ></TextField>
+            </form>
+          </Box>
+        </Box>
       )}
     </>
   );

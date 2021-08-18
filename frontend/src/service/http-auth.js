@@ -103,6 +103,51 @@ class HttpAuth {
       throw new Error(`auth email error ${error}`);
     }
   }
+
+  async findPassword(emailCode) {
+    try {
+      const res = await this.instance.post('/auth/reset', emailCode);
+      return res;
+    } catch (error) {
+      const res = error.response;
+      if (res.data === 'duplicate' && res.status === 409) {
+        return res;
+      }
+      throw new Error(`auth email error ${error}`);
+    }
+  }
+
+  async withdrawl() {
+    try {
+      const res = await this.instance.delete('/account');
+      return res;
+    } catch (error) {
+      throw new Error(`account withdrawl error ${error}`);
+    }
+  }
+
+  async getEmailAuthCode(email) {
+    try {
+      const res = await this.instance.post('/auth/reset', email);
+      return res;
+    } catch (error) {
+      const res = error.response;
+      console.log(res);
+      if (res.status === 403) {
+        return res;
+      }
+      throw new Error(`auth email error ${error}`);
+    }
+  }
+
+  async resetPassword(data) {
+    try {
+      const res = await this.instance.post('/auth/resetpwd', data);
+      return res;
+    } catch (error) {
+      throw new Error(`reset password error ${error}`);
+    }
+  }
 }
 
 export default new HttpAuth(instance);

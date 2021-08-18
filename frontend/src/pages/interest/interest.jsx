@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
+import useUser from '../../hooks/useUser';
 import { SelectedAreaChip, AreaChip } from './components';
 import {
   Container,
@@ -9,8 +10,13 @@ import {
   Divider,
   makeStyles,
   Typography,
+  Snackbar,
 } from '@material-ui/core';
-import useUser from '../../hooks/useUser';
+import MuiAlert from '@material-ui/lab/Alert';
+
+const Alert = (props) => {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+};
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,41 +48,49 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'wrap',
   },
   button: {
+    width: '45%',
     marginTop: theme.spacing(3),
-    padding: theme.spacing(2),
+    padding: theme.spacing(1),
+    margin: theme.spacing(1),
     borderRadius: '30px',
     color: 'whitesmoke',
     fontFamily: 'MingukBold',
   },
 }));
 
+const initialAreaDatas = [
+  { label: '서울', state: 'unselected' },
+  { label: '부산', state: 'unselected' },
+  { label: '대구', state: 'unselected' },
+  { label: '인천', state: 'unselected' },
+  { label: '광주', state: 'unselected' },
+  { label: '대전', state: 'unselected' },
+  { label: '울산', state: 'unselected' },
+  { label: '세종', state: 'unselected' },
+  { label: '경기', state: 'unselected' },
+  { label: '강원', state: 'unselected' },
+  { label: '충북', state: 'unselected' },
+  { label: '충남', state: 'unselected' },
+  { label: '전북', state: 'unselected' },
+  { label: '전남', state: 'unselected' },
+  { label: '경북', state: 'unselected' },
+  { label: '경남', state: 'unselected' },
+  { label: '제주', state: 'unselected' },
+];
+
 const Interest = observer(() => {
   const classes = useStyles();
   const history = useHistory();
   const user = useUser();
-  const [chipData, setChipData] = useState([
-    { key: 0, label: '서울', state: 'unselected' },
-    { key: 1, label: '부산', state: 'unselected' },
-    { key: 2, label: '대구', state: 'unselected' },
-    { key: 3, label: '인천', state: 'unselected' },
-    { key: 4, label: '광주', state: 'unselected' },
-    { key: 5, label: '대전', state: 'unselected' },
-    { key: 6, label: '울산', state: 'unselected' },
-    { key: 7, label: '세종', state: 'unselected' },
-    { key: 8, label: '경기', state: 'unselected' },
-    { key: 9, label: '강원', state: 'unselected' },
-    { key: 10, label: '충북', state: 'unselected' },
-    { key: 11, label: '충남', state: 'unselected' },
-    { key: 12, label: '전북', state: 'unselected' },
-    { key: 13, label: '전남', state: 'unselected' },
-    { key: 14, label: '경북', state: 'unselected' },
-    { key: 15, label: '경남', state: 'unselected' },
-    { key: 16, label: '제주', state: 'unselected' },
-  ]);
-
-  const [selectedChipData, setSelecetedChipData] = useState([]);
+  const [chipData, setChipData] = useState(initialAreaDatas);
+  const [selectedAreas, setSelectedAreas] = useState([]);
   const [selectedBoxColor, setSelectedBoxrColor] = useState('default');
   const [nickname, setNickname] = useState('danim');
+  const [snackbarInfo, setSnackbarInfo] = useState({
+    isShow: false,
+    msg: '',
+    state: '',
+  });
 
   useEffect(() => {
     const prevPath = history.location.state.prevPath;
@@ -85,77 +99,111 @@ const Interest = observer(() => {
       toJS(user.user).areas.length > 0
     ) {
       goToMain();
+    } else {
+      const initialSelectedAreas = [];
+      const userInterestAreas = chipData.map((chip) => {
+        if (toJS(user.user).areas.includes(chip.label)) {
+          initialSelectedAreas.push(chip);
+          return { ...chip, state: 'selected' };
+        } else {
+          return { ...chip, state: 'unselected' };
+        }
+      });
+      setChipData(userInterestAreas);
+      setSelectedAreas(initialSelectedAreas);
     }
     setNickname(toJS(user.user).nickname);
-  }, [history]);
+  }, []);
 
   const handleClick = (chip) => {
-    if (chip.state === 'unselected') {
-      if (selectedChipData.length < 3) {
+    if (chip.state === 'selected') {
+      handleDelete(chip);
+    } else {
+      if (selectedAreas.length >= 3) {
+        setSelectedBoxrColor('red');
+        setTimeout(() => {
+          setSelectedBoxrColor('default');
+        }, 500);
+      } else {
         const newChipData = chipData.map((item) => {
-          if (item.key === chip.key) {
+          if (item.label === chip.label) {
             item.state = 'selected';
           }
           return item;
         });
         setChipData(newChipData);
-        handleSelectedChipData();
-      } else {
-        setSelectedBoxrColor('red');
-        setTimeout(() => {
-          setSelectedBoxrColor('default');
-        }, 500);
+        setSelectedAreas([...selectedAreas, chip]);
       }
-    } else {
-      handleDelete(chip);
     }
   };
 
   const handleDelete = (chip) => {
     const newChipData = chipData.map((item) => {
-      if (item.key === chip.key) {
+      if (item.label === chip.label) {
         item.state = 'unselected';
       }
       return item;
     });
-    setChipData(newChipData);
-    handleSelectedChipData();
-  };
 
-  const handleSelectedChipData = () => {
-    const newSelectedChipData = chipData.filter(
-      (item) => item.state === 'selected',
-    );
-    setSelecetedChipData(newSelectedChipData);
+    setChipData(newChipData);
+    setSelectedAreas(selectedAreas.filter((area) => area.label !== chip.label));
   };
 
   const handleInterestSubmit = () => {
-    const selectedAreas = selectedChipData.map((item) => item.label);
-    const data = {
-      areas: [...selectedAreas],
+    const data = selectedAreas.map((chip) => chip.label);
+    if (data.length < 1) {
+      setSnackbarInfo({
+        isShow: true,
+        msg: '최소 한 개 이상 선택하셔야해요!',
+        state: 'error',
+      });
+      return;
+    }
+
+    const areas = {
+      areas: [...data],
     };
 
-    user.setInterestArea(data).then((res) => {
-      history.push('/main');
+    user.setInterestArea(areas).then(() => {
+      goToMain();
     });
   };
 
   const goToMain = () => {
+    if (toJS(user.user).areas.length < 1) {
+      setSnackbarInfo({
+        isShow: true,
+        msg: '최소 한 개 이상 선택하셔야해요!',
+        state: 'error',
+      });
+      return;
+    }
     history.push('/main');
+  };
+
+  const handleClose = (_, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbarInfo({
+      ...snackbarInfo,
+      isShow: false,
+    });
   };
 
   return (
     <Container>
       <div className={classes.root}>
         <Typography className={classes.intro} variant="h5">
-          안녕하세요, {nickname}!<br />
+          안녕하세요, {nickname}!님
+          <br />
           어디를 소개해드릴까요?
         </Typography>
         <div className={classes.selectedBox}>
-          {selectedChipData.map((interestedPlace) => (
+          {selectedAreas.map((chip) => (
             <SelectedAreaChip
-              key={interestedPlace.key}
-              place={interestedPlace}
+              key={chip.label}
+              place={chip}
               onDelete={handleDelete}
               onClick={handleDelete}
             />
@@ -178,30 +226,36 @@ const Interest = observer(() => {
         </Typography>
         <div className={classes.chipBox}>
           {chipData.map((place) => (
-            <AreaChip key={place.key} place={place} onClick={handleClick} />
+            <AreaChip key={place.label} place={place} onClick={handleClick} />
           ))}
         </div>
       </div>
-      <>
-        <Button
-          fullWidth
-          variant="contained"
-          color="primary"
-          className={classes.button}
-          onClick={handleInterestSubmit}
-        >
-          등록
-        </Button>
-        <Button
-          fullWidth
-          variant="contained"
-          color="secondary"
-          className={classes.button}
-          onClick={goToMain}
-        >
-          취소
-        </Button>
-      </>
+
+      <Button
+        variant="contained"
+        color="primary"
+        className={classes.button}
+        onClick={handleInterestSubmit}
+      >
+        등록
+      </Button>
+      <Button
+        variant="contained"
+        color="secondary"
+        className={classes.button}
+        onClick={goToMain}
+      >
+        돌아가기
+      </Button>
+      <Snackbar
+        open={snackbarInfo.isShow}
+        autoHideDuration={700}
+        onClose={handleClose}
+      >
+        <Alert severity={snackbarInfo.state} onClose={handleClose}>
+          {snackbarInfo.msg}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 });

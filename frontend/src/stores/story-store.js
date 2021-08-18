@@ -22,6 +22,14 @@ class StoryStore {
     return res.data;
   }
 
+  async deleteStory(storyNo) {
+    const res = await HttpStory.deleteStory(storyNo);
+    if (res.status !== 200) {
+      return;
+    }
+    return true;
+  }
+
   async like(storyNo) {
     const res = await HttpStory.like(storyNo);
     if (res.status === 400) {

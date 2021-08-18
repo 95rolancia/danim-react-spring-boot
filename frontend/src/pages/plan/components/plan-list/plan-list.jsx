@@ -7,18 +7,17 @@ import { List } from '@material-ui/core';
 
 const PlanList = observer(() => {
   const user = useUser();
-  const [planList, setPlanList] = useState([]);
 
   useEffect(() => {
-    user.getPlan().then(() => {
-      setPlanList(toJS(user.plans));
-    });
+    user.getPlan();
   }, [user]);
 
   return (
     <List>
-      {planList ? (
-        planList.map((plan) => <PlanItem plan={plan} key={plan.planNo} />)
+      {toJS(user.plans) ? (
+        toJS(user.plans).map((plan) => (
+          <PlanItem plan={plan} key={plan.planNo} />
+        ))
       ) : (
         <h1>작성된 계획이 없습니다!</h1>
       )}

@@ -5,22 +5,26 @@ import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import uuid from 'react-uuid';
-import { StoryThumbnail, StoryByAdress } from './index';
+import { StoryByAdress } from './index';
+import { Typography, Box } from '@material-ui/core';
 
-// const useStyles = makeStyles((theme) => ({
-//   photoBox: {
-//     marginTop: theme.spacing(1.5),
-//     display: 'flex',
-//     flexWrap: 'wrap',
-//     justifyContent: 'flex-start',
-//   },
-// }));
+const useStyles = makeStyles((theme) => ({
+  photoBox: {
+    marginTop: theme.spacing(1.5),
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-start',
+  },
+}));
 
-const StoryDay = observer(({ photos, date }) => {
+const StoryDay = observer(({ date, photos }) => {
   const boardCreate = useBoardCreate();
-  // const classes = useStyles();
+  const classes = useStyles();
 
   const [address2compare, setAddress2compare] = useState([]);
+
+  const tripDateIdx = boardCreate.calculateDayNum(date);
+  const prettyDate = boardCreate.calculatePrettyDate(date);
 
   useEffect(() => {
     setAddress2compare([]);
@@ -41,10 +45,29 @@ const StoryDay = observer(({ photos, date }) => {
     }
   }, []);
 
+  // const calculateDayNum = (date) => {
+  //   const idx = boardCreate.calculateDayNum(date);
+  //   return idx;
+  // };
+
   return (
-    <>
-      <h1>{date}</h1>
-      <div>
+    <Box display="flex" flexDirection="column">
+      <Box
+        display="flex"
+        flexDirection="row"
+        sx={{ flexWrap: 'nowrap' }}
+        py={2}
+      >
+        <Box pr={1.5}>
+          <Typography variant="h5">여행 {tripDateIdx}날</Typography>
+        </Box>
+        <Box>
+          <Typography variant="h5">
+            ({prettyDate[0]}.{prettyDate[1]}.{prettyDate[2]})
+          </Typography>
+        </Box>
+      </Box>
+      <Box>
         {address2compare.map((address) => (
           <StoryByAdress
             key={uuid()}
@@ -52,8 +75,8 @@ const StoryDay = observer(({ photos, date }) => {
             address={address}
           />
         ))}
-      </div>
-    </>
+      </Box>
+    </Box>
   );
 });
 

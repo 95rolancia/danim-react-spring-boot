@@ -19,6 +19,7 @@ import {
 import MuiAlert from '@material-ui/lab/Alert';
 import useUser from '../../hooks/useUser';
 import Compressor from 'compressorjs';
+import { useRef } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -28,6 +29,9 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     width: theme.spacing(9),
     height: theme.spacing(9),
+  },
+  avatarChangeBtn: {
+    color: 'whitesmoke',
   },
   profile: {
     display: 'flex',
@@ -63,6 +67,9 @@ const useStyles = makeStyles((theme) => ({
   genderGroup: {
     margin: 'auto',
   },
+  inputFile: {
+    display: 'none',
+  },
 }));
 
 const Alert = (props) => {
@@ -79,6 +86,7 @@ const AccountEdit = observer(() => {
   const [introduce, setIntroduce] = useState('');
   const [gender, setGender] = useState('');
   const [avatar, setAvatar] = useState('');
+  const fileRef = useRef();
   const [snackbarInfo, setSnackbarInfo] = useState({
     isShow: false,
     msg: '',
@@ -118,7 +126,13 @@ const AccountEdit = observer(() => {
   };
 
   const handleAge = (e) => {
+    if (e.target.value > 200 || e.target.value < 1) return;
     setAge(e.target.value);
+  };
+
+  const onButtonClick = (e) => {
+    e.preventDefault();
+    fileRef.current.click();
   };
 
   const changeAvatar = (e) => {
@@ -137,7 +151,6 @@ const AccountEdit = observer(() => {
         // The third parameter is required for server
         formData.append('file', result, result.name);
         formData.append('nickname', toJS(user.user).nickname);
-        console.log(result, result.name);
 
         // Send the compressed image file to server with XMLHttpRequest.
         user.updateAvatar(formData).then((res) => {
@@ -201,7 +214,20 @@ const AccountEdit = observer(() => {
           </div>
           <div className={classes.right}>
             <h1 className="nickname">{toJS(user.user).nickname}</h1>
-            <input type="file" onChange={changeAvatar} />
+            <Button
+              className={classes.avatarChangeBtn}
+              onClick={onButtonClick}
+              variant="contained"
+              color="primary"
+            >
+              프로필 사진 변경
+            </Button>
+            <input
+              type="file"
+              onChange={changeAvatar}
+              ref={fileRef}
+              className={classes.inputFile}
+            />
           </div>
         </div>
 
@@ -242,7 +268,7 @@ const AccountEdit = observer(() => {
             onChange={handleAge}
             style={{ width: '10em' }}
             InputProps={{
-              inputProps: { min: 15, max: 100 },
+              inputProps: { min: 1, max: 200 },
             }}
           />
           <FormControl

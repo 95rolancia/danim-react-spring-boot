@@ -2,11 +2,19 @@ import React from 'react';
 import { observer } from 'mobx-react-lite';
 import useSearch from '../../../../hooks/useSearch';
 import { PlaceList } from '../';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Typography } from '@material-ui/core';
+import { SearchContentLoader } from '../../../../components';
 
 const useStyles = makeStyles((theme) => ({
   content: {
     textAlign: 'center',
+  },
+  searchResult: {
+    paddingTop: theme.spacing(6),
+  },
+  searchText: {
+    fontFamily: 'MingukBold',
+    color: '#36434C',
   },
 }));
 
@@ -15,10 +23,26 @@ const Content = observer(() => {
   const classes = useStyles();
   return (
     <section className={classes.content}>
-      {search.searchedPlace.length > 0 ? (
+      {search.searchPlaceState === 'pending' ? (
+        <SearchContentLoader />
+      ) : search.searchedPlace.length > 0 ? (
         <PlaceList />
       ) : (
-        <h2>검색 결과가 없습니다.</h2>
+        <section className={classes.searchResult}>
+          <img
+            src="/images/danilogo.png"
+            alt="logo"
+            width="70em"
+            height="50em"
+          ></img>
+          <Typography
+            variant="h5"
+            component="h5"
+            className={classes.searchText}
+          >
+            검색 결과가 없습니다.
+          </Typography>
+        </section>
       )}
     </section>
   );

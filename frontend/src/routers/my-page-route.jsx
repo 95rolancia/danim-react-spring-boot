@@ -41,6 +41,21 @@ const MyPageRoute = observer(({ children, ...rest }) => {
 
   const handleFollow = () => {
     setUserInfo({ ...userInfo, isFollow: !userInfo.isFollow });
+    const nickname = rest.computedMatch.params.nickname;
+    user.getUserInfo(nickname).then((userInfo) => {
+      if (userInfo) {
+        setUserInfo(userInfo);
+      }
+    });
+  };
+
+  const onDelete = () => {
+    const nickname = rest.computedMatch.params.nickname;
+    user.getUserInfo(nickname).then((userInfo) => {
+      if (userInfo) {
+        setUserInfo(userInfo);
+      }
+    });
   };
 
   if (loading)
@@ -59,6 +74,7 @@ const MyPageRoute = observer(({ children, ...rest }) => {
             userInfo={userInfo}
             isManager={isManager}
             handleFollow={handleFollow}
+            onDelete={onDelete}
           />
         ) : (
           <NotUserExist />

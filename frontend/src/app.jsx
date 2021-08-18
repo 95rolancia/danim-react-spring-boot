@@ -7,8 +7,8 @@ import {
   SignIn,
   Main,
   NotFound,
-  BoardCreate,
   Interest,
+  FindPassword,
 } from './pages/index.js';
 import { StartLoading } from './components';
 import useAuth from './hooks/useAuth';
@@ -57,14 +57,14 @@ const App = observer(() => {
             <Route path="/signup">
               <SignUp />
             </Route>
+            <Route path="/findPassword">
+              <FindPassword />
+            </Route>
             <PrivateRoute path="/main">
               <Main />
             </PrivateRoute>
             <PrivateRoute path="/interest">
               <Interest />
-            </PrivateRoute>
-            <PrivateRoute path="/create">
-              <BoardCreate />
             </PrivateRoute>
             <StoryRoute path="/read/:no" />
             <StoryDetailRoute path="/detail/:no" />
