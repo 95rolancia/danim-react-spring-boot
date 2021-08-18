@@ -14,5 +14,8 @@ public interface LoveRepository extends CrudRepository<Love, Long> {
 	
 	@Transactional
 	int deleteByUserAndStory(User user,Story story);
+	
+	@Transactional
+	void deleteAllByStory(Story story);
 
 }
