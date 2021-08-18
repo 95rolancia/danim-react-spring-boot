@@ -60,6 +60,7 @@ const PlanDate = observer(() => {
           onChange={(date) => setDate([date.selection])}
           moveRangeOnFirstSelection={false}
           ranges={date}
+          minDate={new Date()}
           locale={rdrLocales.ko}
         />
         <Button
