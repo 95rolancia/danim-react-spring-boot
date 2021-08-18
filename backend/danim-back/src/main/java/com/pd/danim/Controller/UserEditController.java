@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -74,5 +75,16 @@ public class UserEditController {
 		return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
 		
 	}
+	
+	@ApiOperation(value = "회원 탈퇴", notes = "회원 탈퇴 합니다. 탈퇴하면 같은 메일로 재가입이 불가능합니다")
+	@DeleteMapping
+	public ResponseEntity<String> deleteUser(HttpServletRequest httpServletReq) {
+		
+		userEditService.deleteUser(httpServletReq);
+		
+		return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+		
+	}
+	
 
 }

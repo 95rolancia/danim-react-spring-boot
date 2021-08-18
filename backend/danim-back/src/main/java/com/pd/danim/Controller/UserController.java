@@ -57,6 +57,10 @@ public class UserController {
 
 		try {
 			DanimId danim = loginService.loginUser(signInForm.getUserId(), signInForm.getPassword());
+			
+			if(loginService.isDeleted(danim))
+				return new ResponseEntity<SignInResponse>(response, HttpStatus.UNAUTHORIZED);
+			
 			response =  loginService.generateResponse(httpServletResponse, danim);
 
 		} catch (Exception e) {

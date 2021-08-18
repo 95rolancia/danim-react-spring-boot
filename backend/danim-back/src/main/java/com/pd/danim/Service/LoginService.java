@@ -14,5 +14,6 @@ public interface LoginService {
 	MeResponse getUserInfo(HttpServletRequest httpServletRequest);
 	
 	SignInResponse generateResponse(HttpServletResponse httpServletResponse,DanimId danim);
+	boolean isDeleted(DanimId danim);
 
 }	
