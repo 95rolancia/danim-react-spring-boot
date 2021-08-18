@@ -14,7 +14,7 @@ import {
 import { StoryCover, StoryContents } from './index';
 import { toJS } from 'mobx';
 import { useState } from 'react';
-// import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -33,10 +33,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MemoWrite = observer(({ onFileChange }) => {
+  const history = useHistory();
   const boardCreate = useBoardCreate();
   const classes = useStyles();
   const [publishStatus, setPublishedStatus] = useState('PUBLISHED');
-  // const history = useHistory();
   // useEffect(() => {}, [boardCreate.photos]);
 
   const handleSubmitStory = () => {
@@ -53,9 +53,11 @@ const MemoWrite = observer(({ onFileChange }) => {
     boardCreate
       .setStory(obj)
       .then((res) => {
+        console.log(res);
         if (res) {
-          console.log(res);
-          window.location.replace('/main');
+          console.log('안', res);
+          boardCreate.reset();
+          history.push('/read/' + res.data);
         } else {
           alert('스토리 못올려!!!!!');
         }
@@ -82,7 +84,8 @@ const MemoWrite = observer(({ onFileChange }) => {
       .then((res) => {
         if (res) {
           console.log(res);
-          window.location.replace('/main');
+          boardCreate.reset();
+          history.push('/read/' + res.data);
         } else {
           alert('스토리 못올려!!!!!');
         }
