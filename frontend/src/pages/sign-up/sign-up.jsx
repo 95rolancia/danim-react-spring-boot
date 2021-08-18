@@ -241,8 +241,9 @@ const SignUp = observer(() => {
       setOpenError(true);
     } else {
       const res = await auth.signUp(
-        new SignUpDto(email, password, nickname, gender, age, emailAuthCode),
+        new SignUpDto(email, password, nickname, gender, +age, emailAuthCode),
       );
+
       if (res) {
         alert('회원가입이 완료되었습니다!');
         history.push('/');
