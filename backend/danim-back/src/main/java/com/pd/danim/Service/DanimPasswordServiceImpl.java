@@ -33,9 +33,6 @@ public class DanimPasswordServiceImpl implements DanimPasswordService {
 		Random random = new Random();
 		String key = "danim"+String.format("%06d", random.nextInt(1000000));
 		
-		if(danimRepo.existsById(userId))
-			return false;
-		
 		SMTPService.sendMail(userId, "Danim 비밀번호 초기화 인증 메일",
 				"DANIM을 사용해주셔서 감사합니다! \n 다음 인증 코드를 입력 해주세요! \n 인증 코드 : " + key + "\n\n\n *본 메일은 발신 전용 메일이며, 회신 되지 않으므로 문의 사항은 고객센터를 이용해주세요.");
 		
