@@ -90,8 +90,9 @@ public class UserPageServiceImpl implements UserPageService {
 		
 		for(Follow follow : tFollowList) {
 			UserSimpleResponse usf = new UserSimpleResponse();
-			usf.setNickname(follow.getUser().getNickname());
-			usf.setProfile(follow.getUser().getProfile());
+			User fUser = userRepo.findByUserno(follow.getFollowUserNo());
+			usf.setNickname(fUser.getNickname());
+			usf.setProfile(fUser.getProfile());
 			followingList.add(usf);
 		}
 		
