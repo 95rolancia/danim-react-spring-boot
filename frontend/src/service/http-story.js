@@ -17,11 +17,7 @@ class HttpStory {
 
     async deleteStory(storyNo) {
         try {
-            const res = await this.instance.delete('/story', {
-                data: {
-                    storyNo: storyNo.storyNo,
-                }
-            });
+            const res = await this.instance.delete('/story/' + storyNo);
             return res;
         } catch (error) {
             const res = error.response;
