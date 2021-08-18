@@ -157,12 +157,12 @@ public class UserEditServiceImpl implements UserEditService {
 		
 		String password = pwdReq.getPassword();
 		
-		String regex = "^(?=.*\\d)(?=.*[a-zA-Z]).{8,12}$";
-
+		String regex = "([a-zA-Z0-9]){8,12}";
+		
 		if (!password.matches(regex))
 			return 400;
 
-		PasswordEncoder encoder = new BCryptPasswordEncoder();
+		PasswordEncoder encoder = new BCryptPasswordEncoder();		
 		if(!encoder.matches(pwdReq.getLastPassword(), danim.getPassword())){
 			return 409;
 		}
