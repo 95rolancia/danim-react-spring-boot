@@ -201,14 +201,16 @@ const FindPassword = observer(() => {
               style={{ width: '10em' }}
               label="인증 번호"
               onChange={handleAuthCode}
+              autoComplete="off"
             ></TextField>
 
             <TextField
-              id="standard-password-input-email-code"
+              id="standard-password-input-pwd-code"
               type="password"
               style={{ width: '10em' }}
               label="변경 후 비밀번호"
               onChange={handleNewPassword}
+              autoComplete="off"
             ></TextField>
 
             <div>
