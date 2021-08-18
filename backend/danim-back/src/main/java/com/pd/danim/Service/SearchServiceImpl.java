@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.pd.danim.DTO.Photo;
 import com.pd.danim.DTO.Story;
+import com.pd.danim.DTO.StoryStatus;
 import com.pd.danim.DTO.User;
 import com.pd.danim.Form.Response.SearchByAreaResponse;
 import com.pd.danim.Form.Response.SearchByNicknameResponse;
@@ -23,21 +24,20 @@ public class SearchServiceImpl implements SearchService {
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private PhotoRepository photoRepository;
-	
+
 	@Autowired
 	private StoryRepository storyRepository;
 
-
 	@Override
 	public List<SearchByNicknameResponse> searchByNickName(String nickname) {
-		
+
 		List<SearchByNicknameResponse> responses = new ArrayList<>();
-		
+
 		List<User> users = userRepository.findByNicknameContaining(nickname);
-		
+
 		for (User user : users) {
 			SearchByNicknameResponse response = new SearchByNicknameResponse();
 			response.setNickname(user.getNickname());
@@ -45,17 +45,17 @@ public class SearchServiceImpl implements SearchService {
 			responses.add(response);
 		}
 
-		//없을 때도 처리해주기
+		// 없을 때도 처리해주기
 		return responses;
 	}
 
 	@Override
 	public List<SearchByAreaResponse> searchByArea(String area) {
-		
+
 		List<SearchByAreaResponse> responses = new ArrayList<>();
-		
+
 		List<Photo> photos = photoRepository.findTop1000ByAddressContaining(area);
-		
+
 //		for (Photo photo : photos) {
 //			SearchByAreaResponse response = new SearchByAreaResponse();
 //			response.setPhotoFileName(photo.getFilename());
@@ -65,10 +65,9 @@ public class SearchServiceImpl implements SearchService {
 //			response.setNickname(user.getNickname());
 //			responses.add(response);
 //		}
-		
-		
+
 		List<Story> stories = new ArrayList<Story>();
-		
+
 		Set<Long> storySet = new HashSet<Long>();
 		for (Photo photo : photos) {
 			storySet.add(photo.getStory().getStoryNo());
@@ -83,22 +82,20 @@ public class SearchServiceImpl implements SearchService {
 			Story story = storyRepository.findByStoryNo(variable);
 			stories.add(story);
 		}
-		
+
 		for (Story story : stories) {
-			SearchByAreaResponse response = new SearchByAreaResponse();
-			response.setPhotoFileName(story.getThumbnail());
-			response.setStoryNo(story.getStoryNo());
-			response.setTitle(story.getTitle());
-			User user = userRepository.findByUserno(story.getUserNo());
-			response.setNickname(user.getNickname());
-			responses.add(response);
+			if (story.getStatus().equals(StoryStatus.PUBLISHED)) {
+				SearchByAreaResponse response = new SearchByAreaResponse();
+				response.setPhotoFileName(story.getThumbnail());
+				response.setStoryNo(story.getStoryNo());
+				response.setTitle(story.getTitle());
+				User user = userRepository.findByUserno(story.getUserNo());
+				response.setNickname(user.getNickname());
+				responses.add(response);
+			}
 		}
-		
-		
-		
+
 		return responses;
 	}
-	
-	
 
 }
