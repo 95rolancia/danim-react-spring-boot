@@ -19,8 +19,7 @@ const StoryItem = ({ story }) => {
   const classes = useStyles();
   const history = useHistory();
   const goToStory = () => {
-    // 스토리 읽기
-    // history.push(`/main/${user.nickname}`);
+    history.push(`/detail/${story.storyNo}`);
   };
   return (
     <>
