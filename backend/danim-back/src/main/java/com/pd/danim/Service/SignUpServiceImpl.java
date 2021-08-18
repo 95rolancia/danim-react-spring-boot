@@ -171,7 +171,7 @@ public class SignUpServiceImpl implements SignUpService {
 	//비밀번호 유효성 검사
 	@Override
 	public boolean checkValidityPassword(String password) {
-		String regex = "^(?=.*\\d)(?=.*[a-zA-Z]){8,12}$";
+		String regex = "([a-zA-Z0-9]){8,12}";
 
 		if (!password.matches(regex))
 			return false;
