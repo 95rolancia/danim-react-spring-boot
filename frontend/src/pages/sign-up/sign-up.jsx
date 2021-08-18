@@ -147,6 +147,7 @@ const SignUp = observer(() => {
 
   const handleAge = (e) => {
     const age = e.target.value;
+    if (e.target.value > 200 || e.target.value < 1) return;
     setAge(age);
   };
 
@@ -395,7 +396,7 @@ const SignUp = observer(() => {
             onChange={handleAge}
             style={{ width: '10em' }}
             InputProps={{
-              inputProps: { min: 15, max: 100 },
+              inputProps: { min: 1, max: 200 },
             }}
           />
           <div className={classes.divider}></div>

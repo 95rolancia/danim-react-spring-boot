@@ -44,7 +44,7 @@ const Navbar = observer(() => {
   };
 
   const goToBoardCreate = () => {
-    history.push('/create');
+    history.push('/main/create');
   };
 
   const goToPlan = () => {

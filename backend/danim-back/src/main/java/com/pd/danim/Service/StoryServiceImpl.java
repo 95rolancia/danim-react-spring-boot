@@ -344,11 +344,11 @@ public class StoryServiceImpl implements StoryService {
 	
 
 	@Override
-	public StoryDetailResponse getStory(long storyno, HttpServletRequest httpServletReq) {
+	public StoryDetailResponse getStory(long storyNo, HttpServletRequest httpServletReq) {
 		
-		if(!storyRepo.existsById(storyno))
+		if(!storyRepo.existsById(storyNo))
 			return null;
-		Story story = storyRepo.findByStoryNo(storyno);
+		Story story = storyRepo.findByStoryNo(storyNo);
 		
 		final String requestTokenHeader = httpServletReq.getHeader("Authorization");
 		String userId = jwtUtil.getUsername(requestTokenHeader);
@@ -420,9 +420,30 @@ public class StoryServiceImpl implements StoryService {
 	}
 
 	@Override
-	public boolean deleteStory(long storyno) {
-		// TODO Auto-generated method stub
-		return false;
+	public int deleteStory(long storyNo, HttpServletRequest httpServletReq) {
+		if(!storyRepo.existsById(storyNo))
+			return 404;
+		
+		final String requestTokenHeader = httpServletReq.getHeader("Authorization");
+		String userId = jwtUtil.getUsername(requestTokenHeader);
+		
+		DanimId danim = danimRepo.findById(userId);
+		if(danim==null) {
+			return 401;			
+		}		
+		
+		Story story = storyRepo.findByStoryNo(storyNo);
+		
+		if(story.getUserNo()!=danim.getUserno())
+			return 406;
+		
+		
+		photoRepo.deleteAllByStory(story);
+		subStoryRepo.deleteAllByStory(story);
+		
+		storyRepo.delete(story);
+		
+		return 200;
 	}
 
 
