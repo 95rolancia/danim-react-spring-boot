@@ -1,40 +1,51 @@
 import React from 'react';
 import useBoardCreate from '../../../hooks/useBoardCreate';
 import { observer } from 'mobx-react-lite';
-import { makeStyles, Button, Grid, Fab, Box } from '@material-ui/core';
+import {
+  makeStyles,
+  Button,
+  Grid,
+  Fab,
+  Box,
+  FormGroup,
+  FormControlLabel,
+  Checkbox,
+} from '@material-ui/core';
 import { StoryCover, StoryContents } from './index';
-import { toJS } from 'mobx';
+import { set, toJS } from 'mobx';
+import { useState } from 'react';
 // import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   button: {
     bottom: theme.spacing(0),
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(1),
     padding: theme.spacing(1.5),
     borderRadius: '30px',
+  },
+  buttonTextWhite: {
+    bottom: theme.spacing(0),
+    marginTop: theme.spacing(1),
+    padding: theme.spacing(1.5),
+    borderRadius: '30px',
+    color: 'white',
   },
 }));
 
 const MemoWrite = observer(({ onFileChange }) => {
   const boardCreate = useBoardCreate();
   const classes = useStyles();
+  const [publishStatus, setPublishedStatus] = useState('PUBLISHED');
   // const history = useHistory();
   // useEffect(() => {}, [boardCreate.photos]);
 
-  const watchPhoto = () => {
-    console.log(toJS(boardCreate.title));
-    console.log(toJS(boardCreate.photos));
-    console.log(toJS(boardCreate.tripDate));
-  };
-
   const handleSubmitStory = () => {
-    // console.log(boardCreate.tripDate);
     const obj = {
       // 이거 나중에 조금 더 고치기
       duration: toJS(boardCreate.tripDate.length),
       photos: toJS(boardCreate.photos),
       startDate: toJS(boardCreate.photos[0].date),
-      status: 'PUBLISHED',
+      status: publishStatus,
       thumbnail: toJS(boardCreate.thumbnail),
       title: toJS(boardCreate.title),
     };
@@ -81,42 +92,38 @@ const MemoWrite = observer(({ onFileChange }) => {
       });
   };
 
-  const handleFileChange = (e) => {
-    boardCreate.handleLoading();
-    onFileChange(e);
+  const handleChecked = (e) => {
+    const value = e.target.checked;
+    boardCreate.handleIsTempChecked(value);
+    if (e.target.checked) {
+      setPublishedStatus('PRIVATED');
+    }
   };
 
   return (
     <>
-      {/* <Box>
-        <input
-          type="file"
-          id="input-file"
-          accept={'.jpg, .png'}
-          onChange={handleFileChange}
-          multiple
-          style={{ display: 'none' }}
-        />
-        <label htmlFor="input-file">
-          <Fab
-            variant="extended"
-            color="secondary"
-            component="span"
-            className={classes.button}
-          >
-            사진추가 임시버튼
-          </Fab>
-        </label>
-      </Box> */}
       <StoryCover />
       <StoryContents />
-      <Button onClick={watchPhoto}>포토보자</Button>
       <Grid container spacing={1}>
+        <Grid item xs={12}>
+          <FormGroup>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={boardCreate.isTempChecked}
+                  onChange={handleChecked}
+                  color="primary"
+                />
+              }
+              label="일기 공개하기"
+            />
+          </FormGroup>
+        </Grid>
         <Grid item xs={4}>
           <Button
             fullWidth
-            variant="contained"
-            color="secondary"
+            variant="outlined"
+            color="primary"
             component="span"
             className={classes.button}
             onClick={handleSaveStory}
@@ -130,7 +137,7 @@ const MemoWrite = observer(({ onFileChange }) => {
             variant="contained"
             color="primary"
             component="span"
-            className={classes.button}
+            className={classes.buttonTextWhite}
             onClick={handleSubmitStory}
           >
             등록완료

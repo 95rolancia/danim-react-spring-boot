@@ -122,7 +122,7 @@ const StoryCover = observer((props) => {
           mt={6}
           mb={0.5}
         >
-          <Box
+          {/* <Box
             display="flex"
             flexDirection="row"
             justifyContent="flex-start"
@@ -132,9 +132,9 @@ const StoryCover = observer((props) => {
             <Fab onClick={showSetting}>
               <PhotoLibraryIcon />
             </Fab>
-          </Box>
+          </Box> */}
 
-          <Box p={3} className={classes.titleBox}>
+          <Box p={3} className={classes.titleBox} mt={16}>
             <form>
               <TextField
                 defaultValue={boardCreate.title}
