@@ -75,7 +75,7 @@ public class UserPageServiceImpl implements UserPageService {
 			storyRes.setStoryNo(story.getStoryNo());
 			storyRes.setThumbnail(story.getThumbnail());
 			storyRes.setTitle(story.getTitle());
-			
+			storyRes.setEndDate(story.getStartDate().plusDays(story.getDuration()-1));
 			stories.add(storyRes);
 		}
 		
