@@ -1,6 +1,6 @@
 package com.pd.danim.Service;
 
 public interface DanimPasswordService {
-	boolean resetPassword(String userId);
-	boolean updatePassword(String userId, String password);
+	boolean sendResetPassword(String userId);	
+	boolean resetPassword(String userId, String password, String key);
 }

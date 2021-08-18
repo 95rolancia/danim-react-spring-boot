@@ -183,8 +183,7 @@ public class UserEditServiceImpl implements UserEditService {
 		
 		User user = danim.getUser();
 
-		user.setRole(UserRole.DELETED);		
-		user.setNickname("DELETED USER_"+user.getUserno());
+		user.setRole(UserRole.DELETED);
 		user.setProfile("");
 		
 		userRepo.save(user);
