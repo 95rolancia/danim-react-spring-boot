@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
+import javax.lang.model.type.IntersectionType;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +66,22 @@ public class HomeServiceImpl implements HomeService {
 		for (Interest interest : interests) {
 
 			MyPopularResponse myPopularResponse = new MyPopularResponse();
-			myPopularResponse.setArea(interest.getArea());
+
+			if (interest.getArea().equals("전라남")) {
+				myPopularResponse.setArea("전남");
+			} else if (interest.getArea().equals("전라븍")) {
+				myPopularResponse.setArea("전북");
+			} else if (interest.getArea().equals("경상북")) {
+				myPopularResponse.setArea("경북");
+			} else if (interest.getArea().equals("경상남")) {
+				myPopularResponse.setArea("경남");
+			} else if (interest.getArea().equals("충청북")) {
+				myPopularResponse.setArea("충북");
+			} else if (interest.getArea().equals("충청남")) {
+				myPopularResponse.setArea("충남");
+			} else {
+				myPopularResponse.setArea(interest.getArea());
+			}
 
 			List<Photo> photos = photoRepository.findAllByAddressContaining(interest.getArea());
 			List<Story> stories = new ArrayList<Story>();
@@ -98,8 +114,6 @@ public class HomeServiceImpl implements HomeService {
 //				}
 //			}
 
-			
-			
 			Set<Long> storySet = new HashSet<Long>();
 			for (Photo photo : photos) {
 				storySet.add(photo.getStory().getStoryNo());
@@ -113,7 +127,7 @@ public class HomeServiceImpl implements HomeService {
 				Story story = storyRepository.findByStoryNo(iter.next());
 				stories.add(story);
 			}
-			
+
 			Collections.sort(stories, new Comparator<Story>() {
 				@Override
 				public int compare(Story o1, Story o2) {
@@ -124,7 +138,7 @@ public class HomeServiceImpl implements HomeService {
 					}
 				}
 			});
-			
+
 			List<StoryResponse> responses = new ArrayList<StoryResponse>();
 
 			for (Story story : stories) {
