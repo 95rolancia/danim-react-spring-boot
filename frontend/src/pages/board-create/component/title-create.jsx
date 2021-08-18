@@ -40,7 +40,8 @@ const TitleCreate = observer(({ onFileChange }) => {
   }, []);
 
   const handleTitleChange = (e) => {
-    boardCreate.handleTitleChange(e.target.value);
+    const newTitle = e.target.value;
+    boardCreate.handleTitleChange(newTitle);
   };
 
   const handleClick = (e) => {
