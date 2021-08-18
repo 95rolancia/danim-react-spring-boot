@@ -13,9 +13,9 @@ public class StoryRequest {
 	
 	@ApiModelProperty(value = "스토리 제목", required=true, example="바람이 불어오는 나의 제주도 여행기")
 	private String title; 
-	@ApiModelProperty(value = "여행 시작 날짜", required=true, example="2021-05-30")
+	@ApiModelProperty(value = "여행 시작 날짜", required=true, example="2021-08-15T11:01:21.056")
 	private String startDate; 
-	@ApiModelProperty(value = "여행 기간", required=true, example="4")
+	@ApiModelProperty(value = "여행 기간", required=true, example="1")
 	private int duration; 
 	@ApiModelProperty(value = "게시글 상태", example="PUBLISHED")
 	private StoryStatus status; 
