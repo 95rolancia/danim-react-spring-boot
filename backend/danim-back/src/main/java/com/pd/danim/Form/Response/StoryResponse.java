@@ -13,6 +13,7 @@ public class StoryResponse implements Comparable<StoryResponse> {
 	private String thumbnail;
 	private LocalDateTime createdDate;
 	private LocalDateTime startDate;
+	private LocalDateTime endDate;
 	private int duration;
 	private StoryStatus status;
 	private boolean isLove;
@@ -75,6 +76,15 @@ public class StoryResponse implements Comparable<StoryResponse> {
 
 	public void setStartDate(LocalDateTime startDate) {
 		this.startDate = startDate;
+	}
+	
+	public LocalDateTime getEndDate() {
+		return endDate;
+	}
+
+
+	public void setEndDate(LocalDateTime endDate) {
+		this.endDate = endDate;
 	}
 
 
