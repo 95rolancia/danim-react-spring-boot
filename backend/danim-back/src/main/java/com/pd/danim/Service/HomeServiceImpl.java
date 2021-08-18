@@ -69,7 +69,7 @@ public class HomeServiceImpl implements HomeService {
 
 			if (interest.getArea().equals("전라남")) {
 				myPopularResponse.setArea("전남");
-			} else if (interest.getArea().equals("전라븍")) {
+			} else if (interest.getArea().equals("전라북")) {
 				myPopularResponse.setArea("전북");
 			} else if (interest.getArea().equals("경상북")) {
 				myPopularResponse.setArea("경북");
