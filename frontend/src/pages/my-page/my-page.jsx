@@ -51,13 +51,16 @@ const MyPage = ({ userInfo, isManager, handleFollow, handleStory }) => {
         handleFollow={handleFollow}
         history={history}
       />
+      <Introduce introduce={userInfo.introduce} />
+      <Divider />
       <FollowList userInfo={userInfo} />
+
       <Divider />
-      <div className={classes.introduce}>
-        <Introduce introduce={userInfo.introduce} />
-      </div>
-      <Divider />
-      <Stories stories={userInfo.stories} handleStory={handleStory} />
+      <Stories
+        stories={userInfo.stories}
+        handleStory={handleStory}
+        isManager={isManager}
+      />
       <div className={classes.marginBottom}></div>
     </div>
   );
