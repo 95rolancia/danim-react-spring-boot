@@ -146,18 +146,19 @@ public class StoryServiceImpl implements StoryService {
 	}
 
 	@Override
-	public boolean writeStory(StoryRequest input, HttpServletRequest httpServletReq) {
+	public long writeStory(StoryRequest input, HttpServletRequest httpServletReq) {
 
 		final String requestTokenHeader = httpServletReq.getHeader("Authorization");
 		String userId = jwtUtil.getUsername(requestTokenHeader);
 		
 		DanimId danim = danimRepo.findById(userId);
 		if(danim==null) {
-			return false;			
+			return -1;			
 		}
-
+		
 		Story story = new Story();
-
+		
+		
 		List<PhotoRequest> photoReqList = input.getPhotos();
 		Collections.sort(photoReqList);
 		SubStory[] subStoryArr = new SubStory[input.getDuration()];
@@ -217,8 +218,10 @@ public class StoryServiceImpl implements StoryService {
 		for (Photo photo : photoList) {
 			photoRepo.save(photo);
 		}
-
-		return true;
+		
+		
+		
+		return story.getStoryNo();
 	}
 
 	@Override

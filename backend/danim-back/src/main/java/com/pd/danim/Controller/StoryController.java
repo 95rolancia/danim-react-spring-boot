@@ -58,13 +58,15 @@ public class StoryController {
 
 	@ApiOperation(tags = "스토리", value = "스토리 작성", notes = "스토리를 작성 혹은 임시 저장합니다")
 	@PostMapping
-	public ResponseEntity<String> postStory(@RequestBody StoryRequest input, HttpServletRequest httpServletReq) {
+	public ResponseEntity<Long> postStory(@RequestBody StoryRequest input, HttpServletRequest httpServletReq) {
 
-		if(!storyService.writeStory(input, httpServletReq)) {
-			return new ResponseEntity<String>("FAIL", HttpStatus.BAD_REQUEST);
+		long response = storyService.writeStory(input, httpServletReq);
+		
+		if(response == -1) {
+			return new ResponseEntity<Long>(response, HttpStatus.BAD_REQUEST);
 		}
 		
-		return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+		return new ResponseEntity<Long>(response, HttpStatus.OK);
 	}
 
 	@ApiOperation(tags = "스토리", value = "스토리 조회", notes = "스토리 내용을 조회합니다")
