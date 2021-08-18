@@ -128,6 +128,10 @@ public class UserEditServiceImpl implements UserEditService {
 			user.setNickname(userEditReq.getNickname());
 		}
 		
+		if(userEditReq.getAge() < 0 || userEditReq.getAge() > 200)
+			return false;
+		
+		
 		user.setIntroduce(userEditReq.getIntroduce());		
 		user.setProfile(userEditReq.getProfile());
 		user.setAge(userEditReq.getAge());
