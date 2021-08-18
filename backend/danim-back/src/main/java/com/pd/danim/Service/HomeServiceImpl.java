@@ -1,11 +1,15 @@
 package com.pd.danim.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -35,7 +39,7 @@ public class HomeServiceImpl implements HomeService {
 
 	@Autowired
 	private DanimRepository danimRepository;
-	
+
 	@Autowired
 	private UserRepository userRepository;
 
@@ -47,8 +51,7 @@ public class HomeServiceImpl implements HomeService {
 
 	@Override
 	public List<MyPopularResponse> getMyPopularStory(HttpServletRequest httpServletRequest) {
-		
-		
+
 		final String requestTokenHeader = httpServletRequest.getHeader("Authorization");
 		String userId = jwtUtil.getUsername(requestTokenHeader);
 
@@ -57,18 +60,61 @@ public class HomeServiceImpl implements HomeService {
 
 		List<Interest> interests = user.getInterests();
 //		Map<String,List<StoryResponse>> storyResponses = new HashMap<String,List<StoryResponse>>();
-		
+
 		List<MyPopularResponse> myPopularResponses = new ArrayList<MyPopularResponse>();
 		for (Interest interest : interests) {
-			
+
 			MyPopularResponse myPopularResponse = new MyPopularResponse();
 			myPopularResponse.setArea(interest.getArea());
 
 			List<Photo> photos = photoRepository.findAllByAddressContaining(interest.getArea());
 			List<Story> stories = new ArrayList<Story>();
 
-			PriorityQueue<Story> pq = new PriorityQueue<Story>(new Comparator<Story>() {
+//			PriorityQueue<Story> pq = new PriorityQueue<Story>(new Comparator<Story>() {
+//
+//				@Override
+//				public int compare(Story o1, Story o2) {
+//					if (o1.getLoveCount() >= o2.getLoveCount()) {
+//						return 1;
+//					} else {
+//						return -1;
+//					}
+//				}
+//			});
+//			
+//
+//
+//			for (Photo photo : photos) {
+//				pq.add(photo.getStory());
+//			}
+//
+//			if (pq.size() < 10) {
+//				for (int i = 0; i < pq.size(); i++) {
+//					stories.add(pq.poll());
+//				}
+//			} else {
+//				for (int i = 0; i < 10; i++) {
+//					stories.add(pq.poll());
+//				}
+//			}
 
+			
+			
+			Set<Long> storySet = new HashSet<Long>();
+			for (Photo photo : photos) {
+				storySet.add(photo.getStory().getStoryNo());
+				if (storySet.size() >= 10) {
+					break;
+				}
+			}
+
+			Iterator<Long> iter = storySet.iterator();
+			while (iter.hasNext()) {
+				Story story = storyRepository.findByStoryNo(iter.next());
+				stories.add(story);
+			}
+			
+			Collections.sort(stories, new Comparator<Story>() {
 				@Override
 				public int compare(Story o1, Story o2) {
 					if (o1.getLoveCount() >= o2.getLoveCount()) {
@@ -78,26 +124,12 @@ public class HomeServiceImpl implements HomeService {
 					}
 				}
 			});
-
-			for (Photo photo : photos) {
-				pq.add(photo.getStory());
-			}
-
-			if (pq.size() < 10) {
-				for (int i = 0; i < pq.size(); i++) {
-					stories.add(pq.poll());
-				}
-			} else {
-				for (int i = 0; i < 10; i++) {
-					stories.add(pq.poll());
-				}
-			}
-
-			List<StoryResponse> responses = new ArrayList<StoryResponse>();
 			
+			List<StoryResponse> responses = new ArrayList<StoryResponse>();
+
 			for (Story story : stories) {
 				StoryResponse storyResponse = new StoryResponse();
-				
+
 				storyResponse.setStoryNo(story.getStoryNo());
 				User storyUser = userRepository.findByUserno(story.getUserNo());
 				storyResponse.setNickname(storyUser.getNickname());
@@ -107,10 +139,10 @@ public class HomeServiceImpl implements HomeService {
 				storyResponse.setCreatedDate(story.getCreatedDate());
 				storyResponse.setDuration(story.getDuration());
 				storyResponse.setStatus(story.getStatus());
-				
+
 				responses.add(storyResponse);
 			}
-			
+
 //			storyResponses.put(interest.getArea(),responses);
 			myPopularResponse.setStories(responses);
 			myPopularResponses.add(myPopularResponse);
@@ -121,13 +153,12 @@ public class HomeServiceImpl implements HomeService {
 
 	@Override
 	public List<StoryResponse> getPopularStory() {
-		
-		
+
 		List<Story> stories = storyRepository.findTop10ByOrderByLoveCountDesc();
 		List<StoryResponse> responses = new ArrayList<StoryResponse>();
-		for(Story story : stories) {
+		for (Story story : stories) {
 			StoryResponse storyResponse = new StoryResponse();
-			
+
 			storyResponse.setStoryNo(story.getStoryNo());
 			User storyUser = userRepository.findByUserno(story.getUserNo());
 			storyResponse.setNickname(storyUser.getNickname());
@@ -137,7 +168,7 @@ public class HomeServiceImpl implements HomeService {
 			storyResponse.setCreatedDate(story.getCreatedDate());
 			storyResponse.setDuration(story.getDuration());
 			storyResponse.setStatus(story.getStatus());
-			
+
 			responses.add(storyResponse);
 		}
 		return responses;
@@ -145,9 +176,7 @@ public class HomeServiceImpl implements HomeService {
 
 	@Override
 	public List<MyPopularPhotoResponse> getMyPopularPhoto(HttpServletRequest httpServletRequest) {
-		
-		
-		
+
 		final String requestTokenHeader = httpServletRequest.getHeader("Authorization");
 		String userId = jwtUtil.getUsername(requestTokenHeader);
 
@@ -157,11 +186,11 @@ public class HomeServiceImpl implements HomeService {
 		List<Interest> interests = user.getInterests();
 		Sort sort = sortByDate();
 		List<MyPopularPhotoResponse> responses = new ArrayList<>();
-		
+
 		for (Interest interest : interests) {
-			
+
 			List<Photo> photos = photoRepository.findTop20ByAddressContaining(interest.getArea(), sort);
-			
+
 			for (Photo photo : photos) {
 				MyPopularPhotoResponse response = new MyPopularPhotoResponse();
 				response.setFilePath(photo.getFilename());
@@ -172,17 +201,14 @@ public class HomeServiceImpl implements HomeService {
 				response.setUserNickname(storyUser.getNickname());
 				responses.add(response);
 			}
-			
+
 		}
-		
+
 		return responses;
 	}
-	
+
 	private Sort sortByDate() {
 		return Sort.by(Sort.Direction.DESC, "date");
 	}
-	
-	
-	
 
 }
