@@ -3,12 +3,12 @@ import { toJS } from 'mobx';
 import { makeStyles, Container } from '@material-ui/core';
 import loadImage from 'blueimp-load-image';
 import HeaderBoardCreateMemo from '../../components/header/header-board-create-memo';
-import HeaderGoBack from '../../components/header/header-go-back';
 import useUser from '../../hooks/useUser';
 import useBoardCreate from '../../hooks/useBoardCreate';
 import Compressor from 'compressorjs';
 import { TitleCreate, Loading, MemoWrite } from './component/index';
 import { observer } from 'mobx-react-lite';
+import { HeaderMain } from '../../components';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -143,7 +143,7 @@ const BoardCreate = observer(() => {
   } else {
     return (
       <>
-        <HeaderGoBack title="여행일기 제목" />
+        <HeaderMain />
         <Container maxWidth="xs" className={classes.root}>
           <TitleCreate onFileChange={handleFileChange} />
         </Container>
