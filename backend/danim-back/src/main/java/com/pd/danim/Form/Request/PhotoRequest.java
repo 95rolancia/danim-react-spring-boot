@@ -22,7 +22,7 @@ public class PhotoRequest implements Comparable<PhotoRequest> {
 	@ApiModelProperty(value = "내용", example="나는 ㄱr끔... 여행을 떠난다...")
 	private String content; 
 	
-	@ApiModelProperty(value = "사진 날짜", example="2021-08-21 12:42:33")
+	@ApiModelProperty(value = "사진 날짜", example="2021-08-15T11:01:21.056")
 	private String date;
 	
 	@ApiModelProperty(value = "사진 태그", example="FOOD")
