@@ -443,7 +443,7 @@ public class StoryServiceImpl implements StoryService {
 		
 		photoRepo.deleteAllByStory(story);
 		subStoryRepo.deleteAllByStory(story);
-		
+		loveRepo.deleteAllByStory(story);
 		storyRepo.delete(story);
 		
 		return 200;
