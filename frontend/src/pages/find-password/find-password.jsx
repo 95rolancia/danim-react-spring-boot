@@ -131,11 +131,6 @@ const FindPassword = observer(() => {
   };
 
   const submitAuthCodeNPwd = async () => {
-    if (emailAuthCode.length !== 6) {
-      alert('인증번호는 6자리입니다.');
-      return;
-    }
-
     const res = await auth.resetPassword({
       userId: email,
       key: emailAuthCode,
