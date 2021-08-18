@@ -1,16 +1,21 @@
 package com.pd.danim.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.pd.danim.DTO.Photo;
+import com.pd.danim.DTO.Story;
 import com.pd.danim.DTO.User;
 import com.pd.danim.Form.Response.SearchByAreaResponse;
 import com.pd.danim.Form.Response.SearchByNicknameResponse;
 import com.pd.danim.Repository.PhotoRepository;
+import com.pd.danim.Repository.StoryRepository;
 import com.pd.danim.Repository.UserRepository;
 
 @Service
@@ -21,6 +26,10 @@ public class SearchServiceImpl implements SearchService {
 	
 	@Autowired
 	private PhotoRepository photoRepository;
+	
+	@Autowired
+	private StoryRepository storyRepository;
+
 
 	@Override
 	public List<SearchByNicknameResponse> searchByNickName(String nickname) {
@@ -45,17 +54,45 @@ public class SearchServiceImpl implements SearchService {
 		
 		List<SearchByAreaResponse> responses = new ArrayList<>();
 		
-		List<Photo> photos = photoRepository.findTop9ByAddressContaining(area);
+		List<Photo> photos = photoRepository.findTop1000ByAddressContaining(area);
 		
+//		for (Photo photo : photos) {
+//			SearchByAreaResponse response = new SearchByAreaResponse();
+//			response.setPhotoFileName(photo.getFilename());
+//			response.setStoryNo(photo.getStory().getStoryNo());
+//			response.setTitle(photo.getStory().getTitle());
+//			User user = userRepository.findByUserno(photo.getStory().getUserNo());
+//			response.setNickname(user.getNickname());
+//			responses.add(response);
+//		}
+		
+		
+		List<Story> stories = new ArrayList<Story>();
+		
+		Set<Long> storySet = new HashSet<Long>();
 		for (Photo photo : photos) {
+			storySet.add(photo.getStory().getStoryNo());
+			if (storySet.size() >= 10) {
+				break;
+			}
+		}
+
+		Iterator<Long> iter = storySet.iterator();
+		while (iter.hasNext()) {
+			Story story = storyRepository.findByStoryNo(iter.next());
+			stories.add(story);
+		}
+		
+		for (Story story : stories) {
 			SearchByAreaResponse response = new SearchByAreaResponse();
-			response.setPhotoFileName(photo.getFilename());
-			response.setStoryNo(photo.getStory().getStoryNo());
-			response.setTitle(photo.getStory().getTitle());
-			User user = userRepository.findByUserno(photo.getStory().getUserNo());
+			response.setPhotoFileName(story.getThumbnail());
+			response.setStoryNo(story.getUserNo());
+			response.setTitle(story.getTitle());
+			User user = userRepository.findByUserno(story.getUserNo());
 			response.setNickname(user.getNickname());
 			responses.add(response);
 		}
+		
 		
 		
 		return responses;
