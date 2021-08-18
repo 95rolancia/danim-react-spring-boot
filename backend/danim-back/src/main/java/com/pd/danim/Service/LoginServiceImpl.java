@@ -18,6 +18,7 @@ import com.pd.danim.DTO.DanimId;
 import com.pd.danim.DTO.Interest;
 import com.pd.danim.DTO.Story;
 import com.pd.danim.DTO.User;
+import com.pd.danim.DTO.UserRole;
 import com.pd.danim.Form.Response.MeResponse;
 import com.pd.danim.Form.Response.SignInResponse;
 import com.pd.danim.Form.Response.StoryResponse;
@@ -131,6 +132,17 @@ public class LoginServiceImpl implements LoginService {
 		
 		return signInResponse;
 		
+	}
+	
+	public boolean isDeleted(DanimId danim) {
+		
+		User user = danim.getUser();
+		if(user.getRole().equals(UserRole.DELETED))
+			return true;
+		
+		
+		
+		return false;
 	}
 
 }
