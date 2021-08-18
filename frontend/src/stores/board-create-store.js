@@ -251,6 +251,27 @@ class BoardCreateStore {
   handleIsTempChecked(value) {
     this.isTempChecked = value
   }
+
+  reset() {
+    console.log('리셋시작')
+    this.duration = 0;
+    this.photos = [];
+    this.startDate = "";
+    this.status = "";
+    this.thumbnail = "";
+    this.title = "";
+    this.totalImgNum = 0;
+    this.errorImgNum = 0;
+    this.successImgNum = 0;
+    this.isFirstPage = true;
+    this.isLoading = false;
+    this.isTempChecked = true;
+    this.nickname = "danim";
+    this.tripDate = [];
+    this.tripAddress = [];
+    this.imgBaseURL = process.env.REACT_APP_IMAGE_BASE_URL;
+    console.log('리셋완료')
+  }
 }
 
 export default new BoardCreateStore();
