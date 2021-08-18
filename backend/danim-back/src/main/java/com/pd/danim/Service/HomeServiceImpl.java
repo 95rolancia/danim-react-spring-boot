@@ -189,7 +189,7 @@ public class HomeServiceImpl implements HomeService {
 
 		for (Interest interest : interests) {
 
-			List<Photo> photos = photoRepository.findTop20ByAddressContaining(interest.getArea(), sort);
+			List<Photo> photos = photoRepository.findTop1000ByAddressContaining(interest.getArea(), sort);
 
 			for (Photo photo : photos) {
 				MyPopularPhotoResponse response = new MyPopularPhotoResponse();
