@@ -16,6 +16,7 @@ class BoardCreateStore {
   successImgNum = 0;
   isFirstPage = true;
   isLoading = false;
+  isTempChecked = true;
 
   nickname = "danim";
 
@@ -237,6 +238,10 @@ class BoardCreateStore {
   calculatePrettyAddress(address) {
     const addressArr = address.split(' ').slice(2).join(' ')
     return addressArr
+  }
+
+  handleIsTempChecked(value) {
+    this.isTempChecked = value
   }
 }
 
