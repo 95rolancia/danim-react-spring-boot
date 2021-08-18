@@ -34,6 +34,7 @@ public class UserPageController {
 		
 		if(response == null)
 			return new ResponseEntity<UserPageResponse>(response, HttpStatus.NOT_FOUND);
+		
 
 		return new ResponseEntity<UserPageResponse>(response, HttpStatus.OK);
 	}

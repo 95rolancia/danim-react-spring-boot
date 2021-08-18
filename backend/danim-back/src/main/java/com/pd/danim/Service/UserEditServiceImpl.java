@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.pd.danim.DTO.DanimId;
 import com.pd.danim.DTO.User;
+import com.pd.danim.DTO.UserRole;
 import com.pd.danim.Form.Request.PasswordRequest;
 import com.pd.danim.Form.Request.UserEditRequest;
 import com.pd.danim.Repository.DanimRepository;
@@ -157,12 +158,12 @@ public class UserEditServiceImpl implements UserEditService {
 		
 		String password = pwdReq.getPassword();
 		
-		String regex = "^(?=.*\\d)(?=.*[a-zA-Z]).{8,12}$";
-
+		String regex = "([a-zA-Z0-9]){8,12}";
+		
 		if (!password.matches(regex))
 			return 400;
 
-		PasswordEncoder encoder = new BCryptPasswordEncoder();
+		PasswordEncoder encoder = new BCryptPasswordEncoder();		
 		if(!encoder.matches(pwdReq.getLastPassword(), danim.getPassword())){
 			return 409;
 		}
@@ -171,6 +172,25 @@ public class UserEditServiceImpl implements UserEditService {
 		danimRepo.save(danim);
 		
 		return 200;
+	}
+	
+	@Override
+	public boolean deleteUser(HttpServletRequest httpServletReq) {
+		final String requestTokenHeader = httpServletReq.getHeader("Authorization");
+		String userId = jwtUtil.getUsername(requestTokenHeader);
+		
+		DanimId danim = danimRepo.findById(userId);
+		
+		User user = danim.getUser();
+
+		user.setRole(UserRole.DELETED);		
+		user.setNickname("DELETED USER_"+user.getUserno());
+		user.setProfile("");
+		
+		userRepo.save(user);
+		
+		
+		return true;
 	}
 	
 	

@@ -4,6 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { HeaderGoBack } from '../../components';
 import { PlaceDetailInfo } from './components';
 import useSearch from '../../hooks/useSearch';
+import { CircularProgress } from '@material-ui/core';
 
 const PlaceInfo = observer(() => {
   const search = useSearch();
@@ -16,7 +17,7 @@ const PlaceInfo = observer(() => {
   return (
     <>
       <HeaderGoBack />
-      {search.placeDetailInfo ? <PlaceDetailInfo /> : <h1>Loading ...</h1>}
+      {search.placeDetailInfo ? <PlaceDetailInfo /> : <CircularProgress />}
     </>
   );
 });

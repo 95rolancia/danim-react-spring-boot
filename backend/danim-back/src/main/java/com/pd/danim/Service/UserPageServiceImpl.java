@@ -14,6 +14,7 @@ import com.pd.danim.DTO.Follow;
 import com.pd.danim.DTO.Story;
 import com.pd.danim.DTO.StoryStatus;
 import com.pd.danim.DTO.User;
+import com.pd.danim.DTO.UserRole;
 import com.pd.danim.Form.Response.StoryResponse;
 import com.pd.danim.Form.Response.UserPageResponse;
 import com.pd.danim.Form.Response.UserSimpleResponse;
@@ -53,8 +54,16 @@ public class UserPageServiceImpl implements UserPageService {
 		String userId = jwtUtil.getUsername(requestTokenHeader);
 		
 		DanimId danim = danimRepo.findById(userId);		
-		
 		User user = userRepo.findByNickname(nickname);
+		
+		UserPageResponse upf = new UserPageResponse();
+		if(user.getRole().equals(UserRole.DELETED)) {
+			return upf;
+		}
+		
+		
+		
+		
 		long userno = user.getUserno();
 		
 		List<Story> storyList;
@@ -75,7 +84,7 @@ public class UserPageServiceImpl implements UserPageService {
 			storyRes.setStoryNo(story.getStoryNo());
 			storyRes.setThumbnail(story.getThumbnail());
 			storyRes.setTitle(story.getTitle());
-			
+			storyRes.setEndDate(story.getStartDate().plusDays(story.getDuration()-1));
 			stories.add(storyRes);
 		}
 		
@@ -90,8 +99,9 @@ public class UserPageServiceImpl implements UserPageService {
 		
 		for(Follow follow : tFollowList) {
 			UserSimpleResponse usf = new UserSimpleResponse();
-			usf.setNickname(follow.getUser().getNickname());
-			usf.setProfile(follow.getUser().getProfile());
+			User fUser = userRepo.findByUserno(follow.getFollowUserNo());
+			usf.setNickname(fUser.getNickname());
+			usf.setProfile(fUser.getProfile());
 			followingList.add(usf);
 		}
 		
@@ -104,7 +114,7 @@ public class UserPageServiceImpl implements UserPageService {
 		
 		boolean isFollow = followRepo.existsByFollowUserNoAndUser(userno, danim.getUser());
 		
-		UserPageResponse upf = new UserPageResponse();
+		
 		
 		upf.setFollowingList(followingList);		
 		upf.setFollowerList(followerList);

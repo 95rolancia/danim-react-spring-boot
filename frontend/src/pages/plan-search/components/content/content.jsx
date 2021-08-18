@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite';
 import useSearch from '../../../../hooks/useSearch';
 import { PlaceList } from '../';
 import { makeStyles, Typography } from '@material-ui/core';
+import { SearchContentLoader } from '../../../../components';
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -22,7 +23,9 @@ const Content = observer(() => {
   const classes = useStyles();
   return (
     <section className={classes.content}>
-      {search.searchedPlace.length > 0 ? (
+      {search.searchPlaceState === 'pending' ? (
+        <SearchContentLoader />
+      ) : search.searchedPlace.length > 0 ? (
         <PlaceList />
       ) : (
         <section className={classes.searchResult}>
