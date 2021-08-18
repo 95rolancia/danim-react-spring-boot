@@ -42,12 +42,12 @@ const NotiItem = ({ noti }) => {
 
   const notiClick = () => {
     switch (noti.type) {
-      case 'follow':
-      case 'love':
-        history.push(`/main/${noti.from}`);
-        break;
       case 'comment':
+      case 'love':
         history.push(`/detail/${noti.storyNo}`);
+        break;
+      case 'follow':
+        history.push(`/main/${noti.from}`);
         break;
       default:
         throw new Error(`unknown noti type ${noti.type}`);
