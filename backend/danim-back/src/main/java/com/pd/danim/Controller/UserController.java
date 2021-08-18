@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pd.danim.DTO.DanimId;
 import com.pd.danim.Form.Request.EmailRequest;
 import com.pd.danim.Form.Request.InterestRequest;
+import com.pd.danim.Form.Request.PasswordResetRequest;
 import com.pd.danim.Form.Request.SignInRequest;
 import com.pd.danim.Form.Response.MeResponse;
 import com.pd.danim.Form.Response.SignInResponse;
@@ -79,9 +80,9 @@ public class UserController {
 	}
 	
 	
-	@ApiOperation(tags="인증", value="비밀번호 찾기(초기화)", notes="아이디(이메일주소)를 입력하면 입력하신 이메일로 임시 비밀번호를 전송해 줌")
+	@ApiOperation(tags="인증", value="비밀번호 초기화 메일 전송 요청", notes="아이디(이메일주소)를 입력하면 입력하신 이메일로 키 값을 전송해 줌")
 	@PostMapping("/auth/reset")
-	public ResponseEntity<String> resetPasswrod(@RequestBody EmailRequest input){
+	public ResponseEntity<String> sendResetPasswrod(@RequestBody EmailRequest input){
 		
 		String userId = input.getUserId();
 		
@@ -93,7 +94,28 @@ public class UserController {
 			return new ResponseEntity<String>("not authorized", HttpStatus.FORBIDDEN);
 		}
 		
-		danimPasswordService.resetPassword(userId);
+		danimPasswordService.sendResetPassword(userId);
+	
+		return new ResponseEntity<String>("success", HttpStatus.OK);
+	}
+	
+	@ApiOperation(tags="인증", value="비밀번호 찾기(초기화)", notes="비밀번호를 초기화 합니다")
+	@PostMapping("/auth/resetpwd")
+	public ResponseEntity<String> resetPasswrod(@RequestBody PasswordResetRequest input){
+		
+		String userId = input.getUserId();
+		String password = input.getPassword();
+		String key = input.getKey();
+		
+		if(!signUpService.checkValidityEmail(userId)) {
+			return new ResponseEntity<String>("invalid", HttpStatus.BAD_REQUEST);
+		}
+		
+		if(signUpService.checkDuplicateEmail(userId)) {
+			return new ResponseEntity<String>("not authorized", HttpStatus.FORBIDDEN);
+		}
+		
+		danimPasswordService.resetPassword(userId,password,key);
 	
 		return new ResponseEntity<String>("success", HttpStatus.OK);
 	}
