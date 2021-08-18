@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MyPage = ({ userInfo, isManager, handleFollow, handleStory }) => {
+const MyPage = ({ userInfo, isManager, handleFollow, onDelete }) => {
   const classes = useStyles();
   const [isShowSetting, setIsShowSetting] = useState(false);
   const history = useHistory();
@@ -58,7 +58,7 @@ const MyPage = ({ userInfo, isManager, handleFollow, handleStory }) => {
       <Divider />
       <Stories
         stories={userInfo.stories}
-        handleStory={handleStory}
+        onDelete={onDelete}
         isManager={isManager}
       />
       <div className={classes.marginBottom}></div>
