@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { memo } from 'react';
 import { toJS } from 'mobx';
+import { observer } from 'mobx-react-lite';
 import useUser from '../../../../hooks/useUser';
 import useStory from '../../../../hooks/useStory';
 import {
@@ -12,11 +12,10 @@ import {
   ListItemAvatar,
   ListItemText,
   Typography,
-  Button,
+  Menu,
+  MenuItem,
 } from '@material-ui/core';
-import { Close } from '@material-ui/icons';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { MoreVert } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'wrap',
     justifyContent: 'space-around',
     overflow: 'hidden',
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: '#fafafa',
   },
   listPic: {
     width: theme.spacing(15),
@@ -38,9 +37,20 @@ const useStyles = makeStyles((theme) => ({
   button: {
     color: 'white',
   },
+  story: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  storyInfo: {
+    textAlign: 'center',
+  },
+  managerOptions: {
+    paddingTop: theme.spacing(1),
+  },
 }));
 
-const Stories = memo(({ stories, handleStory }) => {
+const Stories = observer(({ stories, handleStory, isManager }) => {
   const classes = useStyles();
   const history = useHistory();
   const user = useUser();
@@ -61,11 +71,26 @@ const Stories = memo(({ stories, handleStory }) => {
     // });
     alert('스웨거 temp로 되어있음(무슨뜻인가요..?)');
   };
+
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <div className={classes.root}>
       <List>
         {stories.map((story) => (
-          <ListItem alignItems="flex-start" key={story.storyNo}>
+          <ListItem
+            className={classes.story}
+            alignItems="flex-start"
+            key={story.storyNo}
+          >
             <ListItemAvatar>
               <Avatar
                 variant="rounded"
@@ -81,31 +106,36 @@ const Stories = memo(({ stories, handleStory }) => {
               />
             </ListItemAvatar>
             <ListItemText
+              className={classes.storyInfo}
               primary={story.title}
               secondary={
-                <React.Fragment>
-                  <Typography
-                    component="span"
-                    variant="body2"
-                    className={classes.inline}
-                    color="textPrimary"
-                  >
-                    총 {story.duration}일
-                  </Typography>
-                </React.Fragment>
+                <Typography
+                  component="span"
+                  variant="body2"
+                  className={classes.inline}
+                  color="textPrimary"
+                >
+                  {`${story.duration - 1}박 ${story.duration}일`}
+                </Typography>
               }
             />
-            {currentAccount === story.nickname ? (
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={() => deleteStory(story.storyNo)}
-                disableElevation
-              >
-                <Close className={classes.button} />
-              </Button>
-            ) : (
-              <></>
+
+            {isManager && (
+              <section className={classes.managerOptions}>
+                <MoreVert onClick={handleClick} />
+                <Menu
+                  id="simple-menu"
+                  anchorEl={anchorEl}
+                  keepMounted
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                  elevation={1}
+                >
+                  {/* 나중에 수정, 삭제 클릭할 때 handleClose도 처리 해줘야 함 */}
+                  <MenuItem onClick={handleClose}>수정</MenuItem>
+                  <MenuItem onClick={handleClose}>삭제</MenuItem>
+                </Menu>
+              </section>
             )}
           </ListItem>
         ))}
