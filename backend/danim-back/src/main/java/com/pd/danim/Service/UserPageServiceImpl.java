@@ -74,7 +74,7 @@ public class UserPageServiceImpl implements UserPageService {
 			storyRes.setStatus(story.getStatus());
 			storyRes.setStoryNo(story.getStoryNo());
 			storyRes.setThumbnail(story.getThumbnail());
-			storyRes.setTitle(story.getThumbnail());
+			storyRes.setTitle(story.getTitle());
 			
 			stories.add(storyRes);
 		}
