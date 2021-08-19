@@ -55,6 +55,7 @@ class BoardCreateStore {
     if (res.status !== 200) {
       return false;
     }
+    this.isExist = false;
     return res;
   }
 
@@ -64,6 +65,7 @@ class BoardCreateStore {
       return false;
     }
     this.isExist = false;
+    this.status = 'TEMP';
     return res;
   }
 
@@ -72,10 +74,10 @@ class BoardCreateStore {
     if (res.status !== 200) {
       return false;
     }
-    runInAction(() => {
-      this.isExist = false;
-      return true;
-    });
+
+    this.isExist = false;
+    this.status = 'TEMP';
+    return true;
   }
 
   async setNickname(nickname) {
@@ -269,7 +271,7 @@ class BoardCreateStore {
     this.duration = 0;
     this.photos = [];
     this.startDate = '';
-    this.status = '';
+    this.status = 'TEMP';
     this.thumbnail = '';
     this.title = '';
     this.totalImgNum = 0;

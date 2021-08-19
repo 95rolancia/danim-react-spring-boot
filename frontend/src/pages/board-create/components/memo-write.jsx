@@ -17,18 +17,22 @@ import {
 import MuiAlert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles((theme) => ({
-  button: {
-    bottom: theme.spacing(0),
-    marginTop: theme.spacing(1),
-    padding: theme.spacing(1.5),
-    borderRadius: '30px',
+  buttonGroup: {
+    marginBottom: theme.spacing(2),
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
   },
-  buttonTextWhite: {
-    bottom: theme.spacing(0),
-    marginTop: theme.spacing(1),
+  buttonSubmit: {
+    margin: theme.spacing(1),
     padding: theme.spacing(1.5),
-    borderRadius: '30px',
-    color: 'white',
+    borderRadius: '1em',
+    color: 'whitesmoke',
+  },
+  buttonSave: {
+    margin: theme.spacing(1),
+    padding: theme.spacing(1.5),
+    borderRadius: '1em',
   },
 }));
 
@@ -52,12 +56,10 @@ const MemoWrite = observer(({ onFileChange }) => {
       duration: boardCreate.tripDate.length,
       photos: toJS(boardCreate.photos),
       startDate: toJS(boardCreate.photos[0].date),
-      status: publishStatus,
+      status: boardCreate.isTempChecked ? 'PUBLISHED' : 'PRIVATED',
       thumbnail: boardCreate.thumbnail,
       title: boardCreate.title,
     };
-
-    console.log(boardCreate.isExist);
 
     if (boardCreate.isExist) {
       boardCreate.updateStory(obj).then((res) => {
@@ -68,6 +70,23 @@ const MemoWrite = observer(({ onFileChange }) => {
         history.push('/read/' + res.data);
       });
     }
+    boardCreate.reset();
+  };
+
+  const handleSaveStory = () => {
+    const obj = {
+      duration: boardCreate.tripDate.length,
+      photos: toJS(boardCreate.photos),
+      startDate: toJS(boardCreate.photos[0].date),
+      status: 'TEMP',
+      thumbnail: boardCreate.thumbnail,
+      title: boardCreate.title,
+    };
+
+    boardCreate.setStory(obj).then((res) => {
+      history.push('/read/' + res.data);
+    });
+
     boardCreate.reset();
   };
 
@@ -91,6 +110,8 @@ const MemoWrite = observer(({ onFileChange }) => {
     });
   };
 
+  console.log(boardCreate.status);
+
   return (
     <>
       <StoryCover />
@@ -110,31 +131,28 @@ const MemoWrite = observer(({ onFileChange }) => {
             />
           </FormGroup>
         </Grid>
-        <Grid item xs={4}>
+        <section className={classes.buttonGroup}>
+          {boardCreate.status !== 'TEMP' && (
+            <Button
+              variant="outlined"
+              color="primary"
+              component="span"
+              className={classes.buttonSave}
+              onClick={handleSaveStory}
+            >
+              임시저장
+            </Button>
+          )}
           <Button
-            fullWidth
-            variant="outlined"
-            color="primary"
-            component="span"
-            className={classes.button}
-            onClick={handleSubmitStory}
-          >
-            임시저장
-          </Button>
-        </Grid>
-        <Grid item xs={8}>
-          <Button
-            fullWidth
             variant="contained"
             color="primary"
             component="span"
-            className={classes.buttonTextWhite}
+            className={classes.buttonSubmit}
             onClick={handleSubmitStory}
           >
             등록완료
           </Button>
-        </Grid>
-        <Grid item></Grid>
+        </section>
       </Grid>
       <Snackbar
         open={snackbarInfo.isShow}
