@@ -27,10 +27,11 @@ const PlaceItem = ({ place }) => {
         <ListItemAvatar>
           <Avatar
             src={
+              place.thumbnail &&
               process.env.REACT_APP_IMAGE_BASE_URL +
-              'place' +
-              '/' +
-              place.thumbnail
+                'place' +
+                '/' +
+                place.thumbnail
             }
           />
         </ListItemAvatar>
