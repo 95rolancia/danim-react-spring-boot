@@ -1,10 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import useBoardCreate from '../../../hooks/useBoardCreate';
 import { observer } from 'mobx-react-lite';
 import { makeStyles, Typography, TextField, Fab, Box } from '@material-ui/core';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-import { useEffect, useState } from 'react';
-import { useRef } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   titleBox: {

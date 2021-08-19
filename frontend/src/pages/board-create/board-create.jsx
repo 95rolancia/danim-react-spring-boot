@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { toJS } from 'mobx';
-import { makeStyles, Container } from '@material-ui/core';
-import loadImage from 'blueimp-load-image';
-import HeaderBoardCreateMemo from '../../components/header/header-board-create-memo';
+import { observer } from 'mobx-react-lite';
 import useUser from '../../hooks/useUser';
 import useBoardCreate from '../../hooks/useBoardCreate';
+import loadImage from 'blueimp-load-image';
 import Compressor from 'compressorjs';
-import { TitleCreate, Loading, MemoWrite } from './component/index';
-import { observer } from 'mobx-react-lite';
-import { HeaderMain } from '../../components';
+import { TitleCreate, Loading, MemoWrite } from './components';
+import { HeaderMain, HeaderBoardCreateMemo } from '../../components';
+import { makeStyles, Container } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,6 +35,7 @@ const BoardCreate = observer(() => {
       const result = await loadImage.parseMetaData(imgFile, {
         maxMetaDataSize: 262144,
       });
+
       try {
         if (result.exif.get('GPSInfo') !== undefined) {
           const gpsInfo = result.exif.get('GPSInfo').getAll();
@@ -48,23 +49,19 @@ const BoardCreate = observer(() => {
             parseFloat(lngArr[0]) +
             parseFloat(lngArr[1] / 60) +
             parseFloat(lngArr[2] / 3600);
-          console.log('get meta data 완료', result);
+
           return {
             dateTimeDigitized: result.exif.get('Exif').get('DateTimeDigitized'),
             latitude: lat,
             longtitude: lng,
           };
         } else {
-          console.log('getMetaData 실패ㅠㅠ gps 인포 언디파인드');
           return false;
         }
       } catch {
-        console.log('getMetaData 실패ㅠㅠ 언디파인드는 아닌데...');
         return false;
       }
-    } catch {
-      console.log('메타데이터 얻기 실패');
-    }
+    } catch {}
   };
 
   const handleFileChange = async (e) => {
@@ -75,12 +72,10 @@ const BoardCreate = observer(() => {
         const exifData = await getMetaData(e.target.files[i]);
         if (!exifData) {
           boardCreate.uploadImgErrNum();
-          console.log(e.target.files[i], 'gps 데이터 없는 파일');
         } else {
           new Compressor(e.target.files[i], {
             quality: 0.7,
             success(result) {
-              console.log('화질 올리기 성공', result);
               const formData = new FormData();
               formData.append('file', result);
               formData.append('date', exifData.dateTimeDigitized);
@@ -95,15 +90,10 @@ const BoardCreate = observer(() => {
   };
 
   const handleStoryPhotoSubmit = (obj) => {
-    console.log('나는 오브젝트파일', obj.getAll('file'));
-    console.log('나는 오브젝트date', obj.getAll('date'));
-    console.log('나는 오브젝트latitude', obj.getAll('latitude'));
-    console.log('나는 오브젝트longtitude', obj.getAll('longtitude'));
     boardCreate
       .setStoryPhoto(obj)
       .then((res) => {
         if (res) {
-          console.log('성공res', res);
           boardCreate.uploadImgSuccessNum();
           boardCreate.sortTripDate(res.data.date);
           boardCreate.sortTripAddress(res.data.address);
@@ -119,25 +109,29 @@ const BoardCreate = observer(() => {
             tag: 'NONE',
           };
           boardCreate.addPhoto(obj);
-
-          console.log(boardCreate.photos);
         } else {
           alert('스토리작성에 문제가 발생했습니다');
         }
       })
       .catch((err) => {
         boardCreate.uploadImgErrNum();
-        console.log('서브밋 실패쓰', err);
       });
   };
 
+  const location = useLocation();
+  useEffect(() => {
+    if (location.state != null) {
+      boardCreate.getTemporarilySavedStory(location.state.storyNo);
+    } else {
+      boardCreate.reset();
+    }
+  }, [boardCreate, location.state]);
+
   if (boardCreate.isLoading) {
-    console.log('로딩짠!');
     return <Loading />;
   }
 
   if (!boardCreate.isFirstPage) {
-    console.log('세컨드 페이지 짠!');
     return (
       <>
         <HeaderBoardCreateMemo
