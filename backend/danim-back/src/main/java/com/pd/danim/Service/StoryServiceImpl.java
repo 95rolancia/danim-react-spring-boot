@@ -21,6 +21,7 @@ import com.pd.danim.DTO.DanimId;
 import com.pd.danim.DTO.Photo;
 import com.pd.danim.DTO.Place;
 import com.pd.danim.DTO.Story;
+import com.pd.danim.DTO.StoryStatus;
 import com.pd.danim.DTO.SubStory;
 import com.pd.danim.DTO.User;
 import com.pd.danim.Form.Request.PhotoPutRequest;
@@ -363,7 +364,11 @@ public class StoryServiceImpl implements StoryService {
 		DanimId danim = danimRepo.findById(userId);
 		if(danim==null) {
 			return null;			
-		}		
+		}
+		
+		if(!story.getStatus().equals(StoryStatus.PUBLISHED) && story.getUserNo() != danim.getUserno())
+			return null;
+		
 		User reader = danim.getUser();
 		
 		
