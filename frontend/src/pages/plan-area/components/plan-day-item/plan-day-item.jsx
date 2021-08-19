@@ -4,12 +4,16 @@ import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import usePlan from '../../../../hooks/usePlan';
 import PlanDayPlaceList from '../plan-day-place-list/plan-day-place-list';
-import { Button, makeStyles } from '@material-ui/core';
+import { Button, makeStyles, Typography } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
   planDayContainer: {
     margin: theme.spacing(1),
     paddingBottom: theme.spacing(4),
     borderBottom: '0.5px solid darkgrey',
+  },
+  day: {
+    fontFamily: 'MingukBold',
+    color: '#36434C',
   },
   button: {
     marginTop: theme.spacing(3),
@@ -32,7 +36,10 @@ const PlanDayItem = observer(({ date }) => {
 
   return (
     <section className={classes.planDayContainer}>
-      <h1>day {date}</h1>
+      <Typography className={classes.day} variant="h6">
+        day {date}
+      </Typography>
+
       <PlanDayPlaceList places={toJS(plan.subPlans)[date - 1]} day={date - 1} />
       <div>
         <Button
