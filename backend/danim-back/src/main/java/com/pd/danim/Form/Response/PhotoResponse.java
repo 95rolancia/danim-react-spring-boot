@@ -108,7 +108,7 @@ public class PhotoResponse implements Comparable<PhotoResponse> {
 
 	@Override
 	public int compareTo(PhotoResponse o) {
-		return this.getDate().getNano() - o.getDate().getNano();
+		return this.getDate().compareTo(o.getDate());
 	}
 	
 	
