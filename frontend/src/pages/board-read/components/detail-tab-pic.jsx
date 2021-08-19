@@ -1,5 +1,6 @@
 import React from 'react';
 import useStory from '../../../hooks/useStory';
+import { getPictureDate } from '../../../util/data-transform';
 import {
   Avatar,
   Button,
@@ -61,6 +62,14 @@ const DetailTabPic = ({ datas, nickname }) => {
             primary={photo.placeName}
             secondary={
               <React.Fragment>
+                <Typography
+                  component="span"
+                  variant="caption"
+                  className={classes.inline}
+                >
+                  {getPictureDate(new Date(photo.date))}
+                </Typography>
+                <br />
                 <Typography
                   component="span"
                   variant="body2"
