@@ -38,7 +38,6 @@ const BoardDetailMap = ({ stories, lat, lng }) => {
       flightPath.setMap(map);
     });
   };
-  console.log(stories);
   return (
     <div style={{ height: '50%', width: '100%' }}>
       <GoogleMapReact
