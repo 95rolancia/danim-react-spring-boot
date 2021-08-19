@@ -110,8 +110,6 @@ const MemoWrite = observer(({ onFileChange }) => {
     });
   };
 
-  console.log(boardCreate.status);
-
   return (
     <>
       <StoryCover />

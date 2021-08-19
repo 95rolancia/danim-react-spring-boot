@@ -293,7 +293,6 @@ class BoardCreateStore {
     if (res.status !== 200) {
       return false;
     }
-    console.log(res.data);
 
     runInAction(() => {
       this.isFirstPage = false;
