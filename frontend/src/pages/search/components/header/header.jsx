@@ -98,10 +98,14 @@ const Header = observer(() => {
     </Menu>
   );
 
-  const handleSearch = () => {
+  const handleSearch = (e) => {
     if (searchType === '지역 검색')
       search.searchStory(searchInputRef.current.value);
     else search.searchUser(searchInputRef.current.value);
+  };
+
+  const submitHandler = (e) => {
+    e.preventDefault();
   };
 
   return (
@@ -122,7 +126,7 @@ const Header = observer(() => {
               <Explore className={classes.areaIcon} />
             )}
           </IconButton>
-          <form className={classes.search}>
+          <form className={classes.search} onSubmit={submitHandler}>
             <div className={classes.searchIcon}>
               <Search />
             </div>
@@ -134,7 +138,7 @@ const Header = observer(() => {
               }}
               inputProps={{ 'aria-label': 'search' }}
               inputRef={searchInputRef}
-              onChange={handleSearch}
+              onKeyUp={handleSearch}
             />
           </form>
         </Toolbar>

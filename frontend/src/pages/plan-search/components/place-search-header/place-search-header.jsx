@@ -59,6 +59,10 @@ const PlaceSearchHeader = observer(() => {
     search.searchPlace(searchInputRef.current.value);
   };
 
+  const submitHandler = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <AppBar position="static">
       <Toolbar>
@@ -70,7 +74,7 @@ const PlaceSearchHeader = observer(() => {
         >
           <ArrowBack />
         </IconButton>
-        <form className={classes.search}>
+        <form className={classes.search} onSubmit={submitHandler}>
           <div className={classes.searchIcon}>
             <Search />
           </div>
