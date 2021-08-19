@@ -26,6 +26,7 @@ const PlaceDetailInfo = observer(() => {
 
   const addPlaceToPlan = () => {
     plan.addPlaceToPlan(toJS(search.placeDetailInfo));
+    search.resetSearchPlace();
     history.push('/main/plan/area');
   };
 
