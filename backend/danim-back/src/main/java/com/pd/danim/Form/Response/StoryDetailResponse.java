@@ -3,6 +3,8 @@ package com.pd.danim.Form.Response;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.pd.danim.DTO.StoryStatus;
+
 import io.swagger.annotations.ApiModel;
 
 @ApiModel(value="스토리 상세보기", description="스토리 제목, 여행 시작 날짜, 여행 기간, 게시글 상태, 사진들")
@@ -14,6 +16,7 @@ public class StoryDetailResponse {
 	private int duration;
 	private long loveCount;
 	private boolean isLove;
+	private StoryStatus status;
 	List<SubStoryResponse> substories;
 	
 	
@@ -65,7 +68,14 @@ public class StoryDetailResponse {
 	public void setLoveCount(long loveCount) {
 		this.loveCount = loveCount;
 	}
+	public StoryStatus getStatus() {
+		return status;
+	}
+	public void setStatus(StoryStatus status) {
+		this.status = status;
+	}
 	
+
 	
 	
 }
