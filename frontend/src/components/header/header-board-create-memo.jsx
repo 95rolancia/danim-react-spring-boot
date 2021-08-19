@@ -42,7 +42,7 @@ const HeaderBoardCreateMemo = observer(({ title, onFileChange }) => {
 
   return (
     <div className={classes.root}>
-      <AppBar position="fixed" color="default">
+      <AppBar position="fixed" color="default" elevation={0}>
         <Toolbar>
           <IconButton
             className={classes.menuButton}
