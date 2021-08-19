@@ -14,12 +14,12 @@ import {
 
 const useStyles = makeStyles((theme) => ({
   slide: {
-    maxHeight: '50vh',
-    height: '90%',
+    maxHeight: '55vh',
+    height: '100%',
     marginLeft: theme.spacing(1),
   },
   slides: {
-    height: '23em',
+    height: '25em',
   },
   media: {
     height: '16em',
@@ -47,7 +47,7 @@ const Slider = ({ datas }) => {
         <Swiper
           className={classes.slides}
           spaceBetween={10}
-          slidesPerView={2}
+          slidesPerView={2.2}
           onClick={(swiper) => readStory(datas[swiper.clickedIndex].storyNo)}
         >
           {datas.map((data, index) => (
