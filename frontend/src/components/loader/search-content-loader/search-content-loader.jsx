@@ -6,8 +6,6 @@ const SearchContentLoader = (props) => {
     <ContentLoader
       width={500}
       height={500}
-      primaryColor="#d9d9d9"
-      secondaryColor="#ecebeb"
       style={{ width: '100%' }}
       {...props}
     >
