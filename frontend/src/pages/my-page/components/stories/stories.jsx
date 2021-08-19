@@ -121,6 +121,7 @@ const Stories = observer(({ stories, onDelete, isManager }) => {
                       new Date(story.startDate),
                       new Date(story.endDate),
                     )}
+                    ({`${story.duration - 1}박 ${story.duration}일`})
                   </Typography>
                 }
               />
@@ -149,7 +150,11 @@ const Stories = observer(({ stories, onDelete, isManager }) => {
                   className={classes.inline}
                   color="textPrimary"
                 >
-                  {`${story.duration - 1}박 ${story.duration}일`}
+                  {getPlanDate(
+                    new Date(story.startDate),
+                    new Date(story.endDate),
+                  )}
+                  ({`${story.duration - 1}박 ${story.duration}일`})
                 </Typography>
               }
             />
