@@ -2,6 +2,7 @@ import { makeAutoObservable, runInAction } from 'mobx';
 import httpBoardCreate from '../service/http-board-create';
 
 class BoardCreateStore {
+  isExist = false;
   duration = 0;
   photos = [];
   startDate = '';
@@ -62,6 +63,7 @@ class BoardCreateStore {
     if (res.status !== 200) {
       return false;
     }
+    this.isExist = false;
     return res;
   }
 
@@ -70,7 +72,10 @@ class BoardCreateStore {
     if (res.status !== 200) {
       return false;
     }
-    return true;
+    runInAction(() => {
+      this.isExist = false;
+      return true;
+    });
   }
 
   async setNickname(nickname) {
@@ -281,17 +286,19 @@ class BoardCreateStore {
 
   async getTemporarilySavedStory(storyNo) {
     this.isLoading = true;
+    this.isExist = true;
     const res = await httpBoardCreate.getTemporarilySavedStory(storyNo);
     if (res.status !== 200) {
       return false;
     }
+    console.log(res.data);
 
     runInAction(() => {
       this.isFirstPage = false;
       this.duration = res.data.duration;
       this.photos = []; // 나중
       this.startDate = res.data.startDate;
-      this.status = 'TEMP';
+      this.status = res.data.status;
       this.thumbnail = res.data.thumbnail;
       this.title = res.data.title;
 
@@ -311,6 +318,12 @@ class BoardCreateStore {
           this.addPhoto(photo);
         });
       });
+
+      if (res.data.status === 'PUBLISHED') {
+        this.isTempChecked = true;
+      } else {
+        this.isTempChecked = false;
+      }
 
       this.currentStoryNumber = storyNo;
       this.isLoading = false;

@@ -34,6 +34,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     flexDirection: 'column',
   },
+  memo: {
+    fontSize: '0.5rem',
+  },
 }));
 
 const StoryByAddress = observer(({ photos, address }) => {
@@ -51,7 +54,7 @@ const StoryByAddress = observer(({ photos, address }) => {
         setIsPhoto(true);
       }
     }
-  }, []);
+  }, [photos, address]);
 
   const handleMemoWrite = () => {
     boardCreate.uploadMemo(inputRef.current.value, address);
@@ -113,10 +116,12 @@ const StoryByAddress = observer(({ photos, address }) => {
 
           <Box mb={3}>
             <TextField
-              defaultValue={photos[0].content}
-              label="Memo"
-              variant="outlined"
+              className={classes.memo}
+              size="smallst"
               fullWidth
+              defaultValue={photos[0].content}
+              label="메모"
+              variant="outlined"
               multiline
               onBlur={handleMemoWrite}
               inputRef={inputRef}

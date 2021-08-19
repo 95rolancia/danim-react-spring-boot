@@ -3,9 +3,20 @@ import { observer } from 'mobx-react-lite';
 import useBoardCreate from '../../../hooks/useBoardCreate';
 import uuid from 'react-uuid';
 import { StoryByAddress } from './index';
-import { Typography, Box } from '@material-ui/core';
+import { Typography, Box, makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles((theme) => ({
+  dayContainer: {
+    marginBottom: theme.spacing(1),
+    padding: theme.spacing(0, 1),
+  },
+  day: {
+    margin: 'auto',
+  },
+}));
 
 const StoryDay = observer(({ date, photos }) => {
+  const classes = useStyles();
   const boardCreate = useBoardCreate();
   const [address2compare, setAddress2compare] = useState([]);
   const tripDateIdx = boardCreate.calculateDayNum(date);
@@ -30,10 +41,11 @@ const StoryDay = observer(({ date, photos }) => {
   }, [photos]);
 
   return (
-    <Box display="flex" flexDirection="column">
+    <Box display="flex" flexDirection="column" className={classes.dayContainer}>
       <Box
         display="flex"
         flexDirection="row"
+        justifyContent="center"
         sx={{ flexWrap: 'nowrap' }}
         py={2}
       >

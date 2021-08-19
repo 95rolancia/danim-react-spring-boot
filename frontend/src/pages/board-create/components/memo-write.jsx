@@ -57,63 +57,18 @@ const MemoWrite = observer(({ onFileChange }) => {
       title: boardCreate.title,
     };
 
-    switch (boardCreate.status) {
-      case 'TEMP':
-        boardCreate.updateStory(obj).then((res) => {
-          if (res) {
-            history.push(`/main/${boardCreate.nickname}`);
-          } else {
-            setSnackbarInfo({
-              isShow: true,
-              msg: '스토리 작성에 오류가 발생했습니다.',
-              state: 'error',
-            });
-          }
-        });
-        break;
-      case '':
-        boardCreate.setStory(obj).then((res) => {
-          if (res) {
-            history.push('/read/' + res.data);
-          } else {
-            setSnackbarInfo({
-              isShow: true,
-              msg: '스토리 작성에 오류가 발생했습니다.',
-              state: 'error',
-            });
-          }
-        });
+    console.log(boardCreate.isExist);
 
-        break;
-      default:
-        throw new Error(`unknown status ${boardCreate.status}`);
+    if (boardCreate.isExist) {
+      boardCreate.updateStory(obj).then((res) => {
+        history.push(`/main/${boardCreate.nickname}`);
+      });
+    } else {
+      boardCreate.setStory(obj).then((res) => {
+        history.push('/read/' + res.data);
+      });
     }
     boardCreate.reset();
-  };
-
-  const handleSaveStory = () => {
-    const obj = {
-      duration: toJS(boardCreate.tripDate.length),
-      photos: toJS(boardCreate.photos),
-      startDate: toJS(boardCreate.photos[0].date),
-      status: 'TEMP',
-      thumbnail: toJS(boardCreate.thumbnail),
-      title: toJS(boardCreate.title),
-    };
-
-    boardCreate.setStory(obj).then((res) => {
-      if (res) {
-        console.log(res);
-        boardCreate.reset();
-        history.push('/read/' + res.data);
-      } else {
-        setSnackbarInfo({
-          isShow: true,
-          msg: '스토리 임시 저장에 오류가 발생했습니다.',
-          state: 'error',
-        });
-      }
-    });
   };
 
   const handleChecked = (e) => {
@@ -162,7 +117,7 @@ const MemoWrite = observer(({ onFileChange }) => {
             color="primary"
             component="span"
             className={classes.button}
-            onClick={handleSaveStory}
+            onClick={handleSubmitStory}
           >
             임시저장
           </Button>
