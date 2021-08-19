@@ -83,9 +83,13 @@ const MemoWrite = observer(({ onFileChange }) => {
       title: boardCreate.title,
     };
 
-    if (boardCreate.status === 'TEMP') {
+    if (boardCreate.isExist) {
       boardCreate.updateStory(obj).then((res) => {
         history.push(`/main/${boardCreate.nickname}`);
+      });
+    } else {
+      boardCreate.setStory(obj).then((res) => {
+        history.push('/read/' + res.data);
       });
     }
 

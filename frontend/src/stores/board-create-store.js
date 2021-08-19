@@ -65,7 +65,6 @@ class BoardCreateStore {
       return false;
     }
     this.isExist = false;
-    this.status = 'TEMP';
     return res;
   }
 
@@ -76,7 +75,6 @@ class BoardCreateStore {
     }
 
     this.isExist = false;
-    this.status = 'TEMP';
     return true;
   }
 
