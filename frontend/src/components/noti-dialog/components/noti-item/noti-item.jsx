@@ -68,7 +68,7 @@ const NotiItem = observer(({ noti }) => {
       <ListItem onClick={notiClick} className={getStyles(classes, noti.isRead)}>
         <ListItemText primary={notiTemplate(noti)} className={classes.noti} />
         <TimeAgo
-          date={noti.createdAt}
+          date={new Date(noti.createdAt)}
           formatter={formatter}
           className={classes.notiTime}
         />
