@@ -28,8 +28,8 @@ const Loading = observer(() => {
     boardCreate.errorImgNum >= boardCreate.totalImgNum
   ) {
     boardCreate.changePage2TitleCreate();
-  }
-  if (
+    alert('GPS 정보가 있는 사진이 없습니다.');
+  } else if (
     boardCreate.successImgNum + boardCreate.errorImgNum ===
     boardCreate.totalImgNum
   ) {
