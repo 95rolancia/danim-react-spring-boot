@@ -1,25 +1,12 @@
 import React from 'react';
 import GoogleMapReact from 'google-map-react';
-import RoomIcon from '@material-ui/icons/Room';
-import { makeStyles } from '@material-ui/styles';
-
-const useStyles = makeStyles((theme) => ({
-  marker: {
-    width: '1.5em',
-    height: '1.5em',
-    transform: 'translate(-50%,-50%)',
-  },
-}));
+import NumberMarker from '../number-marker/number-marker';
+import { markerColor } from '../../util/marker-color';
 
 const BoardDetailMap = ({ stories, lat, lng }) => {
-  const classes = useStyles();
-  const AnyReactComponent = () => (
-    <RoomIcon color="secondary" className={classes.marker} />
-  );
-
   if (lat === null && lng === null) {
-    lat = 33.492269071672496;
-    lng = 126.53945522035214;
+    lat = stories.substories[0].photos[0].latitude;
+    lng = stories.substories[0].photos[0].longtitude;
   }
 
   function getRandomColor() {
@@ -51,23 +38,24 @@ const BoardDetailMap = ({ stories, lat, lng }) => {
       flightPath.setMap(map);
     });
   };
-
+  console.log(stories);
   return (
-    // Important! Always set the container height explicitly
     <div style={{ height: '50%', width: '100%' }}>
       <GoogleMapReact
         bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAP_API_KEY }}
         center={{ lat, lng }}
-        zoom={14}
+        zoom={12}
         onGoogleApiLoaded={({ map, maps }) => {
           renderPolylines(map, maps, stories);
         }}
         yesIWantToUseGoogleMapApiInternals
       >
-        {stories.substories.map((story) => {
-          return story.photos.map((place) => {
+        {stories.substories.map((story, idx) => {
+          return story.photos.map((place, i) => {
             return (
-              <AnyReactComponent
+              <NumberMarker
+                number={i + 1}
+                color={markerColor[idx]}
                 lat={place.latitude}
                 lng={place.longtitude}
                 key={place.photoNo}
