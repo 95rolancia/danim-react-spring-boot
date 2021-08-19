@@ -5,6 +5,9 @@ import TimeAgo from 'react-timeago';
 import koreanStrings from 'react-timeago/lib/language-strings/ko';
 import buildFormatter from 'react-timeago/lib/formatters/buildFormatter';
 import { makeStyles, ListItem, ListItemText, Divider } from '@material-ui/core';
+import { observer } from 'mobx-react-lite';
+import useUser from '../../../../hooks/useUser';
+import { toJS } from 'mobx';
 
 const formatter = buildFormatter(koreanStrings);
 
@@ -36,18 +39,24 @@ const getStyles = (classes, type) => {
   }
 };
 
-const NotiItem = ({ noti }) => {
+const NotiItem = observer(({ noti }) => {
   const classes = useStyles();
   const history = useHistory();
+  const user = useUser();
 
   const notiClick = () => {
+    user.readNoti({
+      nickname: toJS(user.user).nickname,
+      notis: [noti],
+    });
+
     switch (noti.type) {
-      case 'follow':
-      case 'love':
-        history.push(`/main/${noti.from}`);
-        break;
       case 'comment':
+      case 'love':
         history.push(`/detail/${noti.storyNo}`);
+        break;
+      case 'follow':
+        history.push(`/main/${noti.from}`);
         break;
       default:
         throw new Error(`unknown noti type ${noti.type}`);
@@ -59,7 +68,7 @@ const NotiItem = ({ noti }) => {
       <ListItem onClick={notiClick} className={getStyles(classes, noti.isRead)}>
         <ListItemText primary={notiTemplate(noti)} className={classes.noti} />
         <TimeAgo
-          date={noti.createdAt}
+          date={new Date(noti.createdAt)}
           formatter={formatter}
           className={classes.notiTime}
         />
@@ -67,6 +76,6 @@ const NotiItem = ({ noti }) => {
       <Divider variant="middle" />
     </>
   );
-};
+});
 
 export default NotiItem;

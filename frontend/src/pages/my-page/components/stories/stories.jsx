@@ -26,6 +26,9 @@ const useStyles = makeStyles((theme) => ({
     height: theme.spacing(15),
     marginRight: theme.spacing(1),
   },
+  storyMetaData: {
+    textAlign: 'center',
+  },
   inline: {
     display: 'inline',
   },
@@ -34,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
   story: {
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
   },
   storyInfo: {
@@ -46,6 +49,12 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     color: '#667580',
   },
+  temp: {
+    color: 'darkgrey',
+  },
+  published: {
+    color: 'blue',
+  },
 }));
 
 const Stories = observer(({ stories, onDelete, isManager }) => {
@@ -54,6 +63,17 @@ const Stories = observer(({ stories, onDelete, isManager }) => {
 
   const readStory = (storyNo) => {
     history.push('/read/' + storyNo);
+  };
+
+  const getStoryStatus = (type) => {
+    switch (type) {
+      case 'TEMP':
+        return classes.temp;
+      case 'PUBLISHED':
+        return classes.published;
+      default:
+        throw new Error(`unknown type ${type}`);
+    }
   };
 
   return (
@@ -78,20 +98,49 @@ const Stories = observer(({ stories, onDelete, isManager }) => {
               onClick={() => readStory(story.storyNo)}
             />
           </ListItemAvatar>
-          <ListItemText
-            className={classes.storyInfo}
-            primary={story.title}
-            secondary={
+          {isManager ? (
+            <section className={classes.storyMetaData}>
+              <ListItemText
+                className={classes.storyInfo}
+                primary={story.title}
+                secondary={
+                  <Typography
+                    component="span"
+                    variant="body2"
+                    className={classes.inline}
+                    color="textPrimary"
+                  >
+                    {`${story.duration - 1}박 ${story.duration}일`}
+                  </Typography>
+                }
+              />
+
               <Typography
                 component="span"
                 variant="body2"
-                className={classes.inline}
+                className={getStoryStatus(story.status)}
                 color="textPrimary"
               >
-                {`${story.duration - 1}박 ${story.duration}일`}
+                {story.status === 'TEMP' ? '임시' : '완료'}
               </Typography>
-            }
-          />
+            </section>
+          ) : (
+            <ListItemText
+              className={classes.storyInfo}
+              primary={story.title}
+              secondary={
+                <Typography
+                  component="span"
+                  variant="body2"
+                  className={classes.inline}
+                  color="textPrimary"
+                >
+                  {`${story.duration - 1}박 ${story.duration}일`}
+                </Typography>
+              }
+            />
+          )}
+
           {isManager && (
             <ManagerMenu storyNo={story.storyNo} onDelete={onDelete} />
           )}
