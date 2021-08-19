@@ -20,6 +20,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 import useUser from '../../hooks/useUser';
 import Compressor from 'compressorjs';
 import { useRef } from 'react';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -29,9 +30,6 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     width: theme.spacing(9),
     height: theme.spacing(9),
-  },
-  avatarChangeBtn: {
-    color: 'whitesmoke',
   },
   profile: {
     display: 'flex',
@@ -45,7 +43,17 @@ const useStyles = makeStyles((theme) => ({
     width: '30%',
   },
   right: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
     width: '70%',
+  },
+  nickname: {
+    marginBottom: theme.spacing(1),
+  },
+  avatarChangeBtn: {
+    width: '80%',
+    color: 'whitesmoke',
   },
   editBtn: {
     border: '1px solid darkgray',
@@ -78,7 +86,7 @@ const Alert = (props) => {
 
 const AccountEdit = observer(() => {
   const classes = useStyles();
-
+  const history = useHistory();
   const user = useUser();
   const [nickname, setNickname] = useState('');
   const [errorTextNickname, setErrorTextNickname] = useState('');
@@ -96,7 +104,7 @@ const AccountEdit = observer(() => {
   useEffect(() => {
     const userInfo = toJS(user.user);
     setNickname(userInfo.nickname || '닉네임을 적어주세요.');
-    setIntroduce(userInfo.introduce || '자기소개를 적어주세요.');
+    setIntroduce(userInfo.introduce);
     setAge(userInfo.age || 0);
     setGender(userInfo.gender || 'M');
     setAvatar(
@@ -173,15 +181,12 @@ const AccountEdit = observer(() => {
       gender: gender,
       introduce: introduce,
       nickname: nickname,
-      profile: avatar.split('/')[5],
+      profile: avatar && avatar.split('/')[5],
     });
 
     if (res) {
-      setSnackbarInfo({
-        isShow: true,
-        msg: '회원 정보 수정 성공!',
-        state: 'success',
-      });
+      alert('회원 정보 수정 성공');
+      history.push(`/main/${nickname}`);
     } else {
       setSnackbarInfo({
         isShow: true,
@@ -214,7 +219,7 @@ const AccountEdit = observer(() => {
             />
           </div>
           <div className={classes.right}>
-            <h1 className="nickname">{toJS(user.user).nickname}</h1>
+            <h1 className={classes.nickname}>{toJS(user.user).nickname}</h1>
             <Button
               className={classes.avatarChangeBtn}
               onClick={onButtonClick}
