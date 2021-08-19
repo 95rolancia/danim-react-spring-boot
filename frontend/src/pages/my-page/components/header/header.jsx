@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
   menuButton: {
     marginRight: theme.spacing(2),
+    color: '#F5F5F5',
   },
   title: {
     flexGrow: 1,
@@ -33,7 +34,6 @@ const Header = ({ showSetting, isManager, userInfo }) => {
             <Toolbar>
               <IconButton
                 className={classes.menuButton}
-                color="secondary"
                 aria-label="show-setting"
                 onClick={showSetting}
               >

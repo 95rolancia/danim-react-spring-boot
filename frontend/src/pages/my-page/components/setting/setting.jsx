@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
   menuButton: {
     marginRight: theme.spacing(2),
+    color: '#F5F5F5',
   },
   logout: {
     color: 'red',
@@ -75,7 +76,6 @@ const Setting = ({ isShowSetting, hideSetting, history, nickname }) => {
         <Toolbar>
           <IconButton
             className={classes.menuButton}
-            color="secondary"
             onClick={hideSetting}
             aria-label="close"
           >
