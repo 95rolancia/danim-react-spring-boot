@@ -100,10 +100,11 @@ const AccountEdit = observer(() => {
     setAge(userInfo.age || 0);
     setGender(userInfo.gender || 'M');
     setAvatar(
-      process.env.REACT_APP_IMAGE_BASE_URL +
-        userInfo.nickname +
-        '/' +
-        userInfo.profile || '',
+      userInfo.profile &&
+        process.env.REACT_APP_IMAGE_BASE_URL +
+          userInfo.nickname +
+          '/' +
+          userInfo.profile,
     );
   }, [user.user]);
 
