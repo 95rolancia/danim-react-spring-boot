@@ -19,7 +19,7 @@ const StoryItem = ({ story }) => {
   const classes = useStyles();
   const history = useHistory();
   const goToStory = () => {
-    history.push(`/detail/${story.storyNo}`);
+    history.push(`/read/${story.storyNo}`);
   };
   return (
     <>
