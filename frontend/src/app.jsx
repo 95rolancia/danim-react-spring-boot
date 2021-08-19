@@ -25,10 +25,14 @@ const App = observer(() => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => {
+    if (auth.isLoggedIn) {
       setLoading(false);
-    }, 2000);
-  });
+    } else {
+      setTimeout(() => {
+        setLoading(false);
+      }, 2000);
+    }
+  }, [auth.isLoggedIn]);
 
   useEffect(() => {
     if (localStorage.getItem('user')) {
