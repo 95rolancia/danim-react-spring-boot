@@ -1,7 +1,6 @@
 import React from 'react';
-import useBoardCreate from '../../hooks/useBoardCreate';
 import { observer } from 'mobx-react-lite';
-import { useHistory } from 'react-router-dom';
+import useBoardCreate from '../../hooks/useBoardCreate';
 import {
   makeStyles,
   AppBar,
@@ -31,10 +30,9 @@ const useStyles = makeStyles((theme) => ({
 const HeaderBoardCreateMemo = observer(({ title, onFileChange }) => {
   const boardCreate = useBoardCreate();
   const classes = useStyles();
-  const history = useHistory();
 
   const goBack = () => {
-    history.goBack();
+    boardCreate.reset();
   };
 
   const handleFileChange = (e) => {
@@ -44,7 +42,7 @@ const HeaderBoardCreateMemo = observer(({ title, onFileChange }) => {
 
   return (
     <div className={classes.root}>
-      <AppBar position="fixed" color="default">
+      <AppBar position="fixed" color="default" elevation={0}>
         <Toolbar>
           <IconButton
             className={classes.menuButton}
@@ -77,14 +75,6 @@ const HeaderBoardCreateMemo = observer(({ title, onFileChange }) => {
               </IconButton>
             </label>
           </Box>
-          {/* <IconButton
-            className={classes.addPhotoButton}
-            color="inherit"
-            aria-label="add-photo"
-            onClick={handleFileChange}
-          >
-            <AddPhotoAlternateIcon />
-          </IconButton> */}
         </Toolbar>
       </AppBar>
     </div>

@@ -2,10 +2,9 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import Stories from 'react-insta-stories';
 import Header from './components/header';
-import { mergeClasses } from '@material-ui/styles';
+
 const StoryRead = ({ title, datas, no }) => {
   const history = useHistory();
-
   return (
     <>
       <Header title={title} num={no} />

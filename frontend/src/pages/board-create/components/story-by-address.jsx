@@ -10,19 +10,13 @@ import {
   ImageListItemBar,
   IconButton,
   Typography,
-  Card,
-  CardMedia,
-  CardContent,
 } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
-import RoomIcon from '@material-ui/icons/Room';
+import { Close, Room } from '@material-ui/icons';
 import TagMenu from './tag-menu';
 
 const useStyles = makeStyles((theme) => ({
   imageList: {
     flexWrap: 'nowrap',
-    // zIndex: '10',
-    // // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
     transform: 'translateZ(0)',
   },
   deleteIcon: {
@@ -42,8 +36,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const StoryByAdress = observer(({ photos, address }) => {
+const StoryByAddress = observer(({ photos, address }) => {
   const imgRef = useRef();
+  const inputRef = useRef();
   const boardCreate = useBoardCreate();
   const classes = useStyles();
   const [isPhoto, setIsPhoto] = useState(false);
@@ -56,11 +51,10 @@ const StoryByAdress = observer(({ photos, address }) => {
         setIsPhoto(true);
       }
     }
-  }, [photos, address]);
+  }, []);
 
-  const handleMemoChange = (e) => {
-    const newMemo = e.target.value;
-    boardCreate.uploadMemo(newMemo, address);
+  const handleMemoWrite = () => {
+    boardCreate.uploadMemo(inputRef.current.value, address);
   };
 
   const deletePhoto = (photo) => {
@@ -96,7 +90,7 @@ const StoryByAdress = observer(({ photos, address }) => {
                       position="top"
                       actionIcon={
                         <IconButton onClick={() => deletePhoto(photo)}>
-                          <CloseIcon className={classes.deleteIcon} />
+                          <Close className={classes.deleteIcon} />
                         </IconButton>
                       }
                       actionPosition="left"
@@ -109,7 +103,7 @@ const StoryByAdress = observer(({ photos, address }) => {
           </Box>
 
           <Box display="flex" flexDirection="row" py={1}>
-            <RoomIcon color="primary" />
+            <Room color="primary" />
             <Box pl={1}>
               <Typography>
                 {boardCreate.calculatePrettyAddress(address)}
@@ -118,16 +112,15 @@ const StoryByAdress = observer(({ photos, address }) => {
           </Box>
 
           <Box mb={3}>
-            <form>
-              <TextField
-                defaultValue={photos[0].content}
-                label="Memo"
-                variant="outlined"
-                fullWidth
-                multiline
-                onChange={handleMemoChange}
-              ></TextField>
-            </form>
+            <TextField
+              defaultValue={photos[0].content}
+              label="Memo"
+              variant="outlined"
+              fullWidth
+              multiline
+              onBlur={handleMemoWrite}
+              inputRef={inputRef}
+            ></TextField>
           </Box>
         </Box>
       )}
@@ -135,4 +128,4 @@ const StoryByAdress = observer(({ photos, address }) => {
   );
 });
 
-export default StoryByAdress;
+export default StoryByAddress;

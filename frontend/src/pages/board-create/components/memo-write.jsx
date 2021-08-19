@@ -1,20 +1,20 @@
-import React from 'react';
-import useBoardCreate from '../../../hooks/useBoardCreate';
+import React, { useState } from 'react';
+import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
+import { useHistory } from 'react-router-dom';
+import useBoardCreate from '../../../hooks/useBoardCreate';
+import { StoryCover, StoryContents } from './index';
 import {
   makeStyles,
   Button,
   Grid,
-  Fab,
-  Box,
   FormGroup,
   FormControlLabel,
   Checkbox,
+  Snackbar,
 } from '@material-ui/core';
-import { StoryCover, StoryContents } from './index';
-import { toJS } from 'mobx';
-import { useState } from 'react';
-// import { useHistory } from 'react-router-dom';
+
+import MuiAlert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -32,43 +32,67 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 const MemoWrite = observer(({ onFileChange }) => {
+  const history = useHistory();
   const boardCreate = useBoardCreate();
   const classes = useStyles();
   const [publishStatus, setPublishedStatus] = useState('PUBLISHED');
-  // const history = useHistory();
-  // useEffect(() => {}, [boardCreate.photos]);
+  const [snackbarInfo, setSnackbarInfo] = useState({
+    isShow: false,
+    msg: '',
+    state: '',
+  });
 
   const handleSubmitStory = () => {
     const obj = {
-      // 이거 나중에 조금 더 고치기
-      duration: toJS(boardCreate.tripDate.length),
+      duration: boardCreate.tripDate.length,
       photos: toJS(boardCreate.photos),
       startDate: toJS(boardCreate.photos[0].date),
       status: publishStatus,
-      thumbnail: toJS(boardCreate.thumbnail),
-      title: toJS(boardCreate.title),
+      thumbnail: boardCreate.thumbnail,
+      title: boardCreate.title,
     };
-    console.log(obj);
-    boardCreate
-      .setStory(obj)
-      .then((res) => {
-        if (res) {
-          console.log(res);
-          window.location.replace('/main');
-        } else {
-          alert('스토리 못올려!!!!!');
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
+    switch (boardCreate.status) {
+      case 'TEMP':
+        boardCreate.updateStory(obj).then((res) => {
+          if (res) {
+            history.push(`/main/${boardCreate.nickname}`);
+          } else {
+            setSnackbarInfo({
+              isShow: true,
+              msg: '스토리 작성에 오류가 발생했습니다.',
+              state: 'error',
+            });
+          }
+        });
+        break;
+      case '':
+        boardCreate.setStory(obj).then((res) => {
+          if (res) {
+            history.push('/read/' + res.data);
+          } else {
+            setSnackbarInfo({
+              isShow: true,
+              msg: '스토리 작성에 오류가 발생했습니다.',
+              state: 'error',
+            });
+          }
+        });
+
+        break;
+      default:
+        throw new Error(`unknown status ${boardCreate.status}`);
+    }
+    boardCreate.reset();
   };
 
   const handleSaveStory = () => {
-    // console.log(boardCreate.tripDate);
     const obj = {
-      // 이거 나중에 조금 더 고치기
       duration: toJS(boardCreate.tripDate.length),
       photos: toJS(boardCreate.photos),
       startDate: toJS(boardCreate.photos[0].date),
@@ -76,28 +100,40 @@ const MemoWrite = observer(({ onFileChange }) => {
       thumbnail: toJS(boardCreate.thumbnail),
       title: toJS(boardCreate.title),
     };
-    console.log(obj);
-    boardCreate
-      .setStory(obj)
-      .then((res) => {
-        if (res) {
-          console.log(res);
-          window.location.replace('/main');
-        } else {
-          alert('스토리 못올려!!!!!');
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
+    boardCreate.setStory(obj).then((res) => {
+      if (res) {
+        console.log(res);
+        boardCreate.reset();
+        history.push('/read/' + res.data);
+      } else {
+        setSnackbarInfo({
+          isShow: true,
+          msg: '스토리 임시 저장에 오류가 발생했습니다.',
+          state: 'error',
+        });
+      }
+    });
   };
 
   const handleChecked = (e) => {
     const value = e.target.checked;
     boardCreate.handleIsTempChecked(value);
     if (e.target.checked) {
+      setPublishedStatus('PUBLISHED');
+    } else {
       setPublishedStatus('PRIVATED');
     }
+  };
+
+  const handleClose = (_, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbarInfo({
+      ...snackbarInfo,
+      isShow: false,
+    });
   };
 
   return (
@@ -145,6 +181,15 @@ const MemoWrite = observer(({ onFileChange }) => {
         </Grid>
         <Grid item></Grid>
       </Grid>
+      <Snackbar
+        open={snackbarInfo.isShow}
+        autoHideDuration={700}
+        onClose={handleClose}
+      >
+        <Alert onClose={handleClose} severity={snackbarInfo.state}>
+          {snackbarInfo.msg}
+        </Alert>
+      </Snackbar>
     </>
   );
 });

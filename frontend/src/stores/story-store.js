@@ -2,8 +2,8 @@ import { makeAutoObservable } from 'mobx';
 import HttpStory from '../service/http-story';
 
 class StoryStore {
-  lat = 33.492269071672496;
-  lng = 126.53945522035214;
+  lat = null;
+  lng = null;
 
   constructor() {
     makeAutoObservable(this);

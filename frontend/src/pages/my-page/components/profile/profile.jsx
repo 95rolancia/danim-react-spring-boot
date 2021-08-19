@@ -16,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Profile = ({ isManager, userInfo, handleFollow, history }) => {
   const classes = useStyles();
-
   return (
     <div className={styles.profile}>
       <div className={styles.left}>
@@ -24,10 +23,11 @@ const Profile = ({ isManager, userInfo, handleFollow, history }) => {
           className={classes.avatar}
           alt={userInfo.nickname}
           src={
+            userInfo.profile &&
             process.env.REACT_APP_IMAGE_BASE_URL +
-            userInfo.nickname +
-            '/' +
-            userInfo.profile
+              userInfo.nickname +
+              '/' +
+              userInfo.profile
           }
         />
       </div>

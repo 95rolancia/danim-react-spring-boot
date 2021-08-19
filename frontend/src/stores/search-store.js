@@ -30,6 +30,10 @@ class SearchStore {
     });
   }
 
+  resetSearchPlace() {
+    this.searchedPlace = [];
+  }
+
   async searchUser(keyword) {
     if (!keyword) return;
     this.searchUserState = 'pending';

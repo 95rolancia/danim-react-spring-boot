@@ -36,6 +36,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
   },
+  cancelButton: {
+    color: 'red',
+  },
 }));
 
 const PlanArea = observer(() => {
@@ -127,7 +130,7 @@ const PlanArea = observer(() => {
         title={getPlanDate(toJS(plan.startDate), toJS(plan.endDate))}
       />
       {plan.loadingDetailPlan === 'pending' ? (
-        <h1>로딩중</h1>
+        <h1>계획을 불러오는 중...</h1>
       ) : (
         <>
           <PlanMap />
@@ -156,7 +159,7 @@ const PlanArea = observer(() => {
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">
-          여행의 제목을 지어주세요
+          여행의 제목을 지어주세요.
         </DialogTitle>
         <DialogContent>
           <TextField
@@ -170,7 +173,7 @@ const PlanArea = observer(() => {
           />
         </DialogContent>
         <DialogActions className={classes.dialogButtonGroup}>
-          <Button onClick={handleClose} color="red">
+          <Button onClick={handleClose} className={classes.cancelButton}>
             취소
           </Button>
           <Button onClick={submitPlan} color="primary">

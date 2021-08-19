@@ -124,11 +124,7 @@ const Setting = ({ isShowSetting, hideSetting, history, nickname }) => {
           <Button onClick={handleClose} color="primary" autoFocus>
             취소
           </Button>
-          <Button
-            onClick={handleWithdrawl}
-            className={classes.withDrawlButton}
-            color="error"
-          >
+          <Button onClick={handleWithdrawl} className={classes.withDrawlButton}>
             탈퇴
           </Button>
         </DialogActions>

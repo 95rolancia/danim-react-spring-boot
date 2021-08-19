@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import useBoardCreate from '../../../hooks/useBoardCreate';
 import { observer } from 'mobx-react-lite';
 import { makeStyles, Typography, TextField, Fab, Box } from '@material-ui/core';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-import { useEffect, useState } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   titleBox: {
@@ -23,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const TitleCreate = observer(({ onFileChange }) => {
+  const titleRef = useRef();
   const boardCreate = useBoardCreate();
   const classes = useStyles();
   const [defaultTitle, setDefaultTitle] = useState();
@@ -39,12 +39,8 @@ const TitleCreate = observer(({ onFileChange }) => {
     setDefaultTitle(makeDefaultTitle());
   }, []);
 
-  const handleTitleChange = (e) => {
-    const newTitle = e.target.value;
-    boardCreate.handleTitleChange(newTitle);
-  };
-
   const handleClick = (e) => {
+    boardCreate.handleTitleChange(titleRef.current.value);
     boardCreate.handleLoading();
     onFileChange(e);
   };
@@ -62,7 +58,7 @@ const TitleCreate = observer(({ onFileChange }) => {
           fullWidth
           autoFocus
           className={classes.titleInput}
-          onChange={handleTitleChange}
+          inputRef={titleRef}
         />
       </div>
       <Box display="flex" flexDirection="row-reverse">

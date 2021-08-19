@@ -12,6 +12,8 @@ import {
 import MuiAlert from '@material-ui/lab/Alert';
 import useUser from '../../hooks/useUser';
 import { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { toJS } from 'mobx';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -37,7 +39,7 @@ const Alert = (props) => {
 
 const AccountChangePwd = observer(() => {
   const classes = useStyles();
-
+  const history = useHistory();
   const user = useUser();
   const [originPassword, setOriginPassword] = useState('');
   const [errorTextOrigin, setErrorTextOrigin] = useState('');
@@ -95,11 +97,8 @@ const AccountChangePwd = observer(() => {
     });
 
     if (res) {
-      setSnackbarInfo({
-        isShow: true,
-        msg: '비밀번호 변경 성공!',
-        state: 'success',
-      });
+      alert('비밀번호 변경 성공!');
+      history.push(`/main/${toJS(user.user).nickname}`);
     } else {
       setSnackbarInfo({
         isShow: true,

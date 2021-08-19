@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import GoogleMapReact from 'google-map-react';
 import usePlan from '../../../../hooks/usePlan';
-import { NumberMarker } from '../../../../components';
-import { toJS } from 'mobx';
-import { markerColor } from '../../../../util/marker-color';
 import useSearch from '../../../../hooks/useSearch';
+import { NumberMarker } from '../../../../components';
+import { markerColor } from '../../../../util/marker-color';
 
 const renderPolylines = (map, maps, subPlans) => {
   subPlans.forEach((plan, idx) => {
