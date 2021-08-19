@@ -11,6 +11,7 @@ import {
   ListItemText,
   Typography,
 } from '@material-ui/core';
+import { getPlanDate } from '../../../../util/data-transform';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -103,6 +104,7 @@ const Stories = observer(({ stories, onDelete, isManager }) => {
               onClick={() => readStory(story.storyNo)}
             />
           </ListItemAvatar>
+
           {isManager ? (
             <section className={classes.storyMetaData}>
               <ListItemText
@@ -115,7 +117,10 @@ const Stories = observer(({ stories, onDelete, isManager }) => {
                     className={classes.inline}
                     color="textPrimary"
                   >
-                    {`${story.duration - 1}박 ${story.duration}일`}
+                    {getPlanDate(
+                      new Date(story.startDate),
+                      new Date(story.endDate),
+                    )}
                   </Typography>
                 }
               />
