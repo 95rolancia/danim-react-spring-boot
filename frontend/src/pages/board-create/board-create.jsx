@@ -138,7 +138,7 @@ const BoardCreate = observer(() => {
           title="여행일기 작성"
           onFileChange={handleFileChange}
         />
-        <Container Container className={classes.root}>
+        <Container container className={classes.root}>
           <MemoWrite onFileChange={handleFileChange} />
         </Container>
       </>
