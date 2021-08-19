@@ -32,6 +32,9 @@ const DetailHeader = ({ num }) => {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
+          <Typography variant="h6" className={classes.title}>
+            일정 지도
+          </Typography>
           <IconButton
             className={classes.menuButton}
             aria-label="go-back"
@@ -39,9 +42,6 @@ const DetailHeader = ({ num }) => {
           >
             <Clear />
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            일정 지도
-          </Typography>
         </Toolbar>
       </AppBar>
     </div>
