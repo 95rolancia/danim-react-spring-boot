@@ -285,7 +285,6 @@ class BoardCreateStore {
   }
 
   async getTemporarilySavedStory(storyNo) {
-    this.isLoading = true;
     this.isExist = true;
     const res = await httpBoardCreate.getTemporarilySavedStory(storyNo);
     if (res.status !== 200) {
@@ -305,7 +304,6 @@ class BoardCreateStore {
       this.errorImgNum = 0;
       this.successImgNum = 0;
       this.isFirstPage = false;
-      this.isLoading = false;
 
       this.nickname = res.data.nickname;
 
@@ -325,7 +323,6 @@ class BoardCreateStore {
       }
 
       this.currentStoryNumber = storyNo;
-      this.isLoading = false;
     });
   }
 }

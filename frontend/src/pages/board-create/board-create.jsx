@@ -33,7 +33,7 @@ const BoardCreate = observer(() => {
   const getMetaData = async (imgFile) => {
     try {
       const result = await loadImage.parseMetaData(imgFile, {
-        maxMetaDataSize: 262144,
+        maxMetaDataSize: 500000,
       });
 
       try {
