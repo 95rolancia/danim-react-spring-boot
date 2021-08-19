@@ -6,6 +6,8 @@ import { makeStyles } from '@material-ui/styles';
 import useStory from '../hooks/useStory';
 import { Backdrop, CircularProgress } from '@material-ui/core';
 import { StoryRead } from '../pages';
+import { HeaderGoMain } from '../components';
+import NotStoryExist from '../pages/error/not-story-exist';
 
 const useStyle = makeStyles((theme) => ({
   backdrop: {
@@ -170,6 +172,8 @@ const StoryRoute = observer(({ children, ...rest }) => {
           }
         }
         setStories(datas);
+      } else {
+        setStories([]);
       }
       setLoading(false);
     });
@@ -181,9 +185,19 @@ const StoryRoute = observer(({ children, ...rest }) => {
         <CircularProgress color="primary" />
       </Backdrop>
     );
+
   return (
     <Route
-      render={() => <StoryRead title={title} datas={stories} no={storyNum} />}
+      render={() =>
+        stories.length > 0 ? (
+          <StoryRead title={title} datas={stories} no={storyNum} />
+        ) : (
+          <>
+            <HeaderGoMain />
+            <NotStoryExist />
+          </>
+        )
+      }
     />
   );
 });

@@ -16,8 +16,8 @@ class StoryStore {
 
   async getStory(storyNo) {
     const res = await HttpStory.getStory(storyNo);
-    if (res.status !== 200) {
-      return;
+    if (res.status === 404) {
+      return null;
     }
     return res.data;
   }
