@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexWrap: 'wrap',
   },
-  button: {
+  registButton: {
     width: '45%',
     marginTop: theme.spacing(3),
     padding: theme.spacing(1),
@@ -55,6 +55,13 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '30px',
     color: 'whitesmoke',
     fontFamily: 'MingukBold',
+  },
+  cancelButton: {
+    width: '45%',
+    marginTop: theme.spacing(3),
+    padding: theme.spacing(1),
+    margin: theme.spacing(1),
+    borderRadius: '30px',
   },
 }));
 
@@ -232,20 +239,20 @@ const Interest = observer(() => {
       </div>
 
       <Button
-        variant="contained"
-        color="primary"
-        className={classes.button}
-        onClick={handleInterestSubmit}
-      >
-        등록
-      </Button>
-      <Button
-        variant="contained"
+        variant="outlined"
         color="secondary"
-        className={classes.button}
+        className={classes.cancelButton}
         onClick={goToMain}
       >
         돌아가기
+      </Button>
+      <Button
+        variant="contained"
+        color="primary"
+        className={classes.registButton}
+        onClick={handleInterestSubmit}
+      >
+        등록
       </Button>
       <Snackbar
         open={snackbarInfo.isShow}
