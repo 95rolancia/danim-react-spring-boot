@@ -42,7 +42,7 @@ const PlanMap = observer(() => {
     },
     zoom: 11,
   };
-  console.log(toJS(plan.subPlans));
+
   return (
     <div style={{ height: '30%', width: '100%' }}>
       <GoogleMapReact
