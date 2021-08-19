@@ -10,5 +10,6 @@ import com.pd.danim.DTO.Story;
 public interface CommentRepository extends CrudRepository<Comment, Long> {
 	Comment findByCommentNo(long commentNo);
 	List<Comment> findAllByStoryAndDeleted(Story story, boolean isDeleted);
+	void deleteAllByStory(Story story);
 	
 }

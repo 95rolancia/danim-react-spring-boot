@@ -2,7 +2,6 @@ package com.pd.danim.Service;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -26,12 +25,12 @@ import com.pd.danim.DTO.SubStory;
 import com.pd.danim.DTO.User;
 import com.pd.danim.Form.Request.PhotoPutRequest;
 import com.pd.danim.Form.Request.PhotoRequest;
-import com.pd.danim.Form.Request.StoryPutRequest;
 import com.pd.danim.Form.Request.StoryRequest;
 import com.pd.danim.Form.Response.PhotoResponse;
 import com.pd.danim.Form.Response.StoryDetailResponse;
 import com.pd.danim.Form.Response.StoryResponse;
 import com.pd.danim.Form.Response.SubStoryResponse;
+import com.pd.danim.Repository.CommentRepository;
 import com.pd.danim.Repository.DanimRepository;
 import com.pd.danim.Repository.LoveRepository;
 import com.pd.danim.Repository.PhotoRepository;
@@ -56,7 +55,10 @@ public class StoryServiceImpl implements StoryService {
 
 	@Autowired
 	private SubStoryRepository subStoryRepo;
-
+	
+	@Autowired
+	private CommentRepository commentRepo;
+	
 	@Autowired
 	private StoryRepository storyRepo;
 	 
@@ -443,7 +445,7 @@ public class StoryServiceImpl implements StoryService {
 		if(story.getUserNo()!=danim.getUserno())
 			return 406;
 		
-		
+		commentRepo.deleteAllByStory(story);
 		photoRepo.deleteAllByStory(story);
 		subStoryRepo.deleteAllByStory(story);
 		loveRepo.deleteAllByStory(story);
