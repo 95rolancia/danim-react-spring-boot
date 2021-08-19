@@ -132,7 +132,7 @@ const MemoWrite = observer(({ onFileChange }) => {
           </FormGroup>
         </Grid>
         <section className={classes.buttonGroup}>
-          {boardCreate.status !== 'TEMP' && (
+          {boardCreate.status === 'TEMP' && (
             <Button
               variant="outlined"
               color="primary"
