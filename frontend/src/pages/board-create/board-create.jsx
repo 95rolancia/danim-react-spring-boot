@@ -74,7 +74,7 @@ const BoardCreate = observer(() => {
           boardCreate.uploadImgErrNum();
         } else {
           new Compressor(e.target.files[i], {
-            quality: 0.7,
+            quality: 0.9,
             success(result) {
               const formData = new FormData();
               formData.append('file', result);
