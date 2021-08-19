@@ -121,7 +121,8 @@ public class StoryResponse implements Comparable<StoryResponse> {
 	@Override
 	public int compareTo(StoryResponse o) {
 	
-		return Long.compare(o.getCreatedDate().getNano() , this.getCreatedDate().getNano());
+		return o.getCreatedDate().compareTo(this.getCreatedDate());
+		
 	}
 	
 			
