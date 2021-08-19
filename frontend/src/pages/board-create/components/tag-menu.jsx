@@ -1,28 +1,11 @@
 import React, { useState } from 'react';
-import useBoardCreate from '../../../hooks/useBoardCreate';
 import { observer } from 'mobx-react-lite';
-import {
-  makeStyles,
-  Box,
-  ImageList,
-  ImageListItem,
-  TextField,
-  ImageListItemBar,
-  IconButton,
-  Menu,
-  MenuItem,
-  Typography,
-  Button,
-  Card,
-  CardMedia,
-  CardContent,
-} from '@material-ui/core';
+import useBoardCreate from '../../../hooks/useBoardCreate';
+import { makeStyles, IconButton, Menu, MenuItem } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   imageList: {
     flexWrap: 'nowrap',
-    // zIndex: '10',
-    // // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
     transform: 'translateZ(0)',
   },
   deleteIcon: {

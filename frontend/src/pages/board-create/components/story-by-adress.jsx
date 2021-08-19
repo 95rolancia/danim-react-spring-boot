@@ -44,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
 
 const StoryByAdress = observer(({ photos, address }) => {
   const imgRef = useRef();
+  const inputRef = useRef();
   const boardCreate = useBoardCreate();
   const classes = useStyles();
   const [isPhoto, setIsPhoto] = useState(false);
@@ -58,9 +59,8 @@ const StoryByAdress = observer(({ photos, address }) => {
     }
   }, [photos, address]);
 
-  const handleMemoChange = (e) => {
-    const newMemo = e.target.value;
-    boardCreate.uploadMemo(newMemo, address);
+  const handleMemoWrite = () => {
+    boardCreate.uploadMemo(inputRef.current.value, address);
   };
 
   const deletePhoto = (photo) => {
@@ -118,16 +118,15 @@ const StoryByAdress = observer(({ photos, address }) => {
           </Box>
 
           <Box mb={3}>
-            <form>
-              <TextField
-                defaultValue={photos[0].content}
-                label="Memo"
-                variant="outlined"
-                fullWidth
-                multiline
-                onChange={handleMemoChange}
-              ></TextField>
-            </form>
+            <TextField
+              defaultValue={photos[0].content}
+              label="Memo"
+              variant="outlined"
+              fullWidth
+              multiline
+              onBlur={handleMemoWrite}
+              inputRef={inputRef}
+            ></TextField>
           </Box>
         </Box>
       )}

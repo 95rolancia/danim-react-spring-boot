@@ -1,35 +1,19 @@
-import { makeStyles } from '@material-ui/styles';
-import React from 'react';
-import useBoardCreate from '../../../hooks/useBoardCreate';
+import React, { useState, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import useBoardCreate from '../../../hooks/useBoardCreate';
 import uuid from 'react-uuid';
 import { StoryByAdress } from './index';
 import { Typography, Box } from '@material-ui/core';
 
-const useStyles = makeStyles((theme) => ({
-  photoBox: {
-    marginTop: theme.spacing(1.5),
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'flex-start',
-  },
-}));
-
 const StoryDay = observer(({ date, photos }) => {
   const boardCreate = useBoardCreate();
-  const classes = useStyles();
-
   const [address2compare, setAddress2compare] = useState([]);
-
   const tripDateIdx = boardCreate.calculateDayNum(date);
   const prettyDate = boardCreate.calculatePrettyDate(date);
 
   useEffect(() => {
     setAddress2compare([]);
     const temp = photos;
-    console.log(temp);
     for (let i = 0; i < temp.length; i++) {
       if (i === 0) {
         setAddress2compare((address2compare) => [
@@ -43,12 +27,7 @@ const StoryDay = observer(({ date, photos }) => {
         ]);
       }
     }
-  }, []);
-
-  // const calculateDayNum = (date) => {
-  //   const idx = boardCreate.calculateDayNum(date);
-  //   return idx;
-  // };
+  }, [photos]);
 
   return (
     <Box display="flex" flexDirection="column">
