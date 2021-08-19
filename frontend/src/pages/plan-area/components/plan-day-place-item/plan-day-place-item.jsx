@@ -32,7 +32,7 @@ const PlanDayPlaceItem = observer(({ place, order, day }) => {
   const classes = useStyles();
 
   const removePlaceItem = () => {
-    plan.deletePlaceFromPlan(place.name, day);
+    plan.deletePlaceFromPlan(place.key, day);
   };
 
   return (

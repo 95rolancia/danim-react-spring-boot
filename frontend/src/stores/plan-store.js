@@ -28,14 +28,14 @@ class PlanStore {
     this.subPlans = Array.from({ length: date }, () => []);
   }
 
-  addPlaceToPlan(placeInfo) {
-    this.subPlans[this.selectedDay - 1].push(placeInfo);
+  addPlaceToPlan(placeInfo, uuid) {
+    this.subPlans[this.selectedDay - 1].push({ ...placeInfo, key: uuid });
     this.selectedPlaceCnt += 1;
   }
 
-  deletePlaceFromPlan(placeName, day) {
+  deletePlaceFromPlan(placeKey, day) {
     const newSubPlan = this.subPlans[day].filter(
-      (place) => place.name !== placeName,
+      (place) => place.key !== placeKey,
     );
     this.subPlans[day] = newSubPlan;
     this.subPlans = [...this.subPlans];

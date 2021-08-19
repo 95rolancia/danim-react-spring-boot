@@ -5,6 +5,7 @@ import useSearch from '../../../../hooks/useSearch';
 import usePlan from '../../../../hooks/usePlan';
 import { Button, makeStyles, Typography } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
+import uuid from 'react-uuid';
 
 const useStyles = makeStyles((theme) => ({
   placeDetailInfo: {
@@ -34,7 +35,7 @@ const PlaceDetailInfo = observer(() => {
   const plan = usePlan();
 
   const addPlaceToPlan = () => {
-    plan.addPlaceToPlan(toJS(search.placeDetailInfo));
+    plan.addPlaceToPlan(toJS(search.placeDetailInfo), uuid());
     search.resetSearchPlace();
     history.push('/main/plan/area');
   };
