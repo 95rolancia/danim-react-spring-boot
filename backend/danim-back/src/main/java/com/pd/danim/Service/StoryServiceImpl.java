@@ -191,6 +191,7 @@ public class StoryServiceImpl implements StoryService {
 			photo.setAddress(photoReq.getAddress());
 			photo.setPlaceName(photoReq.getPlaceName());
 			photo.setContent(photoReq.getContent());
+			photo.setTag(photoReq.getTag());
 			
 			LocalDateTime thisDays = LocalDateTime.parse(photoReq.getDate()).truncatedTo(ChronoUnit.DAYS);
 			
@@ -282,6 +283,7 @@ public class StoryServiceImpl implements StoryService {
 			photo.setAddress(photoReq.getAddress());
 			photo.setPlaceName(photoReq.getPlaceName());
 			photo.setContent(photoReq.getContent());
+			photo.setTag(photoReq.getTag());
 			
 			LocalDateTime thisDays = LocalDateTime.parse(photoReq.getDate()).truncatedTo(ChronoUnit.DAYS);
 			
