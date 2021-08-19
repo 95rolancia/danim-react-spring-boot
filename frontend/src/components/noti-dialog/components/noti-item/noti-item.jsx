@@ -5,6 +5,9 @@ import TimeAgo from 'react-timeago';
 import koreanStrings from 'react-timeago/lib/language-strings/ko';
 import buildFormatter from 'react-timeago/lib/formatters/buildFormatter';
 import { makeStyles, ListItem, ListItemText, Divider } from '@material-ui/core';
+import { observer } from 'mobx-react-lite';
+import useUser from '../../../../hooks/useUser';
+import { toJS } from 'mobx';
 
 const formatter = buildFormatter(koreanStrings);
 
@@ -36,11 +39,17 @@ const getStyles = (classes, type) => {
   }
 };
 
-const NotiItem = ({ noti }) => {
+const NotiItem = observer(({ noti }) => {
   const classes = useStyles();
   const history = useHistory();
+  const user = useUser();
 
   const notiClick = () => {
+    user.readNoti({
+      nickname: toJS(user.user).nickname,
+      notis: [noti],
+    });
+
     switch (noti.type) {
       case 'comment':
       case 'love':
@@ -67,6 +76,6 @@ const NotiItem = ({ noti }) => {
       <Divider variant="middle" />
     </>
   );
-};
+});
 
 export default NotiItem;
