@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const StoryByAdress = observer(({ photos, address }) => {
+const StoryByAddress = observer(({ photos, address }) => {
   const imgRef = useRef();
   const inputRef = useRef();
   const boardCreate = useBoardCreate();
@@ -128,4 +128,4 @@ const StoryByAdress = observer(({ photos, address }) => {
   );
 });
 
-export default StoryByAdress;
+export default StoryByAddress;
