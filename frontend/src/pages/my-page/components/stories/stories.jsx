@@ -126,7 +126,11 @@ const Stories = observer(({ stories, onDelete, isManager }) => {
                 className={getStoryStatus(story.status)}
                 color="textPrimary"
               >
-                {story.status === 'TEMP' ? '임시' : '완료'}
+                {story.status === 'TEMP'
+                  ? '임시'
+                  : story.status === 'PRIVATED'
+                  ? '비공개'
+                  : '공개'}
               </Typography>
             </section>
           ) : (
