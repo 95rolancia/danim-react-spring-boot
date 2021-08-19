@@ -91,10 +91,14 @@ const SignUp = observer(() => {
   const [errorTextNickname, setErrorTextNickname] = useState('');
   const [errorTextPassword, setErrorTextPassword] = useState('');
   const [errorTextConfirm, setErrorTextConfirm] = useState('');
-  const [openError, setOpenError] = useState(false);
   const [displayEmailAuth, setDisplayEmailAuth] = useState('none');
   const [emailAuthCode, setEmailAuthCode] = useState(0);
   const [disabledEmailInput, setDisabledEmailInput] = useState(false);
+  const [snackbarInfo, setSnackbarInfo] = useState({
+    isShow: false,
+    msg: '',
+    state: '',
+  });
 
   const handleEmail = (e) => {
     const email = e.target.value;
@@ -155,8 +159,10 @@ const SignUp = observer(() => {
     if (reason === 'clickaway') {
       return;
     }
-
-    setOpenError(false);
+    setSnackbarInfo({
+      ...snackbarInfo,
+      isShow: false,
+    });
   };
 
   const handleDisplay = () => {
@@ -171,7 +177,11 @@ const SignUp = observer(() => {
 
   const sendEmail = async () => {
     if (errorTextEmail !== '' || email === '') {
-      alert('올바른 이메일을 입력해주세요.');
+      setSnackbarInfo({
+        isShow: true,
+        msg: '올바른 이메일을 입력해주세요.',
+        state: 'error',
+      });
       return;
     }
     await auth.duplicateCheckEmail({
@@ -179,7 +189,11 @@ const SignUp = observer(() => {
     });
 
     if (auth.isEmailDuplicated) {
-      alert('이미 가입된 이메일 입니다.');
+      setSnackbarInfo({
+        isShow: true,
+        msg: '이미 가입된 이메일입니다.',
+        state: 'error',
+      });
       setErrorTextEmail('다른 이메일을 입력해주세요.');
     } else {
       setDisplayEmailAuth('block');
@@ -189,33 +203,44 @@ const SignUp = observer(() => {
 
   const sendNickname = async () => {
     if (errorTextNickname !== '' || nickname === '') {
-      alert('올바른 닉네임 형식을 지켜주세요.');
+      // setSnackbarInfo({
+      //   isShow: true,
+      //   msg: '닉네임 형식을 지켜주세요.',
+      //   state: 'error',
+      // });
       return;
     }
     await auth.duplicateCheckNickname({
       nickname: nickname,
     });
     if (auth.isNickNameDuplicated) {
-      alert('중복된 닉네임 입니다.');
       setErrorTextNickname('중복된 닉네임은 불가능합니다');
     } else {
-      alert('사용가능한 닉네임 입니다.');
+      setSnackbarInfo({
+        isShow: true,
+        msg: '사용 가능한 닉네임입니다.',
+        state: 'success',
+      });
     }
   };
 
   const checkEmailAuthCode = async () => {
-    if (emailAuthCode.length !== 6) {
-      alert('인증번호는 6자리입니다.');
-      return;
-    }
     await auth.authEmailCode({
       userId: email,
       key: emailAuthCode,
     });
     if (auth.isEmailCodeAuthroized) {
-      alert('코드가 잘못되었습니다.');
+      setSnackbarInfo({
+        isShow: true,
+        msg: '인증 코드가 틀렸습니다.',
+        state: 'error',
+      });
     } else {
-      alert('이메일 인증이 완료되었습니다.');
+      setSnackbarInfo({
+        isShow: true,
+        msg: '이메일 인증이 완료되었습니다.',
+        state: 'error',
+      });
       setDisplayEmailAuth('none');
     }
   };
@@ -237,18 +262,26 @@ const SignUp = observer(() => {
 
   const submitForm = async (e) => {
     e.preventDefault();
-    if (!checkForm) {
-      setOpenError(true);
+    if (!checkForm()) {
+      setSnackbarInfo({
+        isShow: true,
+        msg: '비어있는 정보가 있습니다.',
+        state: 'error',
+      });
     } else {
       const res = await auth.signUp(
         new SignUpDto(email, password, nickname, gender, +age, emailAuthCode),
       );
 
       if (res) {
-        alert('회원가입이 완료되었습니다!');
+        alert('회원 가입이 완료되었습니다.');
         history.push('/');
       } else {
-        alert('회원가입에 실패했습니다.');
+        setSnackbarInfo({
+          isShow: true,
+          msg: '오류가 발생했습니다. 다시 시도해주세요.',
+          state: 'error',
+        });
       }
     }
   };
@@ -264,7 +297,7 @@ const SignUp = observer(() => {
         >
           회원가입
         </Typography>
-        <form className={classes.root} noValidate autoComplete="off">
+        <form className={classes.root} noValidate>
           <div className={classes.input}>
             <TextField
               required
@@ -296,7 +329,7 @@ const SignUp = observer(() => {
 
             <TextField
               id="standard-password-input-email-code"
-              type="password"
+              type="text"
               style={{ width: '10em' }}
               onChange={handleAuth}
             ></TextField>
@@ -348,6 +381,7 @@ const SignUp = observer(() => {
               type="password"
               variant="outlined"
               onChange={handlePassword}
+              autoComplete="off"
               error={errorTextPassword !== '' ? true : false}
               helperText={errorTextPassword}
             />
@@ -360,6 +394,7 @@ const SignUp = observer(() => {
               type="password"
               variant="outlined"
               onChange={handleConfirm}
+              autoComplete="off"
               error={errorTextConfirm !== '' ? true : false}
               helperText={errorTextConfirm}
             />
@@ -405,12 +440,12 @@ const SignUp = observer(() => {
             가입하기
           </Button>
           <Snackbar
-            open={openError}
+            open={snackbarInfo.isShow}
             autoHideDuration={700}
             onClose={handleClose}
           >
-            <Alert onClose={handleClose} severity="error">
-              올바른 정보를 기입해주세요.
+            <Alert onClose={handleClose} severity={snackbarInfo.state}>
+              {snackbarInfo.msg}
             </Alert>
           </Snackbar>
         </form>
