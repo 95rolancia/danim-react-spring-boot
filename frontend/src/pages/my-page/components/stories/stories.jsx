@@ -55,6 +55,9 @@ const useStyles = makeStyles((theme) => ({
   published: {
     color: 'blue',
   },
+  privated: {
+    color: '#e5956b',
+  },
 }));
 
 const Stories = observer(({ stories, onDelete, isManager }) => {
@@ -70,6 +73,8 @@ const Stories = observer(({ stories, onDelete, isManager }) => {
       case 'TEMP':
         return classes.temp;
       case 'PUBLISHED':
+        return classes.published;
+      case 'PRIVATED':
         return classes.published;
       default:
         throw new Error(`unknown type ${type}`);
