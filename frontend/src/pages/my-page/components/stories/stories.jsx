@@ -75,7 +75,7 @@ const Stories = observer(({ stories, onDelete, isManager }) => {
       case 'PUBLISHED':
         return classes.published;
       case 'PRIVATED':
-        return classes.published;
+        return classes.privated;
       default:
         throw new Error(`unknown type ${type}`);
     }
