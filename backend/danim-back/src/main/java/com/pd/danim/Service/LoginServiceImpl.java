@@ -95,7 +95,22 @@ public class LoginServiceImpl implements LoginService {
 		String areas[] = new String[interests.size()];
 		
 		for(int i=0;i<areas.length;i++) {
-			areas[i] = interests.get(i).getArea();
+			
+			if (interests.get(i).getArea().equals("전라남")) {
+				areas[i] = "전남";
+			} else if (interests.get(i).getArea().equals("전라북")) {
+				areas[i] = "전북";
+			} else if (interests.get(i).getArea().equals("경상북")) {
+				areas[i] = "경북";
+			} else if (interests.get(i).getArea().equals("경상남")) {
+				areas[i] = "경남";
+			} else if (interests.get(i).getArea().equals("충청북")) {
+				areas[i] = "충북";
+			} else if (interests.get(i).getArea().equals("충청남")) {
+				areas[i] = "충남";
+			} else {
+				areas[i] = interests.get(i).getArea();
+			}
 		}
 		
 		me.setUserId(danim.getId());
