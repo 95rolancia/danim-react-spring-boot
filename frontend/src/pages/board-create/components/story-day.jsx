@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import useBoardCreate from '../../../hooks/useBoardCreate';
 import uuid from 'react-uuid';
-import { StoryByAdress } from './index';
+import { StoryByAddress } from './index';
 import { Typography, Box } from '@material-ui/core';
 
 const StoryDay = observer(({ date, photos }) => {
@@ -48,7 +48,7 @@ const StoryDay = observer(({ date, photos }) => {
       </Box>
       <Box>
         {address2compare.map((address) => (
-          <StoryByAdress
+          <StoryByAddress
             key={uuid()}
             photos={photos.filter((photo) => photo.address === address)}
             address={address}
