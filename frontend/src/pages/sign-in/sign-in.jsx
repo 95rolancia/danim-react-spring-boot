@@ -104,7 +104,6 @@ const SignIn = observer(() => {
   const handleSignIn = async (e) => {
     e.preventDefault();
     if (!signInFormCheck()) {
-      console.log('empty input');
       setSnackbarInfo({
         isShow: true,
         msg: '올바른 정보를 기입해주세요.',
