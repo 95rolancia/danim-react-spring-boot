@@ -26,7 +26,9 @@ const App = observer(() => {
 
   useEffect(() => {
     if (auth.isLoggedIn) {
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 500);
     } else {
       setTimeout(() => {
         setLoading(false);
@@ -35,6 +37,9 @@ const App = observer(() => {
   }, [auth.isLoggedIn]);
 
   useEffect(() => {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(() => {});
+    }
     if (localStorage.getItem('user')) {
       auth.silentRefresh().then(() => {
         user.getUser();
@@ -46,7 +51,7 @@ const App = observer(() => {
         plan.initSubPlans(localStorage.getItem('subPlans'));
       });
     }
-  });
+  }, [auth, user, plan]);
 
   return (
     <div className={styles.app}>
