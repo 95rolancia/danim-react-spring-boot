@@ -54,6 +54,7 @@ const HomeRoot = ({ popularContents, contents }) => {
         </Typography>
       </div>
       <Slider datas={popularContents} />
+      <div className={classes.marginBottom}></div>
     </>
   );
 };
