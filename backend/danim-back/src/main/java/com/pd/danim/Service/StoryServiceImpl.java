@@ -376,6 +376,7 @@ public class StoryServiceImpl implements StoryService {
 		storyDetail.setTitle(story.getTitle());
 		storyDetail.setIsLove(isLove);
 		storyDetail.setLoveCount(story.getLoveCount());
+		storyDetail.setStatus(story.getStatus());
 		
 		List<SubStory> subStoryList = subStoryRepo.findAllByStory(story);
 		
