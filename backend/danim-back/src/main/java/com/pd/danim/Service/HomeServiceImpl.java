@@ -22,6 +22,7 @@ import com.pd.danim.DTO.DanimId;
 import com.pd.danim.DTO.Interest;
 import com.pd.danim.DTO.Photo;
 import com.pd.danim.DTO.Story;
+import com.pd.danim.DTO.StoryStatus;
 import com.pd.danim.DTO.User;
 import com.pd.danim.Form.Response.MyPopularPhotoResponse;
 import com.pd.danim.Form.Response.MyPopularResponse;
@@ -142,22 +143,23 @@ public class HomeServiceImpl implements HomeService {
 			List<StoryResponse> responses = new ArrayList<StoryResponse>();
 
 			for (Story story : stories) {
-				StoryResponse storyResponse = new StoryResponse();
 
-				storyResponse.setStoryNo(story.getStoryNo());
-				User storyUser = userRepository.findByUserno(story.getUserNo());
-				storyResponse.setNickname(storyUser.getNickname());
-				storyResponse.setTitle(story.getTitle());
-				storyResponse.setThumbnail(story.getThumbnail());
-				storyResponse.setStartDate(story.getStartDate());
-				storyResponse.setCreatedDate(story.getCreatedDate());
-				storyResponse.setDuration(story.getDuration());
-				storyResponse.setStatus(story.getStatus());
+				if (story.getStatus().equals(StoryStatus.PUBLISHED)) {
+					StoryResponse storyResponse = new StoryResponse();
+					storyResponse.setStoryNo(story.getStoryNo());
+					User storyUser = userRepository.findByUserno(story.getUserNo());
+					storyResponse.setNickname(storyUser.getNickname());
+					storyResponse.setTitle(story.getTitle());
+					storyResponse.setThumbnail(story.getThumbnail());
+					storyResponse.setStartDate(story.getStartDate());
+					storyResponse.setCreatedDate(story.getCreatedDate());
+					storyResponse.setDuration(story.getDuration());
+					storyResponse.setStatus(story.getStatus());
+					responses.add(storyResponse);
+				}
 
-				responses.add(storyResponse);
 			}
 
-//			storyResponses.put(interest.getArea(),responses);
 			myPopularResponse.setStories(responses);
 			myPopularResponses.add(myPopularResponse);
 		}
@@ -171,19 +173,20 @@ public class HomeServiceImpl implements HomeService {
 		List<Story> stories = storyRepository.findTop10ByOrderByLoveCountDesc();
 		List<StoryResponse> responses = new ArrayList<StoryResponse>();
 		for (Story story : stories) {
-			StoryResponse storyResponse = new StoryResponse();
+			if (story.getStatus().equals(StoryStatus.PUBLISHED)) {
+				StoryResponse storyResponse = new StoryResponse();
+				storyResponse.setStoryNo(story.getStoryNo());
+				User storyUser = userRepository.findByUserno(story.getUserNo());
+				storyResponse.setNickname(storyUser.getNickname());
+				storyResponse.setTitle(story.getTitle());
+				storyResponse.setThumbnail(story.getThumbnail());
+				storyResponse.setStartDate(story.getStartDate());
+				storyResponse.setCreatedDate(story.getCreatedDate());
+				storyResponse.setDuration(story.getDuration());
+				storyResponse.setStatus(story.getStatus());
 
-			storyResponse.setStoryNo(story.getStoryNo());
-			User storyUser = userRepository.findByUserno(story.getUserNo());
-			storyResponse.setNickname(storyUser.getNickname());
-			storyResponse.setTitle(story.getTitle());
-			storyResponse.setThumbnail(story.getThumbnail());
-			storyResponse.setStartDate(story.getStartDate());
-			storyResponse.setCreatedDate(story.getCreatedDate());
-			storyResponse.setDuration(story.getDuration());
-			storyResponse.setStatus(story.getStatus());
-
-			responses.add(storyResponse);
+				responses.add(storyResponse);
+			}
 		}
 		return responses;
 	}
@@ -206,16 +209,17 @@ public class HomeServiceImpl implements HomeService {
 			List<Photo> photos = photoRepository.findTop1000ByAddressContaining(interest.getArea(), sort);
 
 			for (Photo photo : photos) {
-				MyPopularPhotoResponse response = new MyPopularPhotoResponse();
-				response.setFilePath(photo.getFilename());
-				response.setPhotoNo(photo.getPhotoNo());
-				response.setStoryNo(photo.getStory().getStoryNo());
-				response.setTag(photo.getTag());
-				User storyUser = userRepository.findByUserno(photo.getStory().getUserNo());
-				response.setUserNickname(storyUser.getNickname());
-				responses.add(response);
+				if (photo.getStory().getStatus().equals(StoryStatus.PUBLISHED)) {
+					MyPopularPhotoResponse response = new MyPopularPhotoResponse();
+					response.setFilePath(photo.getFilename());
+					response.setPhotoNo(photo.getPhotoNo());
+					response.setStoryNo(photo.getStory().getStoryNo());
+					response.setTag(photo.getTag());
+					User storyUser = userRepository.findByUserno(photo.getStory().getUserNo());
+					response.setUserNickname(storyUser.getNickname());
+					responses.add(response);
+				}
 			}
-
 		}
 
 		return responses;
