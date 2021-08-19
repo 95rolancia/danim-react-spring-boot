@@ -43,7 +43,7 @@ const BoardDetailMap = ({ stories, lat, lng }) => {
       <GoogleMapReact
         bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAP_API_KEY }}
         center={{ lat, lng }}
-        zoom={12}
+        zoom={18}
         onGoogleApiLoaded={({ map, maps }) => {
           renderPolylines(map, maps, stories);
         }}
