@@ -4,6 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { HeaderMain } from '../../components';
 import { PlanList } from './components';
 import { makeStyles, Button } from '@material-ui/core';
+import usePlan from '../../hooks/usePlan';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -23,8 +24,10 @@ const useStyles = makeStyles((theme) => ({
 const Plan = observer(() => {
   const classes = useStyles();
   const history = useHistory();
+  const plan = usePlan();
 
   const goToPlanMaker = () => {
+    plan.currentPlanType = 'write';
     history.push('/main/plan/date');
   };
 
