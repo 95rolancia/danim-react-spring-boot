@@ -120,6 +120,8 @@ const MemoWrite = observer(({ onFileChange }) => {
     const value = e.target.checked;
     boardCreate.handleIsTempChecked(value);
     if (e.target.checked) {
+      setPublishedStatus('PUBLISHED');
+    } else {
       setPublishedStatus('PRIVATED');
     }
   };
