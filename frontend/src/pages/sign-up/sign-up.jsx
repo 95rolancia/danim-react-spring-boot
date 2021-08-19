@@ -70,6 +70,15 @@ const useStyles = makeStyles((theme) => ({
   section: {
     margin: theme.spacing(3),
   },
+  goSignInButton: {
+    border: 0,
+    borderRadius: 50,
+    boxShadow: '0 3px 5px 2px rgba(255,105,135, .3)',
+    color: 'darkgrey',
+    height: '3em',
+    width: '10em',
+    margin: theme.spacing(2),
+  },
 }));
 
 function Alert(props) {
@@ -286,6 +295,10 @@ const SignUp = observer(() => {
     }
   };
 
+  const goToSignin = () => {
+    history.push('/');
+  };
+
   return (
     <Container maxWidth="sm" className={classes.containerWrap}>
       <div className={classes.paper}>
@@ -436,9 +449,13 @@ const SignUp = observer(() => {
             }}
           />
           <div className={classes.divider}></div>
+          <Button className={classes.goSignInButton} onClick={goToSignin}>
+            돌아가기
+          </Button>
           <Button className={classes.signUpBtn} onClick={submitForm}>
             가입하기
           </Button>
+
           <Snackbar
             open={snackbarInfo.isShow}
             autoHideDuration={700}
