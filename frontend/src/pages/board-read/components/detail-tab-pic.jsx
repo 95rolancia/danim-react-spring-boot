@@ -20,6 +20,12 @@ const useStyles = makeStyles((theme) => ({
     height: theme.spacing(10),
     marginRight: theme.spacing(1),
   },
+  storyDetail: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+  },
 }));
 
 const DetailTabPic = ({ datas, nickname }) => {
@@ -32,7 +38,11 @@ const DetailTabPic = ({ datas, nickname }) => {
   return (
     <List>
       {datas.photos.map((photo) => (
-        <ListItem alignItems="flex-start" key={photo.photoNo}>
+        <ListItem
+          alignItems="flex-start"
+          key={photo.photoNo}
+          className={classes.storyDetail}
+        >
           <ListItemAvatar>
             <Avatar
               className={classes.listPic}
@@ -64,6 +74,7 @@ const DetailTabPic = ({ datas, nickname }) => {
               </React.Fragment>
             }
           />
+
           <Button
             disableElevation
             color="secondary"

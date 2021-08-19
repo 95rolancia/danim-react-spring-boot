@@ -25,6 +25,7 @@ class HttpAuth {
       this.signInSuccess(res);
       return res;
     } catch (error) {
+      localStorage.removeItem('user');
       const res = error.response;
       if (res.status === 401) {
         return res;
