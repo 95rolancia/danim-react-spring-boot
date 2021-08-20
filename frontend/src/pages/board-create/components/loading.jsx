@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    textAlign: 'center',
   },
   logo: {
     width: '6em',
@@ -59,7 +60,8 @@ const Loading = observer(() => {
         component="h6"
         className={classes.photoLoadingTitle}
       >
-        {boardCreate.errorImgNum}개의 사진은 GPS정보가 불러오는데 실패했습니다.
+        {boardCreate.errorImgNum}개의 사진은 <br></br>GPS 정보를 불러오는데
+        실패했습니다.
       </Typography>
     </section>
   );
