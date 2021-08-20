@@ -120,7 +120,7 @@ const MemoWrite = observer(({ onFileChange }) => {
     <>
       <StoryCover />
       <StoryContents />
-      <Grid container spacing={1}>
+      <Grid container="true" spacing={1}>
         <Grid item xs={12}>
           <FormGroup>
             <FormControlLabel

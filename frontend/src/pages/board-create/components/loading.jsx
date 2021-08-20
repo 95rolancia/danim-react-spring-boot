@@ -5,12 +5,17 @@ import { makeStyles, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   photoLoading: {
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(8),
     marginBottom: theme.spacing(4),
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  logo: {
+    width: '6em',
+    height: '4em',
+    marginBottom: '3em',
   },
   photoLoadingTitle: {
     fontFamily: 'MingukBold',
@@ -40,6 +45,7 @@ const Loading = observer(() => {
 
   return (
     <section className={classes.photoLoading}>
+      <img className={classes.logo} alt="logo" src="/images/danilogo.png" />
       <Typography
         variant="h5"
         component="h5"
@@ -53,7 +59,7 @@ const Loading = observer(() => {
         component="h6"
         className={classes.photoLoadingTitle}
       >
-        {boardCreate.errorImgNum}개의 사진은 GPS정보가 없어요 ㅠㅠ
+        {boardCreate.errorImgNum}개의 사진은 GPS정보가 불러오는데 실패했습니다.
       </Typography>
     </section>
   );

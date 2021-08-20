@@ -117,7 +117,7 @@ const StoryByAddress = observer(({ photos, address }) => {
           <Box mb={3}>
             <TextField
               className={classes.memo}
-              size="smallst"
+              size="small"
               fullWidth
               defaultValue={photos[0].content}
               label="메모"
