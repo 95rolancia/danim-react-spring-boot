@@ -61,7 +61,6 @@ public class HomeServiceImpl implements HomeService {
 		User user = danim.getUser();
 
 		List<Interest> interests = user.getInterests();
-//		Map<String,List<StoryResponse>> storyResponses = new HashMap<String,List<StoryResponse>>();
 
 		List<MyPopularResponse> myPopularResponses = new ArrayList<MyPopularResponse>();
 		for (Interest interest : interests) {
@@ -87,33 +86,6 @@ public class HomeServiceImpl implements HomeService {
 			List<Photo> photos = photoRepository.findAllByAddressContaining(interest.getArea());
 			List<Story> stories = new ArrayList<Story>();
 
-//			PriorityQueue<Story> pq = new PriorityQueue<Story>(new Comparator<Story>() {
-//
-//				@Override
-//				public int compare(Story o1, Story o2) {
-//					if (o1.getLoveCount() >= o2.getLoveCount()) {
-//						return 1;
-//					} else {
-//						return -1;
-//					}
-//				}
-//			});
-//			
-//
-//
-//			for (Photo photo : photos) {
-//				pq.add(photo.getStory());
-//			}
-//
-//			if (pq.size() < 10) {
-//				for (int i = 0; i < pq.size(); i++) {
-//					stories.add(pq.poll());
-//				}
-//			} else {
-//				for (int i = 0; i < 10; i++) {
-//					stories.add(pq.poll());
-//				}
-//			}
 
 			Set<Long> storySet = new HashSet<Long>();
 			for (Photo photo : photos) {

@@ -64,8 +64,6 @@ public class CommentServiceImpl implements CommentService {
 		commentRepo.save(comment);
 
 		User commentUser = userRepository.findByUserno(danim.getUserno());
-		// danim.getUser() => 댓글을 작성한 사람
-		// story의 getUser => 알람을 받을 사람
 		User user = userRepository.findByUserno(story.getUserNo());
 		if (danim.getUserno() != story.getUserNo()) {
 			NotificationRequest request = new NotificationRequest();
