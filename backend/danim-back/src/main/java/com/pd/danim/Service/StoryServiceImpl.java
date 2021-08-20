@@ -422,12 +422,6 @@ public class StoryServiceImpl implements StoryService {
 
 
 	@Override
-	public List<StoryResponse> getStories(User user) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public int deleteStory(long storyNo, HttpServletRequest httpServletReq) {
 		if(!storyRepo.existsById(storyNo))
 			return 404;
