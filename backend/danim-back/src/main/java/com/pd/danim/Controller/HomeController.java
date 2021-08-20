@@ -29,7 +29,6 @@ public class HomeController {
 	public ResponseEntity<List<MyPopularResponse>> myPopularStory(HttpServletRequest httpServletRequest){
 		homeService.getMyPopularStory(httpServletRequest);
 		
-//		List<List<StoryResponse>> storyResponses = homeService.getMyPopularStory(httpServletRequest); 
 		List<MyPopularResponse> storyResponses = homeService.getMyPopularStory(httpServletRequest);
 		return new ResponseEntity<List<MyPopularResponse>>(storyResponses,HttpStatus.OK);
 	}

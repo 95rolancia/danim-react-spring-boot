@@ -2,16 +2,16 @@ package com.pd.danim.Form.Request;
 
 public class NotificationSaveRequest {
 	
-	private String from; // follow: 팔로우 누른 사람의 닉네임
+	private String from; 
     private String createdAt;
-    private String dataId; // follow: 팔로우 받은 사람의 닉네임, like: 좋아요 받은 sns_id, comment: 댓글 받은 sns_id, commit: 주소
+    private String dataId; 
     private Boolean isRead;
     private String type;
-    private String commentId; // comment: 방금 단 댓글의 id (알림 삭제 위함)
-    private String likeId; // like: 방금 한 좋아요 id
-    private String followId; // follow: 방금 신청한 follow id
+    private String commentId; 
+    private String likeId; 
+    private String followId; 
     private String userEmail;
-    private String profile; // 알림을 보낸 사람의 프로필 사진
+    private String profile; 
     private String uuid;
     private long storyNo;
 	

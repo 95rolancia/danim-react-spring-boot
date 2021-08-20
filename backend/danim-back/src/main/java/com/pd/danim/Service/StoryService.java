@@ -20,7 +20,6 @@ public interface StoryService {
 	int modifyStory(long storyNo, StoryRequest req, HttpServletRequest httpServletReq);
 	int modifyPhoto(PhotoPutRequest req, HttpServletRequest httpServletReq);
 	StoryDetailResponse getStory(long storyNo, HttpServletRequest httpServletReq);
-	List<StoryResponse> getStories(User user);
 	int deleteStory(long storyNo, HttpServletRequest httpServletReq);
 	PhotoResponse uploadPhoto(MultipartFile file,String latitude, String longtitude, String date, HttpServletRequest httpServletReq);
 	

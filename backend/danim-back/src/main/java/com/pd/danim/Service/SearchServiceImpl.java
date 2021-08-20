@@ -45,7 +45,6 @@ public class SearchServiceImpl implements SearchService {
 			responses.add(response);
 		}
 
-		// 없을 때도 처리해주기
 		return responses;
 	}
 
@@ -56,15 +55,6 @@ public class SearchServiceImpl implements SearchService {
 
 		List<Photo> photos = photoRepository.findTop1000ByAddressContaining(area);
 
-//		for (Photo photo : photos) {
-//			SearchByAreaResponse response = new SearchByAreaResponse();
-//			response.setPhotoFileName(photo.getFilename());
-//			response.setStoryNo(photo.getStory().getStoryNo());
-//			response.setTitle(photo.getStory().getTitle());
-//			User user = userRepository.findByUserno(photo.getStory().getUserNo());
-//			response.setNickname(user.getNickname());
-//			responses.add(response);
-//		}
 
 		List<Story> stories = new ArrayList<Story>();
 

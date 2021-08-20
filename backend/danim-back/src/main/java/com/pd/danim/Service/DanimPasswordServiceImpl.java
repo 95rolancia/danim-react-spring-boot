@@ -25,7 +25,6 @@ public class DanimPasswordServiceImpl implements DanimPasswordService {
 	private RedisUtil redisUtil;
 
 	
-	//비밀번호 초기화
 	@Override
 	public boolean sendResetPassword(String userId) {
 		DanimId danim = danimRepo.findById(userId);
@@ -43,7 +42,6 @@ public class DanimPasswordServiceImpl implements DanimPasswordService {
 		return true;
 	}
 	
-	//비밀번호 변경
 	@Override
 	public boolean resetPassword(String userId, String password, String key) {
 		

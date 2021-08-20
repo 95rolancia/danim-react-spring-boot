@@ -61,38 +61,24 @@ public class NotificationService {
 		Date realDate = new Date();
 		SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
 		String time1 = format1.format(realDate);
-//		System.out.println("time은"+time1);
-//		String date2 = (String) curDateTime;
-		
-		
-//		String nowDate = curDateTime.format(DateTimeFormatter.ofPattern("a yyyy-MM-dd hh:mm:ss"));
-//		System.out.println(nowDate);
 		NotificationSaveRequest saveRequest = new NotificationSaveRequest(time1, notiRequest.getDataId(), nickname,
 				notiRequest.getIsRead(), notiRequest.getType());
 
 		String toId = notiRequest.getToUserNickname();
-		//	System.out.println("팔로우 받은 사람의 닉네임은" + toId);
 		String type = notiRequest.getType();
 
 
 		FirebaseDatabase database = FirebaseDatabase.getInstance();
-		DatabaseReference ref = database.getReference("noti"); // 최상위 root: noti
-		//	ref.setValueAsync(nickname);
-		//	ref.child(toId).setValueAsync(toId);
+		DatabaseReference ref = database.getReference("noti"); 
 
-		DatabaseReference notiRef = ref.child(toId); // 알림 받는 사람의 닉네임
-		DatabaseReference nextNotiRef = notiRef.push(); // 다음 키값으로 푸시
-		String postId = nextNotiRef.getKey(); // 현재 알람의 키값을 가져옴
-		DatabaseReference saveNoti = notiRef.child(postId);// to의 아이디 값의 child node
+		DatabaseReference notiRef = ref.child(toId); 
+		DatabaseReference nextNotiRef = notiRef.push(); 
+		String postId = nextNotiRef.getKey(); 
+		DatabaseReference saveNoti = notiRef.child(postId);
 
-		//	saveNoti.setValueAsync(postId);		
-		//	User user = userRepository.findByNickname(nickname);
-		//	if(user.getProfile()!=null) {
-		//		saveRequest.setProfile(user.getProfile());
-		//	}
 		saveRequest.setStoryNo(notiRequest.getStoryNo());
 		saveRequest.setUuid(postId);
-		//다르게 설정해줘야함
+
 		if(type.equals("follow")) {
 			saveNoti.setValueAsync(saveRequest);
 		} else if(type.equals("love")){
@@ -110,9 +96,6 @@ public class NotificationService {
 		DatabaseReference ref = database.getReference("noti");
 		DatabaseReference notiRef = ref.child(notiId);
 		
-//		System.out.println(notiRef);
-//		System.out.println(notiRef.getRef());
-		
 		DatabaseReference deleteRef = notiRef.child(notiId);
 		deleteRef.removeValueAsync();
 	}
@@ -123,7 +106,7 @@ public class NotificationService {
 		FirebaseDatabase database = FirebaseDatabase.getInstance();
 		DatabaseReference ref = database.getReference("noti");
 		
-		DatabaseReference notiRef = ref.child(nickname); // noti의 child node: to의 아이디 값
+		DatabaseReference notiRef = ref.child(nickname); 
 		
 		DatabaseReference uuidRef = notiRef.child(uuid);
 		uuidRef.child("isRead").setValueAsync(true);
