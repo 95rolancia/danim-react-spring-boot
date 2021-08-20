@@ -13,6 +13,17 @@ export const getPlanDate = (startDate, endDate) => {
   );
 };
 
+export const getStoryDate = (date) => {
+  if (date == null) return '정보 없음';
+  return (
+    date.getFullYear() +
+    '.' +
+    (date.getMonth() + 1) +
+    '.' +
+    date.getDate()
+  );
+}
+
 export const getFullPlanDate = (startDate, endDate) => {
   if (startDate == null) return 3;
   const diffTime = Math.abs(endDate - startDate);

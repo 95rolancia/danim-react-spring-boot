@@ -7,6 +7,7 @@ import useStory from '../hooks/useStory';
 import { Backdrop, CircularProgress } from '@material-ui/core';
 import { StoryRead } from '../pages';
 import { HeaderGoMain } from '../components';
+import { getStoryDate } from '../util/data-transform';
 import NotStoryExist from '../pages/error/not-story-exist';
 
 const useStyle = makeStyles((theme) => ({
@@ -98,8 +99,31 @@ const StoryRoute = observer(({ children, ...rest }) => {
                 opacity: '0.5',
               }}
             >
-              <h2>{res.loveCount}개의 좋아요를 받은 스토리</h2>
-              <p style={{ textDecoration: 'underline' }} onClick={close}>
+              <h2
+                style={{
+                  fontFamily: 'MingukBold',
+                }}
+              >
+                {res.title}
+              </h2>
+              <h4
+                style={{
+                  fontFamily: 'MingukRegular',
+                }}
+              >
+                출발날짜 : {getStoryDate(new Date(res.startDate))}(
+                {res.duration}일 여행)
+              </h4>
+              <h4 style={{ fontFamily: 'MingukRegular' }}>
+                {res.loveCount}개의 좋아요를 받았어요!
+              </h4>
+              <p
+                style={{
+                  textDecoration: 'underline',
+                  fontFamily: 'MingukRegular',
+                }}
+                onClick={close}
+              >
                 {res.nickname}님 스토리로 돌아가기
               </p>
             </div>
@@ -158,11 +182,17 @@ const StoryRoute = observer(({ children, ...rest }) => {
                     opacity: '0.5',
                   }}
                 >
-                  <h2>
+                  <h2 style={{ fontFamily: 'MingukBold' }}>
                     {res.substories[i].photos[j].address},
                     {res.substories[i].photos[j].placeName}
                   </h2>
-                  <p style={{ textDecoration: 'underline' }} onClick={close}>
+                  <p
+                    style={{
+                      textDecoration: 'underline',
+                      fontFamily: 'MingukRegular',
+                    }}
+                    onClick={close}
+                  >
                     {res.nickname}님 스토리로 돌아가기
                   </p>
                 </div>
