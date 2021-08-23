@@ -57,7 +57,6 @@ public class NotificationService {
 	public void saveNoti(NotificationRequest notiRequest, String nickname) {
 		
 		LocalDateTime curDateTime = LocalDateTime.now();
-		System.out.println(curDateTime);
 		Date realDate = new Date();
 		SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
 		String time1 = format1.format(realDate);
