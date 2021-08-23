@@ -8,6 +8,7 @@ import {
   ListItemText,
   Divider,
 } from '@material-ui/core';
+import { getPlaceImgUrl } from '../../../../util/img-url-creator';
 
 const useStyles = makeStyles((theme) => ({
   story: {
@@ -25,15 +26,7 @@ const PlaceItem = ({ place }) => {
     <>
       <ListItem className={classes.place} onClick={goToPlaceInfo}>
         <ListItemAvatar>
-          <Avatar
-            src={
-              place.thumbnail &&
-              process.env.REACT_APP_IMAGE_BASE_URL +
-                'place' +
-                '/' +
-                place.thumbnail
-            }
-          />
+          <Avatar src={getPlaceImgUrl(place.thumbnail)} />
         </ListItemAvatar>
         <ListItemText primary={place.name} secondary={place.type} />
       </ListItem>
