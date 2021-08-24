@@ -78,7 +78,7 @@
 [![Product Name Screen Shot][product-screenshot2]](product-screenshot2)
 [![Product Name Screen Shot][product-screenshot1]](product-screenshot1)
 
-[프로젝트 설명](https://github.com/95rolancia/danim-react-spring-boot/blob/master/exec/%ED%8F%AC%ED%8C%85%20%EB%A9%94%EB%89%B4%EC%96%BC.pdf)
+[프로젝트 설명](https://github.com/95rolancia/danim-react-spring-boot/blob/master/exec/%EC%86%8C%EC%8A%A4%20%ED%81%B4%EB%A1%A0%20%ED%9B%84%20%EB%B0%B0%ED%8F%AC%20%EB%AC%B8%EC%84%9C.pdf)
 
 ## 기술 스택
 
