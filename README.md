@@ -143,7 +143,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 - [노션(기획서, 스크럼, 그라운드/개발 규칙)](https://fuchsia-nerine-f9b.notion.site/Danim-faf3fd4b53994648b9ca24b4c21bd368)
 - [와이어프레임](https://www.figma.com/file/wQ0vlsMUl2Jrte52zixv9J/%5BSSAFY%5D2%ED%95%99%EA%B8%B0-1%EC%B0%A8-team-library?node-id=480%3A3455)
-- []()
+- [프로젝트 회고](https://lateral-motion-2c1.notion.site/7af0324f858a4e508052bc7bcc7dfc40)
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
