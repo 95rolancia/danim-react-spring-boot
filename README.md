@@ -56,7 +56,7 @@
     <li><a href="#기술-스택">기술 스택</a></li>
     <li><a href="# 빠른-시작">빠른 시작</a></li>
     <li><a href="#라이센스">라이센스</a></li>
-    <li><a href="#연락처">연락처</a></li>
+    <li><a href="#아키텍쳐">아키텍쳐</a></li>
     <li><a href="#참고">참고</a></li>
   </ol>
 </details>
@@ -123,6 +123,11 @@
 ## 라이센스
 
 Distributed under the MIT License. See `LICENSE` for more information.
+
+<!-- ARCHITECTURE -->
+
+## 아키텍쳐
+![image](https://user-images.githubusercontent.com/61743793/130647124-8fef2626-a9a5-44dc-8606-1405804f6e14.png)
 
 ## 참고
 
